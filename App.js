@@ -7,7 +7,7 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import NewPassword from "./screens/NewPassword";
 import WelcomeScreen from "./screens/WelcomeScreen";
-import PaymentScreen from "./screens/PaymentScreen";
+import RomaneioScreen from "./screens/RomaneioScreen";
 import UserScreen from "./screens/UserScreen";
 
 import { Colors } from "./constants/styles";
@@ -27,6 +27,8 @@ import CreditCardComponent from "./components/credit-card/CreditCard";
 import { useNavigation } from "@react-navigation/native";
 
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -63,7 +65,7 @@ function AuthStack() {
 	);
 }
 
-function PaymentStack({ route, navigation }) {
+function RomaneioStack({ route, navigation }) {
 	const routeName = getFocusedRouteNameFromRoute(route);
 	navigation.setOptions({
 		tabBarStyle: { display: "block" }
@@ -83,7 +85,7 @@ function PaymentStack({ route, navigation }) {
 		>
 			<Stack.Screen
 				name="Pagamentos"
-				component={PaymentScreen}
+				component={RomaneioScreen}
 				options={{
 					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
@@ -117,6 +119,10 @@ function PaymentStack({ route, navigation }) {
 function AuthenticatedStack(props) {
 	const { context } = props;
 	const navigation = useNavigation();
+
+	const handleRefresh = () => {
+		console.log("refresh data");
+	};
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -126,10 +132,19 @@ function AuthenticatedStack(props) {
 			}}
 		>
 			<Tab.Screen
-				name="Welcome"
+				name="Início"
 				component={WelcomeScreen}
 				options={{
+					title: "Início",
 					headerRight: ({ tintColor }) => (
+						<IconButton
+							icon="refresh"
+							color={tintColor}
+							size={24}
+							onPress={handleRefresh}
+						/>
+					),
+					headerLeft: ({ tintColor }) => (
 						<IconButton
 							icon="exit"
 							color={tintColor}
@@ -143,12 +158,12 @@ function AuthenticatedStack(props) {
 				}}
 			/>
 			<Tab.Screen
-				name="PagamentosTab"
-				component={PaymentStack}
+				name="RomaneiosTap"
+				component={RomaneioStack}
 				options={{
-					title: "Pagamentos",
+					title: "Romaneios",
 					headerShown: false,
-					tabBarLabel: "Pagamentos",
+					tabBarLabel: "Romaneios",
 					// tabBarStyle: { display: "none" },
 					headerRight: ({ tintColor }) => (
 						<IconButton
@@ -159,15 +174,15 @@ function AuthenticatedStack(props) {
 						/>
 					),
 					tabBarIcon: ({ color, size }) => (
-						<FontAwesome5
-							name="money-check"
+						<MaterialCommunityIcons
+							name="dump-truck"
 							size={size}
 							color={color}
 						/>
 					)
 				}}
 			/>
-			<Tab.Screen
+			{/* <Tab.Screen
 				name="Usuário"
 				component={UserScreen}
 				options={{
@@ -187,7 +202,7 @@ function AuthenticatedStack(props) {
 						/>
 					)
 				}}
-			/>
+			/> */}
 		</Tab.Navigator>
 	);
 }

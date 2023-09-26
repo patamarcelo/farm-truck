@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, StyleSheet, View, Text } from "react-native";
+import { Alert, StyleSheet, View, Text, Image } from "react-native";
 
 import FlatButton from "../ui/FlatButton";
 import AuthForm from "./AuthForm";
@@ -68,23 +68,28 @@ function AuthContent({ isLogin, onAuthenticate }) {
 	}
 
 	return (
-		<View style={styles.mainContainer}>
-			<View style={styles.titleContainer}>
-				<Text style={styles.title}>Diamante</Text>
-			</View>
-			<View style={styles.authContent}>
-				<AuthForm
-					isLogin={isLogin}
-					onSubmit={submitHandler}
-					credentialsInvalid={credentialsInvalid}
-				/>
-				<View style={styles.buttons}>
-					<FlatButton onPress={switchAuthModeHandler}>
-						{isLogin ? "Esqueci minha senha" : "Tela de Login"}
-					</FlatButton>
+		<>
+			<View style={styles.mainContainer}>
+				<View style={styles.authContent}>
+					<AuthForm
+						isLogin={isLogin}
+						onSubmit={submitHandler}
+						credentialsInvalid={credentialsInvalid}
+					/>
+					<View style={styles.buttons}>
+						<FlatButton onPress={switchAuthModeHandler}>
+							{isLogin ? "Esqueci minha senha" : "Tela de Login"}
+						</FlatButton>
+					</View>
 				</View>
 			</View>
-		</View>
+			<View style={styles.titleContainer}>
+				<Image
+					source={require("../../assets/diamond.png")}
+					style={styles.image}
+				/>
+			</View>
+		</>
 	);
 }
 
@@ -98,8 +103,10 @@ const styles = StyleSheet.create({
 		fontWeight: "bold"
 	},
 	titleContainer: {
-		marginTop: -50,
-		marginBottom: 30
+		marginTop: -80,
+		marginBottom: 30,
+		justifyContent: "center",
+		alignItems: "center"
 	},
 	mainContainer: {
 		flex: 1,
@@ -124,5 +131,9 @@ const styles = StyleSheet.create({
 	},
 	buttons: {
 		marginTop: 8
+	},
+	image: {
+		width: 60,
+		height: 60
 	}
 });
