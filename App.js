@@ -22,13 +22,13 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLoading from "expo-app-loading";
 
-import PixComponent from "./components/pix/Pix";
-import CreditCardComponent from "./components/credit-card/CreditCard";
 import { useNavigation } from "@react-navigation/native";
 
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Dimensions, StyleSheet } from "react-native";
+const width = Dimensions.get("window").width; //full width
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -84,31 +84,10 @@ function RomaneioStack({ route, navigation }) {
 			}}
 		>
 			<Stack.Screen
-				name="Pagamentos"
+				name="Romaneios"
 				component={RomaneioScreen}
 				options={{
 					headerShown: false,
-					contentStyle: { backgroundColor: Colors.primary500 }
-				}}
-			/>
-			<Stack.Screen
-				name="PIX"
-				component={PixComponent}
-				options={{
-					title: "Pix",
-					headerTintColor: "whitesmoke",
-					headerShown: true,
-					tabBarStyle: { display: "none" },
-					contentStyle: { backgroundColor: Colors.primary500 }
-				}}
-			/>
-			<Stack.Screen
-				name="CARTAO"
-				component={CreditCardComponent}
-				options={{
-					title: "Cartão de Crédito",
-					headerTintColor: "whitesmoke",
-					headerShown: true,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
@@ -123,6 +102,10 @@ function AuthenticatedStack(props) {
 	const handleRefresh = () => {
 		console.log("refresh data");
 	};
+
+	const addRomaneioandler = () => {
+		console.log("add romaneio");
+	};
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -136,7 +119,7 @@ function AuthenticatedStack(props) {
 				component={WelcomeScreen}
 				options={{
 					title: "Início",
-					headerRight: ({ tintColor }) => (
+					headerLeft: ({ tintColor }) => (
 						<IconButton
 							icon="refresh"
 							color={tintColor}
@@ -144,12 +127,13 @@ function AuthenticatedStack(props) {
 							onPress={handleRefresh}
 						/>
 					),
-					headerLeft: ({ tintColor }) => (
+					headerRight: ({ tintColor }) => (
 						<IconButton
-							icon="exit"
+							icon="add"
 							color={tintColor}
 							size={24}
 							onPress={context.logout}
+							// onPress={addRomaneioandler}
 						/>
 					),
 					tabBarIcon: ({ color, size }) => (
@@ -210,7 +194,7 @@ function AuthenticatedStack(props) {
 function Navigation() {
 	const context = useContext(AuthContext);
 	return (
-		<NavigationContainer>
+		<NavigationContainer style={styles.rootContainer}>
 			{!context.isAuth ? (
 				<AuthStack />
 			) : (
@@ -254,3 +238,9 @@ export default function App() {
 		</>
 	);
 }
+
+const styles = StyleSheet.create({
+	rootContainer: {
+		width: width
+	}
+});

@@ -22,11 +22,23 @@ export const Colors = {
 		800: "#333333",
 		900: "#1a1a1a"
 	},
+	yellow: {
+		100: "#ffffcc",
+		200: "#ffff99",
+		300: "#ffff66",
+		400: "#ffff33",
+		500: "#ffff00",
+		600: "#cccc00",
+		700: "#999900",
+		800: "#666600",
+		900: "#333300"
+	},
 	primary100: "#d1d9f2",
 	primary500: "#1A43C0",
 	primary800: "#0a1b4d",
 	error100: "#fcdcbf",
-	error500: "#f37c13"
+	error500: "#f37c13",
+	background: "#fbfbfb"
 };
 
 // "indigo: {
