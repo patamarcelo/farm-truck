@@ -1,12 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import CardButton from "../components/ui/CardButton";
 import { Colors } from "../constants/styles";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useContext } from "react";
+
+import { AuthContext } from "../store/auth-context";
 
 const RomaneioScreen = () => {
+	const context = useContext(AuthContext);
 	return (
 		<View style={styles.mainContainer}>
 			<Text style={styles.text}>Romaneio Screen</Text>
+			<Button title="Lougout" onPress={context.logout} />
 		</View>
 	);
 };

@@ -5,6 +5,10 @@ import data from "../utils/dummy-data";
 import { Colors } from "../constants/styles";
 import { Divider } from "react-native-elements";
 
+import { Dimensions } from "react-native";
+
+const width = Dimensions.get("window").width; //full width
+
 function WelcomeScreen() {
 	const renderRomaneioList = (itemData) => {
 		return <CardRomaneio data={itemData.item} />;
@@ -16,7 +20,7 @@ function WelcomeScreen() {
 				<Text style={styles.resumoTitle}>RESUMO CONTAINER</Text>
 			</View>
 			<View style={styles.roundList}>
-				<ScrollView style={styles.listContainer}>
+				<ScrollView style={styles.listContainer} horizontal={true}>
 					<FlatList
 						data={data}
 						keyExtractor={(item) => item.id}
@@ -45,11 +49,20 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: Colors.primary500,
-		width: "100%"
+		backgroundColor: "whitesmoke",
+		width: width - 20,
+		margin: 10,
+		borderRadius: 12,
+
+		elevation: 4,
+
+		shadowColor: "black",
+		shadowOpacity: 0.5,
+		shadowOffset: { width: 2, height: 2 },
+		shadowRadius: 4
 	},
 	resumoTitle: {
-		color: "whitesmoke",
+		// color: "whitesmoke",
 		fontWeight: "bold",
 		fontSize: 18
 	},

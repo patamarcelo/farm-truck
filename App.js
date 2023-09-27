@@ -13,7 +13,7 @@ import UserScreen from "./screens/UserScreen";
 import { Colors } from "./constants/styles";
 import AuthContextprovider, { AuthContext } from "./store/auth-context";
 import AuthContent from "./components/Auth/AuthContent";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 
 import IconButton from "./components/ui/IconButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -70,16 +70,7 @@ function AuthStack() {
 
 function RomaneioStack({ route, navigation }) {
 	const routeName = getFocusedRouteNameFromRoute(route);
-	navigation.setOptions({
-		tabBarStyle: { display: "block" }
-	});
 
-	if (routeName === "PIX" || routeName === "CARTAO") {
-		console.log("setOptions");
-		navigation.setOptions({
-			tabBarStyle: { display: "none" }
-		});
-	}
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -119,7 +110,29 @@ function HomeScrennStack({ route, navigation }) {
 		navigation.navigate("Welcome");
 	};
 
-	if (routeName === "Form" || routeName === "ModalRomaneio") {
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerLeft: ({ tintColor }) => (
+				<IconButton
+					icon="refresh"
+					color={tintColor}
+					size={24}
+					onPress={handleRefresh}
+				/>
+			),
+			headerRight: ({ tintColor }) => (
+				<IconButton
+					icon="add"
+					color={tintColor}
+					size={24}
+					// onPress={context.logout}
+					onPress={addRomaneioandler}
+				/>
+			)
+		});
+	}, []);
+
+	if (routeName === "Form") {
 		console.log("setOptions");
 		navigation.setOptions({
 			tabBarStyle: { display: "none" },
@@ -184,7 +197,7 @@ function HomeScrennStack({ route, navigation }) {
 				name="ModalRomaneio"
 				component={ModalRomaneioScreen}
 				options={{
-					// presentation: "modal",
+					presentation: "modal",
 					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
@@ -205,14 +218,18 @@ function AuthenticatedStack(props) {
 				// headerStyle: {
 				// 	borderBottomColor: Colors.primary500
 				// },
-				contentStyle: { backgroundColor: Colors.primary100 }
+				contentStyle: { backgroundColor: Colors.primary100 },
+				initialRouteName: "inicio"
 			}}
 		>
 			<Tab.Screen
-				name="Início"
+				name="inicio"
 				component={HomeScrennStack}
 				options={{
-					title: "Início",
+					title: "",
+					tabBarLabel: "Home",
+					headerShadowVisible: false, // applied here
+					// title: "Início",
 					tabBarIcon: ({ color, size }) => (
 						<Ionicons name="home" color={color} size={size} />
 					)
