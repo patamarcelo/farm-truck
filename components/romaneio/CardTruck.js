@@ -5,11 +5,18 @@ import { Colors } from "../../constants/styles";
 import { Dimensions } from "react-native";
 import { Divider } from "react-native-elements";
 
+import { useNavigation } from "@react-navigation/native";
+
 const width = Dimensions.get("window").width; //full width
 
 const CardRomaneio = (props) => {
 	const { data } = props;
+	const navigation = useNavigation();
 	console.log(data);
+
+	const handleDataTruck = () => {
+		navigation.navigate("ModalRomaneio", { data: data });
+	};
 
 	return (
 		<>
@@ -18,6 +25,7 @@ const CardRomaneio = (props) => {
 					styles.rootContainer,
 					pressed && styles.pressed
 				]}
+				onPress={handleDataTruck}
 			>
 				<View style={styles.truckContainer}>
 					<MaterialCommunityIcons
@@ -54,18 +62,16 @@ const styles = StyleSheet.create({
 		height: 90,
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginVertical: 4,
 		paddingHorizontal: 15,
-		backgroundColor: Colors.background,
+		backgroundColor: "white",
 
 		// borderWidth: 1,
-		borderColor: "black",
 
-		shadowColor: "grey",
+		shadowColor: "black",
 		shadowOpacity: 0.75,
-		shadowOffset: { width: 3, height: 3 },
-		shadowRadius: 2,
-		borderRadius: 4
+		shadowOffset: { width: 1, height: 1 },
+		shadowRadius: 2
+		// borderRadius: 12
 	},
 	pressed: {
 		opacity: 0.5

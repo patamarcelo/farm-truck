@@ -1,7 +1,6 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View, ScrollView } from "react-native";
 
 import CardRomaneio from "../components/romaneio/CardTruck";
-import { ScrollView } from "react-native-gesture-handler";
 import data from "../utils/dummy-data";
 import { Colors } from "../constants/styles";
 import { Divider } from "react-native-elements";
@@ -14,16 +13,21 @@ function WelcomeScreen() {
 	return (
 		<View style={styles.rootContainer}>
 			<View style={styles.resumoContainer}>
-				<Text>RESUMO CONTAINER</Text>
+				<Text style={styles.resumoTitle}>RESUMO CONTAINER</Text>
 			</View>
-			<View style={styles.listContainer}>
-				<FlatList
-					data={data}
-					keyExtractor={(item) => item.id}
-					renderItem={renderRomaneioList}
-				/>
-				{/* <Text style={styles.title}>Welcome!</Text>
+			<View style={styles.roundList}>
+				<ScrollView style={styles.listContainer}>
+					<FlatList
+						data={data}
+						keyExtractor={(item) => item.id}
+						renderItem={renderRomaneioList}
+						ItemSeparatorComponent={() => (
+							<View style={{ height: 13 }} />
+						)}
+					/>
+					{/* <Text style={styles.title}>Welcome!</Text>
 			<Text>You authenticated successfully!</Text> */}
+				</ScrollView>
 			</View>
 		</View>
 	);
@@ -35,17 +39,29 @@ const styles = StyleSheet.create({
 	rootContainer: {
 		flex: 1,
 		justifyContent: "center",
-		alignItems: "center",
-		paddingTop: 32,
-		backgroundColor: "whitesmoke"
+		alignItems: "center"
 	},
 	resumoContainer: {
 		flex: 1,
 		justifyContent: "center",
-		alignItems: "center"
+		alignItems: "center",
+		backgroundColor: Colors.primary500,
+		width: "100%"
+	},
+	resumoTitle: {
+		color: "whitesmoke",
+		fontWeight: "bold",
+		fontSize: 18
+	},
+	roundList: {
+		flex: 3,
+		backgroundColor: Colors.primary500
 	},
 	listContainer: {
-		flex: 3
+		borderTopLeftRadius: 18,
+		borderTopRightRadius: 18,
+		backgroundColor: Colors.background100,
+		padding: 2
 	},
 	title: {
 		fontSize: 20,

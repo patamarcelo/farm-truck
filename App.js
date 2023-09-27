@@ -28,6 +28,9 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Dimensions, StyleSheet } from "react-native";
+import FormScreen from "./components/romaneio/Form";
+import ModalRomaneioScreen from "./components/romaneio/ModalRomaneio";
+
 const width = Dimensions.get("window").width; //full width
 
 const Stack = createNativeStackNavigator();
@@ -95,9 +98,13 @@ function RomaneioStack({ route, navigation }) {
 	);
 }
 
-function AuthenticatedStack(props) {
-	const { context } = props;
-	const navigation = useNavigation();
+function HomeScrennStack({ route, navigation }) {
+	const routeName = getFocusedRouteNameFromRoute(route);
+	console.log(routeName);
+
+	navigation.setOptions({
+		tabBarStyle: { display: "flex" }
+	});
 
 	const handleRefresh = () => {
 		console.log("refresh data");
@@ -105,37 +112,107 @@ function AuthenticatedStack(props) {
 
 	const addRomaneioandler = () => {
 		console.log("add romaneio");
+		navigation.navigate("Form");
 	};
+
+	const handleBack = () => {
+		navigation.navigate("Welcome");
+	};
+
+	if (routeName === "Form" || routeName === "ModalRomaneio") {
+		console.log("setOptions");
+		navigation.setOptions({
+			tabBarStyle: { display: "none" },
+			headerLeft: ({ tintColor }) => (
+				<IconButton
+					icon="arrow-back-sharp"
+					color={tintColor}
+					size={24}
+					onPress={handleBack}
+				/>
+			),
+			headerRight: false
+		});
+	}
+
+	if (routeName === "Welcome") {
+		navigation.setOptions({
+			headerLeft: ({ tintColor }) => (
+				<IconButton
+					icon="refresh"
+					color={tintColor}
+					size={24}
+					onPress={handleRefresh}
+				/>
+			),
+			headerRight: ({ tintColor }) => (
+				<IconButton
+					icon="add"
+					color={tintColor}
+					size={24}
+					// onPress={context.logout}
+					onPress={addRomaneioandler}
+				/>
+			)
+		});
+	}
+
+	return (
+		<Stack.Navigator
+			screenOptions={{
+				headerStyle: { backgroundColor: Colors.primary500 }
+			}}
+		>
+			<Stack.Screen
+				name="Welcome"
+				component={WelcomeScreen}
+				options={{
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+			<Stack.Screen
+				name="Form"
+				component={FormScreen}
+				options={{
+					// presentation: "modal",
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+			<Stack.Screen
+				name="ModalRomaneio"
+				component={ModalRomaneioScreen}
+				options={{
+					// presentation: "modal",
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+		</Stack.Navigator>
+	);
+}
+
+function AuthenticatedStack(props) {
+	const { context } = props;
+	const navigation = useNavigation();
+
 	return (
 		<Tab.Navigator
 			screenOptions={{
 				headerStyle: { backgroundColor: Colors.primary500 },
 				headerTintColor: "white",
+				// headerStyle: {
+				// 	borderBottomColor: Colors.primary500
+				// },
 				contentStyle: { backgroundColor: Colors.primary100 }
 			}}
 		>
 			<Tab.Screen
 				name="Início"
-				component={WelcomeScreen}
+				component={HomeScrennStack}
 				options={{
 					title: "Início",
-					headerLeft: ({ tintColor }) => (
-						<IconButton
-							icon="refresh"
-							color={tintColor}
-							size={24}
-							onPress={handleRefresh}
-						/>
-					),
-					headerRight: ({ tintColor }) => (
-						<IconButton
-							icon="add"
-							color={tintColor}
-							size={24}
-							onPress={context.logout}
-							// onPress={addRomaneioandler}
-						/>
-					),
 					tabBarIcon: ({ color, size }) => (
 						<Ionicons name="home" color={color} size={size} />
 					)

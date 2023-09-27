@@ -38,7 +38,8 @@ export const Colors = {
 	primary800: "#0a1b4d",
 	error100: "#fcdcbf",
 	error500: "#f37c13",
-	background: "#fbfbfb"
+	background: "#fbfbfb",
+	background100: "whitesmoke"
 };
 
 // "indigo: {
