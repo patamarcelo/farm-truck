@@ -31,6 +31,8 @@ import { Dimensions, StyleSheet } from "react-native";
 import FormScreen from "./components/romaneio/Form";
 import ModalRomaneioScreen from "./components/romaneio/ModalRomaneio";
 
+import { createNavigationContainerRef } from "@react-navigation/native";
+
 const width = Dimensions.get("window").width; //full width
 
 const Stack = createNativeStackNavigator();
@@ -71,6 +73,10 @@ function AuthStack() {
 function RomaneioStack({ route, navigation }) {
 	const routeName = getFocusedRouteNameFromRoute(route);
 
+	const handleBack = () => {
+		navigation.navigate("Welcome");
+	};
+
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -82,7 +88,15 @@ function RomaneioStack({ route, navigation }) {
 				component={RomaneioScreen}
 				options={{
 					headerShown: false,
-					contentStyle: { backgroundColor: Colors.primary500 }
+					contentStyle: { backgroundColor: Colors.primary500 },
+					headerLeft: ({ tintColor }) => (
+						<IconButton
+							icon="arrow-back-sharp"
+							color={tintColor}
+							size={24}
+							onPress={handleBack}
+						/>
+					)
 				}}
 			/>
 		</Stack.Navigator>
@@ -91,11 +105,8 @@ function RomaneioStack({ route, navigation }) {
 
 function HomeScrennStack({ route, navigation }) {
 	const routeName = getFocusedRouteNameFromRoute(route);
-	console.log(routeName);
-
-	navigation.setOptions({
-		tabBarStyle: { display: "flex" }
-	});
+	console.log("routeName", routeName);
+	const context = useContext(AuthContext);
 
 	const handleRefresh = () => {
 		console.log("refresh data");
@@ -112,6 +123,10 @@ function HomeScrennStack({ route, navigation }) {
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
+			tabBarStyle: {
+				backgroundColor: Colors.primary800,
+				borderTopColor: "transparent"
+			},
 			headerLeft: ({ tintColor }) => (
 				<IconButton
 					icon="refresh"
@@ -132,43 +147,55 @@ function HomeScrennStack({ route, navigation }) {
 		});
 	}, []);
 
-	if (routeName === "Form") {
-		console.log("setOptions");
-		navigation.setOptions({
-			tabBarStyle: { display: "none" },
-			headerLeft: ({ tintColor }) => (
-				<IconButton
-					icon="arrow-back-sharp"
-					color={tintColor}
-					size={24}
-					onPress={handleBack}
-				/>
-			),
-			headerRight: false
-		});
-	}
+	useEffect(() => {
+		if (routeName === "Form") {
+			// setRouteName("Form");
+			context.defineRouteName(routeName);
+			navigation.setOptions({
+				tabBarStyle: { display: "none" },
+				headerLeft: ({ tintColor }) => (
+					<IconButton
+						icon="arrow-back-sharp"
+						color={tintColor}
+						size={24}
+						onPress={handleBack}
+					/>
+				),
+				headerRight: false
+			});
+		} else {
+			navigation.setOptions({
+				tabBarStyle: { display: "flex" },
+				tabBarStyle: {
+					backgroundColor: Colors.primary800,
+					borderTopColor: "transparent"
+				}
+			});
+		}
 
-	if (routeName === "Welcome") {
-		navigation.setOptions({
-			headerLeft: ({ tintColor }) => (
-				<IconButton
-					icon="refresh"
-					color={tintColor}
-					size={24}
-					onPress={handleRefresh}
-				/>
-			),
-			headerRight: ({ tintColor }) => (
-				<IconButton
-					icon="add"
-					color={tintColor}
-					size={24}
-					// onPress={context.logout}
-					onPress={addRomaneioandler}
-				/>
-			)
-		});
-	}
+		if (routeName === "Welcome") {
+			context.defineRouteName(routeName);
+			navigation.setOptions({
+				headerLeft: ({ tintColor }) => (
+					<IconButton
+						icon="refresh"
+						color={tintColor}
+						size={24}
+						onPress={handleRefresh}
+					/>
+				),
+				headerRight: ({ tintColor }) => (
+					<IconButton
+						icon="add"
+						color={tintColor}
+						size={24}
+						// onPress={context.logout}
+						onPress={addRomaneioandler}
+					/>
+				)
+			});
+		}
+	}, [routeName]);
 
 	return (
 		<Stack.Navigator
@@ -205,27 +232,32 @@ function HomeScrennStack({ route, navigation }) {
 		</Stack.Navigator>
 	);
 }
-
 function AuthenticatedStack(props) {
 	const { context } = props;
 	const navigation = useNavigation();
 
 	return (
 		<Tab.Navigator
+			initialRouteName="inicio"
 			screenOptions={{
 				headerStyle: { backgroundColor: Colors.primary500 },
 				headerTintColor: "white",
 				// headerStyle: {
 				// 	borderBottomColor: Colors.primary500
 				// },
-				contentStyle: { backgroundColor: Colors.primary100 },
+				tabBarActiveTintColor: "white",
+				tabBarStyle: {
+					backgroundColor: Colors.primary800,
+					borderTopColor: "transparent"
+				},
+				// contentStyle: { backgroundColor: Colors.primary500 },
 				initialRouteName: "inicio"
 			}}
 		>
 			<Tab.Screen
 				name="inicio"
 				component={HomeScrennStack}
-				options={{
+				options={({ route }) => ({
 					title: "",
 					tabBarLabel: "Home",
 					headerShadowVisible: false, // applied here
@@ -233,7 +265,7 @@ function AuthenticatedStack(props) {
 					tabBarIcon: ({ color, size }) => (
 						<Ionicons name="home" color={color} size={size} />
 					)
-				}}
+				})}
 			/>
 			<Tab.Screen
 				name="RomaneiosTap"

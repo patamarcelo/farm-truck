@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		padding: 24,
 		gap: 20,
-		backgroundColor: Colors.primary[500]
+		backgroundColor: Colors.primary500
 	}
 });

@@ -1,4 +1,11 @@
-import { FlatList, StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+	FlatList,
+	StyleSheet,
+	Text,
+	View,
+	ScrollView,
+	SafeAreaView
+} from "react-native";
 
 import CardRomaneio from "../components/romaneio/CardTruck";
 import data from "../utils/dummy-data";
@@ -19,7 +26,7 @@ function WelcomeScreen() {
 			<View style={styles.resumoContainer}>
 				<Text style={styles.resumoTitle}>RESUMO CONTAINER</Text>
 			</View>
-			<View style={styles.roundList}>
+			<SafeAreaView style={styles.roundList}>
 				<ScrollView style={styles.listContainer} horizontal={true}>
 					<FlatList
 						data={data}
@@ -29,10 +36,8 @@ function WelcomeScreen() {
 							<View style={{ height: 13 }} />
 						)}
 					/>
-					{/* <Text style={styles.title}>Welcome!</Text>
-			<Text>You authenticated successfully!</Text> */}
 				</ScrollView>
-			</View>
+			</SafeAreaView>
 		</View>
 	);
 }

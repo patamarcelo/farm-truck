@@ -5,11 +5,13 @@ export const AuthContext = createContext({
 	token: "",
 	isAuth: false,
 	authenticate: () => {},
-	logout: () => {}
+	logout: () => {},
+	routeName: ""
 });
 
 const AuthContextprovider = ({ children }) => {
 	const [authToken, setAuthToken] = useState();
+	const [routeName, setRouteName] = useState();
 
 	const authenticate = (token) => {
 		AsyncStorage.setItem("token", token);
@@ -21,11 +23,17 @@ const AuthContextprovider = ({ children }) => {
 		AsyncStorage.removeItem("token");
 	};
 
+	const defineRouteName = (routeName) => {
+		setRouteName(routeName);
+	};
+
 	const value = {
 		token: authToken,
 		isAuth: !!authToken,
 		authenticate: authenticate,
-		logout: logout
+		logout: logout,
+		defineRouteName: defineRouteName,
+		routeName: routeName
 	};
 
 	return (

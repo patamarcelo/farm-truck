@@ -8,7 +8,8 @@ function Input({
 	secure,
 	onUpdateValue,
 	value,
-	isInvalid
+	isInvalid,
+	inputStyles
 }) {
 	return (
 		<View style={styles.inputContainer}>
@@ -16,7 +17,11 @@ function Input({
 				{label}
 			</Text>
 			<TextInput
-				style={[styles.input, isInvalid && styles.inputInvalid]}
+				style={[
+					styles.input,
+					inputStyles,
+					isInvalid && styles.inputInvalid
+				]}
 				// autoCapitalize={false}
 				keyboardType={keyboardType}
 				secureTextEntry={secure}
