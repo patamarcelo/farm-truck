@@ -1,0 +1,3985 @@
+{
+    "msg": "Consulta realizada com sucesso!!",
+    "total_return": 548,
+    "resumo_safra": [
+        {
+            "talhao__fazenda__nome": "Projeto 5 Estrelas",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 194.87
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Benção de Deus",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 2858.27
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Cacíque",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 458.06
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Campo Guapo",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 770.17
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Campo Guapo",
+            "variedade__cultura__cultura": "Milheto",
+            "area_total": 25.0
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Campo Guapo",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 947.78
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Capivara",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 272.86
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Capivara",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 411.94
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Cervo",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 272.88
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Cervo",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 1185.92
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Eldorado",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 557.53
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Fazendinha",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 32.6
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Jacaré",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 176.9
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Jacaré",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 1340.09
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Lago Verde",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 133.49
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Lago Verde",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 366.3
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Novo Acordo",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 40.04
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Safira",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 990.34
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Tucano",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 7.0
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Tucano",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 708.08
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Tuiuiu",
+            "variedade__cultura__cultura": "Feijão",
+            "area_total": 123.35
+        },
+        {
+            "talhao__fazenda__nome": "Projeto Tuiuiu",
+            "variedade__cultura__cultura": "Soja",
+            "area_total": 261.55
+        }
+    ],
+    "Area Total dos Talhoes Plantados": {
+        "area_colheita__sum": 12135.02
+    },
+    "dados": {
+        "Projeto 5 Estrelas": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Benção de Deus": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B08a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B11a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B28": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B29": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C18": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C19": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C20": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C21": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D07a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E02a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E04a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Cacíque": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Campo Guapo": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A03f": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C05a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "D01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "F13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "G02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "G03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "G04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "G05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "G06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "G07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "G08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "H16a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "Ia": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "Ib": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Milheto",
+                "variedade": "BRS 1501",
+                "finalizado_colheita": false
+            },
+            "J01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "J02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Pingo de Ouro",
+                "finalizado_colheita": false
+            },
+            "J02a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Pingo de Ouro",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Capivara": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "C01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "C03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "C04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "C05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "C05a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "C06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "D01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "D02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "D03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "D04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "D05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "D06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 790",
+                "finalizado_colheita": false
+            },
+            "E01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Cervo": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "A07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "A10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "A11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B08a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B09a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "B16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B18": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B19": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B20": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "C03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "C04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "C05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "C05a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "C06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "C07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "C08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "C09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "C10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "C11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "D02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "D03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "D04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "D05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "D06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D10a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "D14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "E02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "E03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "E04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "E05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja ANsc 84 024",
+                "finalizado_colheita": false
+            },
+            "E06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "E07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "E08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "E09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "E10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "E11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "E12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "E13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 3282",
+                "finalizado_colheita": false
+            },
+            "E14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "F02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "F03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "F04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "F05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "F06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "F07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Neo 820",
+                "finalizado_colheita": false
+            },
+            "F08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Eldorado": {
+            "A17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "D18": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Fazendinha": {
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B02a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "C05a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Jacaré": {
+            "14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "14a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "16a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja Comp 40",
+                "finalizado_colheita": false
+            },
+            "17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "18": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "19": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "A07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "A10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "A11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 89109",
+                "finalizado_colheita": false
+            },
+            "B10a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja Comp 40",
+                "finalizado_colheita": false
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B11a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B12a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B13a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja Comp 40",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Lago Verde": {
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A06a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "A15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "A16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "A17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A22": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "A23": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "A24": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "A24a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 2266 I2X",
+                "finalizado_colheita": false
+            },
+            "A25": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "A26": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "A29": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "A30": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "A31": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "FTR 166M IPRO",
+                "finalizado_colheita": false
+            },
+            "B10a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B10b": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B12a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "CG SPEED IPRO",
+                "finalizado_colheita": false
+            },
+            "B13a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Novo Acordo": {
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Caupi",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Safira": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C03a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "C04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "D04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "E04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F03a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "F06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "G08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "H08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Tucano": {
+            "A01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A06a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A11a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "A15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A18": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A19": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A20": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A21": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "A22": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B06a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Soja 88022",
+                "finalizado_colheita": false
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B12": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B13": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B16": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "Domínio",
+                "finalizado_colheita": false
+            },
+            "B17": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "GH 6700 IPRO",
+                "finalizado_colheita": false
+            },
+            "B17a": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            }
+        },
+        "Projeto Tuiuiu": {
+            "A02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A14": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A15": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A21": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A22": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A28": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A30": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A31": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "A32": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Feijão",
+                "variedade": "Mungo",
+                "finalizado_colheita": false
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "C07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "D02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "D03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "D04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "D05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "D06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "D07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E02": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E03": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E04": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E05": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E06": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            },
+            "E07": {
+                "safra": "2023/2024",
+                "ciclo": 1,
+                "cultura": "Soja",
+                "variedade": "TMG 2383",
+                "finalizado_colheita": false
+            }
+        }
+    }
+}

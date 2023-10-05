@@ -16,21 +16,26 @@ const schema = yup.object({
 		.string()
 		.required("Informe a placa")
 		.min(7, "placa contem 7 digitos"),
-	motorista: yup.string().required("Digite o nome do Motorista")
+	motorista: yup.string().required("Digite o nome do Motorista"),
+	fazenda: yup.string().required("Selecione uma fazenda"),
+	parcelas: yup.array().min(1, "Selecione pelo menos 1 parcela")
 });
 
 const FormScreen = () => {
 	const navigation = useNavigation();
 	const [isLogin, setIsLogin] = useState(false);
+	const [parcelasSelected, setParcelasSelected] = useState([]);
 
 	const {
 		control,
 		handleSubmit,
+		getValues,
 		formState: { errors }
 	} = useForm({
 		resolver: yupResolver(schema)
 	});
 
+	getValues();
 	const submitHandler = (data) => {
 		console.log("salvar valores");
 		console.log(data);
@@ -40,6 +45,7 @@ const FormScreen = () => {
 		console.log("limpar o formulário");
 		navigation.navigate("Welcome");
 	};
+
 	return (
 		<View style={styles.mainContainer}>
 			<View style={styles.formContainer}>
@@ -48,10 +54,12 @@ const FormScreen = () => {
 					control={control}
 					isLogin={isLogin}
 					onSubmit={submitHandler}
+					getValues={getValues}
 				/>
 			</View>
 			<View style={styles.buttonContainer}>
 				<Button
+					disabled={Object.keys(errors).length === 0 ? false : true}
 					onPress={handleSubmit(submitHandler)}
 					btnStyles={styles.btnbtnStylesRegister}
 				>

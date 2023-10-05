@@ -84,7 +84,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 				)}
 
 				<View style={styles.buttons}>
-					<Button onPress={submitHandler}>
+					<Button onPress={submitHandler} btnStyles={styles.btnStyle}>
 						{isLogin ? "Entrar" : "Redefinr Senha"}
 					</Button>
 				</View>
@@ -98,5 +98,8 @@ export default AuthForm;
 const styles = StyleSheet.create({
 	buttons: {
 		marginTop: 12
+	},
+	btnStyle: {
+		backgroundColor: 'green'
 	}
 });

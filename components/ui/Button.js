@@ -2,13 +2,15 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Colors } from "../../constants/styles";
 
-function Button({ children, onPress, btnStyles }) {
+function Button({ children, onPress, btnStyles, disabled }) {
 	return (
 		<Pressable
+			disabled={disabled}
 			style={({ pressed }) => [
 				styles.button,
 				btnStyles,
-				pressed && styles.pressed
+				pressed && styles.pressed,
+				disabled && styles.disabledStyle
 			]}
 			onPress={onPress}
 		>
@@ -22,6 +24,9 @@ function Button({ children, onPress, btnStyles }) {
 export default Button;
 
 const styles = StyleSheet.create({
+	disabledStyle: {
+		opacity: 0.7
+	},
 	button: {
 		borderRadius: 8,
 		paddingVertical: 8,
