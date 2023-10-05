@@ -9,7 +9,10 @@ function Input({
 	onUpdateValue,
 	value,
 	isInvalid,
-	inputStyles
+	inputStyles,
+	onBlur,
+	placeholder,
+	styleInput
 }) {
 	return (
 		<View style={styles.inputContainer}>
@@ -20,13 +23,16 @@ function Input({
 				style={[
 					styles.input,
 					inputStyles,
-					isInvalid && styles.inputInvalid
+					isInvalid && styles.inputInvalid,
+					styleInput
 				]}
 				// autoCapitalize={false}
 				keyboardType={keyboardType}
 				secureTextEntry={secure}
 				onChangeText={onUpdateValue}
 				value={value}
+				onBlur={onBlur}
+				placeholder={placeholder}
 			/>
 		</View>
 	);

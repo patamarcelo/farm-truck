@@ -7,18 +7,33 @@ import FormInputs from "./FormInputs";
 import { useState } from "react";
 import { Colors } from "../../constants/styles";
 
+import { useForm, Controler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object({
+	placa: yup
+		.string()
+		.required("Informe a placa")
+		.min(7, "placa contem 7 digitos"),
+	motorista: yup.string().required("Digite o nome do Motorista")
+});
+
 const FormScreen = () => {
 	const navigation = useNavigation();
 	const [isLogin, setIsLogin] = useState(false);
-	const [credentialsInvalid, setCredentialsInvalid] = useState({
-		email: false,
-		password: false,
-		confirmEmail: false,
-		confirmPassword: false
+
+	const {
+		control,
+		handleSubmit,
+		formState: { errors }
+	} = useForm({
+		resolver: yupResolver(schema)
 	});
 
-	const submitHandler = () => {
+	const submitHandler = (data) => {
 		console.log("salvar valores");
+		console.log(data);
 	};
 
 	const cancelHandler = () => {
@@ -29,14 +44,15 @@ const FormScreen = () => {
 		<View style={styles.mainContainer}>
 			<View style={styles.formContainer}>
 				<FormInputs
+					errors={errors}
+					control={control}
 					isLogin={isLogin}
-					credentialsInvalid={credentialsInvalid}
 					onSubmit={submitHandler}
 				/>
 			</View>
 			<View style={styles.buttonContainer}>
 				<Button
-					onPress={submitHandler}
+					onPress={handleSubmit(submitHandler)}
 					btnStyles={styles.btnbtnStylesRegister}
 				>
 					Registrar

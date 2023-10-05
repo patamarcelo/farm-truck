@@ -1,67 +1,60 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 import Button from "../ui/Button";
 import Input from "../Auth/Input";
 
-function FormInputs({ isLogin, onSubmit, credentialsInvalid }) {
-	const [enteredEmail, setEnteredEmail] = useState("");
-	const [enteredConfirmEmail, setEnteredConfirmEmail] = useState("");
-	const [enteredPassword, setEnteredPassword] = useState("");
-	const [enteredConfirmPassword, setEnteredConfirmPassword] = useState("");
+import { Controller } from "react-hook-form";
 
-	const {
-		email: emailIsInvalid,
-		confirmEmail: emailsDontMatch,
-		password: passwordIsInvalid,
-		confirmPassword: passwordsDontMatch
-	} = credentialsInvalid;
-
-	function updateInputValueHandler(inputType, enteredValue) {
-		switch (inputType) {
-			case "email":
-				setEnteredEmail(enteredValue);
-				break;
-			case "confirmEmail":
-				setEnteredConfirmEmail(enteredValue);
-				break;
-			case "password":
-				setEnteredPassword(enteredValue);
-				break;
-			case "confirmPassword":
-				setEnteredConfirmPassword(enteredValue);
-				break;
-		}
-	}
-
-	function submitHandler() {
-		onSubmit({
-			email: enteredEmail,
-			confirmEmail: enteredConfirmEmail,
-			password: enteredPassword,
-			confirmPassword: enteredConfirmPassword
-		});
-	}
-
+function FormInputs({ isLogin, onSubmit, control, errors }) {
 	return (
 		<View style={styles.form}>
-			<Input
-				label="Placa"
-				onUpdateValue={updateInputValueHandler.bind(this, "email")}
-				value={enteredEmail}
-				keyboardType="email-address"
-				isInvalid={emailIsInvalid}
-				inputStyles={styles.inputStyles}
+			<Controller
+				control={control}
+				name="placa"
+				render={({ field: { onChange, onBlur, value } }) => (
+					<Input
+						styleInput={{
+							borderWidth: errors.placa && 1,
+							borderColor: errors.placa && "#ff375b"
+						}}
+						label="Placa"
+						onUpdateValue={onChange}
+						value={value}
+						// keyboardType="email-address"
+						onBlur={onBlur}
+						inputStyles={styles.inputStyles}
+						placeholder="Placa"
+					/>
+				)}
 			/>
-
-			<Input
-				label="Motorista"
-				onUpdateValue={updateInputValueHandler.bind(this, "password")}
-				// secure
-				value={enteredPassword}
-				isInvalid={passwordIsInvalid}
-				inputStyles={styles.inputStyles}
+			{errors.placa && (
+				<Text style={styles.labelError}>{errors.placa?.message}</Text>
+			)}
+			<Controller
+				control={control}
+				name="motorista"
+				render={({ field: { onChange, onBlur, value } }) => (
+					<Input
+						styleInput={{
+							borderWidth: errors.motorista && 1,
+							borderColor: errors.motorista && "#ff375b"
+						}}
+						label="Motorista"
+						onUpdateValue={onChange}
+						value={value}
+						// keyboardType="email-address"
+						onBlur={onBlur}
+						inputStyles={styles.inputStyles}
+						placeholder="Motorista"
+					/>
+				)}
 			/>
+			{errors.motorista && (
+				<Text style={styles.labelError}>
+					{errors.motorista?.message}
+				</Text>
+			)}
 		</View>
 	);
 }
@@ -74,5 +67,10 @@ const styles = StyleSheet.create({
 	},
 	buttons: {
 		marginTop: 12
+	},
+	labelError: {
+		alignSelf: "flex-start",
+		color: "#ff375b",
+		marginBottom: 8
 	}
 });

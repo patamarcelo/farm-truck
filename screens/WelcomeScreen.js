@@ -27,7 +27,7 @@ function WelcomeScreen() {
 				<Text style={styles.resumoTitle}>RESUMO CONTAINER</Text>
 			</View>
 			<SafeAreaView style={styles.roundList}>
-				<ScrollView style={styles.listContainer} horizontal={true}>
+				<View style={styles.listContainer}>
 					<FlatList
 						data={data}
 						keyExtractor={(item) => item.id}
@@ -36,7 +36,7 @@ function WelcomeScreen() {
 							<View style={{ height: 13 }} />
 						)}
 					/>
-				</ScrollView>
+				</View>
 			</SafeAreaView>
 		</View>
 	);
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.primary500
 	},
 	listContainer: {
+		overflow: "hidden",
 		borderTopLeftRadius: 18,
 		borderTopRightRadius: 18,
 		backgroundColor: Colors.background100,

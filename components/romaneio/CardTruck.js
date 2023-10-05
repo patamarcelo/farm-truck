@@ -70,8 +70,11 @@ const styles = StyleSheet.create({
 		shadowColor: "black",
 		shadowOpacity: 0.75,
 		shadowOffset: { width: 1, height: 1 },
-		shadowRadius: 2
-		// borderRadius: 12
+		shadowRadius: 2,
+
+		elevation: 6
+		// borderTopLeftRadius: 12,
+		// borderTopRightRadius: 12,
 	},
 	pressed: {
 		opacity: 0.5
