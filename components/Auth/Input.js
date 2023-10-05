@@ -12,10 +12,14 @@ function Input({
 	inputStyles,
 	onBlur,
 	placeholder,
-	styleInput
+	styleInput,
+	disabled,
+	multilne = false,
+	numberOfLines = 2,
+	inputContainerProps
 }) {
 	return (
-		<View style={styles.inputContainer}>
+		<View style={[styles.inputContainer, inputContainerProps]}>
 			<Text style={[styles.label, isInvalid && styles.labelInvalid]}>
 				{label}
 			</Text>
@@ -33,6 +37,10 @@ function Input({
 				value={value}
 				onBlur={onBlur}
 				placeholder={placeholder}
+				editable={!disabled}
+				selectTextOnFocus={!disabled}
+				multiline={multilne}
+				numberOfLines={numberOfLines}
 			/>
 		</View>
 	);

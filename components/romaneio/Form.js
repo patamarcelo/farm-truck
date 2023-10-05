@@ -4,12 +4,15 @@ import { useNavigation } from "@react-navigation/native";
 import Button from "../ui/Button";
 import FormInputs from "./FormInputs";
 
-import { useState } from "react";
+import { useState, useLayoutEffect, useContext, useEffect } from "react";
 import { Colors } from "../../constants/styles";
 
 import { useForm, Controler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
+import IconButton from "../ui/IconButton";
+import { NavigationContext } from "@react-navigation/native";
 
 const schema = yup.object({
 	placa: yup
@@ -23,16 +26,30 @@ const schema = yup.object({
 
 const FormScreen = () => {
 	const navigation = useNavigation();
+	const navigationContext = useContext(NavigationContext);
+
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
+
+	useEffect(() => {
+		navigation?.setOptions({
+			title: "Create Contact"
+		});
+	}, []);
 
 	const {
 		control,
 		handleSubmit,
 		getValues,
+		setValue,
+		reset,
 		formState: { errors }
 	} = useForm({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(schema),
+		defaultValues: {
+			placa: "",
+			fazenda: "Selecione uma fazenda"
+		}
 	});
 
 	getValues();
@@ -46,6 +63,19 @@ const FormScreen = () => {
 		navigation.navigate("Welcome");
 	};
 
+	const handlerChange = (e, name) => {
+		console.log("ouvindo a mudança", e, name);
+		if (name === "parcelas") {
+			setValue("cultura", "Soja");
+			setValue("variedade", "Olimpo");
+		}
+	};
+
+	const refreshHandler = () => {
+		reset();
+		console.log("refresh ");
+	};
+
 	return (
 		<View style={styles.mainContainer}>
 			<View style={styles.formContainer}>
@@ -55,6 +85,7 @@ const FormScreen = () => {
 					isLogin={isLogin}
 					onSubmit={submitHandler}
 					getValues={getValues}
+					handlerChange={handlerChange}
 				/>
 			</View>
 			<View style={styles.buttonContainer}>
@@ -65,12 +96,21 @@ const FormScreen = () => {
 				>
 					Registrar
 				</Button>
-				<Button
-					onPress={cancelHandler}
-					btnStyles={styles.btnbtnStylesCancel}
-				>
-					Cancelar
-				</Button>
+				<View style={styles.cancelContainer}>
+					<Button
+						onPress={cancelHandler}
+						btnStyles={styles.btnbtnStylesCancel}
+					>
+						Cancelar
+					</Button>
+					<Button
+						onPress={refreshHandler}
+						btnStyles={styles.btnbtnStylesClean}
+						textStyles={styles.textBtnCancelStyle}
+					>
+						Limpar
+					</Button>
+				</View>
 			</View>
 		</View>
 	);
@@ -79,6 +119,10 @@ const FormScreen = () => {
 export default FormScreen;
 
 const styles = StyleSheet.create({
+	cancelContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between"
+	},
 	formContainer: {
 		width: "90%"
 	},
@@ -86,12 +130,21 @@ const styles = StyleSheet.create({
 		backgroundColor: "green"
 	},
 	btnbtnStylesCancel: {
-		backgroundColor: "grey"
+		backgroundColor: "grey",
+		width: "48%"
+	},
+	btnbtnStylesClean: {
+		backgroundColor: Colors.yellow[300],
+		width: "48%",
+		opacity: 0.6
+	},
+	textBtnCancelStyle: {
+		color: "grey"
 	},
 	buttonContainer: {
 		width: "90%",
 		margin: 20,
-		gap: 20,
+		gap: 10,
 		marginBottom: 70
 	},
 	mainContainer: {

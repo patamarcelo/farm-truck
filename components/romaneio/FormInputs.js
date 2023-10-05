@@ -105,7 +105,7 @@ const items2 = [
 	}
 ];
 
-function FormInputs({ isLogin, onSubmit, control, errors, getValues }) {
+function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
 
@@ -175,7 +175,10 @@ function FormInputs({ isLogin, onSubmit, control, errors, getValues }) {
 					name="fazenda"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<RNPickerSelect
-							onValueChange={onChange}
+							onValueChange={(e) => {
+								handlerChange(e, "fazenda");
+								onChange(e);
+							}}
 							placeholder={{ label: "Selecione uma fazenda" }}
 							items={items}
 							value={value}
@@ -210,7 +213,10 @@ function FormInputs({ isLogin, onSubmit, control, errors, getValues }) {
 								ref={(component) => {
 									this.multiSelect = component;
 								}}
-								onSelectedItemsChange={onChange}
+								onSelectedItemsChange={(e) => {
+									handlerChange(e, "parcelas");
+									onChange(e);
+								}}
 								selectedItems={value}
 								selectText="Selecione as Parcelas"
 								searchInputPlaceholderText="Procure as Parcelas"
@@ -257,8 +263,75 @@ function FormInputs({ isLogin, onSubmit, control, errors, getValues }) {
 							)}
 						</>
 					)}
-				></Controller>
+				/>
 			</View>
+			<View style={styles.computedValues}>
+				<Controller
+					control={control}
+					name="cultura"
+					render={({ field: { onChange, onBlur, value } }) => (
+						<Input
+							styleInput={{
+								borderWidth: errors.motorista && 1,
+								borderColor: errors.motorista && "#ff375b",
+								backgroundColor: Colors.primary100
+							}}
+							inputContainerProps={{ width: "48%" }}
+							label="Cultura"
+							onUpdateValue={onChange}
+							value={value}
+							// keyboardType="email-address"
+							onBlur={onBlur}
+							inputStyles={styles.inputStyles}
+							placeholder="Cultura"
+							disabled={true}
+						/>
+					)}
+				/>
+				<Controller
+					control={control}
+					name="variedade"
+					render={({ field: { onChange, onBlur, value } }) => (
+						<Input
+							styleInput={{
+								borderWidth: errors.motorista && 1,
+								borderColor: errors.motorista && "#ff375b",
+								backgroundColor: Colors.primary100
+							}}
+							inputContainerProps={{ width: "48%" }}
+							label="Variedade"
+							onUpdateValue={onChange}
+							value={value}
+							// keyboardType="email-address"
+							onBlur={onBlur}
+							inputStyles={styles.inputStyles}
+							placeholder="Variedade"
+							disabled={true}
+						/>
+					)}
+				/>
+			</View>
+			<Controller
+				control={control}
+				name="observacao"
+				render={({ field: { onChange, onBlur, value } }) => (
+					<Input
+						styleInput={{
+							borderWidth: errors.motorista && 1,
+							borderColor: errors.motorista && "#ff375b",
+							height: 140
+						}}
+						label="Observação"
+						onUpdateValue={onChange}
+						value={value}
+						// keyboardType="email-address"
+						onBlur={onBlur}
+						inputStyles={styles.inputStyles}
+						placeholder="Observação"
+						multilne={true}
+					/>
+				)}
+			/>
 		</View>
 	);
 }
@@ -266,6 +339,14 @@ function FormInputs({ isLogin, onSubmit, control, errors, getValues }) {
 export default FormInputs;
 
 const styles = StyleSheet.create({
+	inputContainerProps: {
+		with: "50%"
+	},
+	computedValues: {
+		flexDirection: "row",
+		// backgroundColor: "red",
+		justifyContent: "space-between"
+	},
 	errorStyle: {
 		borderWidth: 1,
 		borderColor: "#ff375b"
