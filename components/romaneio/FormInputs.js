@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import Button from "../ui/Button";
@@ -13,104 +13,75 @@ import { Ionicons } from "@expo/vector-icons";
 
 import MultiSelect from "react-native-multiple-select";
 
-const items = [
-	{ label: "Football", value: "football" },
-	{ label: "Baseball", value: "baseball" },
-	{ label: "Hockey", value: "hockey" }
-];
-const items2 = [
-	{
-		id: "92iijs7yta",
-		name: "Ondo"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "a0s0a8ssbsd",
-		name: "Ogun"
-	},
-	{
-		id: "16hbajsabsd",
-		name: "Calabar"
-	},
-	{
-		id: "nahs75a5sg",
-		name: "Lagos"
-	},
-	{
-		id: "667atsas",
-		name: "Maiduguri"
-	},
-	{
-		id: "hsyasajs",
-		name: "Anambra"
-	},
-	{
-		id: "djsjudksjd",
-		name: "Benue"
-	},
-	{
-		id: "sdhyaysdj",
-		name: "Kaduna"
-	},
-	{
-		id: "suudydjsjd",
-		name: "Abuja"
-	}
-];
+const customData = require("../../store/parcelas.json");
 
-function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
+function FormInputs({
+	isLogin,
+	onSubmit,
+	control,
+	errors,
+	handlerChange,
+	selectedFarm,
+	setValue
+}) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
+	const [filteredFarms, setFilteredFarms] = useState([]);
+	const [filteredParcelasFarmObj, setfilteredParcelasFarmObj] = useState([]);
+	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
+
+	useLayoutEffect(() => {
+		console.log("start");
+		const filteredArr = customData.resumo_safra.map((data) => {
+			return data.talhao__fazenda__nome;
+		});
+		const onlyFarms = [...new Set([...filteredArr])];
+		const onlyFarsObj = onlyFarms.map((data) => {
+			return { label: data, value: data };
+		});
+		setFilteredFarms(onlyFarsObj);
+	}, []);
+
+	useEffect(() => {
+		const filInputSelect = filteredParcelasFarmObj.filter((data) =>
+			filteInputparcelas.includes(data.parcela)
+		);
+		console.log(filInputSelect);
+		const onlyVars = filInputSelect.map((data) => data.variedade);
+		const onlyCult = filInputSelect.map((data) => data.cultura);
+		setValue("variedade", onlyVars[0]);
+		setValue("cultura", onlyCult[0]);
+	}, [filteInputparcelas]);
+
+	useEffect(() => {
+		if (selectedFarm) {
+			const selectedData = customData.dados[selectedFarm];
+			const filteredArrParcelas = Object.keys(selectedData);
+			if (filteredArrParcelas) {
+				const parcelasObj = filteredArrParcelas.map((data, i) => {
+					return { id: data, name: data };
+				});
+				setParcelasSelected(parcelasObj);
+			}
+			let finalArr = [];
+			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
+				const obj = {
+					parcela: data,
+					ciclo: selectedData[data].ciclo,
+					cultura: selectedData[data].cultura,
+					variedade: selectedData[data].variedade,
+					colheita: selectedData[data].finalizado_colheita,
+					safra: selectedData[data].safra,
+					ciclo: selectedData[data].ciclo
+				};
+				finalArr.push(obj);
+			});
+			setfilteredParcelasFarmObj(finalArr);
+		}
+	}, [selectedFarm]);
 
 	const onSelectedItemsChange = (items) => {
-		console.log(items);
+		console.log("farm", items);
 		setSelectedItems(items);
 	};
 	return (
@@ -125,12 +96,18 @@ function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
 							borderColor: errors.placa && "#ff375b"
 						}}
 						label="Placa"
-						onUpdateValue={onChange}
+						onUpdateValue={(e) => {
+							handlerChange(e, "placa");
+							onChange(
+								e.replace(/[^a-z0-9]/gi, "").toUpperCase()
+							);
+						}}
 						value={value}
 						// keyboardType="email-address"
 						onBlur={onBlur}
 						inputStyles={styles.inputStyles}
 						placeholder="Placa"
+						maxLength={7}
 					/>
 				)}
 			/>
@@ -147,7 +124,10 @@ function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
 							borderColor: errors.motorista && "#ff375b"
 						}}
 						label="Motorista"
-						onUpdateValue={onChange}
+						onUpdateValue={(e) => {
+							handlerChange(e, "motorista");
+							onChange(e.toUpperCase());
+						}}
 						value={value}
 						// keyboardType="email-address"
 						onBlur={onBlur}
@@ -180,7 +160,7 @@ function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
 								onChange(e);
 							}}
 							placeholder={{ label: "Selecione uma fazenda" }}
-							items={items}
+							items={filteredFarms}
 							value={value}
 							style={pickerSelectStyles}
 							Icon={({ color }) => {
@@ -208,13 +188,14 @@ function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
 						<>
 							<MultiSelect
 								hideTags
-								items={items2}
+								items={parcelasSelected}
 								uniqueKey="id"
 								ref={(component) => {
 									this.multiSelect = component;
 								}}
 								onSelectedItemsChange={(e) => {
 									handlerChange(e, "parcelas");
+									setFilteInputparcelas(e);
 									onChange(e);
 								}}
 								selectedItems={value}
@@ -272,8 +253,6 @@ function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
 							styleInput={{
-								borderWidth: errors.motorista && 1,
-								borderColor: errors.motorista && "#ff375b",
 								backgroundColor: Colors.primary100
 							}}
 							inputContainerProps={{ width: "48%" }}
@@ -294,8 +273,6 @@ function FormInputs({ isLogin, onSubmit, control, errors, handlerChange }) {
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
 							styleInput={{
-								borderWidth: errors.motorista && 1,
-								borderColor: errors.motorista && "#ff375b",
 								backgroundColor: Colors.primary100
 							}}
 							inputContainerProps={{ width: "48%" }}

@@ -24,7 +24,8 @@ const schema = yup.object({
 	placa: yup
 		.string()
 		.required("Informe a placa")
-		.min(7, "placa contem 7 digitos"),
+		.min(7, "placa contem 7 digitos")
+		.max(7),
 	motorista: yup.string().required("Digite o nome do Motorista"),
 	fazenda: yup.string().required("Selecione uma fazenda"),
 	parcelas: yup.array().min(1, "Selecione pelo menos 1 parcela")
@@ -37,6 +38,7 @@ const FormScreen = ({ navigation }) => {
 
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
+	const [selectedFarm, setSelectedFarm] = useState(null);
 
 	const {
 		control,
@@ -53,22 +55,30 @@ const FormScreen = ({ navigation }) => {
 		}
 	});
 
-	getValues();
 	const submitHandler = (data) => {
 		console.log("salvar valores");
 		console.log(data);
 	};
 
 	const cancelHandler = () => {
-		console.log("limpar o formulário");
+		// console.log("limpar o formulário");
 		navigation.navigate("Welcome");
 	};
 
 	const handlerChange = (e, name) => {
-		console.log("ouvindo a mudança", e, name);
+		// console.log("ouvindo a mudança", e, name);
+		if (name === "placa") {
+			console.log(name, e);
+		}
 		if (name === "parcelas") {
-			setValue("cultura", "Soja");
-			setValue("variedade", "Olimpo");
+			if (e.length === 0) {
+				setValue("cultura", "");
+				setValue("variedade", "");
+			}
+		}
+		if (name === "fazenda") {
+			// console.log("fazenda", e);
+			setSelectedFarm(e);
 		}
 	};
 
@@ -96,6 +106,8 @@ const FormScreen = ({ navigation }) => {
 						onSubmit={submitHandler}
 						getValues={getValues}
 						handlerChange={handlerChange}
+						selectedFarm={selectedFarm}
+						setValue={setValue}
 					/>
 				</View>
 				<View style={styles.buttonContainer}>

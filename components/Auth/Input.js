@@ -16,7 +16,8 @@ function Input({
 	disabled,
 	multilne = false,
 	numberOfLines = 2,
-	inputContainerProps
+	inputContainerProps,
+	maxLength
 }) {
 	return (
 		<View style={[styles.inputContainer, inputContainerProps]}>
@@ -41,6 +42,7 @@ function Input({
 				selectTextOnFocus={!disabled}
 				multiline={multilne}
 				numberOfLines={numberOfLines}
+				maxLength={maxLength}
 			/>
 		</View>
 	);
