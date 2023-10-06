@@ -145,9 +145,9 @@ function HomeScrennStack({ route, navigation }) {
 				/>
 			)
 		});
-	}, []);
+	}, [navigation]);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (routeName === "Form") {
 			// setRouteName("Form");
 			context.defineRouteName(routeName);
@@ -161,10 +161,19 @@ function HomeScrennStack({ route, navigation }) {
 						onPress={handleBack}
 					/>
 				),
-				headerRight: false
+				headerRight: ({ tintColor }) => (
+					<IconButton
+						icon="home"
+						color={tintColor}
+						size={24}
+						// onPress={context.logout}
+						// onPress={refreshHandler}
+					/>
+				)
 			});
 		} else {
 			navigation.setOptions({
+				headerShown: true,
 				tabBarStyle: { display: "flex" },
 				tabBarStyle: {
 					backgroundColor: Colors.primary800,
@@ -195,7 +204,7 @@ function HomeScrennStack({ route, navigation }) {
 				)
 			});
 		}
-	}, [routeName]);
+	}, [routeName, navigation]);
 
 	return (
 		<Stack.Navigator

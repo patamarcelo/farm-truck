@@ -1,5 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+
+import { KeyboardAvoidingView } from "react-native";
+import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
+import { Platform } from "react-native";
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Button from "../ui/Button";
 import FormInputs from "./FormInputs";
@@ -24,18 +30,13 @@ const schema = yup.object({
 	parcelas: yup.array().min(1, "Selecione pelo menos 1 parcela")
 });
 
-const FormScreen = () => {
-	const navigation = useNavigation();
+const FormScreen = ({ navigation }) => {
+	const height = useHeaderHeight();
+	// const navigation = useNavigation();
 	const navigationContext = useContext(NavigationContext);
 
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
-
-	useEffect(() => {
-		navigation?.setOptions({
-			title: "Create Contact"
-		});
-	}, []);
 
 	const {
 		control,
@@ -77,42 +78,54 @@ const FormScreen = () => {
 	};
 
 	return (
-		<View style={styles.mainContainer}>
-			<View style={styles.formContainer}>
-				<FormInputs
-					errors={errors}
-					control={control}
-					isLogin={isLogin}
-					onSubmit={submitHandler}
-					getValues={getValues}
-					handlerChange={handlerChange}
-				/>
-			</View>
-			<View style={styles.buttonContainer}>
-				<Button
-					disabled={Object.keys(errors).length === 0 ? false : true}
-					onPress={handleSubmit(submitHandler)}
-					btnStyles={styles.btnbtnStylesRegister}
-				>
-					Registrar
-				</Button>
-				<View style={styles.cancelContainer}>
+		// <KeyboardAvoidingView
+		// 	style={{ flex: 1 }}
+		// 	behavior={Platform.OS === "ios" ? "padding" : null}
+		// 	enabled
+		// 	keyboardVerticalOffset={height}
+		// 	// keyboardVerticalOffset={Platform.select({ ios: 80, android: 500 })}
+		// >
+		// 	<ScrollView>
+		<KeyboardAwareScrollView>
+			<View style={styles.mainContainer}>
+				<View style={styles.formContainer}>
+					<FormInputs
+						errors={errors}
+						control={control}
+						isLogin={isLogin}
+						onSubmit={submitHandler}
+						getValues={getValues}
+						handlerChange={handlerChange}
+					/>
+				</View>
+				<View style={styles.buttonContainer}>
 					<Button
-						onPress={cancelHandler}
-						btnStyles={styles.btnbtnStylesCancel}
+						disabled={
+							Object.keys(errors).length === 0 ? false : true
+						}
+						onPress={handleSubmit(submitHandler)}
+						btnStyles={styles.btnbtnStylesRegister}
 					>
-						Cancelar
+						Registrar
 					</Button>
-					<Button
-						onPress={refreshHandler}
-						btnStyles={styles.btnbtnStylesClean}
-						textStyles={styles.textBtnCancelStyle}
-					>
-						Limpar
-					</Button>
+					<View style={styles.cancelContainer}>
+						<Button
+							onPress={cancelHandler}
+							btnStyles={styles.btnbtnStylesCancel}
+						>
+							Cancelar
+						</Button>
+						<Button
+							onPress={refreshHandler}
+							btnStyles={styles.btnbtnStylesClean}
+							textStyles={styles.textBtnCancelStyle}
+						>
+							Limpar
+						</Button>
+					</View>
 				</View>
 			</View>
-		</View>
+		</KeyboardAwareScrollView>
 	);
 };
 
