@@ -71,7 +71,7 @@ function FormInputs({
 		console.log(filInputSelect);
 		const onlyVars = filInputSelect.map((data) => data.variedade);
 		const onlyCult = filInputSelect.map((data) => data.cultura);
-		setValue("variedade", onlyVars[0]);
+		setValue("mercadoria", onlyVars[0]);
 		setValue("cultura", onlyCult[0]);
 	}, [filteInputparcelas]);
 
@@ -169,12 +169,12 @@ function FormInputs({
 				style={[
 					styles.input,
 					styles.inputContainer,
-					errors.fazenda && styles.errorStyle
+					errors.fazendaOrigem && styles.errorStyle
 				]}
 			>
 				<Controller
 					control={control}
-					name="fazenda"
+					name="fazendaOrigem"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<RNPickerSelect
 							onValueChange={(e) => {
@@ -198,10 +198,12 @@ function FormInputs({
 					)}
 				/>
 			</View>
-			{errors.fazenda && (
-				<Text style={styles.labelError}>{errors.fazenda?.message}</Text>
+			{errors.fazendaOrigem && (
+				<Text style={styles.labelError}>
+					{errors.fazendaOrigem?.message}
+				</Text>
 			)}
-			{selectedFarm && (
+			{selectedFarm && parcelasSelected.length > 0 && (
 				<>
 					<Text style={styles.labelPicker}>
 						Selecione as parcelas
@@ -209,7 +211,7 @@ function FormInputs({
 					<FadeInView style={styles.pickerMult}>
 						<Controller
 							control={control}
-							name="parcelas"
+							name="parcelasNovas"
 							render={({
 								field: { onChange, onBlur, value }
 							}) => (
@@ -248,9 +250,11 @@ function FormInputs({
 										submitButtonText="Confirmar"
 										styleDropdownMenuSubsection={{
 											borderRadius: 4,
-											borderWidth: errors.parcelas && 1,
+											borderWidth:
+												errors.parcelasNovas && 1,
 											borderColor:
-												errors.parcelas && "#ff375b"
+												errors.parcelasNovas &&
+												"#ff375b"
 										}}
 										styleTextDropdown={{
 											paddingHorizontal: 8
@@ -271,13 +275,14 @@ function FormInputs({
 									/>
 									<View>
 										{value &&
+											this.multiSelect &&
 											this.multiSelect.getSelectedItemsExt(
 												value
 											)}
 									</View>
-									{errors.parcelas && (
+									{errors.parcelasNovas && (
 										<Text style={styles.labelError}>
-											{errors.parcelas?.message}
+											{errors.parcelasNovas?.message}
 										</Text>
 									)}
 								</>
@@ -309,7 +314,7 @@ function FormInputs({
 				/>
 				<Controller
 					control={control}
-					name="variedade"
+					name="mercadoria"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
 							styleInput={{
@@ -330,7 +335,7 @@ function FormInputs({
 			</View>
 			<Controller
 				control={control}
-				name="observacao"
+				name="observacoes"
 				render={({ field: { onChange, onBlur, value } }) => (
 					<Input
 						styleInput={{

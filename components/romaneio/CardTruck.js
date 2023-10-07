@@ -12,7 +12,7 @@ const width = Dimensions.get("window").width; //full width
 const CardRomaneio = (props) => {
 	const { data } = props;
 	const navigation = useNavigation();
-	console.log(data);
+	// console.log(data);
 
 	const handleDataTruck = () => {
 		navigation.navigate("ModalRomaneio", { data: data });
@@ -33,11 +33,24 @@ const CardRomaneio = (props) => {
 						size={42}
 						color={Colors.yellow[600]}
 					/>
-					<Text style={styles.textNumber}>Nº 12</Text>
+					<Text style={styles.textNumber}>
+						Nº {data.relatorioColheita}
+					</Text>
 				</View>
-				<View style={styles.dataContainer}>
-					<Text>DATA TRUCK</Text>
-					<Text>DATA TRUCK</Text>
+				<View style={styles.mainContainerData}>
+					<View>
+						<Text>{data.projeto}</Text>
+					</View>
+					<View style={styles.dataContainer}>
+						<View style={styles.dataIntraContainer}>
+							<Text>{data.motorista}</Text>
+							<Text>{data.placa}</Text>
+						</View>
+						<View style={styles.dataIntraContainer}>
+							<Text>{data.parcelasNovas.join(" - ")}</Text>
+							<Text>{data.mercadoria}</Text>
+						</View>
+					</View>
 				</View>
 			</Pressable>
 			{/* <Divider style={{ backgroundColor: "blue" }} /> */}
@@ -48,18 +61,29 @@ const CardRomaneio = (props) => {
 export default CardRomaneio;
 
 const styles = StyleSheet.create({
+	dataIntraContainer: {
+		gap: 10
+	},
+	mainContainerData: {
+		flex: 2,
+		justifyContent: "space-around",
+		alignItems: "center"
+	},
 	truckContainer: {
 		flex: 1
 	},
 	dataContainer: {
 		flex: 3,
+		alignItems: "center",
 		flexDirection: "row",
-		justifyContent: "space-between"
+		justifyContent: "space-between",
+		width: "100%"
 	},
 	rootContainer: {
+		paddingVertical: 5,
 		flexDirection: "row",
 		width: width,
-		height: 90,
+		height: 105,
 		justifyContent: "space-between",
 		alignItems: "center",
 		paddingHorizontal: 15,
@@ -68,7 +92,7 @@ const styles = StyleSheet.create({
 		// borderWidth: 1,
 
 		shadowColor: "black",
-		shadowOpacity: 0.75,
+		shadowOpacity: 1,
 		shadowOffset: { width: 1, height: 1 },
 		shadowRadius: 2,
 

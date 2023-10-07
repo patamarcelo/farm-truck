@@ -20,6 +20,14 @@ import * as yup from "yup";
 import IconButton from "../ui/IconButton";
 import { NavigationContext } from "@react-navigation/native";
 
+import { INITIAL } from "../../store/initialForm";
+
+import { useDispatch, useSelector } from "react-redux";
+import { addRomaneio } from "../../store/redux/romaneios";
+import { romaneioSelector } from "../../store/redux/selector";
+
+import LoadingOverlay from "../../components/ui/LoadingOverlay";
+
 const schema = yup.object({
 	placa: yup
 		.string()
@@ -27,14 +35,17 @@ const schema = yup.object({
 		.min(7, "placa contem 7 digitos")
 		.max(7),
 	motorista: yup.string().required("Digite o nome do Motorista"),
-	fazenda: yup.string().required("Selecione uma fazenda"),
-	parcelas: yup.array().min(1, "Selecione pelo menos 1 parcela")
+	fazendaOrigem: yup.string().required("Selecione uma fazenda"),
+	parcelasNovas: yup.array().min(1, "Selecione pelo menos 1 parcela")
 });
 
 const FormScreen = ({ navigation }) => {
+	const romaneioData = useSelector(romaneioSelector);
+	const dispatch = useDispatch();
 	const height = useHeaderHeight();
 	// const navigation = useNavigation();
 	const navigationContext = useContext(NavigationContext);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -52,14 +63,39 @@ const FormScreen = ({ navigation }) => {
 		resolver: yupResolver(schema),
 		defaultValues: {
 			placa: "",
-			fazenda: "Selecione uma fazenda"
+			motorista: "",
+			fazendaOrigem: "Selecione uma fazenda",
+			parcelasNovas: [],
+			cultura: "",
+			mercadoria: "",
+			observacoes: ""
 		}
 	});
 
 	const submitHandler = (data) => {
+		const numbers = romaneioData.map((data) => data.relatorioColheita);
+		const romNum = Math.max.apply(Math, numbers);
 		console.log("salvar valores");
-		console.log(data);
-		reset();
+		const newData = {
+			...INITIAL,
+			...data,
+			//dummy data below
+			id: Date.now(),
+			relatorioColheita: romNum + 1
+		};
+		try {
+			dispatch(addRomaneio(newData));
+			setIsLoading(true);
+			reset();
+			navigation.navigate("Welcome");
+		} catch (err) {
+			console.log("erro ao salvar os dados", err);
+		} finally {
+			console.log("finally statement");
+			setTimeout(() => {
+				setIsLoading(false);
+			}, 500);
+		}
 	};
 
 	const cancelHandler = () => {
@@ -72,16 +108,16 @@ const FormScreen = ({ navigation }) => {
 		if (name === "placa") {
 			console.log(name, e);
 		}
-		if (name === "parcelas") {
+		if (name === "parcelasNovas") {
 			if (e.length === 0) {
 				setValue("cultura", "");
-				setValue("variedade", "");
+				setValue("mercadoria", "");
 			}
 		}
 		if (name === "fazenda") {
 			// console.log("fazenda", e);
 			console.log("mudança de fazernda");
-			resetField("parcelas");
+			resetField("parcelasNovas");
 			setSelectedFarm(e);
 		}
 	};
@@ -90,6 +126,10 @@ const FormScreen = ({ navigation }) => {
 		reset();
 		console.log("refresh ");
 	};
+
+	if (isLoading) {
+		return <LoadingOverlay message={"Salvando..."} />;
+	}
 
 	return (
 		// <KeyboardAvoidingView
@@ -100,7 +140,7 @@ const FormScreen = ({ navigation }) => {
 		// 	// keyboardVerticalOffset={Platform.select({ ios: 80, android: 500 })}
 		// >
 		// 	<ScrollView>
-		<KeyboardAwareScrollView>
+		<KeyboardAwareScrollView style={styles.mainRootContainer}>
 			<View style={styles.mainContainer}>
 				<View style={styles.formContainer}>
 					<FormInputs
@@ -173,15 +213,18 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		width: "90%",
 		margin: 20,
-		gap: 10,
-		marginBottom: 70
+		gap: 10
 	},
 	mainContainer: {
 		flex: 1,
 		justifyContent: "space-between",
-		alignItems: "center"
+		alignItems: "center",
+		height: "100%"
 	},
 	text: {
 		color: "white"
+	},
+	mainRootContainer: {
+		flex: 1
 	}
 });

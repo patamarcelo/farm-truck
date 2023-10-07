@@ -33,10 +33,17 @@ import ModalRomaneioScreen from "./components/romaneio/ModalRomaneio";
 
 import { createNavigationContainerRef } from "@react-navigation/native";
 
+import { Provider } from "react-redux";
+import { store } from "./store/redux/store";
+
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
+import { useDispatch } from "react-redux";
+import { resetData } from "./store/redux/romaneios";
+
+import { View } from "react-native";
 const width = Dimensions.get("window").width; //full width
 
 const Stack = createNativeStackNavigator();
@@ -111,9 +118,11 @@ function HomeScrennStack({ route, navigation }) {
 	const routeName = getFocusedRouteNameFromRoute(route);
 	console.log("routeName", routeName);
 	const context = useContext(AuthContext);
+	const dispatch = useDispatch();
 
 	const handleRefresh = () => {
 		console.log("refresh data");
+		dispatch(resetData());
 	};
 
 	const addRomaneioandler = () => {
@@ -139,24 +148,14 @@ function HomeScrennStack({ route, navigation }) {
 					onPress={handleRefresh}
 				/>
 			),
-			headerRight: ({ tintColor }) => (
-				<IconButton
-					icon="add"
-					color={tintColor}
-					size={24}
-					// onPress={context.logout}
-					onPress={addRomaneioandler}
-				/>
-			)
+			headerRight: false
 		});
 	}, [navigation]);
 
 	useLayoutEffect(() => {
 		if (routeName === "Form") {
-			// setRouteName("Form");
 			context.defineRouteName(routeName);
 			navigation.setOptions({
-				tabBarStyle: { display: "none" },
 				headerLeft: ({ tintColor }) => (
 					<IconButton
 						icon="arrow-back-sharp"
@@ -164,16 +163,16 @@ function HomeScrennStack({ route, navigation }) {
 						size={24}
 						onPress={handleBack}
 					/>
-				),
-				headerRight: ({ tintColor }) => (
-					<IconButton
-						icon="home"
-						color={tintColor}
-						size={24}
-						// onPress={context.logout}
-						// onPress={refreshHandler}
-					/>
 				)
+				// headerRight: ({ tintColor }) => (
+				// 	<IconButton
+				// 		icon="home"
+				// 		color={tintColor}
+				// 		size={24}
+				// 		// onPress={context.logout}
+				// 		// onPress={refreshHandler}
+				// 	/>
+				// )
 			});
 		} else {
 			navigation.setOptions({
@@ -195,15 +194,6 @@ function HomeScrennStack({ route, navigation }) {
 						color={tintColor}
 						size={24}
 						onPress={handleRefresh}
-					/>
-				),
-				headerRight: ({ tintColor }) => (
-					<IconButton
-						icon="add"
-						color={tintColor}
-						size={24}
-						// onPress={context.logout}
-						onPress={addRomaneioandler}
 					/>
 				)
 			});
@@ -228,7 +218,7 @@ function HomeScrennStack({ route, navigation }) {
 				name="Form"
 				component={FormScreen}
 				options={{
-					// presentation: "modal",
+					presentation: "modal",
 					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
@@ -248,64 +238,77 @@ function HomeScrennStack({ route, navigation }) {
 function AuthenticatedStack(props) {
 	const { context } = props;
 	const navigation = useNavigation();
+	const [routeName, setouteName] = useState(true);
+	const currName = navigation.getCurrentRoute();
+
+	useEffect(() => {
+		console.log(currName);
+		if (navigation.getCurrentRoute().name === "Form") {
+			setouteName(false);
+		} else {
+			setouteName(true);
+		}
+	}, [currName]);
 
 	return (
-		<Tab.Navigator
-			initialRouteName="inicio"
-			screenOptions={{
-				headerStyle: { backgroundColor: Colors.primary500 },
-				headerTintColor: "white",
-				// headerStyle: {
-				// 	borderBottomColor: Colors.primary500
-				// },
-				tabBarActiveTintColor: "white",
-				tabBarStyle: {
-					backgroundColor: Colors.primary800,
-					borderTopColor: "transparent"
-				},
-				// contentStyle: { backgroundColor: Colors.primary500 },
-				initialRouteName: "inicio"
-			}}
-		>
-			<Tab.Screen
-				name="inicio"
-				component={HomeScrennStack}
-				options={({ route }) => ({
-					title: "",
-					tabBarLabel: "Home",
-					headerShadowVisible: false, // applied here
-					// title: "Início",
-					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="home" color={color} size={size} />
-					)
-				})}
-			/>
-			<Tab.Screen
-				name="RomaneiosTap"
-				component={RomaneioStack}
-				options={{
-					title: "Romaneios",
-					headerShown: false,
-					tabBarLabel: "Romaneios",
-					// tabBarStyle: { display: "none" },
-					headerRight: ({ tintColor }) => (
-						<IconButton
-							icon="exit"
-							color={tintColor}
-							size={24}
-							onPress={() => navigation.navigate("Welcome")}
-						/>
-					),
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons
-							name="dump-truck"
-							size={size}
-							color={color}
-						/>
-					)
+		<>
+			<Tab.Navigator
+				initialRouteName="inicio"
+				screenOptions={{
+					headerStyle: { backgroundColor: Colors.primary500 },
+					headerTintColor: "white",
+					tabBarStyle: { display: "none" },
+					// headerStyle: {
+					// 	borderBottomColor: Colors.primary500
+					// },
+					tabBarActiveTintColor: "white",
+					tabBarStyle: {
+						backgroundColor: Colors.primary800,
+						borderTopColor: "transparent"
+					},
+					// contentStyle: { backgroundColor: Colors.primary500 },
+					initialRouteName: "inicio"
 				}}
-			/>
-			{/* <Tab.Screen
+			>
+				<Tab.Screen
+					name="inicio"
+					component={HomeScrennStack}
+					options={({ route }) => ({
+						title: "",
+						tabBarLabel: "Home",
+						headerShadowVisible: false, // applied here
+						// title: "Início",
+						tabBarIcon: ({ color, size }) => (
+							<Ionicons name="home" color={color} size={size} />
+						)
+					})}
+				/>
+				<Tab.Screen
+					name="RomaneiosTap"
+					component={RomaneioStack}
+					options={{
+						title: "Romaneios",
+						headerShown: false,
+						tabBarLabel: "Romaneios",
+						// tabBarStyle: { display: "none" },
+						headerRight: ({ tintColor }) => (
+							<IconButton
+								icon="exit"
+								color={tintColor}
+								size={24}
+								onPress={() => navigation.navigate("Welcome")}
+							/>
+						),
+						tabBarIcon: ({ color, size }) => (
+							<MaterialCommunityIcons
+								name="dump-truck"
+								size={size}
+								color={color}
+							/>
+						)
+					}}
+				/>
+				{/* <Tab.Screen
 				name="Usuário"
 				component={UserScreen}
 				options={{
@@ -326,7 +329,19 @@ function AuthenticatedStack(props) {
 					)
 				}}
 			/> */}
-		</Tab.Navigator>
+			</Tab.Navigator>
+
+			<View style={[styles.buttonContainerResum]}>
+				<IconButton
+					styleContainer={styles.addButton}
+					icon="add"
+					color="white"
+					size={36}
+					onPress={() => navigation.navigate("Form")}
+					styleIcon={styles.addIcon}
+				/>
+			</View>
+		</>
 	);
 }
 
@@ -372,7 +387,9 @@ export default function App() {
 		<>
 			<StatusBar style="light" />
 			<AuthContextprovider>
-				<Root />
+				<Provider store={store}>
+					<Root />
+				</Provider>
 			</AuthContextprovider>
 		</>
 	);
@@ -381,5 +398,39 @@ export default function App() {
 const styles = StyleSheet.create({
 	rootContainer: {
 		width: width
+	},
+	rootTest: {
+		flex: 1
+	},
+	addButton: {
+		padding: 0,
+		margin: 0,
+		justifyContent: "center",
+		alignContent: "center",
+		backgroundColor: "green",
+		width: 70,
+		height: 70,
+		borderRadius: 50
+
+		// elevation: 4,
+
+		// shadowColor: "white",
+		// shadowOpacity: 0.6,
+		// shadowOffset: { width: 0, height: 2 },
+		// shadowRadius: 8
+	},
+	buttonContainerResum: {
+		position: "fixed",
+		bottom: 77,
+		right: 0,
+		height: 0,
+		justifyContent: "center",
+		alignItems: "center",
+		paddingHorizontal: 10,
+		alignSelf: "center",
+		borderRadius: 50
+	},
+	addIcon: {
+		textAlign: "center"
 	}
 });

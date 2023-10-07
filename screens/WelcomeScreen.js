@@ -1,22 +1,22 @@
-import {
-	FlatList,
-	StyleSheet,
-	Text,
-	View,
-	ScrollView,
-	SafeAreaView
-} from "react-native";
+import { FlatList, StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 import CardRomaneio from "../components/romaneio/CardTruck";
-import data from "../utils/dummy-data";
 import { Colors } from "../constants/styles";
-import { Divider } from "react-native-elements";
+import { useSelector, useDispatch } from "react-redux";
+import { romaneioSelector } from "../store/redux/selector";
 
 import { Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const width = Dimensions.get("window").width; //full width
 
 function WelcomeScreen() {
+	const data = useSelector(romaneioSelector);
+	console.log(data);
+	const navigation = useNavigation();
+	const tabBarHeight = useBottomTabBarHeight();
+
 	const renderRomaneioList = (itemData) => {
 		return <CardRomaneio data={itemData.item} />;
 	};
@@ -72,15 +72,14 @@ const styles = StyleSheet.create({
 		fontSize: 18
 	},
 	roundList: {
-		flex: 3,
+		flex: 2,
 		backgroundColor: Colors.primary500
 	},
 	listContainer: {
 		overflow: "hidden",
 		borderTopLeftRadius: 18,
 		borderTopRightRadius: 18,
-		backgroundColor: Colors.background100,
-		padding: 2
+		backgroundColor: "#03396B"
 	},
 	title: {
 		fontSize: 20,
