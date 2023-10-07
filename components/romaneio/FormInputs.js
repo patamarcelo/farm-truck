@@ -1,5 +1,5 @@
-import { useState, useEffect, useLayoutEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { StyleSheet, View, Text, Animated } from "react-native";
 
 import Button from "../ui/Button";
 import Input from "../Auth/Input";
@@ -14,6 +14,28 @@ import { Ionicons } from "@expo/vector-icons";
 import MultiSelect from "react-native-multiple-select";
 
 const customData = require("../../store/parcelas.json");
+
+const FadeInView = (props) => {
+	const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
+	useEffect(() => {
+		Animated.timing(fadeAnim, {
+			toValue: 1,
+			duration: 500,
+			useNativeDriver: true
+		}).start();
+	}, [fadeAnim]);
+
+	return (
+		<Animated.View // Special animatable View
+			style={{
+				...props.style,
+				opacity: fadeAnim // Bind opacity to animated value
+			}}
+		>
+			{props.children}
+		</Animated.View>
+	);
+};
 
 function FormInputs({
 	isLogin,
@@ -179,73 +201,91 @@ function FormInputs({
 			{errors.fazenda && (
 				<Text style={styles.labelError}>{errors.fazenda?.message}</Text>
 			)}
-			<Text style={styles.labelPicker}>Selecione as parcelas</Text>
-			<View style={styles.pickerMult}>
-				<Controller
-					control={control}
-					name="parcelas"
-					render={({ field: { onChange, onBlur, value } }) => (
-						<>
-							<MultiSelect
-								hideTags
-								items={parcelasSelected}
-								uniqueKey="id"
-								ref={(component) => {
-									this.multiSelect = component;
-								}}
-								onSelectedItemsChange={(e) => {
-									handlerChange(e, "parcelas");
-									setFilteInputparcelas(e);
-									onChange(e);
-								}}
-								selectedItems={value}
-								selectText="Selecione as Parcelas"
-								searchInputPlaceholderText="Procure as Parcelas"
-								onChangeInput={(text) => console.log(text)}
-								// altFontFamily="ProximaNova-Light"
-								tagRemoveIconColor="#CCC"
-								tagBorderColor="white"
-								tagTextColor="white"
-								selectedItemTextColor="#CCC"
-								selectedItemIconColor="#CCC"
-								itemTextColor="#000"
-								displayKey="name"
-								searchInputStyle={{ color: "#CCC", padding: 8 }}
-								submitButtonColor="black"
-								submitButtonText="Confirmar"
-								styleDropdownMenuSubsection={{
-									borderRadius: 4,
-									borderWidth: errors.parcelas && 1,
-									borderColor: errors.parcelas && "#ff375b"
-								}}
-								styleTextDropdown={{ paddingHorizontal: 8 }}
-								styleTextDropdownSelected={{
-									paddingHorizontal: 8
-								}}
-								styleDropdownMenu={{ marginTop: 8 }}
-								styleIndicator={{ bottom: 5, left: 10 }}
-								tagContainerStyle={{
-									borderRadius: 8
-								}}
-								styleItemsContainer={
-									{
-										// maxHeightheight: "80%"
-									}
-								}
-							/>
-							<View>
-								{value &&
-									this.multiSelect.getSelectedItemsExt(value)}
-							</View>
-							{errors.parcelas && (
-								<Text style={styles.labelError}>
-									{errors.parcelas?.message}
-								</Text>
+			{selectedFarm && (
+				<>
+					<Text style={styles.labelPicker}>
+						Selecione as parcelas
+					</Text>
+					<FadeInView style={styles.pickerMult}>
+						<Controller
+							control={control}
+							name="parcelas"
+							render={({
+								field: { onChange, onBlur, value }
+							}) => (
+								<>
+									<MultiSelect
+										hideTags
+										items={parcelasSelected}
+										uniqueKey="id"
+										ref={(component) => {
+											this.multiSelect = component;
+										}}
+										onSelectedItemsChange={(e) => {
+											handlerChange(e, "parcelas");
+											setFilteInputparcelas(e);
+											onChange(e);
+										}}
+										selectedItems={value}
+										selectText="Selecione as Parcelas"
+										searchInputPlaceholderText="Procure as Parcelas"
+										onChangeInput={(text) =>
+											console.log(text)
+										}
+										// altFontFamily="ProximaNova-Light"
+										tagRemoveIconColor="#CCC"
+										tagBorderColor="white"
+										tagTextColor="white"
+										selectedItemTextColor="#CCC"
+										selectedItemIconColor="#CCC"
+										itemTextColor="#000"
+										displayKey="name"
+										searchInputStyle={{
+											color: "#CCC",
+											padding: 8
+										}}
+										submitButtonColor="black"
+										submitButtonText="Confirmar"
+										styleDropdownMenuSubsection={{
+											borderRadius: 4,
+											borderWidth: errors.parcelas && 1,
+											borderColor:
+												errors.parcelas && "#ff375b"
+										}}
+										styleTextDropdown={{
+											paddingHorizontal: 8
+										}}
+										styleTextDropdownSelected={{
+											paddingHorizontal: 8
+										}}
+										styleDropdownMenu={{ marginTop: 8 }}
+										styleIndicator={{ bottom: 5, left: 10 }}
+										tagContainerStyle={{
+											borderRadius: 8
+										}}
+										styleItemsContainer={
+											{
+												// maxHeightheight: "80%"
+											}
+										}
+									/>
+									<View>
+										{value &&
+											this.multiSelect.getSelectedItemsExt(
+												value
+											)}
+									</View>
+									{errors.parcelas && (
+										<Text style={styles.labelError}>
+											{errors.parcelas?.message}
+										</Text>
+									)}
+								</>
 							)}
-						</>
-					)}
-				/>
-			</View>
+						/>
+					</FadeInView>
+				</>
+			)}
 			<View style={styles.computedValues}>
 				<Controller
 					control={control}
@@ -294,8 +334,6 @@ function FormInputs({
 				render={({ field: { onChange, onBlur, value } }) => (
 					<Input
 						styleInput={{
-							borderWidth: errors.motorista && 1,
-							borderColor: errors.motorista && "#ff375b",
 							height: 140
 						}}
 						label="Observação"

@@ -46,6 +46,7 @@ const FormScreen = ({ navigation }) => {
 		getValues,
 		setValue,
 		reset,
+		resetField,
 		formState: { errors }
 	} = useForm({
 		resolver: yupResolver(schema),
@@ -58,6 +59,7 @@ const FormScreen = ({ navigation }) => {
 	const submitHandler = (data) => {
 		console.log("salvar valores");
 		console.log(data);
+		reset();
 	};
 
 	const cancelHandler = () => {
@@ -78,6 +80,8 @@ const FormScreen = ({ navigation }) => {
 		}
 		if (name === "fazenda") {
 			// console.log("fazenda", e);
+			console.log("mudança de fazernda");
+			resetField("parcelas");
 			setSelectedFarm(e);
 		}
 	};

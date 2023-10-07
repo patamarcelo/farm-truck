@@ -33,6 +33,10 @@ import ModalRomaneioScreen from "./components/romaneio/ModalRomaneio";
 
 import { createNavigationContainerRef } from "@react-navigation/native";
 
+import Entypo from "@expo/vector-icons/Entypo";
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
 const width = Dimensions.get("window").width; //full width
 
 const Stack = createNativeStackNavigator();
