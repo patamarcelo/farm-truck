@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 const width = Dimensions.get("window").width; //full width
 
 const CardRomaneio = (props) => {
-	const { data } = props;
+	const { data, styleContainer } = props;
 	const navigation = useNavigation();
 	// console.log(data);
 
@@ -23,6 +23,7 @@ const CardRomaneio = (props) => {
 			<Pressable
 				style={({ pressed }) => [
 					styles.rootContainer,
+					styleContainer,
 					pressed && styles.pressed
 				]}
 				onPress={handleDataTruck}

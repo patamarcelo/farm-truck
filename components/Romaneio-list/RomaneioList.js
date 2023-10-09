@@ -1,4 +1,4 @@
-import { FlatList, View } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { romaneioSelector } from "../../store/redux/selector";
 
@@ -6,7 +6,12 @@ import CardRomaneio from "../romaneio/CardTruck";
 import { useLayoutEffect, useState, useEffect } from "react";
 
 const renderRomaneioList = (itemData) => {
-	return <CardRomaneio data={itemData.item} />;
+	return (
+		<CardRomaneio
+			data={itemData.item}
+			styleContainer={styles.bannerContainer}
+		/>
+	);
 };
 
 const RomaneioList = ({ search }) => {
@@ -46,3 +51,11 @@ const RomaneioList = ({ search }) => {
 };
 
 export default RomaneioList;
+
+const styles = StyleSheet.create({
+	bannerContainer: {
+		borderRadius: 12,
+		width: "95%",
+		alignSelf: "center"
+	}
+});

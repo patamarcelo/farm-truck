@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	Button,
+	SafeAreaView,
+	ScrollView
+} from "react-native";
 import CardButton from "../components/ui/CardButton";
 import { Colors } from "../constants/styles";
 import { useState, useContext } from "react";
@@ -22,7 +29,9 @@ const RomaneioScreen = () => {
 				search={search}
 				updateSearchHandler={updateSearchHandler}
 			/>
-			<RomaneioList search={search} />
+			<ScrollView>
+				<RomaneioList search={search} />
+			</ScrollView>
 		</View>
 	);
 };
@@ -36,6 +45,9 @@ const styles = StyleSheet.create({
 		color: "whitesmoke"
 	},
 	mainContainer: {
+		width: "100%%",
+		padding: 2,
+
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
