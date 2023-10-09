@@ -44,7 +44,10 @@ const CardRomaneio = (props) => {
 					<View style={styles.dataContainer}>
 						<View style={styles.dataIntraContainer}>
 							<Text>{data.motorista}</Text>
-							<Text>{data.placa}</Text>
+							<Text>
+								{data.placa.slice(0, 3)}-
+								{data.placa.slice(3, 12)}
+							</Text>
 						</View>
 						<View style={styles.dataIntraContainer}>
 							<Text>{data.parcelasNovas.join(" - ")}</Text>

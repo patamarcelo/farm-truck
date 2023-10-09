@@ -3,7 +3,7 @@ const DATA_EX = [
 		destino: "",
 		tara: "",
 		liquido: "",
-		placa: "MMM-1212",
+		placa: "MMM1212",
 		user: "user1",
 		tipo: "",
 		motorista: "Marcelo Pata",

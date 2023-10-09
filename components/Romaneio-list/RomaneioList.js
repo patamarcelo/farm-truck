@@ -3,17 +3,41 @@ import { useSelector } from "react-redux";
 import { romaneioSelector } from "../../store/redux/selector";
 
 import CardRomaneio from "../romaneio/CardTruck";
+import { useLayoutEffect, useState, useEffect } from "react";
 
 const renderRomaneioList = (itemData) => {
 	return <CardRomaneio data={itemData.item} />;
 };
 
-const RomaneioList = () => {
+const RomaneioList = ({ search }) => {
 	const data = useSelector(romaneioSelector);
+	const [filteredData, setFilteredData] = useState([]);
+	useLayoutEffect(() => {
+		setFilteredData(data);
+	}, []);
+
+	useEffect(() => {
+		if (search) {
+			const newArr = data.filter((dataFilter) => {
+				console.log(dataFilter);
+				return (
+					dataFilter.placa
+						.toLowerCase()
+						.includes(search.toLowerCase()) ||
+					dataFilter.motorista
+						.toLowerCase()
+						.includes(search.toLowerCase())
+				);
+			});
+			setFilteredData(newArr);
+		} else {
+			setFilteredData(data);
+		}
+	}, [search]);
 
 	return (
 		<FlatList
-			data={data}
+			data={filteredData}
 			keyExtractor={(item) => item.id}
 			renderItem={renderRomaneioList}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}

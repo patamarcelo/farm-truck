@@ -3,13 +3,8 @@ import { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Colors } from "../../constants/styles";
 
-const SearchBarComp = () => {
-	const [search, setSearch] = useState();
-
-	const updateSearchHandler = (e) => {
-		setSearch(e);
-		console.log(e);
-	};
+const SearchBarComp = (props) => {
+	const { search, updateSearchHandler } = props;
 	return (
 		<SafeAreaView style={styles.mainContainer}>
 			<View style={styles.mainContainer}>
