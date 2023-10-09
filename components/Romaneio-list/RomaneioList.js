@@ -20,6 +20,9 @@ const RomaneioList = ({ search }) => {
 	useLayoutEffect(() => {
 		setFilteredData(data);
 	}, []);
+	useLayoutEffect(() => {
+		setFilteredData(data);
+	}, [data]);
 
 	useEffect(() => {
 		if (search) {
@@ -30,6 +33,10 @@ const RomaneioList = ({ search }) => {
 						.toLowerCase()
 						.includes(search.toLowerCase()) ||
 					dataFilter.motorista
+						.toLowerCase()
+						.includes(search.toLowerCase()) ||
+					dataFilter.parcelasNovas
+						.join("")
 						.toLowerCase()
 						.includes(search.toLowerCase())
 				);
