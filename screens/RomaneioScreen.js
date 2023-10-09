@@ -5,12 +5,15 @@ import { useLayoutEffect, useContext } from "react";
 
 import { AuthContext } from "../store/auth-context";
 
+import RomaneioList from "../components/Romaneio-list/RomaneioList";
+import SearchBar from "../components/Romaneio-list/RomaneioSearchBar";
+
 const RomaneioScreen = () => {
 	const context = useContext(AuthContext);
 	return (
 		<View style={styles.mainContainer}>
-			<Text style={styles.text}>Romaneio Screen</Text>
-			<Button title="Lougout" onPress={context.logout} />
+			<SearchBar />
+			<RomaneioList />
 		</View>
 	);
 };
@@ -27,8 +30,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		padding: 24,
-		gap: 20,
 		backgroundColor: Colors.primary500
 	}
 });

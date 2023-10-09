@@ -148,7 +148,14 @@ function HomeScrennStack({ route, navigation }) {
 					onPress={handleRefresh}
 				/>
 			),
-			headerRight: false
+			headerRight: ({ tintColor }) => (
+				<IconButton
+					icon="exit"
+					color={tintColor}
+					size={24}
+					onPress={() => context.logout()}
+				/>
+			)
 		});
 	}, [navigation]);
 
