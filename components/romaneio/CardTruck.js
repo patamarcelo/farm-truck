@@ -7,7 +7,8 @@ import { Divider } from "react-native-elements";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { ICON_URL } from "../../utils/imageUrl";
+import { ICON_URL, findImg } from "../../utils/imageUrl";
+import { formatDate } from "../../utils/formatDate";
 
 const width = Dimensions.get("window").width; //full width
 
@@ -16,16 +17,11 @@ const CardRomaneio = (props) => {
 	const navigation = useNavigation();
 	// console.log(data);
 	const handleDataTruck = () => {
-		navigation.navigate("ModalRomaneio", { data: data });
+		navigation.navigate("ModalRomaneio", { data: data.id });
 	};
 
 	const labelParcelas = (data) => {
 		return data.parcelasNovas.length > 1 ? "Parcelas" : "Parcela";
-	};
-
-	const findImg = (data, icon) => {
-		const newData = data.filter((data) => data.title === icon);
-		return newData[0].uri;
 	};
 
 	return (
@@ -50,14 +46,19 @@ const CardRomaneio = (props) => {
 						</Text>
 					</View>
 					<View>
-						<Text style={styles.textData}>12/02/2023</Text>
+						<Text style={styles.textData}>
+							{formatDate(data.appDate)}
+						</Text>
 					</View>
 				</View>
 				<View style={styles.mainContainerData}>
 					<View style={styles.dataContainer}>
 						<View style={styles.dataIntraContainer}>
 							<View style={styles.containerDataInfo}>
-								<Text style={styles.titleInput}>
+								<Text
+									style={styles.titleInput}
+									// numberOfLines={1}
+								>
 									Motorista:{" "}
 								</Text>
 								<Text style={styles.labelInput}>
@@ -88,8 +89,9 @@ const CardRomaneio = (props) => {
 							<View style={styles.containerDataInfo2}>
 								<Image
 									source={findImg(ICON_URL, data.cultura)}
+									style={{ width: 25, height: 25 }}
 								/>
-								<View>
+								<View style={{ alignItems: "center" }}>
 									<Text style={styles.titleInput}>
 										Variedade:
 									</Text>
@@ -111,7 +113,8 @@ const styles = StyleSheet.create({
 	textData: {
 		fontSize: 10,
 		marginLeft: -8,
-		color: "grey"
+		color: "grey",
+		fontWeight: "bold"
 	},
 	conatiner2: {
 		alignSelf: "flex-end"
@@ -134,12 +137,16 @@ const styles = StyleSheet.create({
 		// alignItems: "center",
 		justifyContent: "space-around",
 		// backgroundColor: "red",
-		height: "100%"
+		height: "100%",
+		flexWrap: "nowrap",
+		width: "50%"
 	},
 	mainContainerData: {
 		flex: 3,
 		justifyContent: "space-around",
-		alignItems: "center"
+		alignItems: "center",
+		width: width
+		// backgroundColor: "red"
 	},
 	truckContainer: {
 		flex: 1,
@@ -148,6 +155,7 @@ const styles = StyleSheet.create({
 	},
 	dataContainer: {
 		flex: 3,
+		// backgroundColor: "red",
 		alignItems: "center",
 		flexDirection: "row",
 		justifyContent: "space-between",

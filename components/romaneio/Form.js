@@ -81,6 +81,7 @@ const FormScreen = ({ navigation }) => {
 			...data,
 			//dummy data below
 			id: Date.now(),
+			appDate: new Date(),
 			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
 		try {

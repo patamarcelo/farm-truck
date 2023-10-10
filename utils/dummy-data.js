@@ -1,3 +1,4 @@
+const today = new Date();
 const DATA_EX = [
 	{
 		destino: "",
@@ -31,6 +32,7 @@ const DATA_EX = [
 		observacoes: "",
 		nfEntrada: "",
 		op: "",
+		appDate: today,
 		id: "1" // firebaseId
 	}
 ];

@@ -6,5 +6,9 @@ const reducer = combineReducers({
 	romaneios: RomaneioReducer
 });
 export const store = configureStore({
-	reducer
+	reducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false
+		})
 });

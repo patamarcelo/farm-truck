@@ -42,7 +42,7 @@ function WelcomeScreen() {
 					{data.length === 0 && (
 						<View style={styles.adviseContainer}>
 							<Text style={styles.adviseContainerTitle}>
-								Sem Romaneio em Trânsito!!
+								Sem Romaneio em Transito!!
 							</Text>
 						</View>
 					)}
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 		borderTopLeftRadius: 18,
 		borderTopRightRadius: 18,
-		backgroundColor: "#03396B"
+		backgroundColor: Colors.primary[600]
 	},
 	title: {
 		fontSize: 20,
