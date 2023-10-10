@@ -6,6 +6,8 @@ import {
 	SafeAreaView,
 	ScrollView
 } from "react-native";
+// import { ScrollView } from "react-native-virtualized-view";
+
 import CardButton from "../components/ui/CardButton";
 import { Colors } from "../constants/styles";
 import { useState, useContext } from "react";
@@ -14,6 +16,9 @@ import { AuthContext } from "../store/auth-context";
 
 import RomaneioList from "../components/Romaneio-list/RomaneioList";
 import SearchBar from "../components/Romaneio-list/RomaneioSearchBar";
+
+import { Dimensions } from "react-native";
+const width = Dimensions.get("window").width; //full width
 
 const RomaneioScreen = () => {
 	const context = useContext(AuthContext);
@@ -39,13 +44,16 @@ const RomaneioScreen = () => {
 export default RomaneioScreen;
 
 const styles = StyleSheet.create({
+	listContainer: {
+		with: "50%"
+	},
 	text: {
 		fontSize: 24,
 		fontWeight: "bold",
 		color: "whitesmoke"
 	},
 	mainContainer: {
-		width: "100%%",
+		width: width,
 		padding: 2,
 
 		flex: 1,

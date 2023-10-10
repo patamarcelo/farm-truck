@@ -174,7 +174,7 @@ function FormInputs({
 			>
 				<Controller
 					control={control}
-					name="fazendaOrigem"
+					name="projeto"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<RNPickerSelect
 							onValueChange={(e) => {

@@ -1,4 +1,4 @@
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Pressable, View, Text, StyleSheet, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
 
@@ -7,15 +7,25 @@ import { Divider } from "react-native-elements";
 
 import { useNavigation } from "@react-navigation/native";
 
+import { ICON_URL } from "../../utils/imageUrl";
+
 const width = Dimensions.get("window").width; //full width
 
 const CardRomaneio = (props) => {
 	const { data, styleContainer } = props;
 	const navigation = useNavigation();
 	// console.log(data);
-
 	const handleDataTruck = () => {
 		navigation.navigate("ModalRomaneio", { data: data });
+	};
+
+	const labelParcelas = (data) => {
+		return data.parcelasNovas.length > 1 ? "Parcelas" : "Parcela";
+	};
+
+	const findImg = (data, icon) => {
+		const newData = data.filter((data) => data.title === icon);
+		return newData[0].uri;
 	};
 
 	return (
@@ -39,20 +49,46 @@ const CardRomaneio = (props) => {
 					</Text>
 				</View>
 				<View style={styles.mainContainerData}>
-					<View>
-						<Text>{data.projeto}</Text>
-					</View>
 					<View style={styles.dataContainer}>
 						<View style={styles.dataIntraContainer}>
-							<Text>{data.motorista}</Text>
-							<Text>
-								{data.placa.slice(0, 3)}-
-								{data.placa.slice(3, 12)}
-							</Text>
+							<View style={styles.containerDataInfo}>
+								<Text style={styles.titleInput}>
+									Motorista:{" "}
+								</Text>
+								<Text style={styles.labelInput}>
+									{data.motorista}
+								</Text>
+							</View>
+							<View style={styles.containerDataInfo}>
+								<Text style={styles.titleInput}>Placa: </Text>
+
+								<Text style={styles.labelInput}>
+									{data.placa.slice(0, 3)}-
+									{data.placa.slice(3, 12)}
+								</Text>
+							</View>
+							<View style={styles.containerDataInfo}>
+								<Text style={styles.titleInput}>
+									{labelParcelas(data)} :{" "}
+								</Text>
+								<Text>{data.parcelasNovas.join(" - ")}</Text>
+							</View>
+							<View style={styles.containerDataInfo}>
+								<Text style={{ fontWeight: "bold" }}>
+									{data.projeto}
+								</Text>
+							</View>
 						</View>
-						<View style={styles.dataIntraContainer}>
-							<Text>{data.parcelasNovas.join(" - ")}</Text>
-							<Text>{data.mercadoria}</Text>
+						<View>
+							<View style={styles.containerDataInfo2}>
+								<Image
+									source={findImg(ICON_URL, data.cultura)}
+								/>
+								<Text style={styles.titleInput}>
+									Variedade:
+								</Text>
+								<Text>{data.mercadoria}</Text>
+							</View>
 						</View>
 					</View>
 				</View>
@@ -65,11 +101,26 @@ const CardRomaneio = (props) => {
 export default CardRomaneio;
 
 const styles = StyleSheet.create({
+	containerDataInfo2: {
+		flexDirection: "column",
+		alignItems: "center"
+	},
+	containerDataInfo: {
+		flexDirection: "row"
+	},
+	titleInput: {
+		fontWeight: "bold",
+		padding: 0
+	},
+	labelInput: {},
 	dataIntraContainer: {
-		gap: 10
+		// alignItems: "center",
+		justifyContent: "space-around",
+		// backgroundColor: "red",
+		height: "100%"
 	},
 	mainContainerData: {
-		flex: 2,
+		flex: 3,
 		justifyContent: "space-around",
 		alignItems: "center"
 	},
@@ -84,7 +135,7 @@ const styles = StyleSheet.create({
 		width: "100%"
 	},
 	rootContainer: {
-		paddingVertical: 5,
+		// paddingVertical: 5,
 		flexDirection: "row",
 		width: width,
 		height: 105,

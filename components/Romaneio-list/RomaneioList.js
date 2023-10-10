@@ -1,9 +1,13 @@
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { romaneioSelector } from "../../store/redux/selector";
 
 import CardRomaneio from "../romaneio/CardTruck";
 import { useLayoutEffect, useState, useEffect } from "react";
+
+import { Dimensions } from "react-native";
+const width = Dimensions.get("window").width; //full width
+const height = Dimensions.get("screen").height; //full heihgt
 
 const renderRomaneioList = (itemData) => {
 	return (
@@ -47,8 +51,28 @@ const RomaneioList = ({ search }) => {
 		}
 	}, [search]);
 
+	if (filteredData.length === 0 && data.length > 0) {
+		return (
+			<View style={styles.adviseContainer}>
+				<Text style={styles.adviseContainerTitle}>
+					Sem resultados para essa busca
+				</Text>
+			</View>
+		);
+	}
+	if (filteredData.length === 0) {
+		return (
+			<View style={[styles.adviseContainer, styles.bannerContainer]}>
+				<Text style={styles.adviseContainerTitle}>
+					Sem Romaneio Cadastrado
+				</Text>
+			</View>
+		);
+	}
+
 	return (
 		<FlatList
+			scrollEnabled={false}
 			data={filteredData}
 			keyExtractor={(item) => item.id}
 			renderItem={renderRomaneioList}
@@ -60,6 +84,19 @@ const RomaneioList = ({ search }) => {
 export default RomaneioList;
 
 const styles = StyleSheet.create({
+	adviseContainerTitle: {
+		color: "whitesmoke",
+		fontSize: 16,
+		textAlign: "center"
+	},
+	adviseContainer: {
+		// backgroundColor: "red",
+		flex: 1,
+		width: width,
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center"
+	},
 	bannerContainer: {
 		borderRadius: 12,
 		width: "95%",

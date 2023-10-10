@@ -28,14 +28,24 @@ function WelcomeScreen() {
 			</View>
 			<SafeAreaView style={styles.roundList}>
 				<View style={styles.listContainer}>
-					<FlatList
-						data={data}
-						keyExtractor={(item) => item.id}
-						renderItem={renderRomaneioList}
-						ItemSeparatorComponent={() => (
-							<View style={{ height: 13 }} />
-						)}
-					/>
+					{data.length > 0 && (
+						<FlatList
+							data={data}
+							keyExtractor={(item) => item.id}
+							renderItem={renderRomaneioList}
+							ItemSeparatorComponent={() => (
+								<View style={{ height: 13 }} />
+							)}
+						/>
+					)}
+
+					{data.length === 0 && (
+						<View style={styles.adviseContainer}>
+							<Text style={styles.adviseContainerTitle}>
+								Sem Romaneio em Trânsito!!
+							</Text>
+						</View>
+					)}
 				</View>
 			</SafeAreaView>
 		</View>
@@ -45,6 +55,19 @@ function WelcomeScreen() {
 export default WelcomeScreen;
 
 const styles = StyleSheet.create({
+	adviseContainerTitle: {
+		color: "whitesmoke",
+		fontSize: 24,
+		flex: 1,
+		textAlign: "center"
+	},
+	adviseContainer: {
+		flex: 1,
+		width: width,
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center"
+	},
 	rootContainer: {
 		flex: 1,
 		justifyContent: "center",
@@ -73,6 +96,7 @@ const styles = StyleSheet.create({
 	},
 	roundList: {
 		flex: 2,
+		// width: "100%",
 		backgroundColor: Colors.primary500
 	},
 	listContainer: {

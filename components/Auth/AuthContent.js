@@ -70,6 +70,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
 	return (
 		<>
 			<View style={styles.mainContainer}>
+				<Text style={styles.title}>Colheitas</Text>
 				<View style={styles.authContent}>
 					<AuthForm
 						isLogin={isLogin}
@@ -97,7 +98,7 @@ export default AuthContent;
 
 const styles = StyleSheet.create({
 	title: {
-		fontSize: 38,
+		fontSize: 32,
 		color: "whitesmoke",
 		fontStyle: "italic",
 		fontWeight: "bold"

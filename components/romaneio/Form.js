@@ -35,7 +35,7 @@ const schema = yup.object({
 		.min(7, "placa contem 7 digitos")
 		.max(7),
 	motorista: yup.string().required("Digite o nome do Motorista"),
-	fazendaOrigem: yup.string().required("Selecione uma fazenda"),
+	projeto: yup.string().required("Selecione uma fazenda"),
 	parcelasNovas: yup.array().min(1, "Selecione pelo menos 1 parcela")
 });
 
@@ -81,7 +81,7 @@ const FormScreen = ({ navigation }) => {
 			...data,
 			//dummy data below
 			id: Date.now(),
-			relatorioColheita: romNum + 1
+			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
 		try {
 			dispatch(addRomaneio(newData));

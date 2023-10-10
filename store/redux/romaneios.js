@@ -12,7 +12,7 @@ const RomaneioSlice = createSlice({
 			state.cargas.push(action.payload);
 		},
 		resetData: (state) => {
-			state.cargas = data;
+			state.cargas = [];
 		},
 		removeFavorite: (state, action) => {
 			state.romaneios.splice(state.ids.indexOf(action.payload.id), 1);

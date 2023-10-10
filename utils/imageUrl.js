@@ -1,10 +1,5 @@
-export const ICON_URL = {
-	// pix: {
-	// 	title: "PIX",
-	// 	uri: require("../assets/payment/pix.png")
-	// },
-	// creditCard: {
-	// 	title: "CARTÃO DE CRÉDITO",
-	// 	uri: require("../assets/payment/credit-card.png")
-	// }
-};
+export const ICON_URL = [
+	{ title: "Feijão", uri: require("../constants/icons/beans2.png") },
+	{ title: "Arroz", uri: require("../constants/icons/rice.png") },
+	{ title: "Soja", uri: require("../constants/icons/soy.png") }
+];
