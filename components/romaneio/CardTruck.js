@@ -39,14 +39,19 @@ const CardRomaneio = (props) => {
 				onPress={handleDataTruck}
 			>
 				<View style={styles.truckContainer}>
-					<MaterialCommunityIcons
-						name="dump-truck"
-						size={42}
-						color={Colors.yellow[600]}
-					/>
-					<Text style={styles.textNumber}>
-						Nº {data.relatorioColheita}
-					</Text>
+					<View>
+						<MaterialCommunityIcons
+							name="dump-truck"
+							size={42}
+							color={Colors.yellow[600]}
+						/>
+						<Text style={styles.textNumber}>
+							Nº {data.relatorioColheita}
+						</Text>
+					</View>
+					<View>
+						<Text style={styles.textData}>12/02/2023</Text>
+					</View>
 				</View>
 				<View style={styles.mainContainerData}>
 					<View style={styles.dataContainer}>
@@ -79,15 +84,17 @@ const CardRomaneio = (props) => {
 								</Text>
 							</View>
 						</View>
-						<View>
+						<View style={styles.conatiner2}>
 							<View style={styles.containerDataInfo2}>
 								<Image
 									source={findImg(ICON_URL, data.cultura)}
 								/>
-								<Text style={styles.titleInput}>
-									Variedade:
-								</Text>
-								<Text>{data.mercadoria}</Text>
+								<View>
+									<Text style={styles.titleInput}>
+										Variedade:
+									</Text>
+									<Text>{data.mercadoria}</Text>
+								</View>
 							</View>
 						</View>
 					</View>
@@ -101,9 +108,19 @@ const CardRomaneio = (props) => {
 export default CardRomaneio;
 
 const styles = StyleSheet.create({
+	textData: {
+		fontSize: 10,
+		marginLeft: -8,
+		color: "grey"
+	},
+	conatiner2: {
+		alignSelf: "flex-end"
+	},
 	containerDataInfo2: {
 		flexDirection: "column",
-		alignItems: "center"
+		alignItems: "center",
+		justifyContent: "space-around",
+		flex: 0.8
 	},
 	containerDataInfo: {
 		flexDirection: "row"
@@ -125,7 +142,9 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	truckContainer: {
-		flex: 1
+		flex: 1,
+		height: "100%",
+		justifyContent: "space-around"
 	},
 	dataContainer: {
 		flex: 3,
