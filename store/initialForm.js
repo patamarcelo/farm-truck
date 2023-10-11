@@ -8,10 +8,7 @@ export const INITIAL = {
 	motorista: "",
 	pesoBruto: "",
 	fazendaOrigem: "",
-	createdAt: {
-		seconds: 1696007393,
-		nanoseconds: 234000000
-	},
+	createdAt: "",
 	impureza: "",
 	umidade: "",
 	relatorioColheita: "",
@@ -20,7 +17,7 @@ export const INITIAL = {
 	cultura: "",
 	projeto: "",
 	parcela: "",
-	entrada: "29/09/2023 - 14:09",
+	entrada: "",
 	unidadeOp: "",
 	mercadoria: "", // variedade
 	saida: "-",

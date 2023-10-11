@@ -28,6 +28,8 @@ import { romaneioSelector } from "../../store/redux/selector";
 
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 
+import { addRomaneioFirebase } from "../../store/firebase/index";
+
 const schema = yup.object({
 	placa: yup
 		.string()
@@ -35,7 +37,7 @@ const schema = yup.object({
 		.min(7, "placa contem 7 digitos")
 		.max(7),
 	motorista: yup.string().required("Digite o nome do Motorista"),
-	projeto: yup.string().required("Selecione uma fazenda"),
+	fazendaOrigem: yup.string().required("Selecione uma fazenda"),
 	parcelasNovas: yup.array().min(1, "Selecione pelo menos 1 parcela")
 });
 
@@ -72,7 +74,7 @@ const FormScreen = ({ navigation }) => {
 		}
 	});
 
-	const submitHandler = (data) => {
+	const submitHandler = async (data) => {
 		const numbers = romaneioData.map((data) => data.relatorioColheita);
 		const romNum = Math.max.apply(Math, numbers);
 		console.log("salvar valores");
@@ -82,13 +84,19 @@ const FormScreen = ({ navigation }) => {
 			//dummy data below
 			id: Date.now(),
 			appDate: new Date(),
+			createdAt: new Date(),
 			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
+		console.log(newData);
+		setIsLoading(true);
 		try {
 			dispatch(addRomaneio(newData));
-			setIsLoading(true);
-			reset();
-			navigation.navigate("Welcome");
+			const response = await addRomaneioFirebase(newData);
+			console.log(response);
+			if (response) {
+				reset();
+				navigation.navigate("Welcome");
+			}
 		} catch (err) {
 			console.log("erro ao salvar os dados", err);
 		} finally {

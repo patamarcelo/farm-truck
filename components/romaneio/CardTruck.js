@@ -61,7 +61,10 @@ const CardRomaneio = (props) => {
 								>
 									Motorista:{" "}
 								</Text>
-								<Text style={styles.labelInput}>
+								<Text
+									style={styles.labelInput}
+									numberOfLines={1}
+								>
 									{data.motorista}
 								</Text>
 							</View>
@@ -80,8 +83,11 @@ const CardRomaneio = (props) => {
 								<Text>{data.parcelasNovas.join(" - ")}</Text>
 							</View>
 							<View style={styles.containerDataInfo}>
-								<Text style={{ fontWeight: "bold" }}>
-									{data.projeto}
+								<Text
+									style={{ fontWeight: "bold" }}
+									numberOfLines={1}
+								>
+									{data.fazendaOrigem}
 								</Text>
 							</View>
 						</View>

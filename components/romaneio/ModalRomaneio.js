@@ -63,7 +63,9 @@ const ModalRomaneioScreen = () => {
 
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Projeto: </Text>
-						<Text style={styles.resultDoc}>{dataShow.projeto}</Text>
+						<Text style={styles.resultDoc}>
+							{dataShow.fazendaOrigem}
+						</Text>
 					</View>
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Cultura: </Text>
