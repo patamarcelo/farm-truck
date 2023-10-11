@@ -1,4 +1,6 @@
-export const formatDate = (date) => {
+export const formatDate = (dateEntry) => {
+	const date = new Date(dateEntry);
+	console.log(date);
 	const day = date.getDate();
 	const year = date.getFullYear();
 	const month = date.getMonth();

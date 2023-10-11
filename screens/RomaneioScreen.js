@@ -26,7 +26,6 @@ const RomaneioScreen = () => {
 
 	const updateSearchHandler = (e) => {
 		setSearch(e);
-		console.log(e);
 	};
 	return (
 		<View style={styles.mainContainer}>

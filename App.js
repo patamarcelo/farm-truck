@@ -34,7 +34,8 @@ import ModalRomaneioScreen from "./components/romaneio/ModalRomaneio";
 import { createNavigationContainerRef } from "@react-navigation/native";
 
 import { Provider } from "react-redux";
-import { store } from "./store/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store/redux/store";
 
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
@@ -43,7 +44,7 @@ import * as Font from "expo-font";
 import { useDispatch } from "react-redux";
 import { resetData } from "./store/redux/romaneios";
 
-import { View } from "react-native";
+import { View, Text } from "react-native";
 const width = Dimensions.get("window").width; //full width
 
 const Stack = createNativeStackNavigator();
@@ -249,7 +250,6 @@ function AuthenticatedStack(props) {
 	const currName = navigation.getCurrentRoute();
 
 	useEffect(() => {
-		console.log(currName);
 		if (navigation.getCurrentRoute().name === "Form") {
 			setouteName(false);
 		} else {
@@ -395,7 +395,12 @@ export default function App() {
 			<StatusBar style="light" />
 			<AuthContextprovider>
 				<Provider store={store}>
-					<Root />
+					<PersistGate
+						loading={<Text>Loading...</Text>}
+						persistor={persistor}
+					>
+						<Root />
+					</PersistGate>
 				</Provider>
 			</AuthContextprovider>
 		</>
@@ -415,8 +420,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignContent: "center",
 		backgroundColor: "green",
-		width: 70,
-		height: 70,
+		width: 60,
+		height: 60,
 		borderRadius: 50
 
 		// elevation: 4,

@@ -9,11 +9,12 @@ import { Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
+import ResumoContainer from "../components/romaneio/ResumoContainer";
+
 const width = Dimensions.get("window").width; //full width
 
 function WelcomeScreen() {
 	const data = useSelector(romaneioSelector);
-	console.log(data);
 	const navigation = useNavigation();
 	const tabBarHeight = useBottomTabBarHeight();
 
@@ -24,7 +25,7 @@ function WelcomeScreen() {
 	return (
 		<View style={styles.rootContainer}>
 			<View style={styles.resumoContainer}>
-				<Text style={styles.resumoTitle}>RESUMO CONTAINER</Text>
+				<ResumoContainer />
 			</View>
 			<SafeAreaView style={styles.roundList}>
 				<View style={styles.listContainer}>
@@ -88,11 +89,6 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.5,
 		shadowOffset: { width: 2, height: 2 },
 		shadowRadius: 4
-	},
-	resumoTitle: {
-		// color: "whitesmoke",
-		fontWeight: "bold",
-		fontSize: 18
 	},
 	roundList: {
 		flex: 2,
