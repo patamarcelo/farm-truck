@@ -27,6 +27,7 @@ export const loginUser = async (email, password) => {
 	);
 
 	const token = response.data.idToken;
+	console.log(response.data)
 	return token;
 };
 

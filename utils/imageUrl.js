@@ -5,6 +5,8 @@ export const ICON_URL = [
 ];
 
 export const findImg = (data, icon) => {
-	const newData = data.filter((data) => data.title === icon);
-	return newData[0].uri;
+	if (icon) {
+		const newData = data.filter((data) => data.title === icon);
+		return newData[0].uri;
+	}
 };

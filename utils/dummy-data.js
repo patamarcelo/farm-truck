@@ -33,7 +33,8 @@ const DATA_EX = [
 		nfEntrada: "",
 		op: "",
 		appDate: today,
-		id: "1" // firebaseId
+		id: "1",
+		idApp: "123123123" // firebaseId
 	}
 ];
 

@@ -27,5 +27,7 @@ export const INITIAL = {
 	observacoes: "",
 	nfEntrada: "",
 	op: "",
-	id: "" // firebaseId
+	id: "", // firebaseId
+	idApp: "",
+	userApp: ""
 };

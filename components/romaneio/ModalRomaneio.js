@@ -24,7 +24,14 @@ const ModalRomaneioScreen = () => {
 	}, []);
 
 	const labelParcelas = (data) => {
-		return data.parcelasNovas.length > 1 ? "Parcelas:" : "Parcela:";
+		return data.parcelasNovas?.length > 1 ? "Parcelas:" : "Parcela:";
+	};
+
+	const statusColor = (status) => {
+		if (status) {
+			return "green";
+		}
+		return "red";
 	};
 
 	return (
@@ -39,9 +46,21 @@ const ModalRomaneioScreen = () => {
 							Nº {dataShow.relatorioColheita}
 						</Text>
 					</View>
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Status: </Text>
-						<Text style={styles.resultDoc}>Pendente</Text>
+					<View
+						style={[
+							styles.dataContainer,
+							{
+								backgroundColor: statusColor(dataShow.id),
+								opacity: 1
+							}
+						]}
+					>
+						<Text style={[styles.titleDoc, { color: "white" }]}>
+							Status:{" "}
+						</Text>
+						<Text style={[styles.resultDoc, { color: "white" }]}>
+							{dataShow.id ? "Sincronizado" : "Pendente"}
+						</Text>
 					</View>
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Data: </Text>
@@ -98,8 +117,24 @@ const ModalRomaneioScreen = () => {
 							{labelParcelas(dataShow)}
 						</Text>
 						<Text style={styles.resultDoc}>
-							{dataShow.parcelasNovas.join("-").trim()}
+							{dataShow.parcelasNovas?.join("-").trim()}
 						</Text>
+					</View>
+
+					<View style={styles.dataContainer}>
+						<Text style={styles.titleDoc}>Peso Bruto:</Text>
+						<Text style={styles.resultDoc}>
+							{dataShow.pesoBruto}
+						</Text>
+					</View>
+					<View style={styles.dataContainer}>
+						<Text style={styles.titleDoc}>Peso Tara:</Text>
+						<Text style={styles.resultDoc}>{dataShow.tara}</Text>
+					</View>
+
+					<View style={styles.dataContainer}>
+						<Text style={styles.titleDoc}>Peso Líquido:</Text>
+						<Text style={styles.resultDoc}>{dataShow.liquido}</Text>
 					</View>
 				</View>
 			) : (

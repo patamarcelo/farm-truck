@@ -28,7 +28,10 @@ import { romaneioSelector } from "../../store/redux/selector";
 
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 
-import { addRomaneioFirebase } from "../../store/firebase/index";
+import {
+	addRomaneioFirebase,
+	getDocumentosFirebase
+} from "../../store/firebase/index";
 
 const schema = yup.object({
 	placa: yup
@@ -82,27 +85,37 @@ const FormScreen = ({ navigation }) => {
 			...INITIAL,
 			...data,
 			//dummy data below
-			id: Date.now(),
+			idApp: Date.now(),
 			appDate: new Date(),
 			createdAt: new Date(),
 			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
 		console.log(newData);
 		setIsLoading(true);
+		//salve local
 		try {
-			dispatch(addRomaneio(newData));
-			const response = await addRomaneioFirebase(newData);
-			console.log(response);
-			if (response) {
-				reset();
-				navigation.navigate("Welcome");
+			try {
+				dispatch(addRomaneio(newData));
+			} catch (err) {
+				console.log("problema em salvar o arquivo local", err);
 			}
+			// save on DB
+			// try {
+			// 	const response = await addRomaneioFirebase(newData);
+			// 	console.log("DB Response", response);
+			// 	if (response) {
+			// 		await getDocumentosFirebase(response);
+			// 	}
+			// } catch (err) {
+			// 	console.log("erro ao salvar os dados", err);
+			// }
 		} catch (err) {
-			console.log("erro ao salvar os dados", err);
+			console.log("erro submit global", err);
 		} finally {
-			console.log("finally statement");
 			setTimeout(() => {
 				setIsLoading(false);
+				reset();
+				navigation.navigate("Welcome");
 			}, 500);
 		}
 	};

@@ -1,5 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+	getFirestore,
+	collection,
+	addDoc,
+	query,
+	where,
+	getDocs,
+	doc,
+	updateDoc
+} from "firebase/firestore";
 
 import {
 	REACT_APP_FIREBASE_API_KEY,
@@ -32,4 +41,41 @@ export const addRomaneioFirebase = async (romaneio) => {
 	} catch (err) {
 		console.log("Erro ao salvar no db", err);
 	}
+};
+
+const updateSingleDoc = async (idDoc) => {
+	const documentUpdate = doc(db, "truckmove", idDoc);
+	await updateDoc(documentUpdate, {
+		id: idDoc
+	});
+};
+
+export const getDocumentosFirebase = async (idForm) => {
+	const q = query(collection(db, "truckmove"), where("id", "==", idForm));
+	const querySnapshot = await getDocs(q);
+	querySnapshot.forEach((doc) => {
+		// doc.data() is never undefined for query doc snapshots
+		console.log(doc.id, " => ", doc.data());
+	});
+	try {
+		const response = await updateSingleDoc(idForm);
+		console.log(response);
+	} catch (err) {
+		console.log("Erro ao editar o documento", idForm);
+	}
+};
+
+export const getAllDocsFirebase = async (farm) => {
+	const q = query(
+		collection(db, "truckmove"),
+		where("fazendaOrigem", "==", farm)
+	);
+	const querySnapshot = await getDocs(q);
+	let allData = [];
+	querySnapshot.forEach((doc) => {
+		// doc.data() is never undefined for query doc snapshots
+		console.log(doc.id, " => ", doc.data());
+		allData.push(doc.data());
+	});
+	return allData;
 };

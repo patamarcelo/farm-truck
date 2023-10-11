@@ -21,7 +21,7 @@ const CardRomaneio = (props) => {
 	};
 
 	const labelParcelas = (data) => {
-		return data.parcelasNovas.length > 1 ? "Parcelas" : "Parcela";
+		return data.parcelasNovas?.length > 1 ? "Parcelas" : "Parcela";
 	};
 
 	return (
@@ -80,7 +80,7 @@ const CardRomaneio = (props) => {
 								<Text style={styles.titleInput}>
 									{labelParcelas(data)} :{" "}
 								</Text>
-								<Text>{data.parcelasNovas.join(" - ")}</Text>
+								<Text>{data.parcelasNovas?.join(" - ")}</Text>
 							</View>
 							<View style={styles.containerDataInfo}>
 								<Text

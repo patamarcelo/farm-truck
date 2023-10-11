@@ -11,12 +11,30 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import ResumoContainer from "../components/romaneio/ResumoContainer";
 
+import { useEffect } from "react";
+import { getAllDocsFirebase } from "../store/firebase/index";
+import { addRomaneio } from "../store/redux/romaneios";
+import { useLayoutEffect } from "react";
+
 const width = Dimensions.get("window").width; //full width
 
 function WelcomeScreen() {
 	const data = useSelector(romaneioSelector);
 	const navigation = useNavigation();
 	const tabBarHeight = useBottomTabBarHeight();
+	const dispatch = useDispatch();
+
+	// useLayoutEffect(() => {
+	// 	const getDocs = async () => {
+	// 		const response = await getAllDocsFirebase("Projeto Capivara");
+	// 		console.log("data", response);
+	// 		response.map((dataF) => {
+	// 			dispatch(addRomaneio(dataF));
+	// 		});
+	// 		isFirstTime = true;
+	// 	};
+	// 	getDocs();
+	// }, []);
 
 	const renderRomaneioList = (itemData) => {
 		return <CardRomaneio data={itemData.item} />;
@@ -29,7 +47,7 @@ function WelcomeScreen() {
 			</View>
 			<SafeAreaView style={styles.roundList}>
 				<View style={styles.listContainer}>
-					{data.length > 0 && (
+					{data && data.length > 0 && (
 						<FlatList
 							data={data}
 							keyExtractor={(item) => item.id}
@@ -40,7 +58,7 @@ function WelcomeScreen() {
 						/>
 					)}
 
-					{data.length === 0 && (
+					{data && data.length === 0 && (
 						<View style={styles.adviseContainer}>
 							<Text style={styles.adviseContainerTitle}>
 								Sem Romaneio em Transito!!

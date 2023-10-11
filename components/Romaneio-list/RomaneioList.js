@@ -40,7 +40,7 @@ const RomaneioList = ({ search }) => {
 						.toLowerCase()
 						.includes(search.toLowerCase()) ||
 					dataFilter.parcelasNovas
-						.join("")
+						?.join("")
 						.toLowerCase()
 						.includes(search.toLowerCase())
 				);
@@ -74,7 +74,7 @@ const RomaneioList = ({ search }) => {
 		<FlatList
 			scrollEnabled={false}
 			data={filteredData}
-			keyExtractor={(item) => item.id}
+			keyExtractor={(item, i) => i}
 			renderItem={renderRomaneioList}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
 		/>
