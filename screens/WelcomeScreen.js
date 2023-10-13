@@ -12,7 +12,10 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import ResumoContainer from "../components/romaneio/ResumoContainer";
 
 import { useEffect } from "react";
-import { getAllDocsFirebase } from "../store/firebase/index";
+import {
+	getAllDocsFirebase,
+	getAndGenerateIdFirebase
+} from "../store/firebase/index";
 import { addRomaneio } from "../store/redux/romaneios";
 import { useLayoutEffect } from "react";
 
@@ -23,6 +26,14 @@ function WelcomeScreen() {
 	const navigation = useNavigation();
 	const tabBarHeight = useBottomTabBarHeight();
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const getDocs = async () => {
+			const data = await getAndGenerateIdFirebase();
+			return data;
+		};
+		getDocs();
+	}, []);
 
 	// useLayoutEffect(() => {
 	// 	const getDocs = async () => {

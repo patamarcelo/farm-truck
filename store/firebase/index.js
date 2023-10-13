@@ -7,7 +7,10 @@ import {
 	where,
 	getDocs,
 	doc,
-	updateDoc
+	updateDoc,
+	collRef,
+	limit,
+	orderBy
 } from "firebase/firestore";
 
 import {
@@ -77,5 +80,23 @@ export const getAllDocsFirebase = async (farm) => {
 		console.log(doc.id, " => ", doc.data());
 		allData.push(doc.data());
 	});
+	return allData;
+};
+
+export const getAndGenerateIdFirebase = async () => {
+	const q = query(
+		collection(db, "truckmove"),
+		where("idApp", "!=", null),
+		orderBy("idApp", "desc"),
+		limit(1)
+	);
+	const querySnapshot = await getDocs(q);
+	let allData = [];
+	querySnapshot.forEach((doc) => {
+		// doc.data() is never undefined for query doc snapshots
+		console.log(doc.id, " => ", doc.data());
+		allData.push(doc.data());
+	});
+
 	return allData;
 };
