@@ -74,7 +74,7 @@ const RomaneioList = ({ search }) => {
 		<FlatList
 			scrollEnabled={false}
 			data={filteredData}
-			keyExtractor={(item, i) => i}
+			keyExtractor={(item, i) => item.idApp}
 			renderItem={renderRomaneioList}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
 		/>

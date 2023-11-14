@@ -28,10 +28,9 @@ import { romaneioSelector } from "../../store/redux/selector";
 
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 
-import {
-	addRomaneioFirebase,
-	getDocumentosFirebase
-} from "../../store/firebase/index";
+import { saveDataOnFirebaseAndUpdate } from "../../store/firebase/index";
+
+import { useIsFocused } from "@react-navigation/native";
 
 const schema = yup.object({
 	placa: yup
@@ -55,6 +54,15 @@ const FormScreen = ({ navigation }) => {
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
 	const [selectedFarm, setSelectedFarm] = useState(null);
+	const isFocused = useIsFocused();
+
+	useEffect(() => {
+		console.log(selectedFarm);
+		if (isFocused) {
+			setSelectedFarm(null);
+		}
+	}, [isFocused]);
+	console.log(isFocused);
 
 	const {
 		control,
@@ -63,6 +71,7 @@ const FormScreen = ({ navigation }) => {
 		setValue,
 		reset,
 		resetField,
+		clearErrors,
 		formState: { errors }
 	} = useForm({
 		resolver: yupResolver(schema),
@@ -87,8 +96,8 @@ const FormScreen = ({ navigation }) => {
 			//dummy data below
 			idApp: Date.now(),
 			appDate: new Date(),
-			createdAt: new Date(),
-			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
+			createdAt: new Date()
+			// relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
 		console.log(newData);
 		setIsLoading(true);
@@ -100,15 +109,7 @@ const FormScreen = ({ navigation }) => {
 				console.log("problema em salvar o arquivo local", err);
 			}
 			// save on DB
-			// try {
-			// 	const response = await addRomaneioFirebase(newData);
-			// 	console.log("DB Response", response);
-			// 	if (response) {
-			// 		await getDocumentosFirebase(response);
-			// 	}
-			// } catch (err) {
-			// 	console.log("erro ao salvar os dados", err);
-			// }
+			saveDataOnFirebaseAndUpdate(newData);
 		} catch (err) {
 			console.log("erro submit global", err);
 		} finally {
@@ -123,6 +124,7 @@ const FormScreen = ({ navigation }) => {
 	const cancelHandler = () => {
 		// console.log("limpar o formulário");
 		navigation.navigate("Welcome");
+		clearErrors();
 	};
 
 	const handlerChange = (e, name) => {
@@ -146,6 +148,7 @@ const FormScreen = ({ navigation }) => {
 
 	const refreshHandler = () => {
 		reset();
+		clearErrors();
 		console.log("refresh ");
 	};
 
@@ -174,6 +177,7 @@ const FormScreen = ({ navigation }) => {
 						handlerChange={handlerChange}
 						selectedFarm={selectedFarm}
 						setValue={setValue}
+						setSelectedFarm={setSelectedFarm}
 					/>
 				</View>
 				<View style={styles.buttonContainer}>
@@ -247,6 +251,7 @@ const styles = StyleSheet.create({
 		color: "white"
 	},
 	mainRootContainer: {
-		flex: 1
+		flex: 1,
+		backgroundColor: Colors.primary500
 	}
 });

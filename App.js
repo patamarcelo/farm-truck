@@ -47,6 +47,8 @@ import { resetData } from "./store/redux/romaneios";
 import { View, Text } from "react-native";
 const width = Dimensions.get("window").width; //full width
 
+import { AntDesign } from "@expo/vector-icons";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -109,6 +111,15 @@ function RomaneioStack({ route, navigation }) {
 							onPress={handleBack}
 						/>
 					)
+				}}
+			/>
+			<Stack.Screen
+				name="modalRomaneios"
+				component={ModalRomaneioScreen}
+				options={{
+					presentation: "modal",
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
 		</Stack.Navigator>
@@ -223,15 +234,6 @@ function HomeScrennStack({ route, navigation }) {
 				}}
 			/>
 			<Stack.Screen
-				name="Form"
-				component={FormScreen}
-				options={{
-					presentation: "modal",
-					headerShown: false,
-					contentStyle: { backgroundColor: Colors.primary500 }
-				}}
-			/>
-			<Stack.Screen
 				name="ModalRomaneio"
 				component={ModalRomaneioScreen}
 				options={{
@@ -273,6 +275,11 @@ function AuthenticatedStack(props) {
 						backgroundColor: Colors.primary800,
 						borderTopColor: "transparent"
 					},
+					tabBarOptions: {
+						indicatorStyle: {
+							backgroundColor: "transparent"
+						}
+					},
 					// contentStyle: { backgroundColor: Colors.primary500 },
 					initialRouteName: "inicio"
 				}}
@@ -288,6 +295,29 @@ function AuthenticatedStack(props) {
 						tabBarIcon: ({ color, size }) => (
 							<Ionicons name="home" color={color} size={size} />
 						)
+					})}
+				/>
+				<Tab.Screen
+					name="Add"
+					component={FormScreen}
+					options={({ route }) => ({
+						title: "",
+						presentation: "modal",
+						tabBarLabel: "",
+						headerShadowVisible: false, // applied here
+						contentStyle: { backgroundColor: Colors.primary500 },
+						// title: "Início",
+						tabBarIcon: ({ color, size }) => (
+							<AntDesign
+								style={{ marginBottom: -20 }}
+								name="pluscircle"
+								size={50}
+								color={color}
+							/>
+						),
+						tabStyle: {
+							marginBottom: 20
+						}
 					})}
 				/>
 				<Tab.Screen
@@ -338,7 +368,7 @@ function AuthenticatedStack(props) {
 			/> */}
 			</Tab.Navigator>
 
-			<View style={[styles.buttonContainerResum]}>
+			{/* <View style={[styles.buttonContainerResum]}>
 				<IconButton
 					styleContainer={styles.addButton}
 					icon="add"
@@ -347,7 +377,7 @@ function AuthenticatedStack(props) {
 					onPress={() => navigation.navigate("Form")}
 					styleIcon={styles.addIcon}
 				/>
-			</View>
+			</View> */}
 		</>
 	);
 }
@@ -368,6 +398,7 @@ function Navigation() {
 const Root = () => {
 	const context = useContext(AuthContext);
 	const [isLoginIn, setIsLoginIn] = useState(true);
+	SplashScreen.preventAutoHideAsync();
 	useEffect(() => {
 		const fetchToken = async () => {
 			const storedToken = await AsyncStorage.getItem("token");
@@ -382,8 +413,14 @@ const Root = () => {
 		fetchToken();
 	}, []);
 
+	useEffect(() => {
+		if (isLoginIn) {
+			SplashScreen.hideAsync();
+		}
+	}, [isLoginIn]);
+
 	if (isLoginIn) {
-		return <AppLoading />;
+		return null;
 	}
 
 	return <Navigation />;

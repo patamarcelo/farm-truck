@@ -6,12 +6,12 @@ import Input from "../Auth/Input";
 
 import { Controller } from "react-hook-form";
 
-import RNPickerSelect from "react-native-picker-select";
 import { Colors } from "../../constants/styles";
 
 import { Ionicons } from "@expo/vector-icons";
 
 import MultiSelect from "react-native-multiple-select";
+import { Picker as SelectPicker } from "@react-native-picker/picker";
 
 const customData = require("../../store/parcelas.json");
 
@@ -44,6 +44,7 @@ function FormInputs({
 	errors,
 	handlerChange,
 	selectedFarm,
+	setSelectedFarm,
 	setValue
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
@@ -57,7 +58,7 @@ function FormInputs({
 		const filteredArr = customData.resumo_safra.map((data) => {
 			return data.talhao__fazenda__nome;
 		});
-		const onlyFarms = [...new Set([...filteredArr])];
+		const onlyFarms = [...new Set(["Selecione a Fazenda", ...filteredArr])];
 		const onlyFarsObj = onlyFarms.map((data) => {
 			return { label: data, value: data };
 		});
@@ -76,7 +77,7 @@ function FormInputs({
 	}, [filteInputparcelas]);
 
 	useEffect(() => {
-		if (selectedFarm) {
+		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
 			const selectedData = customData.dados[selectedFarm];
 			const filteredArrParcelas = Object.keys(selectedData);
 			if (filteredArrParcelas) {
@@ -100,12 +101,22 @@ function FormInputs({
 			});
 			setfilteredParcelasFarmObj(finalArr);
 		}
+		setValue("parcelasNovas", []);
+		if (selectedFarm !== "Selecione a Fazenda") {
+			setValue("fazendaOrigem", selectedFarm);
+		}
 	}, [selectedFarm]);
 
 	const onSelectedItemsChange = (items) => {
 		console.log("farm", items);
 		setSelectedItems(items);
 	};
+
+	const handlerChangeSelect = (items) => {
+		console.log("farm", items);
+		setSelectedFarm(items);
+	};
+
 	return (
 		<View style={styles.form}>
 			<Controller
@@ -164,133 +175,142 @@ function FormInputs({
 				</Text>
 			)}
 
-			<Text style={styles.labelPicker}>Selecione uma fazenda</Text>
 			<View
 				style={[
-					styles.input,
+					styles.pickerView,
 					styles.inputContainer,
 					errors.fazendaOrigem && styles.errorStyle
 				]}
 			>
-				<Controller
-					control={control}
-					name="fazendaOrigem"
-					render={({ field: { onChange, onBlur, value } }) => (
-						<RNPickerSelect
-							onValueChange={(e) => {
-								handlerChange(e, "fazenda");
-								onChange(e);
-							}}
-							placeholder={{ label: "Selecione uma fazenda" }}
-							items={filteredFarms}
-							value={value}
-							style={pickerSelectStyles}
-							Icon={({ color }) => {
-								return (
-									<Ionicons
-										name="arrow-down-circle-outline"
-										size={24}
-										color="black"
-									/>
-								);
-							}}
-						/>
-					)}
-				/>
+				{
+					<Controller
+						control={control}
+						name="fazendaOrigem"
+						render={({ field: { onChange, onBlur, value } }) => (
+							<SelectPicker
+								selectionColor={"rgba(255,255,255,0.2)"}
+								itemStyle={{ color: "whitesmoke" }}
+								style={{ height: 100 }}
+								selectedValue={selectedFarm}
+								onValueChange={(e) => {
+									handlerChangeSelect(e, "Parcelas");
+								}}
+							>
+								{filteredFarms.map((data, i) => {
+									return (
+										<SelectPicker.Item
+											key={i}
+											label={data.label}
+											value={data.value}
+										/>
+									);
+								})}
+							</SelectPicker>
+						)}
+					/>
+				}
 			</View>
 			{errors.fazendaOrigem && (
 				<Text style={styles.labelError}>
 					{errors.fazendaOrigem?.message}
 				</Text>
 			)}
-			{selectedFarm && parcelasSelected.length > 0 && (
-				<>
-					<Text style={styles.labelPicker}>
-						Selecione as parcelas
-					</Text>
-					<FadeInView style={styles.pickerMult}>
-						<Controller
-							control={control}
-							name="parcelasNovas"
-							render={({
-								field: { onChange, onBlur, value }
-							}) => (
-								<>
-									<MultiSelect
-										hideTags
-										items={parcelasSelected}
-										uniqueKey="id"
-										ref={(component) => {
-											this.multiSelect = component;
-										}}
-										onSelectedItemsChange={(e) => {
-											handlerChange(e, "parcelas");
-											setFilteInputparcelas(e);
-											onChange(e);
-										}}
-										selectedItems={value}
-										selectText="Selecione as Parcelas"
-										searchInputPlaceholderText="Procure as Parcelas"
-										onChangeInput={(text) =>
-											console.log(text)
-										}
-										// altFontFamily="ProximaNova-Light"
-										tagRemoveIconColor="#CCC"
-										tagBorderColor="white"
-										tagTextColor="white"
-										selectedItemTextColor="#CCC"
-										selectedItemIconColor="#CCC"
-										itemTextColor="#000"
-										displayKey="name"
-										searchInputStyle={{
-											color: "#CCC",
-											padding: 8
-										}}
-										submitButtonColor="black"
-										submitButtonText="Confirmar"
-										styleDropdownMenuSubsection={{
-											borderRadius: 4,
-											borderWidth:
-												errors.parcelasNovas && 1,
-											borderColor:
-												errors.parcelasNovas &&
-												"#ff375b"
-										}}
-										styleTextDropdown={{
-											paddingHorizontal: 8
-										}}
-										styleTextDropdownSelected={{
-											paddingHorizontal: 8
-										}}
-										styleDropdownMenu={{ marginTop: 8 }}
-										styleIndicator={{ bottom: 5, left: 10 }}
-										tagContainerStyle={{
-											borderRadius: 8
-										}}
-										styleItemsContainer={
-											{
-												// maxHeightheight: "80%"
+			{selectedFarm &&
+				selectedFarm !== "Selecione a Fazenda" &&
+				parcelasSelected.length > 0 && (
+					<>
+						<FadeInView style={styles.pickerMult}>
+							<Controller
+								control={control}
+								name="parcelasNovas"
+								render={({
+									field: { onChange, onBlur, value }
+								}) => (
+									<>
+										<MultiSelect
+											hideTags
+											items={parcelasSelected}
+											uniqueKey="id"
+											ref={(component) => {
+												this.multiSelect = component;
+											}}
+											onSelectedItemsChange={(e) => {
+												handlerChange(e, "parcelas");
+												setFilteInputparcelas(e);
+												onChange(e);
+												this.multiSelect._clearSelectorCallback();
+											}}
+											selectedText={
+												value.length > 1
+													? "itens selecionados"
+													: "item selecionado"
 											}
-										}
-									/>
-									<View>
-										{value &&
-											this.multiSelect &&
-											this.multiSelect.getSelectedItemsExt(
-												value
-											)}
-									</View>
-									{errors.parcelasNovas && (
-										<Text style={styles.labelError}>
-											{errors.parcelasNovas?.message}
-										</Text>
-									)}
-								</>
-							)}
-						/>
-					</FadeInView>
-				</>
-			)}
+											selectedItems={value}
+											selectText="Selecione as Parcelas"
+											searchInputPlaceholderText="Procure as Parcelas"
+											onChangeInput={(text) =>
+												console.log(text)
+											}
+											// altFontFamily="ProximaNova-Light"
+											tagRemoveIconColor="#CCC"
+											tagBorderColor="white"
+											tagTextColor="white"
+											selectedItemTextColor="#CCC"
+											selectedItemIconColor="#CCC"
+											itemTextColor="#000"
+											displayKey="name"
+											searchInputStyle={{
+												color: "#CCC",
+												padding: 8
+											}}
+											submitButtonColor="black"
+											submitButtonText="Confirmar"
+											styleDropdownMenuSubsection={{
+												borderRadius: 4,
+												borderWidth:
+													errors.parcelasNovas && 1,
+												borderColor:
+													errors.parcelasNovas &&
+													"#ff375b"
+											}}
+											styleTextDropdown={{
+												paddingHorizontal: 8
+											}}
+											styleTextDropdownSelected={{
+												paddingHorizontal: 8
+											}}
+											styleDropdownMenu={{ marginTop: 8 }}
+											styleIndicator={{
+												bottom: 5,
+												left: 10
+											}}
+											tagContainerStyle={{
+												borderRadius: 8
+											}}
+											styleItemsContainer={
+												{
+													// maxHeightheight: "80%"
+												}
+											}
+										/>
+										<View>
+											{value &&
+												this.multiSelect &&
+												this.multiSelect.getSelectedItemsExt(
+													value
+												)}
+										</View>
+										{errors.parcelasNovas && (
+											<Text style={styles.labelError}>
+												{errors.parcelasNovas?.message}
+											</Text>
+										)}
+									</>
+								)}
+							/>
+						</FadeInView>
+					</>
+				)}
 			<View style={styles.computedValues}>
 				<Controller
 					control={control}
@@ -359,6 +379,15 @@ function FormInputs({
 export default FormInputs;
 
 const styles = StyleSheet.create({
+	pickerView: {
+		width: "100%",
+		color: "black",
+		justifyContent: "center",
+		marginBottom: 90,
+		height: 50
+
+		// alignItems: "center"
+	},
 	inputContainerProps: {
 		with: "50%"
 	},
@@ -398,6 +427,12 @@ const styles = StyleSheet.create({
 		alignSelf: "flex-start",
 		color: "#ff375b",
 		marginBottom: 8
+	},
+	form: {
+		flex: 1,
+		justifyContent: "center",
+		// alignItems: "center",
+		width: "100%"
 	}
 });
 

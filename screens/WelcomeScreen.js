@@ -11,13 +11,15 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import ResumoContainer from "../components/romaneio/ResumoContainer";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
 	getAllDocsFirebase,
 	getAndGenerateIdFirebase
 } from "../store/firebase/index";
 import { addRomaneio } from "../store/redux/romaneios";
 import { useLayoutEffect } from "react";
+
+import { ActivityIndicator, RefreshControl } from "react-native";
 
 const width = Dimensions.get("window").width; //full width
 
@@ -26,11 +28,19 @@ function WelcomeScreen() {
 	const navigation = useNavigation();
 	const tabBarHeight = useBottomTabBarHeight();
 	const dispatch = useDispatch();
+	const [refreshing, setRefreshing] = useState(false);
+
+	const getDocs = async () => {
+		const dataFirebase = await getAndGenerateIdFirebase();
+		console.log(dataFirebase.relatorioColheita);
+		const lastNumber = dataFirebase.relatorioColheita;
+		return lastNumber ? lastNumber : 1;
+	};
 
 	useEffect(() => {
 		const getDocs = async () => {
-			const data = await getAndGenerateIdFirebase();
-			return data;
+			const dataFirebase = await getAndGenerateIdFirebase();
+			console.log(dataFirebase.relatorioColheita);
 		};
 		getDocs();
 	}, []);
@@ -51,6 +61,22 @@ function WelcomeScreen() {
 		return <CardRomaneio data={itemData.item} />;
 	};
 
+	const handleRefresh = async () => {
+		console.log("refresh");
+		setRefreshing(true);
+		try {
+			const last = await getDocs();
+			console.log("last", last);
+		} catch (err) {
+			console.log("erro ao pegar os romaneios", err);
+		} finally {
+			setRefreshing(false);
+		}
+		// setTimeout(() => {
+		// 	setRefreshing(false);
+		// }, 1500);
+	};
+
 	return (
 		<View style={styles.rootContainer}>
 			<View style={styles.resumoContainer}>
@@ -58,14 +84,23 @@ function WelcomeScreen() {
 			</View>
 			<SafeAreaView style={styles.roundList}>
 				<View style={styles.listContainer}>
+					{/* {refreshing ? <ActivityIndicator /> : null} */}
 					{data && data.length > 0 && (
 						<FlatList
 							data={data}
-							keyExtractor={(item) => item.id}
+							keyExtractor={(item) => item.idApp}
 							renderItem={renderRomaneioList}
 							ItemSeparatorComponent={() => (
 								<View style={{ height: 13 }} />
 							)}
+							refreshControl={
+								<RefreshControl
+									refreshing={refreshing}
+									onRefresh={handleRefresh}
+									colors={["#9Bd35A", "#689F38"]}
+									tintColor={"whitesmoke"}
+								/>
+							}
 						/>
 					)}
 

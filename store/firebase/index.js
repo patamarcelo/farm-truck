@@ -46,23 +46,28 @@ export const addRomaneioFirebase = async (romaneio) => {
 	}
 };
 
+const getLastRomaneioNUmber = async () => {
+	const dataFirebase = await getAndGenerateIdFirebase();
+	const lastNumber = dataFirebase.relatorioColheita;
+	console.log("dataFirebase", dataFirebase);
+	console.log("lastNumber", lastNumber);
+	return lastNumber ? lastNumber : 0;
+};
+
 const updateSingleDoc = async (idDoc) => {
+	const lastNumber = await getLastRomaneioNUmber();
+	console.log("return Last", lastNumber);
 	const documentUpdate = doc(db, "truckmove", idDoc);
 	await updateDoc(documentUpdate, {
-		id: idDoc
+		id: idDoc,
+		relatorioColheita: lastNumber + 1
 	});
 };
 
 export const getDocumentosFirebase = async (idForm) => {
-	const q = query(collection(db, "truckmove"), where("id", "==", idForm));
-	const querySnapshot = await getDocs(q);
-	querySnapshot.forEach((doc) => {
-		// doc.data() is never undefined for query doc snapshots
-		console.log(doc.id, " => ", doc.data());
-	});
 	try {
 		const response = await updateSingleDoc(idForm);
-		console.log(response);
+		console.log("documento editado", response);
 	} catch (err) {
 		console.log("Erro ao editar o documento", idForm);
 	}
@@ -88,7 +93,7 @@ export const getAndGenerateIdFirebase = async () => {
 		collection(db, "truckmove"),
 		where("idApp", "!=", null),
 		orderBy("idApp", "desc"),
-		limit(1)
+		limit(2)
 	);
 	const querySnapshot = await getDocs(q);
 	let allData = [];
@@ -98,5 +103,17 @@ export const getAndGenerateIdFirebase = async () => {
 		allData.push(doc.data());
 	});
 
-	return allData;
+	return allData[1];
+};
+
+export const saveDataOnFirebaseAndUpdate = async (newData) => {
+	try {
+		const response = await addRomaneioFirebase(newData);
+		console.log("DB Response", response);
+		if (response) {
+			await getDocumentosFirebase(response);
+		}
+	} catch (err) {
+		console.log("erro ao salvar os dados", err);
+	}
 };

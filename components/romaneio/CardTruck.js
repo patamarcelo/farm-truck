@@ -9,15 +9,23 @@ import { useNavigation } from "@react-navigation/native";
 
 import { ICON_URL, findImg } from "../../utils/imageUrl";
 import { formatDate } from "../../utils/formatDate";
-
+import { useRoute } from "@react-navigation/native";
 const width = Dimensions.get("window").width; //full width
+
+const dictRoute = {
+	Romaneios: "modalRomaneios",
+	Welcome: "ModalRomaneio"
+};
 
 const CardRomaneio = (props) => {
 	const { data, styleContainer } = props;
 	const navigation = useNavigation();
-	// console.log(data);
+	const route = useRoute();
+
 	const handleDataTruck = () => {
-		navigation.navigate("ModalRomaneio", { data: data.id });
+		const name = route.name;
+		const routeName = dictRoute[name];
+		navigation.navigate(`${routeName}`, { data: data.id });
 	};
 
 	const labelParcelas = (data) => {

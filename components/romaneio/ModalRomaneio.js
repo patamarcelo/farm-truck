@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { romaneioSelector } from "../../store/redux/selector";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useEffect } from "react";
 
 import { Colors } from "../../constants/styles";
 
@@ -17,6 +17,7 @@ const ModalRomaneioScreen = () => {
 	const id = route.params.data;
 	const data = useSelector(romaneioSelector);
 	const [dataShow, setDataShow] = useState("");
+	const [NumberRomaneio, setNumberRomaneio] = useState();
 
 	useLayoutEffect(() => {
 		const compData = data.filter((dataFind) => dataFind.id === id)[0];
@@ -34,6 +35,13 @@ const ModalRomaneioScreen = () => {
 		return "red";
 	};
 
+	useEffect(() => {
+		const newNumber = dataShow.relatorioColheita
+			? dataShow.relatorioColheita
+			: dataShow.idApp;
+		setNumberRomaneio(newNumber);
+	}, [dataShow]);
+
 	return (
 		<>
 			{dataShow ? (
@@ -43,7 +51,7 @@ const ModalRomaneioScreen = () => {
 							DETALHE DO ROMANEIO
 						</Text>
 						<Text style={styles.headerRomaneio}>
-							Nº {dataShow.relatorioColheita}
+							Nº {NumberRomaneio}
 						</Text>
 					</View>
 					<View
