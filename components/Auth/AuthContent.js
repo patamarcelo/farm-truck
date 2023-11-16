@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 		shadowRadius: 4
 	},
 	buttons: {
-		marginTop: 8
+		marginTop: 18
 	},
 	image: {
 		width: 60,

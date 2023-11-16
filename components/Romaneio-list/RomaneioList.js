@@ -18,8 +18,8 @@ const renderRomaneioList = (itemData) => {
 	);
 };
 
-const RomaneioList = ({ search }) => {
-	const data = useSelector(romaneioSelector);
+const RomaneioList = ({ search, data }) => {
+	// const data = useSelector(romaneioSelector);
 	const [filteredData, setFilteredData] = useState([]);
 	useLayoutEffect(() => {
 		setFilteredData(data);

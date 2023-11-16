@@ -13,6 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 import MultiSelect from "react-native-multiple-select";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
 
+import { DEST } from "../../store/initialForm";
+
 const customData = require("../../store/parcelas.json");
 
 const FadeInView = (props) => {
@@ -45,11 +47,14 @@ function FormInputs({
 	handlerChange,
 	selectedFarm,
 	setSelectedFarm,
-	setValue
+	setValue,
+	setSelectedDest,
+	selectedDest
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
 	const [filteredFarms, setFilteredFarms] = useState([]);
+	const [filteredDest, setFilteredDest] = useState([]);
 	const [filteredParcelasFarmObj, setfilteredParcelasFarmObj] = useState([]);
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
 
@@ -63,6 +68,11 @@ function FormInputs({
 			return { label: data, value: data };
 		});
 		setFilteredFarms(onlyFarsObj);
+
+		const filtDest = DEST.map((data) => {
+			return { label: data, value: data };
+		});
+		setFilteredDest(filtDest);
 	}, []);
 
 	useEffect(() => {
@@ -112,9 +122,14 @@ function FormInputs({
 		setSelectedItems(items);
 	};
 
-	const handlerChangeSelect = (items) => {
-		console.log("farm", items);
-		setSelectedFarm(items);
+	const handlerChangeSelect = (farm) => {
+		console.log("farm", farm);
+		setSelectedFarm(farm);
+	};
+	const handlerChangeSelectDest = (dest) => {
+		console.log("Destino", dest);
+		setSelectedDest(dest);
+		setValue("fazendaDestino", dest);
 	};
 
 	return (
@@ -242,8 +257,8 @@ function FormInputs({
 											}}
 											selectedText={
 												value.length > 1
-													? "itens selecionados"
-													: "item selecionado"
+													? "Parcelas selecionadas"
+													: "Parcela selecionada"
 											}
 											selectedItems={value}
 											selectText="Selecione as Parcelas"
@@ -353,6 +368,46 @@ function FormInputs({
 					)}
 				/>
 			</View>
+			<View
+				style={[
+					styles.pickerView,
+					styles.inputContainer,
+					errors.fazendaOrigem && styles.errorStyle
+				]}
+			>
+				{
+					<Controller
+						control={control}
+						name="fazendaDestino"
+						render={({ field: { onChange, onBlur, value } }) => (
+							<SelectPicker
+								selectionColor={"rgba(255,255,255,0.2)"}
+								itemStyle={{ color: "whitesmoke" }}
+								style={{ height: 100 }}
+								selectedValue={selectedDest}
+								onValueChange={(e) => {
+									handlerChangeSelectDest(e, "Parcelas");
+								}}
+							>
+								{filteredDest.map((data, i) => {
+									return (
+										<SelectPicker.Item
+											key={i}
+											label={data.label}
+											value={data.value}
+										/>
+									);
+								})}
+							</SelectPicker>
+						)}
+					/>
+				}
+			</View>
+			{errors.fazendaOrigem && (
+				<Text style={styles.labelError}>
+					{errors.fazendaOrigem?.message}
+				</Text>
+			)}
 			<Controller
 				control={control}
 				name="observacoes"

@@ -1,7 +1,10 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { romaneioSelector } from "../../store/redux/selector";
+import {
+	romaneiosFarmSelector,
+	romaneioSelector
+} from "../../store/redux/selector";
 import { useLayoutEffect, useState, useEffect } from "react";
 
 import { Colors } from "../../constants/styles";
@@ -9,18 +12,31 @@ import { Colors } from "../../constants/styles";
 import { Dimensions } from "react-native";
 
 import { ICON_URL, findImg } from "../../utils/imageUrl";
+import { formatDateFirebase, formatDate } from "../../utils/formatDate";
 
 const width = Dimensions.get("window").width; //full width
 
-const ModalRomaneioScreen = () => {
+const ModalRomaneioScreen = ({ navigation }) => {
 	const route = useRoute();
 	const id = route.params.data;
-	const data = useSelector(romaneioSelector);
+	const { name } = navigation.getState()?.routes[0];
+	console.log(name);
+	let data = [];
+	if (name === "Romaneios") {
+		data = useSelector(romaneiosFarmSelector);
+	}
+	if (name === "Welcome") {
+		data = useSelector(romaneioSelector);
+	}
+
 	const [dataShow, setDataShow] = useState("");
 	const [NumberRomaneio, setNumberRomaneio] = useState();
 
 	useLayoutEffect(() => {
 		const compData = data.filter((dataFind) => dataFind.id === id)[0];
+		console.log("checkData :", data);
+		console.log("checkId :", id);
+		console.log("compData: ", compData);
 		setDataShow(compData);
 	}, []);
 
@@ -36,9 +52,9 @@ const ModalRomaneioScreen = () => {
 	};
 
 	useEffect(() => {
-		const newNumber = dataShow.relatorioColheita
-			? dataShow.relatorioColheita
-			: dataShow.idApp;
+		const newNumber = dataShow?.relatorioColheita
+			? dataShow?.relatorioColheita
+			: dataShow?.idApp;
 		setNumberRomaneio(newNumber);
 	}, [dataShow]);
 
@@ -72,7 +88,9 @@ const ModalRomaneioScreen = () => {
 					</View>
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Data: </Text>
-						<Text style={styles.resultDoc}>10/02/2023</Text>
+						<Text style={styles.resultDoc}>
+							{formatDateFirebase(dataShow)}
+						</Text>
 					</View>
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Placa:</Text>
@@ -132,17 +150,42 @@ const ModalRomaneioScreen = () => {
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Peso Bruto:</Text>
 						<Text style={styles.resultDoc}>
-							{dataShow.pesoBruto}
+							{dataShow.pesoBruto &&
+								parseInt(dataShow.pesoBruto).toLocaleString(
+									"pt-br",
+									{
+										minimumFractionDigits: 0,
+										maximumFractionDigits: 0
+									}
+								)}
 						</Text>
 					</View>
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Peso Tara:</Text>
-						<Text style={styles.resultDoc}>{dataShow.tara}</Text>
+						<Text style={styles.resultDoc}>
+							{dataShow.tara &&
+								parseInt(dataShow.tara).toLocaleString(
+									"pt-br",
+									{
+										minimumFractionDigits: 0,
+										maximumFractionDigits: 0
+									}
+								)}
+						</Text>
 					</View>
 
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Peso Líquido:</Text>
-						<Text style={styles.resultDoc}>{dataShow.liquido}</Text>
+						<Text style={styles.resultDoc}>
+							{dataShow.liquido &&
+								parseInt(dataShow.liquido).toLocaleString(
+									"pt-br",
+									{
+										minimumFractionDigits: 0,
+										maximumFractionDigits: 0
+									}
+								)}
+						</Text>
 					</View>
 				</View>
 			) : (

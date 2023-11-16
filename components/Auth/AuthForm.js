@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
 		marginTop: 12
 	},
 	btnStyle: {
-		backgroundColor: 'green'
+		backgroundColor: "green",
+		marginTop: 20
 	}
 });

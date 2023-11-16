@@ -14,14 +14,73 @@ import ResumoContainer from "../components/romaneio/ResumoContainer";
 import { useEffect, useState } from "react";
 import {
 	getAllDocsFirebase,
-	getAndGenerateIdFirebase
+	getAndGenerateIdFirebase,
+	saveDataOnFirebaseAndUpdate
 } from "../store/firebase/index";
-import { addRomaneio } from "../store/redux/romaneios";
+import { addRomaneio, removeFromCargas } from "../store/redux/romaneios";
 import { useLayoutEffect } from "react";
 
 import { ActivityIndicator, RefreshControl } from "react-native";
 
+import {
+	ALERT_TYPE,
+	Dialog,
+	AlertNotificationRoot,
+	Toast
+} from "react-native-alert-notification";
+
 const width = Dimensions.get("window").width; //full width
+
+const Title = ({ text }) => {
+	return (
+		<View style={{ paddingTop: 40 }}>
+			<Text style={{ color: "whitesmoke", fontWeight: "bold" }}>
+				{text}
+			</Text>
+		</View>
+	);
+};
+
+const TrySom = ({ email }) => {
+	return (
+		<View style={{ width: "100%" }}>
+			<Text
+				style={{
+					color: "whitesmoke",
+					textAlign: "center",
+					fontSize: 12,
+					marginTop: 20
+				}}
+			>
+				<Text style={{ fontWeight: "bold" }}>
+					Romaneio Sincronizado com sucesso!
+				</Text>
+			</Text>
+			<Text
+				style={{
+					color: "whitesmoke",
+					textAlign: "center",
+					marginBottom: 20,
+					fontSize: 12,
+					marginTop: 20
+				}}
+			>
+				{/* Comprovante enviado por email para:{" "} */}
+				<Text style={{ fontWeight: "bold" }}>{email}</Text>
+			</Text>
+			<Text
+				style={{
+					color: Colors.gold[200],
+					textAlign: "center",
+					fontSize: 8
+				}}
+			>
+				{/* Caso o cliente não receba o comprovante, falar com
+				financeiro@pitayajoias.com.br */}
+			</Text>
+		</View>
+	);
+};
 
 function WelcomeScreen() {
 	const data = useSelector(romaneioSelector);
@@ -29,10 +88,10 @@ function WelcomeScreen() {
 	const tabBarHeight = useBottomTabBarHeight();
 	const dispatch = useDispatch();
 	const [refreshing, setRefreshing] = useState(false);
+	const [lastDoc, setLastDoc] = useState(null);
 
 	const getDocs = async () => {
 		const dataFirebase = await getAndGenerateIdFirebase();
-		console.log(dataFirebase.relatorioColheita);
 		const lastNumber = dataFirebase.relatorioColheita;
 		return lastNumber ? lastNumber : 1;
 	};
@@ -40,7 +99,6 @@ function WelcomeScreen() {
 	useEffect(() => {
 		const getDocs = async () => {
 			const dataFirebase = await getAndGenerateIdFirebase();
-			console.log(dataFirebase.relatorioColheita);
 		};
 		getDocs();
 	}, []);
@@ -62,11 +120,26 @@ function WelcomeScreen() {
 	};
 
 	const handleRefresh = async () => {
-		console.log("refresh");
+		const dataToAdd = data[data.length - 1];
+		const idToFind = dataToAdd.idApp;
 		setRefreshing(true);
 		try {
-			const last = await getDocs();
-			console.log("last", last);
+			const response = await saveDataOnFirebaseAndUpdate(dataToAdd);
+			console.log("Response: ", response);
+			if (response) {
+				dispatch(removeFromCargas(idToFind));
+				const last = await getDocs();
+				// console.log("last", last);
+				Dialog.show({
+					type: ALERT_TYPE.SUCCESS,
+					title: <Title text={"Feito!!"} />,
+					textBody: <TrySom />,
+					button: "Finalizar"
+					// onPressButton: () => {
+					// 	navigation.navigate("PagamentosTab");
+					// }
+				});
+			}
 		} catch (err) {
 			console.log("erro ao pegar os romaneios", err);
 		} finally {
@@ -78,42 +151,44 @@ function WelcomeScreen() {
 	};
 
 	return (
-		<View style={styles.rootContainer}>
-			<View style={styles.resumoContainer}>
-				<ResumoContainer />
-			</View>
-			<SafeAreaView style={styles.roundList}>
-				<View style={styles.listContainer}>
-					{/* {refreshing ? <ActivityIndicator /> : null} */}
-					{data && data.length > 0 && (
-						<FlatList
-							data={data}
-							keyExtractor={(item) => item.idApp}
-							renderItem={renderRomaneioList}
-							ItemSeparatorComponent={() => (
-								<View style={{ height: 13 }} />
-							)}
-							refreshControl={
-								<RefreshControl
-									refreshing={refreshing}
-									onRefresh={handleRefresh}
-									colors={["#9Bd35A", "#689F38"]}
-									tintColor={"whitesmoke"}
-								/>
-							}
-						/>
-					)}
-
-					{data && data.length === 0 && (
-						<View style={styles.adviseContainer}>
-							<Text style={styles.adviseContainerTitle}>
-								Sem Romaneio em Transito!!
-							</Text>
-						</View>
-					)}
+		<AlertNotificationRoot>
+			<View style={styles.rootContainer}>
+				<View style={styles.resumoContainer}>
+					<ResumoContainer />
 				</View>
-			</SafeAreaView>
-		</View>
+				<SafeAreaView style={styles.roundList}>
+					<View style={styles.listContainer}>
+						{/* {refreshing ? <ActivityIndicator /> : null} */}
+						{data && data.length > 0 && (
+							<FlatList
+								data={data}
+								keyExtractor={(item) => item.idApp}
+								renderItem={renderRomaneioList}
+								ItemSeparatorComponent={() => (
+									<View style={{ height: 13 }} />
+								)}
+								refreshControl={
+									<RefreshControl
+										refreshing={refreshing}
+										onRefresh={handleRefresh}
+										colors={["#9Bd35A", "#689F38"]}
+										tintColor={"whitesmoke"}
+									/>
+								}
+							/>
+						)}
+
+						{data && data.length === 0 && (
+							<View style={styles.adviseContainer}>
+								<Text style={styles.adviseContainerTitle}>
+									Sem Romaneio Pendente!!
+								</Text>
+							</View>
+						)}
+					</View>
+				</SafeAreaView>
+			</View>
+		</AlertNotificationRoot>
 	);
 }
 
@@ -155,7 +230,7 @@ const styles = StyleSheet.create({
 		shadowRadius: 4
 	},
 	roundList: {
-		flex: 2,
+		flex: 3,
 		// width: "100%",
 		backgroundColor: Colors.primary500
 	},

@@ -8,7 +8,7 @@ import { Divider } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 
 import { ICON_URL, findImg } from "../../utils/imageUrl";
-import { formatDate } from "../../utils/formatDate";
+import { formatDate, formatDateFirebase } from "../../utils/formatDate";
 import { useRoute } from "@react-navigation/native";
 const width = Dimensions.get("window").width; //full width
 
@@ -19,6 +19,7 @@ const dictRoute = {
 
 const CardRomaneio = (props) => {
 	const { data, styleContainer } = props;
+	console.log(data);
 	const navigation = useNavigation();
 	const route = useRoute();
 
@@ -43,20 +44,48 @@ const CardRomaneio = (props) => {
 				onPress={handleDataTruck}
 			>
 				<View style={styles.truckContainer}>
-					<View>
+					<View
+						style={{
+							justifyContent: "center",
+							alignItems: "center"
+						}}
+					>
 						<MaterialCommunityIcons
 							name="dump-truck"
 							size={42}
-							color={Colors.yellow[600]}
+							color={
+								data.id
+									? Colors.success[500]
+									: Colors.yellow[700]
+							}
 						/>
 						<Text style={styles.textNumber}>
-							Nº {data.relatorioColheita}
+							Nº{" "}
+							{data?.relatorioColheita
+								? data?.relatorioColheita
+								: "-"}
 						</Text>
 					</View>
-					<View>
-						<Text style={styles.textData}>
-							{formatDate(data.appDate)}
-						</Text>
+					<View
+						style={{
+							justifyContent: "center",
+							alignItems: "center"
+						}}
+					>
+						{data?.relatorioColheita ? (
+							<>
+								<Text style={styles.textData}>
+									{formatDateFirebase(data).split("-")[0]}
+								</Text>
+								<Text style={styles.textData}>
+									{formatDateFirebase(data).split("-")[1]}
+								</Text>
+							</>
+						) : (
+							<Text style={styles.textData}>
+								{formatDate(data.appDate)}
+							</Text>
+						)}
 					</View>
 				</View>
 				<View style={styles.mainContainerData}>
@@ -164,6 +193,8 @@ const styles = StyleSheet.create({
 	},
 	truckContainer: {
 		flex: 1,
+		marginLeft: -10,
+		paddingRight: 20,
 		height: "100%",
 		justifyContent: "space-around"
 	},

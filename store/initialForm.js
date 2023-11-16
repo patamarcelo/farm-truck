@@ -20,7 +20,7 @@ export const INITIAL = {
 	entrada: "",
 	unidadeOp: "",
 	mercadoria: "", // variedade
-	saida: "-",
+	saida: "",
 	origem: "",
 	valorFrete: "",
 	ticket: "",
@@ -29,5 +29,14 @@ export const INITIAL = {
 	op: "",
 	id: "", // firebaseId
 	idApp: "",
-	userApp: ""
+	userApp: "",
+	createdBy: "App"
 };
+
+export const DEST = [
+	"Selecione o Destino",
+	"UBS",
+	"Diamante",
+	"JK",
+	"Fazendão"
+];

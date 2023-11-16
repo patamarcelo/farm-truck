@@ -17,10 +17,46 @@ import { AuthContext } from "../store/auth-context";
 import RomaneioList from "../components/Romaneio-list/RomaneioList";
 import SearchBar from "../components/Romaneio-list/RomaneioSearchBar";
 
+import { getAllDocsFirebase } from "../store/firebase/index";
+import { useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
+
+import { useDispatch, useSelector } from "react-redux";
+import { addRomaneiosFarm } from "../store/redux/romaneios";
+import { romaneiosFarmSelector } from "../store/redux/selector";
+
 import { Dimensions } from "react-native";
 const width = Dimensions.get("window").width; //full width
 
-const RomaneioScreen = () => {
+const RomaneioScreen = ({ navigation, route }) => {
+	const isFocused = useIsFocused();
+	const [sentData, setSentData] = useState([]);
+	const dispatch = useDispatch();
+	const data = useSelector(romaneiosFarmSelector);
+	useEffect(() => {
+		if (data) {
+			setSentData(data);
+		} else {
+			setSentData([]);
+		}
+	}, []);
+	useEffect(() => {
+		if (data) {
+			setSentData(data);
+		}
+	}, [data]);
+	useEffect(() => {
+		const getDataFire = async () => {
+			const data = await getAllDocsFirebase("Projeto Capivara");
+			dispatch(addRomaneiosFarm(data));
+			return data;
+		};
+		if (isFocused) {
+			console.log("isFocused", isFocused);
+			getDataFire();
+		}
+	}, [isFocused]);
+
 	const context = useContext(AuthContext);
 	const [search, setSearch] = useState("");
 
@@ -34,7 +70,7 @@ const RomaneioScreen = () => {
 				updateSearchHandler={updateSearchHandler}
 			/>
 			<ScrollView>
-				<RomaneioList search={search} />
+				<RomaneioList search={search} data={sentData} />
 			</ScrollView>
 		</View>
 	);

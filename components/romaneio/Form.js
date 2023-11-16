@@ -54,6 +54,7 @@ const FormScreen = ({ navigation }) => {
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
 	const [selectedFarm, setSelectedFarm] = useState(null);
+	const [selectedDest, setSelectedDest] = useState(null);
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
@@ -96,7 +97,8 @@ const FormScreen = ({ navigation }) => {
 			//dummy data below
 			idApp: Date.now(),
 			appDate: new Date(),
-			createdAt: new Date()
+			createdAt: new Date(),
+			entrada: new Date()
 			// relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
 		console.log(newData);
@@ -109,7 +111,7 @@ const FormScreen = ({ navigation }) => {
 				console.log("problema em salvar o arquivo local", err);
 			}
 			// save on DB
-			saveDataOnFirebaseAndUpdate(newData);
+			// saveDataOnFirebaseAndUpdate(newData);
 		} catch (err) {
 			console.log("erro submit global", err);
 		} finally {
@@ -178,6 +180,8 @@ const FormScreen = ({ navigation }) => {
 						selectedFarm={selectedFarm}
 						setValue={setValue}
 						setSelectedFarm={setSelectedFarm}
+						selectedDest={selectedDest}
+						setSelectedDest={setSelectedDest}
 					/>
 				</View>
 				<View style={styles.buttonContainer}>
