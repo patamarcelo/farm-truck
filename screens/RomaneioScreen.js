@@ -25,7 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addRomaneiosFarm } from "../store/redux/romaneios";
 import { romaneiosFarmSelector } from "../store/redux/selector";
 
-import { Dimensions } from "react-native";
+import { Dimensions, RefreshControl } from "react-native";
+
 const width = Dimensions.get("window").width; //full width
 
 const RomaneioScreen = ({ navigation, route }) => {
@@ -33,6 +34,8 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const [sentData, setSentData] = useState([]);
 	const dispatch = useDispatch();
 	const data = useSelector(romaneiosFarmSelector);
+
+	const [refreshing, setRefreshing] = useState(false);
 	useEffect(() => {
 		if (data) {
 			setSentData(data);
@@ -40,11 +43,13 @@ const RomaneioScreen = ({ navigation, route }) => {
 			setSentData([]);
 		}
 	}, []);
+
 	useEffect(() => {
 		if (data) {
 			setSentData(data);
 		}
 	}, [data]);
+
 	useEffect(() => {
 		const getDataFire = async () => {
 			const data = await getAllDocsFirebase("Projeto Capivara");
@@ -56,6 +61,20 @@ const RomaneioScreen = ({ navigation, route }) => {
 			getDataFire();
 		}
 	}, [isFocused]);
+
+	const handleRefresh = async () => {
+		setRefreshing(true);
+		try {
+			const data = await getAllDocsFirebase("Projeto Capivara");
+			if (data) {
+				dispatch(addRomaneiosFarm(data));
+			}
+		} catch (error) {
+			console.log("Erro ao pegar os dados: ", error);
+		} finally {
+			setRefreshing(false);
+		}
+	};
 
 	const context = useContext(AuthContext);
 	const [search, setSearch] = useState("");
@@ -69,7 +88,16 @@ const RomaneioScreen = ({ navigation, route }) => {
 				search={search}
 				updateSearchHandler={updateSearchHandler}
 			/>
-			<ScrollView>
+			<ScrollView
+				refreshControl={
+					<RefreshControl
+						refreshing={refreshing}
+						onRefresh={handleRefresh}
+						colors={["#9Bd35A", "#689F38"]}
+						tintColor={"whitesmoke"}
+					/>
+				}
+			>
 				<RomaneioList search={search} data={sentData} />
 			</ScrollView>
 		</View>

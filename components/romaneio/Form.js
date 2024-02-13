@@ -98,8 +98,8 @@ const FormScreen = ({ navigation }) => {
 			idApp: Date.now(),
 			appDate: new Date(),
 			createdAt: new Date(),
-			entrada: new Date()
-			// relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
+			entrada: new Date(),
+			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
 		console.log(newData);
 		setIsLoading(true);

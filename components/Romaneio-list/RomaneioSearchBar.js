@@ -1,6 +1,6 @@
 import { SearchBar } from "react-native-elements";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { Colors } from "../../constants/styles";
 
 const SearchBarComp = (props) => {
@@ -15,6 +15,11 @@ const SearchBarComp = (props) => {
 					onChangeText={updateSearchHandler}
 					value={search}
 				/>
+				<View style={styles.helperTextContainer}>
+					<Text style={styles.helpText}>
+						Por Placa, ou Motorista, ou Parcela(s)
+					</Text>
+				</View>
 			</View>
 		</SafeAreaView>
 	);
@@ -23,6 +28,15 @@ const SearchBarComp = (props) => {
 export default SearchBarComp;
 
 const styles = StyleSheet.create({
+	helperTextContainer: {
+		marginHorizontal: 20,
+		marginTop: -5,
+		alignItems: "flex-start"
+	},
+	helpText: {
+		fontSize: 10,
+		color: "lightgrey"
+	},
 	mainContainer: {
 		width: "100%",
 		paddingVertical: 10,
