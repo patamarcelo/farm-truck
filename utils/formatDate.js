@@ -17,11 +17,11 @@ export const formatDateFirebase = (entry) => {
 	let atTime = "";
 	if (typeof entrada === "object") {
 		console.log("dateEntryEntrada: ", entrada);
-		newDate = moment
-			.utc(entrada.seconds * 1000)
-			.format("DD/MM/YYYY - HH:mm");
+		newDate = moment(
+			new Date(entrada.seconds * 1000 + entrada.nanoseconds / 1000000)
+		).format("DD/MM/YYYY - HH:mm");
 		// const newDate = new Date(
-		// 	entrada.seconds * 1000 + entrada.nanoseconds / 1000000
+		// entrada.seconds * 1000 + entrada.nanoseconds / 1000000
 		// );
 		date = newDate.split("-")[0];
 		atTime = newDate.split("-")[1];

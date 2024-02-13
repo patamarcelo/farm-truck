@@ -91,6 +91,7 @@ export const getAllDocsFirebase = async (farm) => {
 		collection(db, "truckmove"),
 		// where("fazendaOrigem", "==", farm),
 		where("createdBy", "==", "App")
+		// orderBy("relatorioColheita")
 	);
 	const querySnapshot = await getDocs(q);
 	let allData = [];

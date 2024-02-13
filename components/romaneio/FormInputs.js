@@ -117,6 +117,37 @@ function FormInputs({
 		}
 	}, [selectedFarm]);
 
+	useEffect(() => {
+		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
+			const selectedData = customData.dados[selectedFarm];
+			const filteredArrParcelas = Object.keys(selectedData);
+			if (filteredArrParcelas) {
+				const parcelasObj = filteredArrParcelas.map((data, i) => {
+					return { id: data, name: data };
+				});
+				setParcelasSelected(parcelasObj);
+			}
+			let finalArr = [];
+			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
+				const obj = {
+					parcela: data,
+					ciclo: selectedData[data].ciclo,
+					cultura: selectedData[data].cultura,
+					variedade: selectedData[data].variedade,
+					colheita: selectedData[data].finalizado_colheita,
+					safra: selectedData[data].safra,
+					ciclo: selectedData[data].ciclo
+				};
+				finalArr.push(obj);
+			});
+			setfilteredParcelasFarmObj(finalArr);
+		}
+		setValue("parcelasNovas", []);
+		if (selectedFarm !== "Selecione a Fazenda") {
+			setValue("fazendaOrigem", selectedFarm);
+		}
+	}, []);
+
 	const onSelectedItemsChange = (items) => {
 		console.log("farm", items);
 		setSelectedItems(items);

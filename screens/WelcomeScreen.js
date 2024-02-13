@@ -29,6 +29,8 @@ import {
 	Toast
 } from "react-native-alert-notification";
 
+import NetInfo from "@react-native-community/netinfo";
+
 const width = Dimensions.get("window").width; //full width
 
 const Title = ({ text }) => {
@@ -124,21 +126,30 @@ function WelcomeScreen() {
 		const idToFind = dataToAdd.idApp;
 		setRefreshing(true);
 		try {
-			const response = await saveDataOnFirebaseAndUpdate(dataToAdd);
-			console.log("Response: ", response);
-			if (response) {
-				dispatch(removeFromCargas(idToFind));
-				const last = await getDocs();
-				// console.log("last", last);
-				Dialog.show({
-					type: ALERT_TYPE.SUCCESS,
-					title: <Title text={"Feito!!"} />,
-					textBody: <TrySom />,
-					button: "Finalizar"
-					// onPressButton: () => {
-					// 	navigation.navigate("PagamentosTab");
-					// }
-				});
+			const isConnected = NetInfo.fetch().then((state) => {
+				console.log("está conectado :", state.isConnected);
+				return state.isConnected;
+			});
+			console.log("isConected ;", isConnected);
+			if (isConnected) {
+				const response = await saveDataOnFirebaseAndUpdate(dataToAdd);
+				console.log("Response: ", response);
+				if (response) {
+					dispatch(removeFromCargas(idToFind));
+					const last = await getDocs();
+					// console.log("last", last);
+					Dialog.show({
+						type: ALERT_TYPE.SUCCESS,
+						title: <Title text={"Feito!!"} />,
+						textBody: <TrySom />,
+						button: "Finalizar"
+						// onPressButton: () => {
+						// 	navigation.navigate("PagamentosTab");
+						// }
+					});
+				}
+			} else {
+				setRefreshing(false);
 			}
 		} catch (err) {
 			console.log("erro ao pegar os romaneios", err);

@@ -60,7 +60,7 @@ const ResumoContainer = () => {
 			<View style={styles.rightSide}>
 				{parcelasArr.map((data, i) => {
 					return (
-						<View style={styles.containerQuant}>
+						<View style={styles.containerQuant} key={i}>
 							<Text style={styles.reumoParcela}>
 								{data.parcela}
 							</Text>
