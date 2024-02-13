@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.patamarcelo.farmtruck"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +31,10 @@
       "eas": {
         "projectId": "075458d8-8b7f-45b4-87cb-83f54f03c491"
       }
+    },
+    "runtimeVersion": "exposdk:46.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/075458d8-8b7f-45b4-87cb-83f54f03c491"
     }
   }
 }
