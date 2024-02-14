@@ -32,6 +32,8 @@ import { saveDataOnFirebaseAndUpdate } from "../../store/firebase/index";
 
 import { useIsFocused } from "@react-navigation/native";
 
+import * as Location from "expo-location";
+
 const schema = yup.object({
 	placa: yup
 		.string()
@@ -56,6 +58,21 @@ const FormScreen = ({ navigation }) => {
 	const [selectedFarm, setSelectedFarm] = useState(null);
 	const [selectedDest, setSelectedDest] = useState(null);
 	const isFocused = useIsFocused();
+
+	const [location, setLocation] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status !== "granted") {
+				setErrorMsg("Permission to access location was denied");
+				return;
+			}
+
+			let location = await Location.getCurrentPositionAsync({});
+			setLocation(location);
+		})();
+	}, []);
 
 	useEffect(() => {
 		console.log(selectedFarm);
@@ -94,6 +111,7 @@ const FormScreen = ({ navigation }) => {
 		const newData = {
 			...INITIAL,
 			...data,
+			coords: location,
 			//dummy data below
 			idApp: Date.now(),
 			appDate: new Date(),

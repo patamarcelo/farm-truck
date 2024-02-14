@@ -16,7 +16,7 @@ export const formatDateFirebase = (entry) => {
 	let date = "";
 	let atTime = "";
 	if (typeof entrada === "object") {
-		console.log("dateEntryEntrada: ", entrada);
+		// console.log("dateEntryEntrada: ", entrada);
 		newDate = moment(
 			new Date(entrada.seconds * 1000 + entrada.nanoseconds / 1000000)
 		).format("DD/MM/YYYY - HH:mm");
@@ -37,7 +37,7 @@ export const formatDateFirebase = (entry) => {
 	// const formatDate = [day, month, year].join("/");
 	const dateF = `${date} - ${atTime}`;
 	// const dateF = `${date} - `;
-	console.log("dateF", dateF);
+	// console.log("dateF", dateF);
 	// const dateF = "-";
 	return dateF;
 };

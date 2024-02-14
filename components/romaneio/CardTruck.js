@@ -47,7 +47,8 @@ const CardRomaneio = (props) => {
 					<View
 						style={{
 							justifyContent: "center",
-							alignItems: "center"
+							alignItems: "flex-start",
+							paddingLeft: 20
 						}}
 					>
 						<MaterialCommunityIcons
@@ -69,7 +70,8 @@ const CardRomaneio = (props) => {
 					<View
 						style={{
 							justifyContent: "center",
-							alignItems: "center"
+							alignItems: "flex-start",
+							paddingLeft: 30
 						}}
 					>
 						{data?.relatorioColheita ? (
@@ -134,7 +136,7 @@ const CardRomaneio = (props) => {
 									source={findImg(ICON_URL, data.cultura)}
 									style={{ width: 25, height: 25 }}
 								/>
-								<View style={{ alignItems: "center" }}>
+								<View style={{ alignItems: "flex-end" }}>
 									<Text style={styles.titleInput}>
 										Variedade:
 									</Text>
@@ -160,11 +162,12 @@ const styles = StyleSheet.create({
 		fontWeight: "bold"
 	},
 	conatiner2: {
-		alignSelf: "flex-end"
+		alignSelf: "flex-end",
+		paddingRight: 10
 	},
 	containerDataInfo2: {
 		flexDirection: "column",
-		alignItems: "center",
+		alignItems: "flex-end",
 		justifyContent: "space-around",
 		flex: 0.8
 	},
@@ -209,11 +212,12 @@ const styles = StyleSheet.create({
 	rootContainer: {
 		// paddingVertical: 5,
 		flexDirection: "row",
-		width: width,
+		// width: width,
+		width: "100%",
 		height: 105,
 		justifyContent: "space-between",
 		alignItems: "center",
-		paddingHorizontal: 15,
+		// paddingHorizontal: 15,
 		backgroundColor: "white",
 
 		// borderWidth: 1,

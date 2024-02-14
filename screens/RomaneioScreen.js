@@ -4,7 +4,8 @@ import {
 	View,
 	Button,
 	SafeAreaView,
-	ScrollView
+	ScrollView,
+	ActivityIndicator
 } from "react-native";
 // import { ScrollView } from "react-native-virtualized-view";
 
@@ -18,7 +19,7 @@ import RomaneioList from "../components/Romaneio-list/RomaneioList";
 import SearchBar from "../components/Romaneio-list/RomaneioSearchBar";
 
 import { getAllDocsFirebase } from "../store/firebase/index";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +27,8 @@ import { addRomaneiosFarm } from "../store/redux/romaneios";
 import { romaneiosFarmSelector } from "../store/redux/selector";
 
 import { Dimensions, RefreshControl } from "react-native";
+
+import { useScrollToTop } from "@react-navigation/native";
 
 const width = Dimensions.get("window").width; //full width
 
@@ -35,7 +38,9 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const dispatch = useDispatch();
 	const data = useSelector(romaneiosFarmSelector);
 
+	const [isLoading, seTisLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
+	const ref = useRef(null);
 	useEffect(() => {
 		if (data) {
 			setSentData(data);
@@ -51,14 +56,21 @@ const RomaneioScreen = ({ navigation, route }) => {
 	}, [data]);
 
 	useEffect(() => {
-		const getDataFire = async () => {
-			const data = await getAllDocsFirebase("Projeto Capivara");
-			dispatch(addRomaneiosFarm(data));
-			return data;
-		};
-		if (isFocused) {
-			console.log("isFocused", isFocused);
-			getDataFire();
+		seTisLoading(true);
+		try {
+			const getDataFire = async () => {
+				const data = await getAllDocsFirebase("Projeto Capivara");
+				dispatch(addRomaneiosFarm(data));
+				return data;
+			};
+			if (isFocused) {
+				console.log("isFocused", isFocused);
+				getDataFire();
+			}
+		} catch (error) {
+			console.log("Erro em pegar os dados: ", error);
+		} finally {
+			seTisLoading(false);
 		}
 	}, [isFocused]);
 
@@ -76,12 +88,35 @@ const RomaneioScreen = ({ navigation, route }) => {
 		}
 	};
 
-	const context = useContext(AuthContext);
+	// const context = useContext(AuthContext);
 	const [search, setSearch] = useState("");
 
 	const updateSearchHandler = (e) => {
 		setSearch(e);
 	};
+
+	useScrollToTop(
+		useRef({
+			scrollToTop: () => ref.current?.scrollTo({ y: 0 })
+		})
+	);
+
+	useScrollToTop(ref);
+
+	if (isLoading) {
+		return (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: "center",
+					backgroundColor: "whitesmoke"
+				}}
+			>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
+
 	return (
 		<View style={styles.mainContainer}>
 			<SearchBar
@@ -89,6 +124,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 				updateSearchHandler={updateSearchHandler}
 			/>
 			<ScrollView
+				ref={ref}
 				refreshControl={
 					<RefreshControl
 						refreshing={refreshing}
@@ -116,9 +152,10 @@ const styles = StyleSheet.create({
 		color: "whitesmoke"
 	},
 	mainContainer: {
-		width: width,
-		padding: 2,
-
+		// width: width,
+		width: "100%",
+		// padding: 2,
+		backgroundColor: "red",
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",

@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	bannerContainer: {
-		borderRadius: 12,
-		width: "95%",
+		// borderRadius: 12,
+		width: "100%",
 		alignSelf: "center"
 	}
 });

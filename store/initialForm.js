@@ -30,7 +30,8 @@ export const INITIAL = {
 	id: "", // firebaseId
 	idApp: "",
 	userApp: "",
-	createdBy: "App"
+	createdBy: "App",
+	coords: ""
 };
 
 export const DEST = [

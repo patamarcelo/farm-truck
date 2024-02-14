@@ -14,6 +14,7 @@ import MultiSelect from "react-native-multiple-select";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
 
 import { DEST } from "../../store/initialForm";
+import { Divider } from "@rneui/themed";
 
 const customData = require("../../store/parcelas.json");
 
@@ -85,6 +86,11 @@ function FormInputs({
 		setValue("mercadoria", onlyVars[0]);
 		setValue("cultura", onlyCult[0]);
 	}, [filteInputparcelas]);
+
+	useEffect(() => {
+		setFilteInputparcelas([]);
+		return () => setFilteInputparcelas([]);
+	}, []);
 
 	useEffect(() => {
 		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
@@ -220,6 +226,7 @@ function FormInputs({
 					{errors.motorista?.message}
 				</Text>
 			)}
+			<Divider width={0.5} color={"white"} style={{ width: "100%" }} />
 
 			<View
 				style={[
@@ -357,48 +364,52 @@ function FormInputs({
 						</FadeInView>
 					</>
 				)}
-			<View style={styles.computedValues}>
-				<Controller
-					control={control}
-					name="cultura"
-					render={({ field: { onChange, onBlur, value } }) => (
-						<Input
-							styleInput={{
-								backgroundColor: Colors.primary100
-							}}
-							inputContainerProps={{ width: "48%" }}
-							label="Cultura"
-							onUpdateValue={onChange}
-							value={value}
-							// keyboardType="email-address"
-							onBlur={onBlur}
-							inputStyles={styles.inputStyles}
-							placeholder="Cultura"
-							disabled={true}
-						/>
-					)}
-				/>
-				<Controller
-					control={control}
-					name="mercadoria"
-					render={({ field: { onChange, onBlur, value } }) => (
-						<Input
-							styleInput={{
-								backgroundColor: Colors.primary100
-							}}
-							inputContainerProps={{ width: "48%" }}
-							label="Variedade"
-							onUpdateValue={onChange}
-							value={value}
-							// keyboardType="email-address"
-							onBlur={onBlur}
-							inputStyles={styles.inputStyles}
-							placeholder="Variedade"
-							disabled={true}
-						/>
-					)}
-				/>
-			</View>
+
+			{filteInputparcelas.length > 0 && (
+				<View style={styles.computedValues}>
+					<Controller
+						control={control}
+						name="cultura"
+						render={({ field: { onChange, onBlur, value } }) => (
+							<Input
+								styleInput={{
+									backgroundColor: Colors.primary100
+								}}
+								inputContainerProps={{ width: "48%" }}
+								label="Cultura"
+								onUpdateValue={onChange}
+								value={value}
+								// keyboardType="email-address"
+								onBlur={onBlur}
+								inputStyles={styles.inputStyles}
+								placeholder="Cultura"
+								disabled={true}
+							/>
+						)}
+					/>
+					<Controller
+						control={control}
+						name="mercadoria"
+						render={({ field: { onChange, onBlur, value } }) => (
+							<Input
+								styleInput={{
+									backgroundColor: Colors.primary100
+								}}
+								inputContainerProps={{ width: "48%" }}
+								label="Variedade"
+								onUpdateValue={onChange}
+								value={value}
+								// keyboardType="email-address"
+								onBlur={onBlur}
+								inputStyles={styles.inputStyles}
+								placeholder="Variedade"
+								disabled={true}
+							/>
+						)}
+					/>
+				</View>
+			)}
+			<Divider width={0.5} color={"white"} style={{ width: "100%" }} />
 			<View
 				style={[
 					styles.pickerView,
@@ -434,11 +445,13 @@ function FormInputs({
 					/>
 				}
 			</View>
+
 			{errors.fazendaOrigem && (
 				<Text style={styles.labelError}>
 					{errors.fazendaOrigem?.message}
 				</Text>
 			)}
+
 			<Controller
 				control={control}
 				name="observacoes"

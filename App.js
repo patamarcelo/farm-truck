@@ -102,15 +102,15 @@ function RomaneioStack({ route, navigation }) {
 				component={RomaneioScreen}
 				options={{
 					headerShown: false,
-					contentStyle: { backgroundColor: Colors.primary500 },
-					headerLeft: ({ tintColor }) => (
-						<IconButton
-							icon="arrow-back-sharp"
-							color={tintColor}
-							size={24}
-							onPress={handleBack}
-						/>
-					)
+					contentStyle: { backgroundColor: Colors.primary500 }
+					// headerLeft: ({ tintColor }) => (
+					// 	<IconButton
+					// 		icon="arrow-back-sharp"
+					// 		color={tintColor}
+					// 		size={24}
+					// 		onPress={handleBack}
+					// 	/>
+					// )
 				}}
 			/>
 			<Stack.Screen
@@ -152,14 +152,14 @@ function HomeScrennStack({ route, navigation }) {
 				backgroundColor: Colors.primary800,
 				borderTopColor: "transparent"
 			},
-			headerLeft: ({ tintColor }) => (
-				<IconButton
-					icon="refresh"
-					color={tintColor}
-					size={24}
-					onPress={handleRefresh}
-				/>
-			),
+			// headerLeft: ({ tintColor }) => (
+			// <IconButton
+			// 	icon="refresh"
+			// 	color={tintColor}
+			// 	size={24}
+			// 	onPress={handleRefresh}
+			// />
+			// ),
 			headerRight: ({ tintColor }) => (
 				<IconButton
 					icon="exit"
@@ -175,14 +175,14 @@ function HomeScrennStack({ route, navigation }) {
 		if (routeName === "Form") {
 			context.defineRouteName(routeName);
 			navigation.setOptions({
-				headerLeft: ({ tintColor }) => (
-					<IconButton
-						icon="arrow-back-sharp"
-						color={tintColor}
-						size={24}
-						onPress={handleBack}
-					/>
-				)
+				// headerLeft: ({ tintColor }) => (
+				// 	<IconButton
+				// 		icon="arrow-back-sharp"
+				// 		color={tintColor}
+				// 		size={24}
+				// 		onPress={handleBack}
+				// 	/>
+				// )
 				// headerRight: ({ tintColor }) => (
 				// 	<IconButton
 				// 		icon="home"
@@ -207,14 +207,14 @@ function HomeScrennStack({ route, navigation }) {
 		if (routeName === "Welcome") {
 			context.defineRouteName(routeName);
 			navigation.setOptions({
-				headerLeft: ({ tintColor }) => (
-					<IconButton
-						icon="refresh"
-						color={tintColor}
-						size={24}
-						onPress={handleRefresh}
-					/>
-				)
+				// headerLeft: ({ tintColor }) => (
+				// 	<IconButton
+				// 		icon="refresh"
+				// 		color={tintColor}
+				// 		size={24}
+				// 		onPress={handleRefresh}
+				// 	/>
+				// )
 			});
 		}
 	}, [routeName, navigation]);
@@ -328,14 +328,14 @@ function AuthenticatedStack(props) {
 						headerShown: false,
 						tabBarLabel: "Romaneios",
 						// tabBarStyle: { display: "none" },
-						headerRight: ({ tintColor }) => (
-							<IconButton
-								icon="exit"
-								color={tintColor}
-								size={24}
-								onPress={() => navigation.navigate("Welcome")}
-							/>
-						),
+						// headerRight: ({ tintColor }) => (
+						// 	<IconButton
+						// 		icon="exit"
+						// 		color={tintColor}
+						// 		size={24}
+						// 		onPress={() => navigation.navigate("Welcome")}
+						// 	/>
+						// ),
 						tabBarIcon: ({ color, size }) => (
 							<MaterialCommunityIcons
 								name="dump-truck"
