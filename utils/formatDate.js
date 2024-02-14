@@ -2,7 +2,7 @@ import moment from "moment";
 
 export const formatDate = (dateEntry) => {
 	// const date = new Date(dateEntry);
-	const date = moment(new Date(dateEntry)).format("YYYY-MM-DD");
+	const date = moment(new Date(dateEntry)).format("DD/MM/YYYY HH:mm");
 	// const day = date.getDate();
 	// const year = date.getFullYear();
 	// const month = date.getMonth();
@@ -26,7 +26,7 @@ export const formatDateFirebase = (entry) => {
 		date = newDate.split("-")[0];
 		atTime = newDate.split("-")[1];
 	} else {
-		console.log("dateEntry: ", entry);
+		// console.log("dateEntry: ", entry);
 		date = moment(entry).format("YYYY-MM-DD");
 		// atTime = entrada.split("T")[1].split(".")[0];
 		// console.log("intraDate: ", date);

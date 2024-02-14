@@ -134,7 +134,10 @@ const RomaneioScreen = ({ navigation, route }) => {
 					/>
 				}
 			>
-				<RomaneioList search={search} data={sentData} />
+				<RomaneioList
+					search={search}
+					data={sentData.sort((a, b) => b.sortDate - a.sortDate)}
+				/>
 			</ScrollView>
 		</View>
 	);

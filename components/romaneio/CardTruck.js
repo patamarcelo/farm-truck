@@ -19,7 +19,6 @@ const dictRoute = {
 
 const CardRomaneio = (props) => {
 	const { data, styleContainer } = props;
-	console.log(data);
 	const navigation = useNavigation();
 	const route = useRoute();
 
@@ -74,13 +73,20 @@ const CardRomaneio = (props) => {
 							paddingLeft: 30
 						}}
 					>
-						{data?.relatorioColheita ? (
+						{data?.createdAtForm ? (
 							<>
 								<Text style={styles.textData}>
-									{formatDateFirebase(data).split("-")[0]}
+									{data?.createdAtForm
+										.toLocaleString()
+										.split("T")[0]
+										.replace(",", "")}
 								</Text>
 								<Text style={styles.textData}>
-									{formatDateFirebase(data).split("-")[1]}
+									{
+										data?.createdAtForm
+											.toLocaleString()
+											.split("T")[1]
+									}
 								</Text>
 							</>
 						) : (

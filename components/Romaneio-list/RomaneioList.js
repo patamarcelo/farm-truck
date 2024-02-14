@@ -31,7 +31,6 @@ const RomaneioList = ({ search, data }) => {
 	useEffect(() => {
 		if (search) {
 			const newArr = data.filter((dataFilter) => {
-				console.log(dataFilter);
 				return (
 					dataFilter.placa
 						.toLowerCase()
