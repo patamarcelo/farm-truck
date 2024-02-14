@@ -1,6 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
+import { useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
-function UserScreen() {
+function UserScreen({ navigation }) {
+	const isFocused = useIsFocused();
+
+	useEffect(() => {
+		navigation.navigate("addForm");
+	}, [isFocused]);
+
 	return (
 		<View style={styles.rootContainer}>
 			<Text style={styles.title}>UserScreen</Text>

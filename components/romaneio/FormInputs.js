@@ -18,6 +18,8 @@ import { Divider } from "@rneui/themed";
 
 const customData = require("../../store/parcelas.json");
 
+import { useIsFocused } from "@react-navigation/native";
+
 const FadeInView = (props) => {
 	const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 	useEffect(() => {
@@ -58,6 +60,8 @@ function FormInputs({
 	const [filteredDest, setFilteredDest] = useState([]);
 	const [filteredParcelasFarmObj, setfilteredParcelasFarmObj] = useState([]);
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
+
+	const isFocused = useIsFocused();
 
 	useLayoutEffect(() => {
 		console.log("start");
@@ -365,50 +369,56 @@ function FormInputs({
 					</>
 				)}
 
-			{filteInputparcelas.length > 0 && (
-				<View style={styles.computedValues}>
-					<Controller
-						control={control}
-						name="cultura"
-						render={({ field: { onChange, onBlur, value } }) => (
-							<Input
-								styleInput={{
-									backgroundColor: Colors.primary100
-								}}
-								inputContainerProps={{ width: "48%" }}
-								label="Cultura"
-								onUpdateValue={onChange}
-								value={value}
-								// keyboardType="email-address"
-								onBlur={onBlur}
-								inputStyles={styles.inputStyles}
-								placeholder="Cultura"
-								disabled={true}
-							/>
-						)}
-					/>
-					<Controller
-						control={control}
-						name="mercadoria"
-						render={({ field: { onChange, onBlur, value } }) => (
-							<Input
-								styleInput={{
-									backgroundColor: Colors.primary100
-								}}
-								inputContainerProps={{ width: "48%" }}
-								label="Variedade"
-								onUpdateValue={onChange}
-								value={value}
-								// keyboardType="email-address"
-								onBlur={onBlur}
-								inputStyles={styles.inputStyles}
-								placeholder="Variedade"
-								disabled={true}
-							/>
-						)}
-					/>
-				</View>
-			)}
+			{parcelasSelected.length > 0 &&
+				selectedFarm !== "Selecione a Fazenda" &&
+				selectedFarm !== null && (
+					<View style={styles.computedValues}>
+						<Controller
+							control={control}
+							name="cultura"
+							render={({
+								field: { onChange, onBlur, value }
+							}) => (
+								<Input
+									styleInput={{
+										backgroundColor: Colors.primary100
+									}}
+									inputContainerProps={{ width: "48%" }}
+									label="Cultura"
+									onUpdateValue={onChange}
+									value={value}
+									// keyboardType="email-address"
+									onBlur={onBlur}
+									inputStyles={styles.inputStyles}
+									placeholder="Cultura"
+									disabled={true}
+								/>
+							)}
+						/>
+						<Controller
+							control={control}
+							name="mercadoria"
+							render={({
+								field: { onChange, onBlur, value }
+							}) => (
+								<Input
+									styleInput={{
+										backgroundColor: Colors.primary100
+									}}
+									inputContainerProps={{ width: "48%" }}
+									label="Variedade"
+									onUpdateValue={onChange}
+									value={value}
+									// keyboardType="email-address"
+									onBlur={onBlur}
+									inputStyles={styles.inputStyles}
+									placeholder="Variedade"
+									disabled={true}
+								/>
+							)}
+						/>
+					</View>
+				)}
 			<Divider width={0.5} color={"white"} style={{ width: "100%" }} />
 			<View
 				style={[

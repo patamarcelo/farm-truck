@@ -161,12 +161,31 @@ function HomeScrennStack({ route, navigation }) {
 			// />
 			// ),
 			headerRight: ({ tintColor }) => (
-				<IconButton
-					icon="exit"
-					color={tintColor}
-					size={24}
-					onPress={() => context.logout()}
-				/>
+				<View
+					style={{
+						justifyContent: "space-between",
+						flexDirection: "row",
+						alignItems: "center",
+						width: "200%",
+						paddingRight: 10
+					}}
+				>
+					<Text
+						style={{
+							fontWeight: "bold",
+							fontSize: 24,
+							color: "whitesmoke"
+						}}
+					>
+						Romaneios
+					</Text>
+					<IconButton
+						icon="power"
+						color={tintColor}
+						size={24}
+						onPress={() => context.logout()}
+					/>
+				</View>
 			)
 		});
 	}, [navigation]);
@@ -303,21 +322,16 @@ function AuthenticatedStack(props) {
 					options={({ route }) => ({
 						title: "",
 						presentation: "modal",
-						tabBarLabel: "",
+						tabBarLabel: "Adicionar",
 						headerShadowVisible: false, // applied here
 						contentStyle: { backgroundColor: Colors.primary500 },
-						// title: "Início",
 						tabBarIcon: ({ color, size }) => (
 							<AntDesign
-								style={{ marginBottom: -20 }}
-								name="pluscircle"
-								size={50}
+								name="pluscircleo"
 								color={color}
+								size={size}
 							/>
-						),
-						tabStyle: {
-							marginBottom: 20
-						}
+						)
 					})}
 				/>
 				<Tab.Screen

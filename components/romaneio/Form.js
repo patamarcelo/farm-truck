@@ -64,6 +64,7 @@ const FormScreen = ({ navigation }) => {
 	useEffect(() => {
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
+			console.log("abrindo o formulário");
 			if (status !== "granted") {
 				setErrorMsg("Permission to access location was denied");
 				return;
@@ -72,15 +73,17 @@ const FormScreen = ({ navigation }) => {
 			let location = await Location.getCurrentPositionAsync({});
 			setLocation(location);
 		})();
-	}, []);
+	}, [isFocused]);
 
 	useEffect(() => {
 		console.log(selectedFarm);
 		if (isFocused) {
 			setSelectedFarm(null);
+			setSelectedDest(null);
+			reset();
+			clearErrors();
 		}
 	}, [isFocused]);
-	console.log(isFocused);
 
 	const {
 		control,
@@ -167,6 +170,7 @@ const FormScreen = ({ navigation }) => {
 	};
 
 	const refreshHandler = () => {
+		setSelectedFarm(null);
 		reset();
 		clearErrors();
 		console.log("refresh ");
