@@ -257,7 +257,10 @@ function FormInputs({
 									return (
 										<SelectPicker.Item
 											key={i}
-											label={data.label}
+											label={data.label.replace(
+												"Projeto",
+												""
+											)}
 											value={data.value}
 										/>
 									);

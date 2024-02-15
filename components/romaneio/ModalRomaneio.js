@@ -39,6 +39,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 	useLayoutEffect(() => {
 		const compData = data.filter((dataFind) => dataFind.idApp === id)[0];
 		setDataShow(compData);
+		console.log("compData: ", compData.appDate);
 	}, [isFocused]);
 
 	const labelParcelas = (data) => {
@@ -90,7 +91,11 @@ const ModalRomaneioScreen = ({ navigation }) => {
 					<View style={styles.dataContainer}>
 						<Text style={styles.titleDoc}>Data: </Text>
 						<Text style={styles.resultDoc}>
-							{formatDateFirebase(dataShow)}
+							{dataShow.id
+								? formatDateFirebase(dataShow)
+								: dataShow.appDate
+										.toLocaleString()
+										.replace(",", " -")}
 						</Text>
 					</View>
 					<View style={styles.dataContainer}>
@@ -186,6 +191,17 @@ const ModalRomaneioScreen = ({ navigation }) => {
 										maximumFractionDigits: 0
 									}
 								)}
+						</Text>
+					</View>
+					<View
+						style={{
+							width: "100%",
+							alignItems: "center",
+							marginTop: 40
+						}}
+					>
+						<Text style={styles.headerRomaneio}>
+							{dataShow.id ? dataShow.id : dataShow.idApp}
 						</Text>
 					</View>
 				</View>

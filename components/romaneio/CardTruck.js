@@ -132,7 +132,7 @@ const CardRomaneio = (props) => {
 									style={{ fontWeight: "bold" }}
 									numberOfLines={1}
 								>
-									{data.fazendaOrigem}
+									{data.fazendaOrigem.replace("Projeto", "")}
 								</Text>
 							</View>
 						</View>
