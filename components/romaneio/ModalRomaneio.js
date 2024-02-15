@@ -14,13 +14,17 @@ import { Dimensions } from "react-native";
 import { ICON_URL, findImg } from "../../utils/imageUrl";
 import { formatDateFirebase, formatDate } from "../../utils/formatDate";
 
+import { useIsFocused } from "@react-navigation/native";
+
 const width = Dimensions.get("window").width; //full width
 
 const ModalRomaneioScreen = ({ navigation }) => {
 	const route = useRoute();
 	const id = route.params.data;
+
 	const { name } = navigation.getState()?.routes[0];
-	console.log(name);
+	const isFocused = useIsFocused();
+
 	let data = [];
 	if (name === "Romaneios") {
 		data = useSelector(romaneiosFarmSelector);
@@ -33,12 +37,9 @@ const ModalRomaneioScreen = ({ navigation }) => {
 	const [NumberRomaneio, setNumberRomaneio] = useState();
 
 	useLayoutEffect(() => {
-		const compData = data.filter((dataFind) => dataFind.id === id)[0];
-		console.log("checkData :", data);
-		console.log("checkId :", id);
-		console.log("compData: ", compData);
+		const compData = data.filter((dataFind) => dataFind.idApp === id)[0];
 		setDataShow(compData);
-	}, []);
+	}, [isFocused]);
 
 	const labelParcelas = (data) => {
 		return data.parcelasNovas?.length > 1 ? "Parcelas:" : "Parcela:";

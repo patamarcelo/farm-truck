@@ -25,7 +25,7 @@ const CardRomaneio = (props) => {
 	const handleDataTruck = () => {
 		const name = route.name;
 		const routeName = dictRoute[name];
-		navigation.navigate(`${routeName}`, { data: data.id });
+		navigation.navigate(`${routeName}`, { data: data.idApp });
 	};
 
 	const labelParcelas = (data) => {

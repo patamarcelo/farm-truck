@@ -139,6 +139,9 @@ function WelcomeScreen() {
 				return state.isConnected;
 			});
 			console.log("isConected ;", isConnected);
+			if (isConnected === false) {
+				setRefreshing(false);
+			}
 			if (isConnected === true) {
 				const dataToSave = {
 					...dataToAdd,
