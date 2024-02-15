@@ -1,4 +1,11 @@
-import { FlatList, StyleSheet, Text, View, SafeAreaView } from "react-native";
+import {
+	FlatList,
+	StyleSheet,
+	Text,
+	View,
+	SafeAreaView,
+	Alert
+} from "react-native";
 
 import CardRomaneio from "../components/romaneio/CardTruck";
 import { Colors } from "../constants/styles";
@@ -128,10 +135,11 @@ function WelcomeScreen() {
 		try {
 			const isConnected = NetInfo.fetch().then((state) => {
 				console.log("está conectado :", state.isConnected);
+				console.log("estado: ", state);
 				return state.isConnected;
 			});
 			console.log("isConected ;", isConnected);
-			if (isConnected) {
+			if (isConnected === true) {
 				const dataToSave = {
 					...dataToAdd,
 					appDate: new Date(dataToAdd.appDate),
@@ -155,6 +163,11 @@ function WelcomeScreen() {
 					});
 				}
 			} else {
+				console.log("is not conected!!");
+				Alert.alert(
+					"Sem Conexão...",
+					"Parece que está sem conexão com a internet , tente novamente mais tarde..."
+				);
 				setRefreshing(false);
 			}
 		} catch (err) {
