@@ -41,7 +41,10 @@ const RomaneioList = ({ search, data }) => {
 					dataFilter.parcelasNovas
 						?.join("")
 						.toLowerCase()
-						.includes(search.toLowerCase())
+						.includes(search.toLowerCase()) ||
+					dataFilter.relatorioColheita
+						.toString()
+						.includes(search.toString())
 				);
 			});
 			setFilteredData(newArr);
