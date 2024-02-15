@@ -189,7 +189,10 @@ const FormScreen = ({ navigation }) => {
 		// 	// keyboardVerticalOffset={Platform.select({ ios: 80, android: 500 })}
 		// >
 		// 	<ScrollView>
-		<KeyboardAwareScrollView style={styles.mainRootContainer}>
+		<KeyboardAwareScrollView
+			style={styles.mainRootContainer}
+			showsVerticalScrollIndicator={false}
+		>
 			<View style={styles.mainContainer}>
 				<View style={styles.formContainer}>
 					<FormInputs

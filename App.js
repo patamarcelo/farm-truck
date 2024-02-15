@@ -309,6 +309,7 @@ function AuthenticatedStack(props) {
 					options={({ route }) => ({
 						title: "",
 						tabBarLabel: "Home",
+						// tabBarShowLabel: false
 						headerShadowVisible: false, // applied here
 						// title: "Início",
 						tabBarIcon: ({ color, size }) => (

@@ -132,7 +132,13 @@ function WelcomeScreen() {
 			});
 			console.log("isConected ;", isConnected);
 			if (isConnected) {
-				const response = await saveDataOnFirebaseAndUpdate(dataToAdd);
+				const dataToSave = {
+					...dataToAdd,
+					appDate: new Date(dataToAdd.appDate),
+					createdAt: new Date(dataToAdd.createdAt),
+					entrada: new Date(dataToAdd.entrada)
+				};
+				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
 				console.log("Response: ", response);
 				if (response) {
 					dispatch(removeFromCargas(idToFind));
@@ -156,9 +162,6 @@ function WelcomeScreen() {
 		} finally {
 			setRefreshing(false);
 		}
-		// setTimeout(() => {
-		// 	setRefreshing(false);
-		// }, 1500);
 	};
 
 	return (
@@ -192,7 +195,7 @@ function WelcomeScreen() {
 						{data && data.length === 0 && (
 							<View style={styles.adviseContainer}>
 								<Text style={styles.adviseContainerTitle}>
-									Sem Romaneio Pendente!!
+									Sem Romaneio Pendente!
 								</Text>
 							</View>
 						)}

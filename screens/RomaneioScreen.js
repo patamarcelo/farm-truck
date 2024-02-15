@@ -124,6 +124,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 				updateSearchHandler={updateSearchHandler}
 			/>
 			<ScrollView
+				showsVerticalScrollIndicator={false}
 				ref={ref}
 				refreshControl={
 					<RefreshControl
