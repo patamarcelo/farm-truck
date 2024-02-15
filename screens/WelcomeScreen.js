@@ -133,15 +133,11 @@ function WelcomeScreen() {
 		const idToFind = dataToAdd.idApp;
 		setRefreshing(true);
 		try {
-			const isConnected = NetInfo.fetch().then((state) => {
-				console.log("está conectado :", state.isConnected);
-				console.log("estado: ", state);
+			const isConnected = await NetInfo.fetch().then((state) => {
+				// console.log("está conectado :", state.isConnected);
+				// console.log("estado: ", state);
 				return state.isConnected;
 			});
-			console.log("isConected ;", isConnected);
-			if (isConnected === false) {
-				setRefreshing(false);
-			}
 			if (isConnected === true) {
 				const dataToSave = {
 					...dataToAdd,
@@ -192,6 +188,7 @@ function WelcomeScreen() {
 						{data && data.length > 0 && (
 							<FlatList
 								data={data}
+								showsVerticalScrollIndicator={false}
 								keyExtractor={(item) => item.idApp}
 								renderItem={renderRomaneioList}
 								ItemSeparatorComponent={() => (

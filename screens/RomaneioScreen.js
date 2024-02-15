@@ -74,6 +74,12 @@ const RomaneioScreen = ({ navigation, route }) => {
 		}
 	}, [isFocused]);
 
+	useEffect(() => {
+		if (isFocused) {
+			setSearch("");
+		}
+	}, [isFocused]);
+
 	const handleRefresh = async () => {
 		setRefreshing(true);
 		try {
