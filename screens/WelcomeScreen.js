@@ -164,11 +164,11 @@ function WelcomeScreen() {
 				}
 			} else {
 				console.log("is not conected!!");
+				setRefreshing(false);
 				Alert.alert(
 					"Sem Conexão...",
 					"Parece que está sem conexão com a internet , tente novamente mais tarde..."
 				);
-				setRefreshing(false);
 			}
 		} catch (err) {
 			console.log("erro ao pegar os romaneios", err);
