@@ -196,8 +196,8 @@ const ModalRomaneioScreen = ({ navigation }) => {
 					<View
 						style={{
 							width: "100%",
-							alignItems: "center",
-							marginTop: 40
+							alignItems: "center"
+							// marginTop: 40
 						}}
 					>
 						<Text style={styles.headerRomaneio}>

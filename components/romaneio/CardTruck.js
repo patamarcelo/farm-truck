@@ -123,7 +123,7 @@ const CardRomaneio = (props) => {
 							</View>
 							<View style={styles.containerDataInfo}>
 								<Text style={styles.titleInput}>
-									{labelParcelas(data)} :{" "}
+									{labelParcelas(data)}:{" "}
 								</Text>
 								<Text>{data.parcelasNovas?.join(" - ")}</Text>
 							</View>
