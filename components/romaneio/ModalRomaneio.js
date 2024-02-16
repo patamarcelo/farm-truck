@@ -221,9 +221,6 @@ const ModalRomaneioScreen = ({ navigation }) => {
 export default ModalRomaneioScreen;
 
 const styles = StyleSheet.create({
-	imgContainer: {
-		marginTop: 20
-	},
 	image: {
 		width: 40,
 		height: 40
