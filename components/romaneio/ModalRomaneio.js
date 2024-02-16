@@ -204,6 +204,12 @@ const ModalRomaneioScreen = ({ navigation }) => {
 							{dataShow.id ? dataShow.id : dataShow.idApp}
 						</Text>
 					</View>
+					<View style={styles.imgContainer}>
+						<Image
+							source={require("../../assets/diamond.png")}
+							style={styles.image}
+						/>
+					</View>
 				</View>
 			) : (
 				<></>
@@ -215,6 +221,13 @@ const ModalRomaneioScreen = ({ navigation }) => {
 export default ModalRomaneioScreen;
 
 const styles = StyleSheet.create({
+	imgContainer: {
+		marginTop: 20
+	},
+	image: {
+		width: 40,
+		height: 40
+	},
 	headerRomaneio: {
 		fontStyle: "italic",
 		color: "grey",

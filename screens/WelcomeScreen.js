@@ -43,19 +43,17 @@ const width = Dimensions.get("window").width; //full width
 const Title = ({ text }) => {
 	return (
 		<View style={{ paddingTop: 40 }}>
-			<Text style={{ color: "whitesmoke", fontWeight: "bold" }}>
-				{text}
-			</Text>
+			<Text style={{ color: "black", fontWeight: "bold" }}>{text}</Text>
 		</View>
 	);
 };
 
-const TrySom = ({ email }) => {
+const TrySom = ({ placa, motorista }) => {
 	return (
 		<View style={{ width: "100%" }}>
 			<Text
 				style={{
-					color: "whitesmoke",
+					color: "black",
 					textAlign: "center",
 					fontSize: 12,
 					marginTop: 20
@@ -65,18 +63,20 @@ const TrySom = ({ email }) => {
 					Romaneio Sincronizado com sucesso!
 				</Text>
 			</Text>
-			<Text
+			<View
 				style={{
-					color: "whitesmoke",
-					textAlign: "center",
-					marginBottom: 20,
-					fontSize: 12,
-					marginTop: 20
+					width: "100%",
+					justifyContent: "space-evenly",
+					flexDirection: "column",
+					alignItems: "center",
+					marginTop: 40
 				}}
 			>
-				{/* Comprovante enviado por email para:{" "} */}
-				<Text style={{ fontWeight: "bold" }}>{email}</Text>
-			</Text>
+				<Text style={{ fontWeight: "bold", color: "black" }}>
+					{placa}
+				</Text>
+				<Text style={{ fontWeight: "bold" }}>{motorista}</Text>
+			</View>
 			<Text
 				style={{
 					color: Colors.gold[200],
@@ -155,7 +155,15 @@ function WelcomeScreen() {
 					Dialog.show({
 						type: ALERT_TYPE.SUCCESS,
 						title: <Title text={"Feito!!"} />,
-						textBody: <TrySom />,
+						textBody: (
+							<TrySom
+								placa={`${dataToAdd.placa.slice(
+									0,
+									3
+								)}-${dataToAdd.placa.slice(3, 12)}`}
+								motorista={dataToAdd.motorista}
+							/>
+						),
 						button: "Finalizar"
 						// onPressButton: () => {
 						// 	navigation.navigate("PagamentosTab");
