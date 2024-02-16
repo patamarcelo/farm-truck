@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@devvie/bottom-sheet": "^0.3.0",
     "@hookform/resolvers": "^3.3.1",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/netinfo": "^9.3.7",

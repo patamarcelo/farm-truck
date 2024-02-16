@@ -1,5 +1,5 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import { StyleSheet, View, Text, Animated } from "react-native";
+import { StyleSheet, View, Text, Animated, Pressable } from "react-native";
 
 import Button from "../ui/Button";
 import Input from "../Auth/Input";
@@ -19,6 +19,7 @@ import { Divider } from "@rneui/themed";
 const customData = require("../../store/parcelas.json");
 
 import { useIsFocused } from "@react-navigation/native";
+import IconButton from "../ui/IconButton";
 
 const FadeInView = (props) => {
 	const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
@@ -52,7 +53,8 @@ function FormInputs({
 	setSelectedFarm,
 	setValue,
 	setSelectedDest,
-	selectedDest
+	selectedDest,
+	handlerModal
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -429,6 +431,27 @@ function FormInputs({
 								)}
 							/>
 						</View>
+						{/* <Pressable
+							style={({ pressed }) => [
+								pressed && styles.pressed,
+								{
+									flexDirection: "row",
+									alignItems: "center"
+								}
+							]}
+							onPress={handlerModal}
+							android_ripple={true}
+						>
+							<IconButton
+								type={"awesome"}
+								icon={"plus"}
+								color="white"
+								size={24}
+							/>
+							<Text style={{ fontSize: 18, color: "whitesmoke" }}>
+								Observações
+							</Text>
+						</Pressable> */}
 						<Divider
 							width={0.5}
 							color={"white"}
@@ -477,7 +500,6 @@ function FormInputs({
 					{errors.fazendaOrigem?.message}
 				</Text>
 			)}
-
 			<Controller
 				control={control}
 				name="observacoes"
@@ -486,13 +508,13 @@ function FormInputs({
 						styleInput={{
 							height: 140
 						}}
-						label="Observação"
+						label="Observações"
 						onUpdateValue={onChange}
 						value={value}
 						// keyboardType="email-address"
 						onBlur={onBlur}
 						inputStyles={styles.inputStyles}
-						placeholder="Observação"
+						// placeholder="Observações"
 						multilne={true}
 					/>
 				)}
@@ -504,6 +526,9 @@ function FormInputs({
 export default FormInputs;
 
 const styles = StyleSheet.create({
+	pressed: {
+		opacity: 0.7
+	},
 	pickerView: {
 		width: "100%",
 		color: "black",
