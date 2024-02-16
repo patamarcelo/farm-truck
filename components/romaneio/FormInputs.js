@@ -1,5 +1,12 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import { StyleSheet, View, Text, Animated, Pressable } from "react-native";
+import {
+	Modal,
+	StyleSheet,
+	View,
+	Text,
+	Animated,
+	Pressable
+} from "react-native";
 
 import Button from "../ui/Button";
 import Input from "../Auth/Input";
@@ -20,6 +27,8 @@ const customData = require("../../store/parcelas.json");
 
 import { useIsFocused } from "@react-navigation/native";
 import IconButton from "../ui/IconButton";
+
+// import { Modal } from "react-native-paper";
 
 const FadeInView = (props) => {
 	const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
@@ -53,8 +62,7 @@ function FormInputs({
 	setSelectedFarm,
 	setValue,
 	setSelectedDest,
-	selectedDest,
-	handlerModal
+	selectedDest
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -62,8 +70,13 @@ function FormInputs({
 	const [filteredDest, setFilteredDest] = useState([]);
 	const [filteredParcelasFarmObj, setfilteredParcelasFarmObj] = useState([]);
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
 
 	const isFocused = useIsFocused();
+
+	const handlerModal = () => {
+		setOpenModal(!openModal);
+	};
 
 	useLayoutEffect(() => {
 		console.log("start");
@@ -431,7 +444,7 @@ function FormInputs({
 								)}
 							/>
 						</View>
-						{/* <Pressable
+						<Pressable
 							style={({ pressed }) => [
 								pressed && styles.pressed,
 								{
@@ -451,7 +464,7 @@ function FormInputs({
 							<Text style={{ fontSize: 18, color: "whitesmoke" }}>
 								Observações
 							</Text>
-						</Pressable> */}
+						</Pressable>
 						<Divider
 							width={0.5}
 							color={"white"}
@@ -500,25 +513,47 @@ function FormInputs({
 					{errors.fazendaOrigem?.message}
 				</Text>
 			)}
-			<Controller
-				control={control}
-				name="observacoes"
-				render={({ field: { onChange, onBlur, value } }) => (
-					<Input
-						styleInput={{
-							height: 140
-						}}
-						label="Observações"
-						onUpdateValue={onChange}
-						value={value}
-						// keyboardType="email-address"
-						onBlur={onBlur}
-						inputStyles={styles.inputStyles}
-						// placeholder="Observações"
-						multilne={true}
+			<Modal
+				visible={openModal}
+				// presentationStyle="pageSheet"
+				animationType="slide"
+				transparent={true}
+				// cons={{ backgroundColor: Colors.primary[901] }}
+			>
+				<View
+					style={{
+						backgroundColor: "rgba(0,0,0,0.75)",
+						flex: 1,
+						marginTop: 190
+					}}
+				>
+					<Controller
+						control={control}
+						name="observacoes"
+						render={({ field: { onChange, onBlur, value } }) => (
+							<Input
+								styleInput={{
+									height: 140
+								}}
+								// label="Observações"
+								onUpdateValue={onChange}
+								value={value}
+								// keyboardType="email-address"
+								onBlur={onBlur}
+								inputStyles={styles.inputStyles}
+								placeholder="Observações"
+								multilne={true}
+							/>
+						)}
 					/>
-				)}
-			/>
+					<Button
+						btnStyles={{ backgroundColor: "green" }}
+						onPress={handlerModal}
+					>
+						Fechar
+					</Button>
+				</View>
+			</Modal>
 		</View>
 	);
 }
@@ -580,7 +615,7 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		flex: 1,
-		justifyContent: "center",
+		// justifyContent: "c",
 		// alignItems: "center",
 		width: "100%"
 	}

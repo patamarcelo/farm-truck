@@ -189,12 +189,16 @@ const FormScreen = ({ navigation }) => {
 		// 	// keyboardVerticalOffset={Platform.select({ ios: 80, android: 500 })}
 		// >
 		// 	<ScrollView>
-		<KeyboardAwareScrollView
+		<KeyboardAvoidingView
 			style={styles.mainRootContainer}
 			showsVerticalScrollIndicator={false}
 		>
 			<View style={styles.mainContainer}>
-				<View style={styles.formContainer}>
+				<KeyboardAwareScrollView
+					style={styles.formContainer}
+					contentContainerStyle={styles.formContainerContent}
+					showsVerticalScrollIndicator={false}
+				>
 					<FormInputs
 						errors={errors}
 						control={control}
@@ -208,7 +212,7 @@ const FormScreen = ({ navigation }) => {
 						selectedDest={selectedDest}
 						setSelectedDest={setSelectedDest}
 					/>
-				</View>
+				</KeyboardAwareScrollView>
 				<View style={styles.buttonContainer}>
 					<Button
 						disabled={
@@ -236,7 +240,7 @@ const FormScreen = ({ navigation }) => {
 					</View>
 				</View>
 			</View>
-		</KeyboardAwareScrollView>
+		</KeyboardAvoidingView>
 	);
 };
 
@@ -248,7 +252,9 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between"
 	},
 	formContainer: {
-		width: "90%"
+		flex: 1,
+		width: "90%",
+		marginBottom: 20
 	},
 	btnbtnStylesRegister: {
 		backgroundColor: "green"
@@ -267,8 +273,8 @@ const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		width: "90%",
-		margin: 20,
-		gap: 10
+		gap: 10,
+		marginBottom: 10
 	},
 	mainContainer: {
 		flex: 1,
