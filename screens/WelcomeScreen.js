@@ -43,7 +43,9 @@ const width = Dimensions.get("window").width; //full width
 const Title = ({ text }) => {
 	return (
 		<View style={{ paddingTop: 40 }}>
-			<Text style={{ color: "black", fontWeight: "bold" }}>{text}</Text>
+			<Text style={{ color: "whitesmoke", fontWeight: "bold" }}>
+				{text}
+			</Text>
 		</View>
 	);
 };
@@ -59,7 +61,7 @@ const TrySom = ({ placa, motorista }) => {
 					marginTop: 20
 				}}
 			>
-				<Text style={{ fontWeight: "bold" }}>
+				<Text style={{ fontWeight: "bold", color: "whitesmoke" }}>
 					Romaneio Sincronizado com sucesso!
 				</Text>
 			</Text>
@@ -72,10 +74,12 @@ const TrySom = ({ placa, motorista }) => {
 					marginTop: 40
 				}}
 			>
-				<Text style={{ fontWeight: "bold", color: "black" }}>
+				<Text style={{ fontWeight: "bold", color: "whitesmoke" }}>
 					{placa}
 				</Text>
-				<Text style={{ fontWeight: "bold" }}>{motorista}</Text>
+				<Text style={{ fontWeight: "bold", color: "whitesmoke" }}>
+					{motorista}
+				</Text>
 			</View>
 			<Text
 				style={{
