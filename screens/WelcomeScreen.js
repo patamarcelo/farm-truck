@@ -129,7 +129,8 @@ function WelcomeScreen() {
 	};
 
 	const handleRefresh = async () => {
-		const dataToAdd = data[data.length - 1];
+		// const dataToAdd = data[data.length - 1];
+		const dataToAdd = data[0];
 		const idToFind = dataToAdd.idApp;
 		setRefreshing(true);
 		try {

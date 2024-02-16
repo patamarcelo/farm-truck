@@ -372,57 +372,70 @@ function FormInputs({
 					</>
 				)}
 
+			{parcelasSelected.length == 0 ||
+				(selectedFarm === "Selecione a Fazenda" && (
+					<View style={{ marginBottom: 10 }}>
+						<Text></Text>
+					</View>
+				))}
+
 			{parcelasSelected.length > 0 &&
 				selectedFarm !== "Selecione a Fazenda" &&
 				selectedFarm !== null && (
-					<View style={styles.computedValues}>
-						<Controller
-							control={control}
-							name="cultura"
-							render={({
-								field: { onChange, onBlur, value }
-							}) => (
-								<Input
-									styleInput={{
-										backgroundColor: Colors.primary100
-									}}
-									inputContainerProps={{ width: "48%" }}
-									label="Cultura"
-									onUpdateValue={onChange}
-									value={value}
-									// keyboardType="email-address"
-									onBlur={onBlur}
-									inputStyles={styles.inputStyles}
-									placeholder="Cultura"
-									disabled={true}
-								/>
-							)}
+					<>
+						<View style={styles.computedValues}>
+							<Controller
+								control={control}
+								name="cultura"
+								render={({
+									field: { onChange, onBlur, value }
+								}) => (
+									<Input
+										styleInput={{
+											backgroundColor: Colors.primary100
+										}}
+										inputContainerProps={{ width: "48%" }}
+										label="Cultura"
+										onUpdateValue={onChange}
+										value={value}
+										// keyboardType="email-address"
+										onBlur={onBlur}
+										inputStyles={styles.inputStyles}
+										placeholder="Cultura"
+										disabled={true}
+									/>
+								)}
+							/>
+							<Controller
+								control={control}
+								name="mercadoria"
+								render={({
+									field: { onChange, onBlur, value }
+								}) => (
+									<Input
+										styleInput={{
+											backgroundColor: Colors.primary100
+										}}
+										inputContainerProps={{ width: "48%" }}
+										label="Variedade"
+										onUpdateValue={onChange}
+										value={value}
+										// keyboardType="email-address"
+										onBlur={onBlur}
+										inputStyles={styles.inputStyles}
+										placeholder="Variedade"
+										disabled={true}
+									/>
+								)}
+							/>
+						</View>
+						<Divider
+							width={0.5}
+							color={"white"}
+							style={{ width: "100%" }}
 						/>
-						<Controller
-							control={control}
-							name="mercadoria"
-							render={({
-								field: { onChange, onBlur, value }
-							}) => (
-								<Input
-									styleInput={{
-										backgroundColor: Colors.primary100
-									}}
-									inputContainerProps={{ width: "48%" }}
-									label="Variedade"
-									onUpdateValue={onChange}
-									value={value}
-									// keyboardType="email-address"
-									onBlur={onBlur}
-									inputStyles={styles.inputStyles}
-									placeholder="Variedade"
-									disabled={true}
-								/>
-							)}
-						/>
-					</View>
+					</>
 				)}
-			<Divider width={0.5} color={"white"} style={{ width: "100%" }} />
 			<View
 				style={[
 					styles.pickerView,
