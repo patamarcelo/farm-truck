@@ -113,9 +113,11 @@ const ModalRomaneioScreen = ({ navigation }) => {
 					</View>
 
 					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Projeto: </Text>
+						<Text style={styles.titleDoc}>Projeto:</Text>
 						<Text style={styles.resultDoc}>
-							{dataShow.fazendaOrigem}
+							{dataShow.fazendaOrigem
+								.replace("Projeto", "")
+								.trim()}
 						</Text>
 					</View>
 					<View style={styles.dataContainer}>
@@ -138,9 +140,9 @@ const ModalRomaneioScreen = ({ navigation }) => {
 						</View>
 					</View>
 					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Variedade: </Text>
+						<Text style={styles.titleDoc}>Variedade:</Text>
 						<Text style={styles.resultDoc}>
-							{dataShow.mercadoria}
+							{dataShow.mercadoria.trim()}
 						</Text>
 					</View>
 
@@ -152,47 +154,50 @@ const ModalRomaneioScreen = ({ navigation }) => {
 							{dataShow.parcelasNovas?.join("-").trim()}
 						</Text>
 					</View>
+					{dataShow.id && (
+						<>
+							<View style={styles.dataContainer}>
+								<Text style={styles.titleDoc}>Peso Bruto:</Text>
+								<Text style={styles.resultDoc}>
+									{dataShow.pesoBruto &&
+										parseInt(
+											dataShow.pesoBruto
+										).toLocaleString("pt-br", {
+											minimumFractionDigits: 0,
+											maximumFractionDigits: 0
+										})}
+								</Text>
+							</View>
+							<View style={styles.dataContainer}>
+								<Text style={styles.titleDoc}>Peso Tara:</Text>
+								<Text style={styles.resultDoc}>
+									{dataShow.tara &&
+										parseInt(dataShow.tara).toLocaleString(
+											"pt-br",
+											{
+												minimumFractionDigits: 0,
+												maximumFractionDigits: 0
+											}
+										)}
+								</Text>
+							</View>
 
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Peso Bruto:</Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.pesoBruto &&
-								parseInt(dataShow.pesoBruto).toLocaleString(
-									"pt-br",
-									{
-										minimumFractionDigits: 0,
-										maximumFractionDigits: 0
-									}
-								)}
-						</Text>
-					</View>
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Peso Tara:</Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.tara &&
-								parseInt(dataShow.tara).toLocaleString(
-									"pt-br",
-									{
-										minimumFractionDigits: 0,
-										maximumFractionDigits: 0
-									}
-								)}
-						</Text>
-					</View>
-
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Peso Líquido:</Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.liquido &&
-								parseInt(dataShow.liquido).toLocaleString(
-									"pt-br",
-									{
-										minimumFractionDigits: 0,
-										maximumFractionDigits: 0
-									}
-								)}
-						</Text>
-					</View>
+							<View style={styles.dataContainer}>
+								<Text style={styles.titleDoc}>
+									Peso Líquido:
+								</Text>
+								<Text style={styles.resultDoc}>
+									{dataShow.liquido &&
+										parseInt(
+											dataShow.liquido
+										).toLocaleString("pt-br", {
+											minimumFractionDigits: 0,
+											maximumFractionDigits: 0
+										})}
+								</Text>
+							</View>
+						</>
+					)}
 					<View
 						style={{
 							width: "100%",
@@ -248,8 +253,8 @@ const styles = StyleSheet.create({
 	resultDoc: {
 		textAlign: "left",
 		// backgroundColor: "red",
-		width: width / 2,
-		paddingLeft: 5
+		width: width / 2
+		// paddingLeft: 5
 	},
 	titleDoc: {
 		textAlign: "right",

@@ -62,7 +62,8 @@ function FormInputs({
 	setSelectedFarm,
 	setValue,
 	setSelectedDest,
-	selectedDest
+	selectedDest,
+	handleModal
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -246,8 +247,24 @@ function FormInputs({
 				</Text>
 			)}
 			<Divider width={0.5} color={"white"} style={{ width: "100%" }} />
-
-			<View
+			<View style={styles.farmSelectButton}>
+				<Button
+					onPress={handleModal}
+					btnStyles={{
+						height: 40,
+						alignItems: "center",
+						justifyContent: "center",
+						backgroundColor:
+							selectedFarm !== "Selecione a Fazenda" &&
+							selectedFarm !== null
+								? Colors.success[400]
+								: "grey"
+					}}
+				>
+					{selectedFarm ? selectedFarm : "Selecione a Fazenda"}
+				</Button>
+			</View>
+			{/* <View
 				style={[
 					styles.pickerView,
 					styles.inputContainer,
@@ -289,7 +306,7 @@ function FormInputs({
 				<Text style={styles.labelError}>
 					{errors.fazendaOrigem?.message}
 				</Text>
-			)}
+			)} */}
 			{selectedFarm &&
 				selectedFarm !== "Selecione a Fazenda" &&
 				parcelasSelected.length > 0 && (
@@ -561,6 +578,9 @@ function FormInputs({
 export default FormInputs;
 
 const styles = StyleSheet.create({
+	farmSelectButton: {
+		marginVertical: 50
+	},
 	pressed: {
 		opacity: 0.7
 	},

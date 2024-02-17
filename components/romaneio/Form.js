@@ -1,6 +1,13 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	SafeAreaView,
+	ScrollView,
+	KeyboardAvoidingView,
+	Pressable
+} from "react-native";
 
-import { KeyboardAvoidingView } from "react-native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import { Platform } from "react-native";
@@ -10,7 +17,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Button from "../ui/Button";
 import FormInputs from "./FormInputs";
 
-import { useState, useLayoutEffect, useContext, useEffect } from "react";
+import {
+	useRef,
+	useState,
+	useLayoutEffect,
+	useContext,
+	useEffect
+} from "react";
 import { Colors } from "../../constants/styles";
 
 import { useForm, Controler } from "react-hook-form";
@@ -33,6 +46,9 @@ import { saveDataOnFirebaseAndUpdate } from "../../store/firebase/index";
 import { useIsFocused } from "@react-navigation/native";
 
 import * as Location from "expo-location";
+
+import BottomSheet, { BottomSheetMethods } from "@devvie/bottom-sheet";
+import BottomSheetSelect from "./BottomSheetSelect";
 
 const schema = yup.object({
 	placa: yup
@@ -146,7 +162,8 @@ const FormScreen = ({ navigation }) => {
 
 	const cancelHandler = () => {
 		// console.log("limpar o formulário");
-		navigation.navigate("Welcome");
+		// navigation.navigate("Welcome");
+		navigation.goBack(null);
 		clearErrors();
 	};
 
@@ -175,6 +192,17 @@ const FormScreen = ({ navigation }) => {
 		clearErrors();
 		console.log("refresh ");
 	};
+
+	const handleModal = () => {
+		console.log("open");
+		sheetRef.current?.open();
+	};
+
+	const handleCloseModal = () => {
+		console.log("open");
+		sheetRef.current?.close();
+	};
+	const sheetRef = useRef();
 
 	if (isLoading) {
 		return <LoadingOverlay message={"Salvando..."} />;
@@ -211,6 +239,7 @@ const FormScreen = ({ navigation }) => {
 						setSelectedFarm={setSelectedFarm}
 						selectedDest={selectedDest}
 						setSelectedDest={setSelectedDest}
+						handleModal={handleModal}
 					/>
 				</KeyboardAwareScrollView>
 				<View style={styles.buttonContainer}>
@@ -232,7 +261,10 @@ const FormScreen = ({ navigation }) => {
 						</Button>
 						<Button
 							onPress={refreshHandler}
-							btnStyles={styles.btnbtnStylesClean}
+							btnStyles={[
+								styles.btnbtnStylesClean,
+								{ backgroundColor: "#ffff00" }
+							]}
 							textStyles={styles.textBtnCancelStyle}
 						>
 							Limpar
@@ -240,6 +272,44 @@ const FormScreen = ({ navigation }) => {
 					</View>
 				</View>
 			</View>
+			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl}>
+				<BottomSheetSelect
+					setSelectedFarm={setSelectedFarm}
+					navigation={navigation}
+					onClose={handleCloseModal}
+					name={"Projeto Benção de Deus"}
+				/>
+				<BottomSheetSelect
+					setSelectedFarm={setSelectedFarm}
+					navigation={navigation}
+					onClose={handleCloseModal}
+					name={"Projeto Capivara"}
+				/>
+				<BottomSheetSelect
+					setSelectedFarm={setSelectedFarm}
+					navigation={navigation}
+					onClose={handleCloseModal}
+					name={"Projeto Jacaré"}
+				/>
+				<BottomSheetSelect
+					setSelectedFarm={setSelectedFarm}
+					navigation={navigation}
+					onClose={handleCloseModal}
+					name={"Projeto Tuiuiu"}
+				/>
+				<BottomSheetSelect
+					setSelectedFarm={setSelectedFarm}
+					navigation={navigation}
+					onClose={handleCloseModal}
+					name={"Projeto Cervo"}
+				/>
+				<BottomSheetSelect
+					setSelectedFarm={setSelectedFarm}
+					navigation={navigation}
+					onClose={handleCloseModal}
+					name={"Projeto Tucano"}
+				/>
+			</BottomSheet>
 		</KeyboardAvoidingView>
 	);
 };
@@ -247,6 +317,10 @@ const FormScreen = ({ navigation }) => {
 export default FormScreen;
 
 const styles = StyleSheet.create({
+	bottomSheetStl: {
+		backgroundColor: Colors.primary[901],
+		paddingHorizontal: 20
+	},
 	cancelContainer: {
 		flexDirection: "row",
 		justifyContent: "space-between"
@@ -257,7 +331,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20
 	},
 	btnbtnStylesRegister: {
-		backgroundColor: "green"
+		backgroundColor: Colors.success[400]
 	},
 	btnbtnStylesCancel: {
 		backgroundColor: "grey",
@@ -274,7 +348,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		width: "90%",
 		gap: 10,
-		marginBottom: 10
+		marginBottom: 50
 	},
 	mainContainer: {
 		flex: 1,

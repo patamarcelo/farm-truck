@@ -264,20 +264,7 @@ function HomeScrennStack({ route, navigation }) {
 		</Stack.Navigator>
 	);
 }
-function AuthenticatedStack(props) {
-	const { context } = props;
-	const navigation = useNavigation();
-	const [routeName, setouteName] = useState(true);
-	const currName = navigation.getCurrentRoute();
-
-	useEffect(() => {
-		if (navigation.getCurrentRoute().name === "Form") {
-			setouteName(false);
-		} else {
-			setouteName(true);
-		}
-	}, [currName]);
-
+function AuthenticatedStack({ navigation }) {
 	return (
 		<>
 			<Tab.Navigator
@@ -334,6 +321,15 @@ function AuthenticatedStack(props) {
 							/>
 						)
 					})}
+					listeners={{
+						tabPress: (e) => {
+							// Prevent default action
+							e.preventDefault();
+
+							//Any custom code here
+							navigation.navigate("NewFormScreen");
+						}
+					}}
 				/>
 				<Tab.Screen
 					name="RomaneiosTap"
@@ -342,15 +338,6 @@ function AuthenticatedStack(props) {
 						title: "Romaneios",
 						headerShown: false,
 						tabBarLabel: "Romaneios",
-						// tabBarStyle: { display: "none" },
-						// headerRight: ({ tintColor }) => (
-						// 	<IconButton
-						// 		icon="exit"
-						// 		color={tintColor}
-						// 		size={24}
-						// 		onPress={() => navigation.navigate("Welcome")}
-						// 	/>
-						// ),
 						tabBarIcon: ({ color, size }) => (
 							<MaterialCommunityIcons
 								name="dump-truck"
@@ -397,6 +384,34 @@ function AuthenticatedStack(props) {
 	);
 }
 
+const NewAuthStack = () => {
+	return (
+		<Stack.Navigator
+			screenOptions={{
+				headerStyle: { backgroundColor: Colors.primary500 }
+			}}
+		>
+			<Stack.Screen
+				name="NewAuthStack"
+				component={AuthenticatedStack}
+				options={{
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+			<Stack.Screen
+				name="NewFormScreen"
+				component={FormScreen}
+				options={{
+					presentation: "modal",
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+		</Stack.Navigator>
+	);
+};
+
 function Navigation() {
 	const context = useContext(AuthContext);
 	return (
@@ -404,7 +419,7 @@ function Navigation() {
 			{!context.isAuth ? (
 				<AuthStack />
 			) : (
-				<AuthenticatedStack context={context} />
+				<NewAuthStack context={context} />
 			)}
 		</NavigationContainer>
 	);
