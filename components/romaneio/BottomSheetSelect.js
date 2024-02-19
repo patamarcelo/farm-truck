@@ -1,7 +1,13 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import { Colors } from "../../constants/styles";
 
-const BottomSheetSelect = ({ navigation, onClose, setSelectedFarm, name }) => {
+const BottomSheetSelect = ({
+	navigation,
+	onClose,
+	setSelectedFarm,
+	name,
+	label
+}) => {
 	const handleSelect = (farm) => {
 		console.log("selecionar a Fazenda");
 		onClose();
@@ -10,7 +16,7 @@ const BottomSheetSelect = ({ navigation, onClose, setSelectedFarm, name }) => {
 	return (
 		<Pressable
 			// onPress={handleSelect.bind(this, data, i)}
-			onPress={handleSelect.bind(this, name)}
+			onPress={handleSelect.bind(this, label)}
 			style={({ pressed }) => [
 				pressed && styles.pressed,
 				styles.mainContainer

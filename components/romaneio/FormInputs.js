@@ -63,11 +63,12 @@ function FormInputs({
 	setValue,
 	setSelectedDest,
 	selectedDest,
-	handleModal
+	handleModal,
+	setFilteredFarms,
+	filteredFarms
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
-	const [filteredFarms, setFilteredFarms] = useState([]);
 	const [filteredDest, setFilteredDest] = useState([]);
 	const [filteredParcelasFarmObj, setfilteredParcelasFarmObj] = useState([]);
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
@@ -84,7 +85,8 @@ function FormInputs({
 		const filteredArr = customData.resumo_safra.map((data) => {
 			return data.talhao__fazenda__nome;
 		});
-		const onlyFarms = [...new Set(["Selecione a Fazenda", ...filteredArr])];
+		// const onlyFarms = [...new Set(["Selecione a Fazenda", ...filteredArr])];
+		const onlyFarms = [...new Set([...filteredArr])];
 		const onlyFarsObj = onlyFarms.map((data) => {
 			return { label: data, value: data };
 		});
@@ -95,6 +97,10 @@ function FormInputs({
 		});
 		setFilteredDest(filtDest);
 	}, []);
+
+	useEffect(() => {
+		setFilteInputparcelas([]);
+	}, [isFocused]);
 
 	useEffect(() => {
 		const filInputSelect = filteredParcelasFarmObj.filter((data) =>
@@ -111,6 +117,10 @@ function FormInputs({
 		setFilteInputparcelas([]);
 		return () => setFilteInputparcelas([]);
 	}, []);
+
+	useEffect(() => {
+		console.log("parcelas Selected: ", filteInputparcelas);
+	}, [filteInputparcelas]);
 
 	useEffect(() => {
 		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
@@ -411,7 +421,7 @@ function FormInputs({
 					</View>
 				))}
 
-			{parcelasSelected.length > 0 &&
+			{filteInputparcelas.length > 0 &&
 				selectedFarm !== "Selecione a Fazenda" &&
 				selectedFarm !== null && (
 					<>
@@ -489,41 +499,46 @@ function FormInputs({
 						/>
 					</>
 				)}
-			<View
-				style={[
-					styles.pickerView,
-					styles.inputContainer,
-					errors.fazendaOrigem && styles.errorStyle
-				]}
-			>
-				{
-					<Controller
-						control={control}
-						name="fazendaDestino"
-						render={({ field: { onChange, onBlur, value } }) => (
-							<SelectPicker
-								selectionColor={"rgba(255,255,255,0.2)"}
-								itemStyle={{ color: "whitesmoke" }}
-								style={{ height: 100 }}
-								selectedValue={selectedDest}
-								onValueChange={(e) => {
-									handlerChangeSelectDest(e, "Parcelas");
-								}}
-							>
-								{filteredDest.map((data, i) => {
-									return (
-										<SelectPicker.Item
-											key={i}
-											label={data.label}
-											value={data.value}
-										/>
-									);
-								})}
-							</SelectPicker>
-						)}
-					/>
-				}
-			</View>
+
+			{filteInputparcelas.length > 0 && (
+				<View
+					style={[
+						styles.pickerView,
+						styles.inputContainer,
+						errors.fazendaOrigem && styles.errorStyle
+					]}
+				>
+					{
+						<Controller
+							control={control}
+							name="fazendaDestino"
+							render={({
+								field: { onChange, onBlur, value }
+							}) => (
+								<SelectPicker
+									selectionColor={"rgba(255,255,255,0.2)"}
+									itemStyle={{ color: "whitesmoke" }}
+									style={{ height: 100 }}
+									selectedValue={selectedDest}
+									onValueChange={(e) => {
+										handlerChangeSelectDest(e, "Parcelas");
+									}}
+								>
+									{filteredDest.map((data, i) => {
+										return (
+											<SelectPicker.Item
+												key={i}
+												label={data.label}
+												value={data.value}
+											/>
+										);
+									})}
+								</SelectPicker>
+							)}
+						/>
+					}
+				</View>
+			)}
 
 			{errors.fazendaOrigem && (
 				<Text style={styles.labelError}>

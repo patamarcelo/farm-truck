@@ -73,6 +73,7 @@ const FormScreen = ({ navigation }) => {
 	const [parcelasSelected, setParcelasSelected] = useState([]);
 	const [selectedFarm, setSelectedFarm] = useState(null);
 	const [selectedDest, setSelectedDest] = useState(null);
+	const [filteredFarms, setFilteredFarms] = useState([]);
 	const isFocused = useIsFocused();
 
 	const [location, setLocation] = useState(null);
@@ -240,6 +241,8 @@ const FormScreen = ({ navigation }) => {
 						selectedDest={selectedDest}
 						setSelectedDest={setSelectedDest}
 						handleModal={handleModal}
+						setFilteredFarms={setFilteredFarms}
+						filteredFarms={filteredFarms}
 					/>
 				</KeyboardAwareScrollView>
 				<View style={styles.buttonContainer}>
@@ -273,42 +276,26 @@ const FormScreen = ({ navigation }) => {
 				</View>
 			</View>
 			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl}>
-				<BottomSheetSelect
-					setSelectedFarm={setSelectedFarm}
-					navigation={navigation}
-					onClose={handleCloseModal}
-					name={"Projeto Benção de Deus"}
-				/>
-				<BottomSheetSelect
-					setSelectedFarm={setSelectedFarm}
-					navigation={navigation}
-					onClose={handleCloseModal}
-					name={"Projeto Capivara"}
-				/>
-				<BottomSheetSelect
-					setSelectedFarm={setSelectedFarm}
-					navigation={navigation}
-					onClose={handleCloseModal}
-					name={"Projeto Jacaré"}
-				/>
-				<BottomSheetSelect
-					setSelectedFarm={setSelectedFarm}
-					navigation={navigation}
-					onClose={handleCloseModal}
-					name={"Projeto Tuiuiu"}
-				/>
-				<BottomSheetSelect
-					setSelectedFarm={setSelectedFarm}
-					navigation={navigation}
-					onClose={handleCloseModal}
-					name={"Projeto Cervo"}
-				/>
-				<BottomSheetSelect
-					setSelectedFarm={setSelectedFarm}
-					navigation={navigation}
-					onClose={handleCloseModal}
-					name={"Projeto Tucano"}
-				/>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={{
+						marginBottom: 50
+					}}
+				>
+					{filteredFarms.map((farm, i) => {
+						console.log(farm);
+						return (
+							<BottomSheetSelect
+								key={i}
+								setSelectedFarm={setSelectedFarm}
+								navigation={navigation}
+								onClose={handleCloseModal}
+								name={farm.label.replace("Projeto", "")}
+								label={farm.label}
+							/>
+						);
+					})}
+				</ScrollView>
 			</BottomSheet>
 		</KeyboardAvoidingView>
 	);
