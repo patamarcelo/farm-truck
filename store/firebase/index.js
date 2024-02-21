@@ -50,7 +50,8 @@ export const getAndGenerateIdFirebase = async () => {
 		collection(db, "truckmove"),
 		where("idApp", "!=", null),
 		orderBy("idApp", "desc"),
-		limit(2)
+		orderBy("relatorioColheita", "desc"),
+		limit(1)
 	);
 	const querySnapshot = await getDocs(q);
 	let allData = [];
@@ -59,8 +60,11 @@ export const getAndGenerateIdFirebase = async () => {
 		// console.log(doc.id, " => ", doc.data());
 		allData.push(doc.data());
 	});
+	allData.forEach((data) => {
+		console.log(data);
+	});
 
-	return allData[1];
+	return allData[0];
 };
 
 const getLastRomaneioNUmber = async () => {
@@ -109,11 +113,16 @@ export const getAllDocsFirebase = async (farm) => {
 
 export const saveDataOnFirebaseAndUpdate = async (newData) => {
 	try {
-		const response = await addRomaneioFirebase(newData);
-		if (response) {
-			await getDocumentosFirebase(response);
-			return response;
-		}
+		const lastRomaneio = await getLastRomaneioNUmber();
+		const updatedData = {
+			...newData,
+			relatorioColheita: lastRomaneio + 1
+		};
+		const response = await addRomaneioFirebase(updatedData);
+		// if (response) {
+		// 	await getDocumentosFirebase(response);
+		return response;
+		// }
 	} catch (err) {
 		console.log("erro ao salvar os dados", err);
 	}

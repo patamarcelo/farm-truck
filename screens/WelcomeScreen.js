@@ -4,7 +4,8 @@ import {
 	Text,
 	View,
 	SafeAreaView,
-	Alert
+	Alert,
+	Appearance
 } from "react-native";
 
 import CardRomaneio from "../components/romaneio/CardTruck";
@@ -39,13 +40,13 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 
 const width = Dimensions.get("window").width; //full width
+const colorScheme = Appearance.getColorScheme();
+const colorText = colorScheme === "dark" ? "whitesmoke" : "black";
 
 const Title = ({ text }) => {
 	return (
 		<View style={{ paddingTop: 40 }}>
-			<Text style={{ color: "whitesmoke", fontWeight: "bold" }}>
-				{text}
-			</Text>
+			<Text style={{ color: colorText, fontWeight: "bold" }}>{text}</Text>
 		</View>
 	);
 };
@@ -61,7 +62,7 @@ const TrySom = ({ placa, motorista }) => {
 					marginTop: 20
 				}}
 			>
-				<Text style={{ fontWeight: "bold", color: "whitesmoke" }}>
+				<Text style={{ fontWeight: "bold", color: colorText }}>
 					Romaneio Sincronizado com sucesso!
 				</Text>
 			</Text>
@@ -74,10 +75,10 @@ const TrySom = ({ placa, motorista }) => {
 					marginTop: 40
 				}}
 			>
-				<Text style={{ fontWeight: "bold", color: "whitesmoke" }}>
+				<Text style={{ fontWeight: "bold", color: colorText }}>
 					{placa}
 				</Text>
-				<Text style={{ fontWeight: "bold", color: "whitesmoke" }}>
+				<Text style={{ fontWeight: "bold", color: colorText }}>
 					{motorista}
 				</Text>
 			</View>
