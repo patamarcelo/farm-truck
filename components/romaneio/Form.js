@@ -5,12 +5,13 @@ import {
 	SafeAreaView,
 	ScrollView,
 	KeyboardAvoidingView,
-	Pressable
+	Pressable,
+	Platform,
+	StatusBar
 } from "react-native";
 
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
-import { Platform } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -348,6 +349,7 @@ const styles = StyleSheet.create({
 	},
 	mainRootContainer: {
 		flex: 1,
-		backgroundColor: Colors.primary500
+		backgroundColor: Colors.primary500,
+		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 	}
 });

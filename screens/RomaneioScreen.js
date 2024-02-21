@@ -5,7 +5,9 @@ import {
 	Button,
 	SafeAreaView,
 	ScrollView,
-	ActivityIndicator
+	ActivityIndicator,
+	StatusBar,
+	Platform
 } from "react-native";
 // import { ScrollView } from "react-native-virtualized-view";
 
@@ -169,6 +171,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: Colors.primary500
+		backgroundColor: Colors.primary500,
+		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 	}
 });
