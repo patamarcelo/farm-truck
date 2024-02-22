@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import data from "../../utils/dummy-data";
 
 const initialState = {
+	user: "",
+	projetosCadastrados: [],
 	cargas: data,
 	romaneiosFarm: []
 };
@@ -9,6 +11,12 @@ const RomaneioSlice = createSlice({
 	name: "romaneios",
 	initialState,
 	reducers: {
+		setUser: (state, action) => {
+			state.user = action.payload;
+		},
+		setProjetos: (state, action) => {
+			state.projetosCadastrados = action.payload;
+		},
 		addRomaneio: (state, action) => {
 			state.cargas.push(action.payload);
 		},
@@ -37,5 +45,7 @@ export const resetData = RomaneioSlice.actions.resetData;
 export const removeFavorite = RomaneioSlice.actions.removeFavorite;
 export const addRomaneiosFarm = RomaneioSlice.actions.setRomaneiosFarm;
 export const removeFromCargas = RomaneioSlice.actions.removeFromCargas;
+export const setUser = RomaneioSlice.actions.setUser;
+export const setProjetos = RomaneioSlice.actions.setProjetos;
 
 export default RomaneioSlice.reducer;

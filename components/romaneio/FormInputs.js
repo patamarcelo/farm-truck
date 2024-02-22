@@ -28,6 +28,9 @@ const customData = require("../../store/parcelas.json");
 import { useIsFocused } from "@react-navigation/native";
 import IconButton from "../ui/IconButton";
 
+import { projetosSelector } from "../../store/redux/selector";
+import { useSelector } from "react-redux";
+
 // import { Modal } from "react-native-paper";
 
 const FadeInView = (props) => {
@@ -74,6 +77,8 @@ function FormInputs({
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
 
+	const projetosData = useSelector(projetosSelector);
+
 	const isFocused = useIsFocused();
 
 	const handlerModal = () => {
@@ -82,9 +87,11 @@ function FormInputs({
 
 	useLayoutEffect(() => {
 		console.log("start");
-		const filteredArr = customData.resumo_safra.map((data) => {
-			return data.talhao__fazenda__nome;
-		});
+		const filteredArr = customData.resumo_safra
+			.filter((farm) => projetosData.includes(farm.talhao__fazenda__nome))
+			.map((data) => {
+				return data.talhao__fazenda__nome;
+			});
 		// const onlyFarms = [...new Set(["Selecione a Fazenda", ...filteredArr])];
 		const onlyFarms = [...new Set([...filteredArr])];
 		const onlyFarsObj = onlyFarms.map((data) => {

@@ -86,6 +86,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 		setRefreshing(true);
 		try {
 			const data = await getAllDocsFirebase("Projeto Capivara");
+			console.table(data);
 			if (data) {
 				dispatch(addRomaneiosFarm(data));
 			}

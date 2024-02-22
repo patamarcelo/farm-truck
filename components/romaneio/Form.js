@@ -84,7 +84,7 @@ const FormScreen = ({ navigation }) => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
 			console.log("abrindo o formulário");
 			if (status !== "granted") {
-				setErrorMsg("Permission to access location was denied");
+				setErrorMsg("Permissão para localização negada!!");
 				return;
 			}
 

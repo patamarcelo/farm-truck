@@ -32,6 +32,18 @@ const CardRomaneio = (props) => {
 		return data.parcelasNovas?.length > 1 ? "Parcelas" : "Parcela";
 	};
 
+	const timeS =
+		data?.createdAtForm &&
+		data?.createdAtForm.toLocaleString("pt-BR").split(",")[0];
+	console.log(timeS);
+	const seconds =
+		data?.createdAtForm &&
+		data?.createdAtForm
+			.toLocaleString("pt-BR")
+			.split(",")[1]
+			.trim()
+			.slice(0, 5);
+
 	return (
 		<>
 			<Pressable
@@ -75,19 +87,8 @@ const CardRomaneio = (props) => {
 					>
 						{data?.createdAtForm ? (
 							<>
-								<Text style={styles.textData}>
-									{data?.createdAtForm
-										.toLocaleString()
-										.split("T")[0]
-										.replace(",", "")}
-								</Text>
-								<Text style={styles.textData}>
-									{
-										data?.createdAtForm
-											.toLocaleString()
-											.split("T")[1]
-									}
-								</Text>
+								<Text style={styles.textData}>{timeS}</Text>
+								<Text style={styles.textData}>{seconds}</Text>
 							</>
 						) : (
 							<Text style={styles.textData}>

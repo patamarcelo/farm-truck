@@ -14,6 +14,17 @@ import {
 } from "firebase/firestore";
 
 import {
+	getAuth,
+	signInWithEmailAndPassword,
+	signOut,
+	onAuthStateChanged,
+	sendPasswordResetEmail
+} from "firebase/auth";
+
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import {
 	REACT_APP_FIREBASE_API_KEY,
 	REACT_APP_FIREBASE_AUTH_DOMAIN,
 	REACT_APP_FIREBASE_PROJECT_ID,
@@ -33,6 +44,27 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// export { db };
+
+export const auth = initializeAuth(app, {
+	persistence: getReactNativePersistence(AsyncStorage)
+});
+
+export const authUser = async (email, password) => {
+	if (!email || !password) return;
+	return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) =>
+	onAuthStateChanged(auth, callback);
+
+export const triggerResetEmail = async (email) => {
+	console.log("Password reset email sent");
+	return await sendPasswordResetEmail(auth, email);
+};
 
 export const addRomaneioFirebase = async (romaneio) => {
 	try {
@@ -102,8 +134,8 @@ export const getAllDocsFirebase = async (farm) => {
 	querySnapshot.forEach((doc) => {
 		// doc.data() is never undefined for query doc snapshots
 		const newData = {
-			id: doc.id,
-			...doc.data()
+			...doc.data(),
+			id: doc.id
 		};
 		allData.push(newData);
 	});

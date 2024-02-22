@@ -11,7 +11,7 @@ import {
 import CardRomaneio from "../components/romaneio/CardTruck";
 import { Colors } from "../constants/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { romaneioSelector } from "../store/redux/selector";
+import { romaneioSelector, projetosSelector } from "../store/redux/selector";
 
 import { Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -98,6 +98,7 @@ const TrySom = ({ placa, motorista }) => {
 
 function WelcomeScreen() {
 	const data = useSelector(romaneioSelector);
+	const projetosData = useSelector(projetosSelector);
 	const navigation = useNavigation();
 	const tabBarHeight = useBottomTabBarHeight();
 	const dispatch = useDispatch();
@@ -109,6 +110,10 @@ function WelcomeScreen() {
 		const lastNumber = dataFirebase.relatorioColheita;
 		return lastNumber ? lastNumber : 1;
 	};
+
+	useEffect(() => {
+		console.log("Projetos Liberados: ", projetosData);
+	}, []);
 
 	useEffect(() => {
 		const getDocs = async () => {
