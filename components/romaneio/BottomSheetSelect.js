@@ -21,6 +21,7 @@ const BottomSheetSelect = ({
 				pressed && styles.pressed,
 				styles.mainContainer
 			]}
+			disabled={name === "Sem Fazendas Liberadas" ? true : false}
 		>
 			<View style={{ width: "100%" }}>
 				<Text style={{ color: "whitesmoke", fontSize: 18 }}>

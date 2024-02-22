@@ -87,22 +87,33 @@ function FormInputs({
 
 	useLayoutEffect(() => {
 		console.log("start");
-		const filteredArr = customData.resumo_safra
-			.filter((farm) => projetosData.includes(farm.talhao__fazenda__nome))
-			.map((data) => {
-				return data.talhao__fazenda__nome;
+		if (projetosData) {
+			const filteredArr = customData.resumo_safra
+				.filter((farm) =>
+					projetosData.includes(farm.talhao__fazenda__nome)
+				)
+				.map((data) => {
+					return data.talhao__fazenda__nome;
+				});
+			// const onlyFarms = [...new Set(["Selecione a Fazenda", ...filteredArr])];
+			const onlyFarms = [...new Set([...filteredArr])];
+			const onlyFarsObj = onlyFarms.map((data) => {
+				return { label: data, value: data };
 			});
-		// const onlyFarms = [...new Set(["Selecione a Fazenda", ...filteredArr])];
-		const onlyFarms = [...new Set([...filteredArr])];
-		const onlyFarsObj = onlyFarms.map((data) => {
-			return { label: data, value: data };
-		});
-		setFilteredFarms(onlyFarsObj);
+			setFilteredFarms(onlyFarsObj);
 
-		const filtDest = DEST.map((data) => {
-			return { label: data, value: data };
-		});
-		setFilteredDest(filtDest);
+			const filtDest = DEST.map((data) => {
+				return { label: data, value: data };
+			});
+			setFilteredDest(filtDest);
+		} else {
+			setFilteredFarms([
+				{
+					label: "Sem Fazendas Liberadas",
+					value: "Sem Fazendas Liberadas"
+				}
+			]);
+		}
 	}, []);
 
 	useEffect(() => {
