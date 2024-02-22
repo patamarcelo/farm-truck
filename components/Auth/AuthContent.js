@@ -122,13 +122,13 @@ const styles = StyleSheet.create({
 		// justifyContent: 'center',
 		// alignItems: 'center',
 		padding: 16,
-		borderRadius: 8,
+		borderRadius: 8
 		// backgroundColor: Colors.primary800,
 		// elevation: 2,
-		shadowColor: "black",
-		shadowOffset: { width: 5, height: 10 },
-		shadowOpacity: 0.35,
-		shadowRadius: 4
+		// shadowColor: "black",
+		// shadowOffset: { width: 5, height: 10 },
+		// shadowOpacity: 0.35,
+		// shadowRadius: 4
 	},
 	buttons: {
 		marginTop: 18

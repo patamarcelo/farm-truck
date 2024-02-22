@@ -31,6 +31,8 @@ import IconButton from "../ui/IconButton";
 import { projetosSelector } from "../../store/redux/selector";
 import { useSelector } from "react-redux";
 
+import { LogBox } from "react-native";
+
 // import { Modal } from "react-native-paper";
 
 const FadeInView = (props) => {
@@ -84,6 +86,10 @@ function FormInputs({
 	const handlerModal = () => {
 		setOpenModal(!openModal);
 	};
+
+	useEffect(() => {
+		LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+	}, []);
 
 	useLayoutEffect(() => {
 		console.log("start");

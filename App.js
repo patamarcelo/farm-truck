@@ -44,7 +44,7 @@ import * as Font from "expo-font";
 import { useDispatch } from "react-redux";
 import { resetData } from "./store/redux/romaneios";
 
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 const width = Dimensions.get("window").width; //full width
 
 import { AntDesign } from "@expo/vector-icons";
@@ -94,7 +94,8 @@ function RomaneioStack({ route, navigation }) {
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				headerStyle: { backgroundColor: Colors.primary500 }
+				headerStyle: { backgroundColor: Colors.primary500 },
+				headerTintColor: 'whitesmoke'
 			}}
 		>
 			<Stack.Screen
@@ -118,7 +119,9 @@ function RomaneioStack({ route, navigation }) {
 				component={ModalRomaneioScreen}
 				options={{
 					presentation: "modal",
-					headerShown: false,
+					title: '',
+					headerShadowVisible: false, // applied here
+					headerShown: Platform.OS === 'ios' ? false : true,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
@@ -145,50 +148,6 @@ function HomeScrennStack({ route, navigation }) {
 	const handleBack = () => {
 		navigation.navigate("Welcome");
 	};
-
-	useLayoutEffect(() => {
-		navigation.setOptions({
-			tabBarStyle: {
-				backgroundColor: Colors.primary800,
-				borderTopColor: "transparent"
-			},
-			// headerLeft: ({ tintColor }) => (
-			// <IconButton
-			// 	icon="refresh"
-			// 	color={tintColor}
-			// 	size={24}
-			// 	onPress={handleRefresh}
-			// />
-			// ),
-			headerRight: ({ tintColor }) => (
-				<View
-					style={{
-						justifyContent: "space-between",
-						flexDirection: "row",
-						alignItems: "center",
-						width: "200%",
-						paddingRight: 10
-					}}
-				>
-					<Text
-						style={{
-							fontWeight: "bold",
-							fontSize: 24,
-							color: "whitesmoke"
-						}}
-					>
-						Romaneios
-					</Text>
-					<IconButton
-						icon="power"
-						color={tintColor}
-						size={24}
-						onPress={() => context.logout()}
-					/>
-				</View>
-			)
-		});
-	}, [navigation]);
 
 	useLayoutEffect(() => {
 		if (routeName === "Form") {
@@ -248,11 +207,12 @@ function HomeScrennStack({ route, navigation }) {
 				name="Welcome"
 				component={WelcomeScreen}
 				options={{
-					headerShown: false,
+					// headerShown: false,
+					title: "",
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
-			<Stack.Screen
+			{/* <Stack.Screen
 				name="ModalRomaneio"
 				component={ModalRomaneioScreen}
 				options={{
@@ -260,7 +220,7 @@ function HomeScrennStack({ route, navigation }) {
 					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
-			/>
+			/> */}
 		</Stack.Navigator>
 	);
 }
@@ -388,7 +348,8 @@ const NewAuthStack = () => {
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				headerStyle: { backgroundColor: Colors.primary500 }
+				headerStyle: { backgroundColor: Colors.primary500 },
+				headerTintColor: 'whitesmoke'
 			}}
 		>
 			<Stack.Screen
@@ -405,6 +366,17 @@ const NewAuthStack = () => {
 				options={{
 					presentation: "modal",
 					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+			<Stack.Screen
+				name="ModalRomaneio"
+				component={ModalRomaneioScreen}
+				options={{
+					presentation: "modal",
+					title: '',
+					headerShadowVisible: false, // applied here
+					headerShown: Platform.OS === 'ios' ? false : true,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>

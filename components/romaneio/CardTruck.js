@@ -21,11 +21,15 @@ const CardRomaneio = (props) => {
 	const { data, styleContainer } = props;
 	const navigation = useNavigation();
 	const route = useRoute();
+	console.log("dataCard: ", data.id);
 
 	const handleDataTruck = () => {
 		const name = route.name;
-		const routeName = dictRoute[name];
-		navigation.navigate(`${routeName}`, { data: data.idApp });
+		const routeName = "ModalRomaneio";
+		navigation.navigate(`${routeName}`, {
+			data: data.idApp,
+			filtId: data.id
+		});
 	};
 
 	const labelParcelas = (data) => {

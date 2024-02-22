@@ -5,7 +5,9 @@ import {
 	View,
 	SafeAreaView,
 	Alert,
-	Appearance
+	Appearance,
+	Platform,
+	StatusBar
 } from "react-native";
 
 import CardRomaneio from "../components/romaneio/CardTruck";
@@ -19,14 +21,14 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import ResumoContainer from "../components/romaneio/ResumoContainer";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect, useContext } from "react";
+import { AuthContext } from "../store/auth-context";
 import {
 	getAllDocsFirebase,
 	getAndGenerateIdFirebase,
 	saveDataOnFirebaseAndUpdate
 } from "../store/firebase/index";
 import { addRomaneio, removeFromCargas } from "../store/redux/romaneios";
-import { useLayoutEffect } from "react";
 
 import { ActivityIndicator, RefreshControl } from "react-native";
 
@@ -38,6 +40,7 @@ import {
 } from "react-native-alert-notification";
 
 import NetInfo from "@react-native-community/netinfo";
+import IconButton from "../components/ui/IconButton";
 
 const width = Dimensions.get("window").width; //full width
 const colorScheme = Appearance.getColorScheme();
@@ -105,6 +108,8 @@ function WelcomeScreen() {
 	const [refreshing, setRefreshing] = useState(false);
 	const [lastDoc, setLastDoc] = useState(null);
 
+	const context = useContext(AuthContext);
+
 	const getDocs = async () => {
 		const dataFirebase = await getAndGenerateIdFirebase();
 		const lastNumber = dataFirebase.relatorioColheita;
@@ -112,14 +117,38 @@ function WelcomeScreen() {
 	};
 
 	useEffect(() => {
-		console.log("Projetos Liberados: ", projetosData);
-	}, []);
-
-	useEffect(() => {
 		const getDocs = async () => {
 			const dataFirebase = await getAndGenerateIdFirebase();
 		};
 		getDocs();
+	}, []);
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			tabBarStyle: {
+				backgroundColor: Colors.primary800,
+				borderTopColor: "transparent"
+			},
+			headerRight: ({ tintColor }) => (
+				<IconButton
+					icon="power"
+					color={"white"}
+					size={24}
+					onPress={() => context.logout()}
+				/>
+			),
+			headerLeft: ({ tintColor }) => (
+				<Text
+					style={{
+						fontWeight: "bold",
+						fontSize: 24,
+						color: "whitesmoke"
+					}}
+				>
+					Romaneios
+				</Text>
+			)
+		});
 	}, []);
 
 	// useLayoutEffect(() => {
@@ -258,6 +287,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center"
+		// paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 	},
 	resumoContainer: {
 		flex: 1,

@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	Image,
+	ScrollView,
+	Platform
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import {
@@ -21,15 +28,17 @@ const width = Dimensions.get("window").width; //full width
 const ModalRomaneioScreen = ({ navigation }) => {
 	const route = useRoute();
 	const id = route.params.data;
+	const filtId = route.params.filtId;
 
-	const { name } = navigation.getState()?.routes[0];
+	console.log(id);
+
+	const { name } = navigation.getState()?.routes[1];
 	const isFocused = useIsFocused();
 
 	let data = [];
-	if (name === "Romaneios") {
+	if (filtId.length > 5) {
 		data = useSelector(romaneiosFarmSelector);
-	}
-	if (name === "Welcome") {
+	} else {
 		data = useSelector(romaneioSelector);
 	}
 
@@ -37,9 +46,10 @@ const ModalRomaneioScreen = ({ navigation }) => {
 	const [NumberRomaneio, setNumberRomaneio] = useState();
 
 	useLayoutEffect(() => {
+		console.log("data :", data);
 		const compData = data.filter((dataFind) => dataFind.idApp === id)[0];
 		setDataShow(compData);
-		console.log("compData: ", compData.appDate);
+		// console.log("compData: ", compData.appDate);
 	}, [isFocused]);
 
 	const labelParcelas = (data) => {
@@ -63,159 +73,171 @@ const ModalRomaneioScreen = ({ navigation }) => {
 	return (
 		<>
 			{dataShow ? (
-				<View style={styles.mainContainer}>
-					<View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>
-							DETALHE DO ROMANEIO
-						</Text>
-						<Text style={styles.headerRomaneio}>
-							Nº {NumberRomaneio}
-						</Text>
-					</View>
-					<View
-						style={[
-							styles.dataContainer,
-							{
-								backgroundColor: statusColor(dataShow.id),
-								opacity: 1
-							}
-						]}
-					>
-						<Text style={[styles.titleDoc, { color: "white" }]}>
-							Status:{" "}
-						</Text>
-						<Text style={[styles.resultDoc, { color: "white" }]}>
-							{dataShow.id ? "Sincronizado" : "Pendente"}
-						</Text>
-					</View>
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Data: </Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.id
-								? formatDateFirebase(dataShow)
-								: dataShow.appDate
-										.toLocaleString()
-										.replace(",", " -")}
-						</Text>
-					</View>
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Placa:</Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.placa.slice(0, 3)}-
-							{dataShow.placa.slice(3, 12)}
-						</Text>
-					</View>
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Motorista: </Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.motorista}
-						</Text>
-					</View>
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<View style={styles.mainContainer}>
+						<View style={styles.headerContainer}>
+							<Text style={styles.headerTitle}>
+								DETALHE DO ROMANEIO
+							</Text>
+							<Text style={styles.headerRomaneio}>
+								Nº {NumberRomaneio}
+							</Text>
+						</View>
+						{/* <ScrollView
+					gap={20}
+					> */}
+						<View
+							style={[
+								styles.dataContainer,
+								{
+									backgroundColor: statusColor(dataShow.id),
+									opacity: 1
+								}
+							]}
+						>
+							<Text style={[styles.titleDoc, { color: "white" }]}>
+								Status:{" "}
+							</Text>
+							<Text
+								style={[styles.resultDoc, { color: "white" }]}
+							>
+								{dataShow.id ? "Sincronizado" : "Pendente"}
+							</Text>
+						</View>
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>Data: </Text>
+							<Text style={styles.resultDoc}>
+								{dataShow.id
+									? formatDateFirebase(dataShow)
+									: dataShow.appDate
+											.toLocaleString()
+											.replace(",", " -")}
+							</Text>
+						</View>
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>Placa:</Text>
+							<Text style={styles.resultDoc}>
+								{dataShow.placa.slice(0, 3)}-
+								{dataShow.placa.slice(3, 12)}
+							</Text>
+						</View>
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>Motorista: </Text>
+							<Text style={styles.resultDoc}>
+								{dataShow.motorista}
+							</Text>
+						</View>
 
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Projeto:</Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.fazendaOrigem
-								.replace("Projeto", "")
-								.trim()}
-						</Text>
-					</View>
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Cultura: </Text>
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>Projeto:</Text>
+							<Text style={styles.resultDoc}>
+								{dataShow.fazendaOrigem
+									.replace("Projeto", "")
+									.trim()}
+							</Text>
+						</View>
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>Cultura: </Text>
+							<View
+								style={{
+									alignItems: "center",
+									flexDirection: "row"
+								}}
+							>
+								<Text>{dataShow.cultura}</Text>
+								<Image
+									source={findImg(ICON_URL, dataShow.cultura)}
+									style={{
+										width: 25,
+										height: 25,
+										marginLeft: 10
+									}}
+								/>
+							</View>
+						</View>
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>Variedade:</Text>
+							<Text style={styles.resultDoc}>
+								{dataShow.mercadoria.trim()}
+							</Text>
+						</View>
+
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>
+								{labelParcelas(dataShow)}
+							</Text>
+							<Text style={styles.resultDoc}>
+								{dataShow.parcelasNovas?.join("-").trim()}
+							</Text>
+						</View>
+
+						{dataShow.id && (
+							<>
+								<View style={styles.dataContainer}>
+									<Text style={styles.titleDoc}>
+										Peso Bruto:
+									</Text>
+									<Text style={styles.resultDoc}>
+										{dataShow.pesoBruto &&
+											parseInt(
+												dataShow.pesoBruto
+											).toLocaleString("pt-br", {
+												minimumFractionDigits: 0,
+												maximumFractionDigits: 0
+											})}
+									</Text>
+								</View>
+								<View style={styles.dataContainer}>
+									<Text style={styles.titleDoc}>
+										Peso Tara:
+									</Text>
+									<Text style={styles.resultDoc}>
+										{dataShow.tara &&
+											parseInt(
+												dataShow.tara
+											).toLocaleString("pt-br", {
+												minimumFractionDigits: 0,
+												maximumFractionDigits: 0
+											})}
+									</Text>
+								</View>
+
+								<View style={styles.dataContainer}>
+									<Text style={styles.titleDoc}>
+										Peso Líquido:
+									</Text>
+									<Text style={styles.resultDoc}>
+										{dataShow.liquido &&
+											parseInt(
+												dataShow.liquido
+											).toLocaleString("pt-br", {
+												minimumFractionDigits: 0,
+												maximumFractionDigits: 0
+											})}
+									</Text>
+								</View>
+							</>
+						)}
+						{/* </ScrollView> */}
 						<View
 							style={{
-								alignItems: "center",
-								flexDirection: "row"
+								width: "100%",
+								alignItems: "center"
+								// marginTop: 40
 							}}
 						>
-							<Text>{dataShow.cultura}</Text>
+							<Text style={styles.headerRomaneio}>
+								{dataShow.id ? dataShow.id : dataShow.idApp}
+							</Text>
+						</View>
+						<View style={styles.imgContainer}>
 							<Image
-								source={findImg(ICON_URL, dataShow.cultura)}
-								style={{
-									width: 25,
-									height: 25,
-									marginLeft: 10
-								}}
+								source={require("../../assets/diamond.png")}
+								style={styles.image}
 							/>
 						</View>
 					</View>
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>Variedade:</Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.mercadoria.trim()}
-						</Text>
-					</View>
-
-					<View style={styles.dataContainer}>
-						<Text style={styles.titleDoc}>
-							{labelParcelas(dataShow)}
-						</Text>
-						<Text style={styles.resultDoc}>
-							{dataShow.parcelasNovas?.join("-").trim()}
-						</Text>
-					</View>
-					{dataShow.id && (
-						<>
-							<View style={styles.dataContainer}>
-								<Text style={styles.titleDoc}>Peso Bruto:</Text>
-								<Text style={styles.resultDoc}>
-									{dataShow.pesoBruto &&
-										parseInt(
-											dataShow.pesoBruto
-										).toLocaleString("pt-br", {
-											minimumFractionDigits: 0,
-											maximumFractionDigits: 0
-										})}
-								</Text>
-							</View>
-							<View style={styles.dataContainer}>
-								<Text style={styles.titleDoc}>Peso Tara:</Text>
-								<Text style={styles.resultDoc}>
-									{dataShow.tara &&
-										parseInt(dataShow.tara).toLocaleString(
-											"pt-br",
-											{
-												minimumFractionDigits: 0,
-												maximumFractionDigits: 0
-											}
-										)}
-								</Text>
-							</View>
-
-							<View style={styles.dataContainer}>
-								<Text style={styles.titleDoc}>
-									Peso Líquido:
-								</Text>
-								<Text style={styles.resultDoc}>
-									{dataShow.liquido &&
-										parseInt(
-											dataShow.liquido
-										).toLocaleString("pt-br", {
-											minimumFractionDigits: 0,
-											maximumFractionDigits: 0
-										})}
-								</Text>
-							</View>
-						</>
-					)}
-					<View
-						style={{
-							width: "100%",
-							alignItems: "center"
-							// marginTop: 40
-						}}
-					>
-						<Text style={styles.headerRomaneio}>
-							{dataShow.id ? dataShow.id : dataShow.idApp}
-						</Text>
-					</View>
-					<View style={styles.imgContainer}>
-						<Image
-							source={require("../../assets/diamond.png")}
-							style={styles.image}
-						/>
-					</View>
-				</View>
+				</ScrollView>
 			) : (
 				<></>
 			)}
@@ -275,8 +297,9 @@ const styles = StyleSheet.create({
 
 	mainContainer: {
 		flex: 1,
-		top: 20,
+		top: Platform.OS === "ios" && 20,
 		gap: 15,
+		paddingBottom: 20,
 		// justifyContent: "center",
 		alignItems: "center"
 	},
