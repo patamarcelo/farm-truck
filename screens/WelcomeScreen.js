@@ -42,6 +42,9 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 import IconButton from "../components/ui/IconButton";
 
+import Swipeout from "react-native-swipeout";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 const width = Dimensions.get("window").width; //full width
 const colorScheme = Appearance.getColorScheme();
 const colorText = colorScheme === "dark" ? "whitesmoke" : "black";
@@ -129,6 +132,7 @@ function WelcomeScreen() {
 				backgroundColor: Colors.primary800,
 				borderTopColor: "transparent"
 			},
+			headerShadowVisible: false, // applied here
 			headerRight: ({ tintColor }) => (
 				<IconButton
 					icon="power"
@@ -164,7 +168,45 @@ function WelcomeScreen() {
 	// }, []);
 
 	const renderRomaneioList = (itemData) => {
-		return <CardRomaneio data={itemData.item} />;
+		const swipeoutBtns = [
+			{
+				component: (
+					<View
+						style={{
+							flex: 1,
+							alignItems: "center",
+							justifyContent: "center",
+							flexDirection: "column"
+						}}
+					>
+						<Ionicons
+							name="trash-sharp"
+							color={"white"}
+							size={26}
+						/>
+					</View>
+				),
+				backgroundColor: Colors.danger[600],
+				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
+				onPress: () => {
+					dispatch(removeFromCargas(itemData.item.idApp));
+					Alert.alert(
+						"Romaneio Excluído",
+						`${itemData.item.placa} - ${itemData.item.motorista} deletado com sucesso!!`
+					);
+				}
+			}
+		];
+
+		return (
+			<Swipeout
+				right={swipeoutBtns}
+				autoClose={true}
+				onOpen={console.log("open here")}
+			>
+				<CardRomaneio data={itemData.item} />
+			</Swipeout>
+		);
 	};
 
 	const handleRefresh = async () => {

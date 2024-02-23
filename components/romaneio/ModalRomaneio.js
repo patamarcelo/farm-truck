@@ -109,7 +109,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 							<Text style={styles.resultDoc}>
 								{dataShow.id
 									? formatDateFirebase(dataShow)
-									: dataShow.appDate
+									: new Date(dataShow.appDate)
 											.toLocaleString()
 											.replace(",", " -")}
 							</Text>

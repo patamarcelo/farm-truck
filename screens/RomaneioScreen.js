@@ -32,6 +32,8 @@ import { Dimensions, RefreshControl } from "react-native";
 
 import { useScrollToTop } from "@react-navigation/native";
 
+import { projetosSelector } from "../store/redux/selector";
+
 const width = Dimensions.get("window").width; //full width
 
 const RomaneioScreen = ({ navigation, route }) => {
@@ -42,7 +44,11 @@ const RomaneioScreen = ({ navigation, route }) => {
 
 	const [isLoading, seTisLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
+
+	const projetosData = useSelector(projetosSelector);
+
 	const ref = useRef(null);
+
 	useEffect(() => {
 		if (data) {
 			setSentData(data);
@@ -61,7 +67,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 		seTisLoading(true);
 		try {
 			const getDataFire = async () => {
-				const data = await getAllDocsFirebase("Projeto Capivara");
+				const data = await getAllDocsFirebase(projetosData);
 				dispatch(addRomaneiosFarm(data));
 				return data;
 			};

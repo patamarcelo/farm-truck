@@ -58,7 +58,7 @@ const schema = yup.object({
 		.min(7, "placa contem 7 digitos")
 		.max(7),
 	motorista: yup.string().required("Digite o nome do Motorista"),
-	fazendaOrigem: yup.string().required("Selecione uma fazenda"),
+	// fazendaOrigem: yup.string().required("Selecione uma fazenda"),
 	parcelasNovas: yup.array().min(1, "Selecione pelo menos 1 parcela")
 });
 
@@ -73,9 +73,11 @@ const FormScreen = ({ navigation }) => {
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
 	const [selectedFarm, setSelectedFarm] = useState(null);
-	const [selectedDest, setSelectedDest] = useState(null);
+	const [selectedDest, setSelectedDest] = useState("Selecione o Destino");
 	const [filteredFarms, setFilteredFarms] = useState([]);
 	const isFocused = useIsFocused();
+
+	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
 
 	const [location, setLocation] = useState(null);
 
@@ -97,7 +99,6 @@ const FormScreen = ({ navigation }) => {
 		console.log(selectedFarm);
 		if (isFocused) {
 			setSelectedFarm(null);
-			setSelectedDest(null);
 			reset();
 			clearErrors();
 		}
@@ -121,7 +122,8 @@ const FormScreen = ({ navigation }) => {
 			parcelasNovas: [],
 			cultura: "",
 			mercadoria: "",
-			observacoes: ""
+			observacoes: "",
+			fazendaDestino: ""
 		}
 	});
 
@@ -186,9 +188,15 @@ const FormScreen = ({ navigation }) => {
 			resetField("parcelasNovas");
 			setSelectedFarm(e);
 		}
+		if (name === "fazendaDestino") {
+			getValues();
+			console.log("definido o valor aqui", e, name);
+			setValue("fazendaDestino", e);
+		}
 	};
 
 	const refreshHandler = () => {
+		setFilteInputparcelas([]);
 		setSelectedFarm(null);
 		reset();
 		clearErrors();
@@ -229,6 +237,12 @@ const FormScreen = ({ navigation }) => {
 					contentContainerStyle={styles.formContainerContent}
 					showsVerticalScrollIndicator={false}
 				>
+					<View style={styles.headerFormTitle}>
+						<Text style={styles.headerFormTitleText}>
+							Nova Carga
+						</Text>
+					</View>
+
 					<FormInputs
 						errors={errors}
 						control={control}
@@ -244,12 +258,15 @@ const FormScreen = ({ navigation }) => {
 						handleModal={handleModal}
 						setFilteredFarms={setFilteredFarms}
 						filteredFarms={filteredFarms}
+						filteInputparcelas={filteInputparcelas}
+						setFilteInputparcelas={setFilteInputparcelas}
 					/>
 				</KeyboardAwareScrollView>
 				<View style={styles.buttonContainer}>
 					<Button
 						disabled={
-							Object.keys(errors).length === 0 ? false : true
+							Object.keys(errors).length > 0 ||
+							selectedDest === "Selecione o Destino"
 						}
 						onPress={handleSubmit(submitHandler)}
 						btnStyles={styles.btnbtnStylesRegister}
@@ -305,6 +322,16 @@ const FormScreen = ({ navigation }) => {
 export default FormScreen;
 
 const styles = StyleSheet.create({
+	headerFormTitle: {
+		padding: 10,
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	headerFormTitleText: {
+		color: "rgba(255,255,255,0.6)",
+		fontSize: 20,
+		fontWeight: "bold"
+	},
 	bottomSheetStl: {
 		backgroundColor: Colors.primary[901],
 		paddingHorizontal: 20

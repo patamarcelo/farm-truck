@@ -21,7 +21,6 @@ const CardRomaneio = (props) => {
 	const { data, styleContainer } = props;
 	const navigation = useNavigation();
 	const route = useRoute();
-	console.log("dataCard: ", data.id);
 
 	const handleDataTruck = () => {
 		const name = route.name;

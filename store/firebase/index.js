@@ -125,7 +125,7 @@ export const getDocumentosFirebase = async (idForm) => {
 export const getAllDocsFirebase = async (farm) => {
 	const q = query(
 		collection(db, "truckmove"),
-		// where("fazendaOrigem", "==", farm),
+		where("fazendaOrigem", "in", farm),
 		where("createdBy", "==", "App")
 		// orderBy("relatorioColheita")
 	);

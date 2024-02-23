@@ -70,13 +70,14 @@ function FormInputs({
 	selectedDest,
 	handleModal,
 	setFilteredFarms,
-	filteredFarms
+	filteredFarms,
+	filteInputparcelas,
+	setFilteInputparcelas
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
 	const [filteredDest, setFilteredDest] = useState([]);
 	const [filteredParcelasFarmObj, setfilteredParcelasFarmObj] = useState([]);
-	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
 
 	const projetosData = useSelector(projetosSelector);
@@ -218,7 +219,6 @@ function FormInputs({
 		setSelectedFarm(farm);
 	};
 	const handlerChangeSelectDest = (dest) => {
-		console.log("Destino", dest);
 		setSelectedDest(dest);
 		setValue("fazendaDestino", dest);
 	};
@@ -280,7 +280,11 @@ function FormInputs({
 					{errors.motorista?.message}
 				</Text>
 			)}
-			<Divider width={0.5} color={"white"} style={{ width: "100%" }} />
+			<Divider
+				width={0.5}
+				color={"white"}
+				style={{ width: "100%", marginTop: 10 }}
+			/>
 			<View style={styles.farmSelectButton}>
 				<Button
 					onPress={handleModal}
@@ -525,13 +529,7 @@ function FormInputs({
 				)}
 
 			{filteInputparcelas.length > 0 && (
-				<View
-					style={[
-						styles.pickerView,
-						styles.inputContainer,
-						errors.fazendaOrigem && styles.errorStyle
-					]}
-				>
+				<View style={[styles.pickerView, styles.inputContainer]}>
 					{
 						<Controller
 							control={control}
@@ -543,14 +541,23 @@ function FormInputs({
 									selectionColor={"rgba(255,255,255,0.2)"}
 									itemStyle={{ color: "whitesmoke" }}
 									style={{ height: 100 }}
-									selectedValue={selectedDest}
+									selectedValue={value}
 									onValueChange={(e) => {
-										handlerChangeSelectDest(e, "Parcelas");
+										handlerChangeSelectDest(
+											e,
+											"fazendaDestino"
+										);
+										handlerChange(e, "fazendaDestino");
 									}}
 								>
 									{filteredDest.map((data, i) => {
 										return (
 											<SelectPicker.Item
+												style={{
+													color: "whitesmoke",
+													backgroundColor:
+														Colors.primary500
+												}}
 												key={i}
 												label={data.label}
 												value={data.value}
@@ -564,11 +571,11 @@ function FormInputs({
 				</View>
 			)}
 
-			{errors.fazendaOrigem && (
+			{/* {errors.fazendaDestino && (
 				<Text style={styles.labelError}>
-					{errors.fazendaOrigem?.message}
+					{errors.fazendaDestino?.message}
 				</Text>
-			)}
+			)} */}
 			<Modal
 				visible={openModal}
 				// presentationStyle="pageSheet"
@@ -618,7 +625,7 @@ export default FormInputs;
 
 const styles = StyleSheet.create({
 	farmSelectButton: {
-		marginVertical: 50
+		marginVertical: 30
 	},
 	pressed: {
 		opacity: 0.7
