@@ -13,7 +13,11 @@ import {
 import CardRomaneio from "../components/romaneio/CardTruck";
 import { Colors } from "../constants/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { romaneioSelector, projetosSelector } from "../store/redux/selector";
+import {
+	romaneioSelector,
+	projetosSelector,
+	userSelector
+} from "../store/redux/selector";
 
 import { Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -47,12 +51,12 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 const width = Dimensions.get("window").width; //full width
 const colorScheme = Appearance.getColorScheme();
-const colorText = colorScheme === "dark" ? "whitesmoke" : "black";
+// const colorText = colorScheme === "dark" ? "whitesmoke" : "black";
 
 const Title = ({ text }) => {
 	return (
 		<View style={{ paddingTop: 40 }}>
-			<Text style={{ color: colorText, fontWeight: "bold" }}>{text}</Text>
+			<Text style={{ fontWeight: "bold", color: "grey" }}>{text}</Text>
 		</View>
 	);
 };
@@ -68,7 +72,7 @@ const TrySom = ({ placa, motorista }) => {
 					marginTop: 20
 				}}
 			>
-				<Text style={{ fontWeight: "bold", color: colorText }}>
+				<Text style={{ fontWeight: "bold", color: "grey" }}>
 					Romaneio Sincronizado com sucesso!
 				</Text>
 			</Text>
@@ -81,10 +85,10 @@ const TrySom = ({ placa, motorista }) => {
 					marginTop: 40
 				}}
 			>
-				<Text style={{ fontWeight: "bold", color: colorText }}>
+				<Text style={{ fontWeight: "bold", color: "grey" }}>
 					{placa}
 				</Text>
-				<Text style={{ fontWeight: "bold", color: colorText }}>
+				<Text style={{ fontWeight: "bold", color: "grey" }}>
 					{motorista}
 				</Text>
 			</View>
@@ -110,6 +114,17 @@ function WelcomeScreen() {
 	const dispatch = useDispatch();
 	const [refreshing, setRefreshing] = useState(false);
 	const [lastDoc, setLastDoc] = useState(null);
+
+	const user = useSelector(userSelector);
+
+	const [userNameDisplay, setUserNameDisplay] = useState("");
+
+	useEffect(() => {
+		const userName = user.displayName ? user.displayName : "Usuário";
+		console.log(userName);
+		console.log(user);
+		setUserNameDisplay(userName);
+	}, []);
 
 	const context = useContext(AuthContext);
 
@@ -142,15 +157,25 @@ function WelcomeScreen() {
 				/>
 			),
 			headerLeft: ({ tintColor }) => (
-				<Text
-					style={{
-						fontWeight: "bold",
-						fontSize: 24,
-						color: "whitesmoke"
-					}}
-				>
-					Romaneios
-				</Text>
+				<View>
+					<Text
+						style={{
+							fontSize: 12,
+							color: "grey"
+						}}
+					>
+						Olá, {user.displayName}
+					</Text>
+					<Text
+						style={{
+							fontWeight: "bold",
+							fontSize: 24,
+							color: "whitesmoke"
+						}}
+					>
+						Romaneios
+					</Text>
+				</View>
 			)
 		});
 	}, []);
@@ -225,7 +250,8 @@ function WelcomeScreen() {
 					...dataToAdd,
 					appDate: new Date(dataToAdd.appDate),
 					createdAt: new Date(dataToAdd.createdAt),
-					entrada: new Date(dataToAdd.entrada)
+					entrada: new Date(dataToAdd.entrada),
+					userDataApp: user.email
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
 				console.log("Response: ", response);

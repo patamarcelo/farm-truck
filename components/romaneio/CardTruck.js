@@ -38,7 +38,6 @@ const CardRomaneio = (props) => {
 	const timeS =
 		data?.createdAtForm &&
 		data?.createdAtForm.toLocaleString("pt-BR").split(",")[0];
-	console.log(timeS);
 	const seconds =
 		data?.createdAtForm &&
 		data?.createdAtForm
