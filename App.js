@@ -439,10 +439,14 @@ const Root = () => {
 			setTimeout(() => {
 				SplashScreen.hideAsync();
 			}, 200);
-			setTimeout(() => {
-				setShowNavigation(true);
-			}, 1500);
 		}
+	}, [isLoginIn]);
+
+	useEffect(() => {
+		const Timer = context.isAuth ? 1000 : 1600;
+		setTimeout(() => {
+			setShowNavigation(true);
+		}, Timer);
 	}, [isLoginIn]);
 
 	if (isLoginIn) {
