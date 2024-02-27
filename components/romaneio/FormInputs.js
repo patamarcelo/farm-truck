@@ -72,7 +72,8 @@ function FormInputs({
 	setFilteredFarms,
 	filteredFarms,
 	filteInputparcelas,
-	setFilteInputparcelas
+	setFilteInputparcelas,
+	setParcelasSelectedObject
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -131,7 +132,8 @@ function FormInputs({
 		const filInputSelect = filteredParcelasFarmObj.filter((data) =>
 			filteInputparcelas.includes(data.parcela)
 		);
-		console.log(filInputSelect);
+		console.log("parcelas Selecionadas Obj: ", filInputSelect);
+		setParcelasSelectedObject(filInputSelect);
 		const onlyVars = filInputSelect.map((data) => data.variedade);
 		const onlyCult = filInputSelect.map((data) => data.cultura);
 		setValue("mercadoria", onlyVars[0]);
@@ -166,7 +168,7 @@ function FormInputs({
 					variedade: selectedData[data].variedade,
 					colheita: selectedData[data].finalizado_colheita,
 					safra: selectedData[data].safra,
-					ciclo: selectedData[data].ciclo
+					id_plantio: selectedData[data].id_plantio
 				};
 				finalArr.push(obj);
 			});

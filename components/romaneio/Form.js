@@ -78,6 +78,7 @@ const FormScreen = ({ navigation }) => {
 	const isFocused = useIsFocused();
 
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
+	const [parcelasSelectedObject, setParcelasSelectedObject] = useState([]);
 
 	const [location, setLocation] = useState(null);
 
@@ -140,6 +141,7 @@ const FormScreen = ({ navigation }) => {
 			appDate: new Date(),
 			createdAt: new Date(),
 			entrada: new Date(),
+			parcelasObjFiltered: parcelasSelectedObject,
 			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
 		console.log(newData);
@@ -260,6 +262,7 @@ const FormScreen = ({ navigation }) => {
 						filteredFarms={filteredFarms}
 						filteInputparcelas={filteInputparcelas}
 						setFilteInputparcelas={setFilteInputparcelas}
+						setParcelasSelectedObject={setParcelasSelectedObject}
 					/>
 				</KeyboardAwareScrollView>
 				<View style={styles.buttonContainer}>
