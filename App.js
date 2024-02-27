@@ -48,6 +48,7 @@ import { View, Text, Platform } from "react-native";
 const width = Dimensions.get("window").width; //full width
 
 import { AntDesign } from "@expo/vector-icons";
+import Splash from "./components/ui/Splash";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -61,6 +62,15 @@ function AuthStack() {
 				contentStyle: { backgroundColor: Colors.primary100 }
 			}}
 		>
+			{/* <Stack.Screen
+				name="SplashLogin"
+				component={Splash}
+				options={{
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/> */}
+
 			<Stack.Screen
 				name="Login"
 				component={LoginScreen}
@@ -95,7 +105,7 @@ function RomaneioStack({ route, navigation }) {
 		<Stack.Navigator
 			screenOptions={{
 				headerStyle: { backgroundColor: Colors.primary500 },
-				headerTintColor: 'whitesmoke'
+				headerTintColor: "whitesmoke"
 			}}
 		>
 			<Stack.Screen
@@ -119,9 +129,9 @@ function RomaneioStack({ route, navigation }) {
 				component={ModalRomaneioScreen}
 				options={{
 					presentation: "modal",
-					title: '',
+					title: "",
 					headerShadowVisible: false, // applied here
-					headerShown: Platform.OS === 'ios' ? false : true,
+					headerShown: Platform.OS === "ios" ? false : true,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
@@ -250,6 +260,14 @@ function AuthenticatedStack({ navigation }) {
 					initialRouteName: "inicio"
 				}}
 			>
+				{/* <Tab.Screen
+					name="Splash"
+					component={Splash}
+					options={{
+						headerShown: false,
+						contentStyle: { backgroundColor: Colors.primary500 }
+					}}
+				/> */}
 				<Tab.Screen
 					name="inicio"
 					component={HomeScrennStack}
@@ -349,7 +367,7 @@ const NewAuthStack = () => {
 		<Stack.Navigator
 			screenOptions={{
 				headerStyle: { backgroundColor: Colors.primary500 },
-				headerTintColor: 'whitesmoke'
+				headerTintColor: "whitesmoke"
 			}}
 		>
 			<Stack.Screen
@@ -374,9 +392,9 @@ const NewAuthStack = () => {
 				component={ModalRomaneioScreen}
 				options={{
 					presentation: "modal",
-					title: '',
+					title: "",
 					headerShadowVisible: false, // applied here
-					headerShown: Platform.OS === 'ios' ? false : true,
+					headerShown: Platform.OS === "ios" ? false : true,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
@@ -400,7 +418,8 @@ function Navigation() {
 const Root = () => {
 	const context = useContext(AuthContext);
 	const [isLoginIn, setIsLoginIn] = useState(true);
-	SplashScreen.preventAutoHideAsync();
+	const [showNavigation, setShowNavigation] = useState(false);
+	// SplashScreen.preventAutoHideAsync();
 	useEffect(() => {
 		const fetchToken = async () => {
 			const storedToken = await AsyncStorage.getItem("token");
@@ -418,6 +437,9 @@ const Root = () => {
 	useEffect(() => {
 		if (isLoginIn) {
 			SplashScreen.hideAsync();
+			setTimeout(() => {
+				setShowNavigation(true);
+			}, 1300);
 		}
 	}, [isLoginIn]);
 
@@ -425,7 +447,13 @@ const Root = () => {
 		return null;
 	}
 
-	return <Navigation />;
+	if (!showNavigation) {
+		return <Splash logIng={context.isAuth} />;
+	}
+
+	if (showNavigation) {
+		return <Navigation />;
+	}
 };
 
 export default function App() {
