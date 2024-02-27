@@ -26,7 +26,7 @@ const Splash = ({ logIng }) => {
 	// const navigation = useNavigation();
 
 	const getHeight =
-		logIng === false ? dimensions.height - 50 : -dimensions.height;
+		logIng === false ? dimensions.height / 2 + 100 : -dimensions.height;
 
 	const logoAnimatedStyles = useAnimatedStyle(() => ({
 		transform: [
@@ -43,8 +43,13 @@ const Splash = ({ logIng }) => {
 				if (finished) {
 					logoPositionY.value = withSequence(
 						withTiming(50),
-						withTiming(getHeight, { duration: 400 })
+						withTiming(getHeight, { duration: 500 }, (finished) => {
+							if (finished) {
+								logoScale.value = withSequence(withTiming(0.7));
+							}
+						})
 					);
+
 					// runOnJS(onEndSplash)();
 				}
 			})

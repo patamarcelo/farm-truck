@@ -419,7 +419,7 @@ const Root = () => {
 	const context = useContext(AuthContext);
 	const [isLoginIn, setIsLoginIn] = useState(true);
 	const [showNavigation, setShowNavigation] = useState(false);
-	// SplashScreen.preventAutoHideAsync();
+	SplashScreen.preventAutoHideAsync();
 	useEffect(() => {
 		const fetchToken = async () => {
 			const storedToken = await AsyncStorage.getItem("token");
@@ -436,10 +436,12 @@ const Root = () => {
 
 	useEffect(() => {
 		if (isLoginIn) {
-			SplashScreen.hideAsync();
+			setTimeout(() => {
+				SplashScreen.hideAsync();
+			}, 200);
 			setTimeout(() => {
 				setShowNavigation(true);
-			}, 1300);
+			}, 1500);
 		}
 	}, [isLoginIn]);
 
@@ -452,7 +454,11 @@ const Root = () => {
 	}
 
 	if (showNavigation) {
-		return <Navigation />;
+		return (
+			<View style={{ flex: 1, backgroundColor: Colors.primary500 }}>
+				<Navigation />
+			</View>
+		);
 	}
 };
 
