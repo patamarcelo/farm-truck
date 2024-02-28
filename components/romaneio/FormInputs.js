@@ -73,7 +73,9 @@ function FormInputs({
 	filteredFarms,
 	filteInputparcelas,
 	setFilteInputparcelas,
-	setParcelasSelectedObject
+	setParcelasSelectedObject,
+	obsCheckIcon,
+	setObsCheckIcon
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -126,6 +128,7 @@ function FormInputs({
 
 	useEffect(() => {
 		setFilteInputparcelas([]);
+		setObsCheckIcon("");
 	}, [isFocused]);
 
 	useEffect(() => {
@@ -506,7 +509,9 @@ function FormInputs({
 								pressed && styles.pressed,
 								{
 									flexDirection: "row",
-									alignItems: "center"
+									alignItems: "center",
+									width: "100%",
+									height: 60
 								}
 							]}
 							onPress={handlerModal}
@@ -516,11 +521,19 @@ function FormInputs({
 								type={"awesome"}
 								icon={"plus"}
 								color="white"
-								size={24}
+								size={16}
 							/>
 							<Text style={{ fontSize: 18, color: "whitesmoke" }}>
 								Observações
 							</Text>
+							{obsCheckIcon?.trim().length > 0 && (
+								<Ionicons
+									name="checkmark-done"
+									color={Colors.success[100]}
+									size={24}
+									style={{ marginLeft: 5 }}
+								/>
+							)}
 						</Pressable>
 						<Divider
 							width={0.5}
@@ -588,8 +601,8 @@ function FormInputs({
 				<View
 					style={{
 						backgroundColor: "rgba(0,0,0,0.75)",
-						flex: 1,
-						marginTop: 190
+						flex: 1
+						// marginTop: 100
 					}}
 				>
 					<Controller
@@ -598,10 +611,14 @@ function FormInputs({
 						render={({ field: { onChange, onBlur, value } }) => (
 							<Input
 								styleInput={{
-									height: 140
+									height: 240,
+									marginTop: 100
 								}}
 								// label="Observações"
-								onUpdateValue={onChange}
+								onUpdateValue={(e) => {
+									setObsCheckIcon(e);
+									onChange(e);
+								}}
 								value={value}
 								// keyboardType="email-address"
 								onBlur={onBlur}
@@ -627,7 +644,7 @@ export default FormInputs;
 
 const styles = StyleSheet.create({
 	farmSelectButton: {
-		marginVertical: 30
+		marginVertical: 20
 	},
 	pressed: {
 		opacity: 0.7

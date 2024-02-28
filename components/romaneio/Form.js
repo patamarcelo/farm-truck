@@ -82,6 +82,8 @@ const FormScreen = ({ navigation }) => {
 
 	const [location, setLocation] = useState(null);
 
+	const [obsCheckIcon, setObsCheckIcon] = useState("");
+
 	useEffect(() => {
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
@@ -199,6 +201,7 @@ const FormScreen = ({ navigation }) => {
 
 	const refreshHandler = () => {
 		setFilteInputparcelas([]);
+		setObsCheckIcon("");
 		setSelectedFarm(null);
 		reset();
 		clearErrors();
@@ -263,6 +266,8 @@ const FormScreen = ({ navigation }) => {
 						filteInputparcelas={filteInputparcelas}
 						setFilteInputparcelas={setFilteInputparcelas}
 						setParcelasSelectedObject={setParcelasSelectedObject}
+						obsCheckIcon={obsCheckIcon}
+						setObsCheckIcon={setObsCheckIcon}
 					/>
 				</KeyboardAwareScrollView>
 				<View style={styles.buttonContainer}>
