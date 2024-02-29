@@ -161,7 +161,7 @@ function WelcomeScreen() {
 					<Text
 						style={{
 							fontSize: 12,
-							color: "grey"
+							color: "rgba(245,245,245,0.7)"
 						}}
 					>
 						Olá, {user.displayName}
@@ -179,6 +179,45 @@ function WelcomeScreen() {
 			)
 		});
 	}, []);
+
+	useEffect(() => {
+		navigation.setOptions({
+			tabBarStyle: {
+				backgroundColor: Colors.primary800,
+				borderTopColor: "transparent"
+			},
+			headerShadowVisible: false, // applied here
+			headerRight: ({ tintColor }) => (
+				<IconButton
+					icon="power"
+					color={"white"}
+					size={24}
+					onPress={() => context.logout()}
+				/>
+			),
+			headerLeft: ({ tintColor }) => (
+				<View>
+					<Text
+						style={{
+							fontSize: 12,
+							color: "rgba(245,245,245,0.7)"
+						}}
+					>
+						Olá, {user.displayName}
+					</Text>
+					<Text
+						style={{
+							fontWeight: "bold",
+							fontSize: 24,
+							color: "whitesmoke"
+						}}
+					>
+						Romaneios
+					</Text>
+				</View>
+			)
+		});
+	}, [user]);
 
 	// useLayoutEffect(() => {
 	// 	const getDocs = async () => {
@@ -251,7 +290,8 @@ function WelcomeScreen() {
 					appDate: new Date(dataToAdd.appDate),
 					createdAt: new Date(dataToAdd.createdAt),
 					entrada: new Date(dataToAdd.entrada),
-					userDataApp: user.email
+					userDataApp: user.email,
+					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
 				console.log("Response: ", response);

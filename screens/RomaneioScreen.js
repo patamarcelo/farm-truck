@@ -64,20 +64,25 @@ const RomaneioScreen = ({ navigation, route }) => {
 	}, [data]);
 
 	useEffect(() => {
-		seTisLoading(true);
-		try {
-			const getDataFire = async () => {
-				const data = await getAllDocsFirebase(projetosData);
-				dispatch(addRomaneiosFarm(data));
-				return data;
-			};
-			if (isFocused) {
-				console.log("isFocused", isFocused);
-				getDataFire();
+		if (projetosData) {
+			seTisLoading(true);
+			try {
+				const getDataFire = async () => {
+					const data = await getAllDocsFirebase(projetosData);
+					dispatch(addRomaneiosFarm(data));
+					return data;
+				};
+				if (isFocused) {
+					console.log("isFocused", isFocused);
+					getDataFire();
+				}
+			} catch (error) {
+				console.log("Erro em pegar os dados: ", error);
+			} finally {
+				seTisLoading(false);
 			}
-		} catch (error) {
-			console.log("Erro em pegar os dados: ", error);
-		} finally {
+		} else {
+			dispatch(addRomaneiosFarm([]));
 			seTisLoading(false);
 		}
 	}, [isFocused]);
@@ -91,7 +96,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const handleRefresh = async () => {
 		setRefreshing(true);
 		try {
-			const data = await getAllDocsFirebase("Projeto Capivara");
+			const data = await getAllDocsFirebase(projetosData);
 			console.table(data);
 			if (data) {
 				dispatch(addRomaneiosFarm(data));

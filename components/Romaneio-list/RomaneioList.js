@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
 	adviseContainerTitle: {
 		color: "whitesmoke",
 		fontSize: 16,
-		textAlign: "center"
+		textAlign: "center",
+		marginTop: 200
 	},
 	adviseContainer: {
 		// backgroundColor: "red",

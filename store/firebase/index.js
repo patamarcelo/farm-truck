@@ -123,24 +123,27 @@ export const getDocumentosFirebase = async (idForm) => {
 };
 
 export const getAllDocsFirebase = async (farm) => {
-	const q = query(
-		collection(db, "truckmove"),
-		where("fazendaOrigem", "in", farm),
-		where("createdBy", "==", "App")
-		// orderBy("relatorioColheita")
-	);
-	const querySnapshot = await getDocs(q);
-	let allData = [];
-	querySnapshot.forEach((doc) => {
-		// doc.data() is never undefined for query doc snapshots
-		const newData = {
-			...doc.data(),
-			id: doc.id
-		};
-		allData.push(newData);
-	});
-	// console.log("allData", allData);
-	return allData;
+	if (farm.length > 0) {
+		const q = query(
+			collection(db, "truckmove"),
+			where("fazendaOrigem", "in", farm),
+			where("createdBy", "==", "App")
+			// orderBy("relatorioColheita")
+		);
+		const querySnapshot = await getDocs(q);
+		let allData = [];
+		querySnapshot.forEach((doc) => {
+			// doc.data() is never undefined for query doc snapshots
+			const newData = {
+				...doc.data(),
+				id: doc.id
+			};
+			allData.push(newData);
+		});
+		// console.log("allData", allData);
+		return allData;
+	}
+	return [];
 };
 
 export const saveDataOnFirebaseAndUpdate = async (newData) => {
