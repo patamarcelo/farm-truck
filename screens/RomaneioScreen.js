@@ -66,25 +66,27 @@ const RomaneioScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		if (projetosData) {
 			seTisLoading(true);
-			try {
-				const getDataFire = async () => {
+			console.log("alterando loader para true");
+			const getDataFire = async () => {
+				try {
 					const data = await getAllDocsFirebase(projetosData);
 					dispatch(addRomaneiosFarm(data));
-					return data;
-				};
-				if (isFocused) {
-					console.log("isFocused", isFocused);
-					getDataFire();
+				} catch (error) {
+					console.log("Erro em pegar os dados: ", error);
+				} finally {
+					// seTisLoading(false);
 				}
-			} catch (error) {
-				console.log("Erro em pegar os dados: ", error);
-			} finally {
-				seTisLoading(false);
+			};
+			if (isFocused) {
+				console.log("isFocused", isFocused);
+				getDataFire();
+				console.log("finalizou de pegar os dados");
 			}
 		} else {
 			dispatch(addRomaneiosFarm([]));
-			seTisLoading(false);
+			// seTisLoading(false);
 		}
+		seTisLoading(false);
 	}, [isFocused]);
 
 	useEffect(() => {
@@ -129,39 +131,41 @@ const RomaneioScreen = ({ navigation, route }) => {
 				style={{
 					flex: 1,
 					justifyContent: "center",
-					backgroundColor: "whitesmoke"
+					backgroundColor: Colors.primary800
 				}}
 			>
-				<ActivityIndicator size="large" color="#0000ff" />
+				<ActivityIndicator size="large" color="#f5f5f5" />
 			</View>
 		);
 	}
 
-	return (
-		<View style={styles.mainContainer}>
-			<SearchBar
-				search={search}
-				updateSearchHandler={updateSearchHandler}
-			/>
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				ref={ref}
-				refreshControl={
-					<RefreshControl
-						refreshing={refreshing}
-						onRefresh={handleRefresh}
-						colors={["#9Bd35A", "#689F38"]}
-						tintColor={"whitesmoke"}
-					/>
-				}
-			>
-				<RomaneioList
+	if (!isLoading) {
+		return (
+			<View style={styles.mainContainer}>
+				<SearchBar
 					search={search}
-					data={sentData.sort((a, b) => b.sortDate - a.sortDate)}
+					updateSearchHandler={updateSearchHandler}
 				/>
-			</ScrollView>
-		</View>
-	);
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					ref={ref}
+					refreshControl={
+						<RefreshControl
+							refreshing={refreshing}
+							onRefresh={handleRefresh}
+							colors={["#9Bd35A", "#689F38"]}
+							tintColor={"whitesmoke"}
+						/>
+					}
+				>
+					<RomaneioList
+						search={search}
+						data={sentData.sort((a, b) => b.sortDate - a.sortDate)}
+					/>
+				</ScrollView>
+			</View>
+		);
+	}
 };
 
 export default RomaneioScreen;
