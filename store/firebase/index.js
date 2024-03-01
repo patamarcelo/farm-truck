@@ -101,7 +101,7 @@ export const getAndGenerateIdFirebase = async () => {
 
 const getLastRomaneioNUmber = async () => {
 	const dataFirebase = await getAndGenerateIdFirebase();
-	const lastNumber = dataFirebase.relatorioColheita;
+	const lastNumber = dataFirebase?.relatorioColheita;
 	return lastNumber ? lastNumber : 0;
 };
 
