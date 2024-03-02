@@ -117,6 +117,8 @@ function WelcomeScreen() {
 	const [refreshing, setRefreshing] = useState(false);
 	const [lastDoc, setLastDoc] = useState(null);
 
+	const [preventSroll, setPreventSroll] = useState(true);
+
 	const user = useSelector(userSelector);
 
 	const [userNameDisplay, setUserNameDisplay] = useState("");
@@ -221,18 +223,6 @@ function WelcomeScreen() {
 		});
 	}, [user]);
 
-	// useLayoutEffect(() => {
-	// 	const getDocs = async () => {
-	// 		const response = await getAllDocsFirebase("Projeto Capivara");
-	// 		console.log("data", response);
-	// 		response.map((dataF) => {
-	// 			dispatch(addRomaneio(dataF));
-	// 		});
-	// 		isFirstTime = true;
-	// 	};
-	// 	getDocs();
-	// }, []);
-
 	const renderRomaneioList = (itemData) => {
 		const swipeoutBtnsRight = [
 			{
@@ -291,7 +281,8 @@ function WelcomeScreen() {
 				right={swipeoutBtnsRight}
 				left={swipeoutBtnsLeft}
 				autoClose={true}
-				onOpen={console.log("open here")}
+				onOpen={() => setPreventSroll(false)}
+				onClose={() => setPreventSroll(true)}
 			>
 				<CardRomaneio data={itemData.item} />
 			</Swipeout>
@@ -350,6 +341,7 @@ function WelcomeScreen() {
 			}
 		} catch (err) {
 			console.log("erro ao pegar os romaneios", err);
+			Alert.alert("Erro ao Salvar o Romaneio", `${err}`);
 		} finally {
 			setRefreshing(false);
 		}
@@ -367,7 +359,7 @@ function WelcomeScreen() {
 						{data && data.length > 0 && (
 							<FlatList
 								data={data}
-								scrollEnabled={false}
+								scrollEnabled={preventSroll}
 								showsVerticalScrollIndicator={false}
 								keyExtractor={(item) => item.idApp}
 								renderItem={renderRomaneioList}
