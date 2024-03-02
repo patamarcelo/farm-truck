@@ -48,6 +48,8 @@ import IconButton from "../components/ui/IconButton";
 
 import Swipeout from "react-native-swipeout";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 const width = Dimensions.get("window").width; //full width
 const colorScheme = Appearance.getColorScheme();
@@ -232,7 +234,29 @@ function WelcomeScreen() {
 	// }, []);
 
 	const renderRomaneioList = (itemData) => {
-		const swipeoutBtns = [
+		const swipeoutBtnsRight = [
+			{
+				component: (
+					<View
+						style={{
+							flex: 1,
+							alignItems: "center",
+							justifyContent: "center",
+							flexDirection: "column"
+						}}
+					>
+						<FontAwesome name="send" color={"white"} size={20} />
+					</View>
+				),
+				backgroundColor: "rgba(017,201,17, 1)",
+				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
+				onPress: () => {
+					handleRefresh(itemData.item.idApp);
+				}
+			}
+		];
+
+		const swipeoutBtnsLeft = [
 			{
 				component: (
 					<View
@@ -246,7 +270,7 @@ function WelcomeScreen() {
 						<Ionicons
 							name="trash-sharp"
 							color={"white"}
-							size={26}
+							size={20}
 						/>
 					</View>
 				),
@@ -264,7 +288,8 @@ function WelcomeScreen() {
 
 		return (
 			<Swipeout
-				right={swipeoutBtns}
+				right={swipeoutBtnsRight}
+				left={swipeoutBtnsLeft}
 				autoClose={true}
 				onOpen={console.log("open here")}
 			>
@@ -273,10 +298,8 @@ function WelcomeScreen() {
 		);
 	};
 
-	const handleRefresh = async () => {
-		// const dataToAdd = data[data.length - 1];
-		const dataToAdd = data[0];
-		const idToFind = dataToAdd.idApp;
+	const handleRefresh = async (idToFind) => {
+		const dataToAdd = data.find((data) => data.idApp === idToFind);
 		setRefreshing(true);
 		try {
 			const isConnected = await NetInfo.fetch().then((state) => {
@@ -344,6 +367,7 @@ function WelcomeScreen() {
 						{data && data.length > 0 && (
 							<FlatList
 								data={data}
+								scrollEnabled={false}
 								showsVerticalScrollIndicator={false}
 								keyExtractor={(item) => item.idApp}
 								renderItem={renderRomaneioList}
