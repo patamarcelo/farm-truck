@@ -629,10 +629,15 @@ function FormInputs({
 						)}
 					/>
 					<Button
-						btnStyles={{ backgroundColor: "green" }}
+						btnStyles={{
+							backgroundColor:
+								obsCheckIcon?.trim().length > 0
+									? "green"
+									: Colors.gold[600]
+						}}
 						onPress={handlerModal}
 					>
-						Fechar
+						{obsCheckIcon?.trim().length > 0 ? "Salvar" : "Fechar"}
 					</Button>
 				</View>
 			</Modal>

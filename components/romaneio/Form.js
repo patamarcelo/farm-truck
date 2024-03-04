@@ -292,7 +292,7 @@ const FormScreen = ({ navigation }) => {
 							onPress={refreshHandler}
 							btnStyles={[
 								styles.btnbtnStylesClean,
-								{ backgroundColor: "#ffff00" }
+								{ backgroundColor: Colors.gold[500] }
 							]}
 							textStyles={styles.textBtnCancelStyle}
 						>
