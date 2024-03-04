@@ -85,7 +85,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 
 				<View style={styles.buttons}>
 					<Button onPress={submitHandler} btnStyles={styles.btnStyle}>
-						{isLogin ? "Entrar" : "Redefinr Senha"}
+						{isLogin ? "Entrar" : "Redefinir Senha"}
 					</Button>
 				</View>
 			</View>

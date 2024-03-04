@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import data from "../../utils/dummy-data";
+// import data from "../../utils/dummy-data";
 
 const initialState = {
 	user: "",
 	projetosCadastrados: [],
-	cargas: data,
+	cargas: [],
 	romaneiosFarm: []
 };
 const RomaneioSlice = createSlice({
