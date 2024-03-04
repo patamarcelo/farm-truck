@@ -292,9 +292,12 @@ const FormScreen = ({ navigation }) => {
 							onPress={refreshHandler}
 							btnStyles={[
 								styles.btnbtnStylesClean,
-								{ backgroundColor: Colors.gold[500] }
+								{ backgroundColor: Colors.gold[600] }
 							]}
-							textStyles={styles.textBtnCancelStyle}
+							textStyles={[
+								styles.textBtnCancelStyle,
+								{ color: "whitesmoke" }
+							]}
 						>
 							Limpar
 						</Button>
