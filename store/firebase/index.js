@@ -83,7 +83,7 @@ export const getAndGenerateIdFirebase = async () => {
 		where("idApp", "!=", null),
 		orderBy("idApp", "desc"),
 		orderBy("relatorioColheita", "desc"),
-		limit(1)
+		limit(2)
 	);
 	const querySnapshot = await getDocs(q);
 	let allData = [];
@@ -93,16 +93,16 @@ export const getAndGenerateIdFirebase = async () => {
 		allData.push(doc.data());
 	});
 	allData.forEach((data) => {
-		console.log(data);
+		console.log("impreInisde: ", data);
 	});
 
-	return allData[0];
+	return allData[1];
 };
 
 const getLastRomaneioNUmber = async () => {
 	const dataFirebase = await getAndGenerateIdFirebase();
 	const lastNumber = dataFirebase?.relatorioColheita;
-	return lastNumber ? lastNumber : 0;
+	return lastNumber ? Number(lastNumber) : 0;
 };
 
 const updateSingleDoc = async (idDoc) => {
@@ -110,7 +110,7 @@ const updateSingleDoc = async (idDoc) => {
 	const documentUpdate = doc(db, "truckmove", idDoc);
 	await updateDoc(documentUpdate, {
 		id: idDoc,
-		relatorioColheita: lastNumber + 1
+		relatorioColheita: Number(lastNumber) + 1
 	});
 };
 
@@ -151,7 +151,7 @@ export const saveDataOnFirebaseAndUpdate = async (newData) => {
 		const lastRomaneio = await getLastRomaneioNUmber();
 		const updatedData = {
 			...newData,
-			relatorioColheita: lastRomaneio + 1
+			relatorioColheita: Number(lastRomaneio) + 1
 		};
 		const response = await addRomaneioFirebase(updatedData);
 		// if (response) {
