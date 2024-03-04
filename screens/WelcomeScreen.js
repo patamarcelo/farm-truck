@@ -346,6 +346,64 @@ function WelcomeScreen() {
 			setRefreshing(false);
 		}
 	};
+	const handleRefreshScroll = async () => {
+		const dataToAdd = data[0];
+		const idToFind = dataToAdd.idApp;
+		setRefreshing(true);
+		try {
+			const isConnected = await NetInfo.fetch().then((state) => {
+				// console.log("está conectado :", state.isConnected);
+				// console.log("estado: ", state);
+				return state.isConnected;
+			});
+			if (isConnected === true) {
+				const dataToSave = {
+					...dataToAdd,
+					appDate: new Date(dataToAdd.appDate),
+					createdAt: new Date(dataToAdd.createdAt),
+					entrada: new Date(dataToAdd.entrada),
+					userDataApp: user.email,
+					syncDate: new Date()
+				};
+				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
+				console.log("Response: ", response);
+				if (response) {
+					dispatch(removeFromCargas(idToFind));
+					const last = await getDocs();
+					// console.log("last", last);
+					Dialog.show({
+						type: ALERT_TYPE.SUCCESS,
+						title: <Title text={"Feito!!"} />,
+						textBody: (
+							<TrySom
+								placa={`${dataToAdd.placa.slice(
+									0,
+									3
+								)}-${dataToAdd.placa.slice(3, 12)}`}
+								motorista={dataToAdd.motorista}
+							/>
+						),
+						button: "Finalizar"
+						// onPressButton: () => {
+						// 	navigation.navigate("PagamentosTab");
+						// }
+					});
+				}
+			} else {
+				console.log("is not conected!!");
+				setRefreshing(false);
+				Alert.alert(
+					"Sem Conexão...",
+					"Parece que está sem conexão com a internet , tente novamente mais tarde..."
+				);
+			}
+		} catch (err) {
+			console.log("erro ao pegar os romaneios", err);
+			Alert.alert("Erro ao Salvar o Romaneio", `${err}`);
+		} finally {
+			setRefreshing(false);
+		}
+	};
 
 	return (
 		<AlertNotificationRoot>
@@ -369,7 +427,7 @@ function WelcomeScreen() {
 								refreshControl={
 									<RefreshControl
 										refreshing={refreshing}
-										onRefresh={handleRefresh}
+										onRefresh={handleRefreshScroll}
 										colors={["#9Bd35A", "#689F38"]}
 										tintColor={"whitesmoke"}
 									/>
