@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "farm-truck",
-    "slug": "Farm Truck",
+    "slug": "farm-truck",
     "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
