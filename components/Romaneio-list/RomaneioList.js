@@ -9,6 +9,10 @@ import { Dimensions } from "react-native";
 const width = Dimensions.get("window").width; //full width
 const height = Dimensions.get("screen").height; //full heihgt
 
+import { formatDate } from "../../utils/formatDate";
+
+import moment from "moment";
+
 const renderRomaneioList = (itemData) => {
 	return (
 		<CardRomaneio
@@ -31,6 +35,13 @@ const RomaneioList = ({ search, data }) => {
 	useEffect(() => {
 		if (search) {
 			const newArr = data.filter((dataFilter) => {
+				const formatDate = moment(
+					new Date(
+						dataFilter.appDate.seconds * 1000 +
+							dataFilter.appDate.nanoseconds / 1000000
+					)
+				).format("DD/MM/YYYY - HH:mm");
+				console.log("newDate: ", formatDate);
 				return (
 					dataFilter.placa
 						.toLowerCase()
@@ -44,7 +55,8 @@ const RomaneioList = ({ search, data }) => {
 						.includes(search.toLowerCase()) ||
 					dataFilter.relatorioColheita
 						.toString()
-						.includes(search.toString())
+						.includes(search.toString()) ||
+					formatDate.includes(search)
 				);
 			});
 			setFilteredData(newArr);

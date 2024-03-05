@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "farm-truck",
-    "slug": "farm-truck",
-    "version": "1.0.3",
+    "slug": "Farm Truck",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -25,16 +25,16 @@
     "ios": {
       "buildNumber": "1.0.0",
       "supportsTablet": true,
-      "bundleIdentifier": "com.patamarcelo.farmtruck"
+      "bundleIdentifier": "com.farmtruck.farmtruck"
     },
     "android": {
-      "versionCode": 4,
-      "versionName": "1.0.3",
+      "versionCode": 6,
+      "versionName": "1.0.5",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.patamarcelo.farmtruck"
+      "package": "com.farmtruck.farmtruck"
     },
     "web": {
       "favicon": "./assets/favicon.png"

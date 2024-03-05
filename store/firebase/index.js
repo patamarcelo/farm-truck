@@ -80,10 +80,9 @@ export const addRomaneioFirebase = async (romaneio) => {
 export const getAndGenerateIdFirebase = async () => {
 	const q = query(
 		collection(db, "truckmove"),
-		where("idApp", "!=", null),
-		orderBy("idApp", "desc"),
-		orderBy("relatorioColheita", "desc"),
-		limit(2)
+		where("syncDate", "!=", null),
+		orderBy("syncDate", "desc"),
+		limit(1)
 	);
 	const querySnapshot = await getDocs(q);
 	let allData = [];
@@ -96,7 +95,7 @@ export const getAndGenerateIdFirebase = async () => {
 		console.log("impreInisde: ", data);
 	});
 
-	return allData[1];
+	return allData[0];
 };
 
 const getLastRomaneioNUmber = async () => {
@@ -127,8 +126,8 @@ export const getAllDocsFirebase = async (farm) => {
 		const q = query(
 			collection(db, "truckmove"),
 			where("fazendaOrigem", "in", farm),
-			where("createdBy", "==", "App")
-			// orderBy("relatorioColheita")
+			where("createdBy", "==", "App"),
+			orderBy("syncDate", "desc")
 		);
 		const querySnapshot = await getDocs(q);
 		let allData = [];

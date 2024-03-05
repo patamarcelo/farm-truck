@@ -1,6 +1,7 @@
 import { Pressable, View, Text, StyleSheet, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
+import { useEffect, useState } from "react";
 
 import { Dimensions } from "react-native";
 import { Divider } from "react-native-elements";
@@ -10,6 +11,9 @@ import { useNavigation } from "@react-navigation/native";
 import { ICON_URL, findImg } from "../../utils/imageUrl";
 import { formatDate, formatDateFirebase } from "../../utils/formatDate";
 import { useRoute } from "@react-navigation/native";
+
+import moment from "moment";
+
 const width = Dimensions.get("window").width; //full width
 
 const dictRoute = {
@@ -19,6 +23,29 @@ const dictRoute = {
 
 const CardRomaneio = (props) => {
 	const { data, styleContainer } = props;
+	const [dataArr, setDataArr] = useState([]);
+
+	useEffect(() => {
+		if (data.length > 0) {
+			const format = data.map((data) => {
+				let createdAtForm;
+				if (typeof data.createdAt === "object") {
+					createdAtForm = new Date();
+				} else {
+					createdAtForm = new Date(data.createdAt);
+				}
+				const sortDate =
+					typeof data.appDate === "object"
+						? new Date(
+								data.appDate.seconds * 1000 +
+									data.appDate.nanoseconds / 1000000
+						  )
+						: new Date(data.appDate);
+				return { ...data, sortDate, createdAtForm };
+			});
+			setDataArr(format);
+		}
+	}, []);
 	const navigation = useNavigation();
 	const route = useRoute();
 
@@ -36,11 +63,11 @@ const CardRomaneio = (props) => {
 	};
 
 	const timeS =
-		data?.createdAtForm &&
-		data?.createdAtForm.toLocaleString("pt-BR").split(",")[0];
+		dataArr?.createdAtForm &&
+		dataArr?.createdAtForm.toLocaleString("pt-BR").split(",")[0];
 	const seconds =
-		data?.createdAtForm &&
-		data?.createdAtForm
+		dataArr?.createdAtForm &&
+		dataArr?.createdAtForm
 			.toLocaleString("pt-BR")
 			.split(",")[1]
 			.trim()
@@ -87,11 +114,16 @@ const CardRomaneio = (props) => {
 							paddingLeft: 30
 						}}
 					>
-						{data?.createdAtForm ? (
-							<>
-								<Text style={styles.textData}>{timeS}</Text>
-								<Text style={styles.textData}>{seconds}</Text>
-							</>
+						{typeof data?.appDate === "object" &&
+						data?.id.length > 0 ? (
+							<Text style={styles.textData}>
+								{moment(
+									new Date(
+										data.appDate.seconds * 1000 +
+											data.appDate.nanoseconds / 1000000
+									)
+								).format("DD/MM/YYYY - HH:mm")}
+							</Text>
 						) : (
 							<Text style={styles.textData}>
 								{formatDate(data.appDate)}

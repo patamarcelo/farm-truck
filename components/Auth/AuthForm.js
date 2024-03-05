@@ -10,6 +10,8 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 	const [enteredPassword, setEnteredPassword] = useState("");
 	const [enteredConfirmPassword, setEnteredConfirmPassword] = useState("");
 
+	const [showPassword, setshowPassword] = useState(true);
+
 	const {
 		email: emailIsInvalid,
 		confirmEmail: emailsDontMatch,
@@ -33,6 +35,10 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 				break;
 		}
 	}
+
+	const handlerPassword = () => {
+		setshowPassword(!showPassword);
+	};
 
 	function submitHandler() {
 		onSubmit({
@@ -76,9 +82,12 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 								this,
 								"password"
 							)}
-							secure
+							secure={showPassword}
 							value={enteredPassword}
 							isInvalid={passwordIsInvalid}
+							hasIcon={true}
+							setshowPassword={handlerPassword}
+							showPassword={showPassword}
 						/>
 					</>
 				)}
