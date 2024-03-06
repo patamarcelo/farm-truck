@@ -6,6 +6,8 @@ import AuthForm from "./AuthForm";
 import { Colors } from "../../constants/styles";
 import { useNavigation } from "@react-navigation/native";
 
+import { expo } from "../../app.json";
+
 function AuthContent({ isLogin, onAuthenticate }) {
 	const navigation = useNavigation();
 	const [credentialsInvalid, setCredentialsInvalid] = useState({
@@ -89,6 +91,13 @@ function AuthContent({ isLogin, onAuthenticate }) {
 					source={require("../../assets/diamond.png")}
 					style={styles.image}
 				/>
+				<Text
+					style={{
+						color: "grey"
+					}}
+				>
+					{expo.version}
+				</Text>
 			</View>
 		</>
 	);

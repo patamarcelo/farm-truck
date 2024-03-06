@@ -121,15 +121,6 @@ function WelcomeScreen() {
 
 	const user = useSelector(userSelector);
 
-	const [userNameDisplay, setUserNameDisplay] = useState("");
-
-	useEffect(() => {
-		const userName = user.displayName ? user.displayName : "Usuário";
-		console.log(userName);
-		console.log(user);
-		setUserNameDisplay(userName);
-	}, []);
-
 	const context = useContext(AuthContext);
 
 	const getDocs = async () => {
@@ -145,45 +136,6 @@ function WelcomeScreen() {
 		getDocs();
 	}, []);
 
-	useLayoutEffect(() => {
-		navigation.setOptions({
-			tabBarStyle: {
-				backgroundColor: Colors.primary800,
-				borderTopColor: "transparent"
-			},
-			headerShadowVisible: false, // applied here
-			headerRight: ({ tintColor }) => (
-				<IconButton
-					icon="power"
-					color={"white"}
-					size={24}
-					onPress={() => context.logout()}
-				/>
-			),
-			headerLeft: ({ tintColor }) => (
-				<View>
-					<Text
-						style={{
-							fontSize: 12,
-							color: "rgba(245,245,245,0.7)"
-						}}
-					>
-						Olá, {user.displayName}
-					</Text>
-					<Text
-						style={{
-							fontWeight: "bold",
-							fontSize: 24,
-							color: "whitesmoke"
-						}}
-					>
-						Romaneios
-					</Text>
-				</View>
-			)
-		});
-	}, []);
-
 	useEffect(() => {
 		navigation.setOptions({
 			tabBarStyle: {
@@ -207,7 +159,10 @@ function WelcomeScreen() {
 							color: "rgba(245,245,245,0.7)"
 						}}
 					>
-						Olá, {user.displayName}
+						Olá,{" "}
+						{user?.displayName
+							? user?.displayName
+							: "Usuário sem Nome"}
 					</Text>
 					<Text
 						style={{
