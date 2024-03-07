@@ -30,7 +30,8 @@ import { AuthContext } from "../store/auth-context";
 import {
 	getAllDocsFirebase,
 	getAndGenerateIdFirebase,
-	saveDataOnFirebaseAndUpdate
+	saveDataOnFirebaseAndUpdate,
+	checkUserActive
 } from "../store/firebase/index";
 import { addRomaneio, removeFromCargas } from "../store/redux/romaneios";
 
@@ -120,6 +121,8 @@ function WelcomeScreen() {
 	const [preventSroll, setPreventSroll] = useState(true);
 
 	const user = useSelector(userSelector);
+	console.log("user:::", user.uid);
+	console.log(checkUserActive(user.uid));
 
 	const context = useContext(AuthContext);
 
@@ -343,6 +346,8 @@ function WelcomeScreen() {
 						// 	navigation.navigate("PagamentosTab");
 						// }
 					});
+				} else {
+					context.logout();
 				}
 			} else {
 				console.log("is not conected!!");

@@ -122,6 +122,10 @@ export const getDocumentosFirebase = async (idForm) => {
 };
 
 export const getAllDocsFirebase = async (farm) => {
+	const userActivated = await checkUserActive();
+	if (!userActivated) {
+		return false;
+	}
 	if (farm.length > 0) {
 		const q = query(
 			collection(db, "truckmove"),
@@ -145,19 +149,32 @@ export const getAllDocsFirebase = async (farm) => {
 	return [];
 };
 
+export const checkUserActive = async (userId) => {
+	const currentUser = getAuth().currentUser;
+	if (currentUser) {
+		return true;
+	}
+	return false;
+};
+
 export const saveDataOnFirebaseAndUpdate = async (newData) => {
-	try {
-		const lastRomaneio = await getLastRomaneioNUmber();
-		const updatedData = {
-			...newData,
-			relatorioColheita: Number(lastRomaneio) + 1
-		};
-		const response = await addRomaneioFirebase(updatedData);
-		// if (response) {
-		// 	await getDocumentosFirebase(response);
-		return response;
-		// }
-	} catch (err) {
-		console.log("erro ao salvar os dados", err);
+	const userActivated = await checkUserActive();
+	if (userActivated) {
+		try {
+			const lastRomaneio = await getLastRomaneioNUmber();
+			const updatedData = {
+				...newData,
+				relatorioColheita: Number(lastRomaneio) + 1
+			};
+			const response = await addRomaneioFirebase(updatedData);
+			// if (response) {
+			// 	await getDocumentosFirebase(response);
+			return response;
+			// }
+		} catch (err) {
+			console.log("erro ao salvar os dados", err);
+		}
+	} else {
+		return false;
 	}
 };

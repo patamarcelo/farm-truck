@@ -47,6 +47,8 @@ const RomaneioScreen = ({ navigation, route }) => {
 
 	const projetosData = useSelector(projetosSelector);
 
+	const context = useContext(AuthContext);
+
 	const ref = useRef(null);
 
 	useEffect(() => {
@@ -70,9 +72,16 @@ const RomaneioScreen = ({ navigation, route }) => {
 			const getDataFire = async () => {
 				try {
 					const data = await getAllDocsFirebase(projetosData);
+					if (data === false) {
+						dispatch(addRomaneiosFarm([]));
+						context.logout();
+					}
 					dispatch(addRomaneiosFarm(data));
 				} catch (error) {
-					console.log("Erro em pegar os dados: ", error);
+					if (error.code === "permission-denied") {
+						dispatch(addRomaneiosFarm([]));
+						context.logout();
+					}
 				} finally {
 					// seTisLoading(false);
 				}
@@ -99,12 +108,19 @@ const RomaneioScreen = ({ navigation, route }) => {
 		setRefreshing(true);
 		try {
 			const data = await getAllDocsFirebase(projetosData);
-			console.table(data);
+			if (data === false) {
+				dispatch(addRomaneiosFarm([]));
+				context.logout();
+			}
 			if (data) {
 				dispatch(addRomaneiosFarm(data));
 			}
 		} catch (error) {
 			console.log("Erro ao pegar os dados: ", error);
+			if (error.code === "permission-denied") {
+				dispatch(addRomaneiosFarm([]));
+				context.logout();
+			}
 		} finally {
 			setRefreshing(false);
 		}
