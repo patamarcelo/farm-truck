@@ -23,7 +23,8 @@ function Input({
 	nameRegister,
 	hasIcon,
 	setshowPassword,
-	showPassword
+	showPassword,
+	autoComplete
 }) {
 	return (
 		<View style={[styles.inputContainer, inputContainerProps]}>
@@ -51,6 +52,7 @@ function Input({
 					multiline={multilne}
 					numberOfLines={numberOfLines}
 					maxLength={maxLength}
+					autoComplete={autoComplete}
 				/>
 			)}
 			{!register && hasIcon && (
@@ -75,6 +77,7 @@ function Input({
 						multiline={multilne}
 						numberOfLines={numberOfLines}
 						maxLength={maxLength}
+						autoComplete={autoComplete}
 					/>
 
 					<Ionicons
@@ -106,6 +109,7 @@ function Input({
 					multiline={multilne}
 					numberOfLines={numberOfLines}
 					maxLength={maxLength}
+					autoComplete={autoComplete}
 				/>
 			)}
 		</View>

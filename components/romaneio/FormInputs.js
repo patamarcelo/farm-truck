@@ -252,6 +252,7 @@ function FormInputs({
 						inputStyles={styles.inputStyles}
 						placeholder="Placa"
 						maxLength={7}
+						autoComplete={"off"}
 					/>
 				)}
 			/>
@@ -277,6 +278,7 @@ function FormInputs({
 						onBlur={onBlur}
 						inputStyles={styles.inputStyles}
 						placeholder="Motorista"
+						autoComplete={"off"}
 					/>
 				)}
 			/>

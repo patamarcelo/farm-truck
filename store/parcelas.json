@@ -1,11 +1,11 @@
 {
     "msg": "Consulta realizada com sucesso!!",
-    "total_return": 604,
+    "total_return": 642,
     "resumo_safra": [
         {
             "talhao__fazenda__nome": "Projeto Benção de Deus",
             "variedade__cultura__cultura": "Arroz",
-            "area_total": 3436.43
+            "area_total": 3742.55
         },
         {
             "talhao__fazenda__nome": "Projeto Biguá",
@@ -20,7 +20,7 @@
         {
             "talhao__fazenda__nome": "Projeto Campo Guapo",
             "variedade__cultura__cultura": "Arroz",
-            "area_total": 2015.37
+            "area_total": 2420.22
         },
         {
             "talhao__fazenda__nome": "Projeto Capivara",
@@ -30,17 +30,17 @@
         {
             "talhao__fazenda__nome": "Projeto Cervo",
             "variedade__cultura__cultura": "Arroz",
-            "area_total": 1639.36
+            "area_total": 1631.38
         },
         {
             "talhao__fazenda__nome": "Projeto Eldorado",
             "variedade__cultura__cultura": "Arroz",
-            "area_total": 529.34
+            "area_total": 611.41
         },
         {
             "talhao__fazenda__nome": "Projeto Jacaré",
             "variedade__cultura__cultura": "Arroz",
-            "area_total": 1511.24
+            "area_total": 1481.19
         },
         {
             "talhao__fazenda__nome": "Projeto Lago Verde",
@@ -50,7 +50,7 @@
         {
             "talhao__fazenda__nome": "Projeto Pau Brasil",
             "variedade__cultura__cultura": "Arroz",
-            "area_total": 249.0
+            "area_total": 386.0
         },
         {
             "talhao__fazenda__nome": "Projeto Safira",
@@ -65,14 +65,105 @@
         {
             "talhao__fazenda__nome": "Projeto Tuiuiu",
             "variedade__cultura__cultura": "Arroz",
-            "area_total": 672.5
+            "area_total": 640.36
+        }
+    ],
+    "fazenda_grupo_projetos": [
+        {
+            "fazenda": "Outros",
+            "projetos": [
+                "OUTROS"
+            ]
+        },
+        {
+            "fazenda": "Parcerias",
+            "projetos": [
+                "Projeto 5 Estrelas",
+                "Projeto João de Barro",
+                "Projeto Ouro Verde",
+                "Projeto Pau Brasil"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Benção de Deus",
+            "projetos": [
+                "Projeto Benção de Deus"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Biguá",
+            "projetos": [
+                "Projeto Biguá"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Campo Guapo",
+            "projetos": [
+                "Projeto Cacíque",
+                "Projeto Campo Guapo",
+                "Projeto Safira"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Diamante",
+            "projetos": [
+                "Projeto Capivara",
+                "Projeto Cervo",
+                "Projeto Diamante",
+                "Projeto Jacaré",
+                "Projeto Praia Alta",
+                "Projeto Tucano",
+                "Projeto Tuiuiu"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Eldorado",
+            "projetos": [
+                "Projeto Eldorado"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Fazendinha",
+            "projetos": [
+                "Projeto Fazendinha"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Lago Verde",
+            "projetos": [
+                "Projeto Lago Verde"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Novo Acordo",
+            "projetos": [
+                "Projeto Novo Acordo"
+            ]
+        },
+        {
+            "fazenda": "Fazenda Santa Maria",
+            "projetos": [
+                "Projeto Santa Maria"
+            ]
+        },
+        {
+            "fazenda": "Fazenda São Pedro",
+            "projetos": [
+                "Projeto São Pedro"
+            ]
+        },
+        {
+            "fazenda": "UBS",
+            "projetos": [
+                "UBS"
+            ]
         }
     ],
     "resumo_safra_fazenda": [
         {
             "talhao__fazenda__nome": "Projeto Benção de Deus",
             "talhao__fazenda__fazenda__nome": "Fazenda Benção de Deus",
-            "count": 74
+            "count": 86
         },
         {
             "talhao__fazenda__nome": "Projeto Biguá",
@@ -87,7 +178,7 @@
         {
             "talhao__fazenda__nome": "Projeto Campo Guapo",
             "talhao__fazenda__fazenda__nome": "Fazenda Campo Guapo",
-            "count": 82
+            "count": 83
         },
         {
             "talhao__fazenda__nome": "Projeto Capivara",
@@ -102,7 +193,7 @@
         {
             "talhao__fazenda__nome": "Projeto Eldorado",
             "talhao__fazenda__fazenda__nome": "Fazenda Eldorado",
-            "count": 40
+            "count": 58
         },
         {
             "talhao__fazenda__nome": "Projeto Jacaré",
@@ -117,7 +208,7 @@
         {
             "talhao__fazenda__nome": "Projeto Pau Brasil",
             "talhao__fazenda__fazenda__nome": "Parcerias",
-            "count": 15
+            "count": 22
         },
         {
             "talhao__fazenda__nome": "Projeto Safira",
@@ -136,7 +227,7 @@
         }
     ],
     "Area Total dos Talhoes Plantados": {
-        "area_colheita__sum": 14494.19
+        "area_colheita__sum": 15354.06
     },
     "dados": {
         "Projeto Benção de Deus": {
@@ -147,6 +238,54 @@
                 "variedade": "424",
                 "finalizado_colheita": false,
                 "id_plantio": 1522
+            },
+            "A08": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "424",
+                "finalizado_colheita": false,
+                "id_plantio": 1523
+            },
+            "A09": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "424",
+                "finalizado_colheita": false,
+                "id_plantio": 1524
+            },
+            "A10": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 1525
+            },
+            "A11": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 1527
+            },
+            "A12": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 1526
+            },
+            "A13": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 1528
             },
             "B01": {
                 "safra": "2023/2024",
@@ -179,6 +318,22 @@
                 "variedade": "424",
                 "finalizado_colheita": false,
                 "id_plantio": 1578
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 1581
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 1582
             },
             "B13": {
                 "safra": "2023/2024",
@@ -492,6 +647,14 @@
                 "finalizado_colheita": false,
                 "id_plantio": 1709
             },
+            "C08a": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "424",
+                "finalizado_colheita": false,
+                "id_plantio": 10329
+            },
             "C09": {
                 "safra": "2023/2024",
                 "ciclo": 3,
@@ -632,7 +795,7 @@
                 "safra": "2023/2024",
                 "ciclo": 3,
                 "cultura": "Arroz",
-                "variedade": "A706",
+                "variedade": "424",
                 "finalizado_colheita": false,
                 "id_plantio": 10328
             },
@@ -640,7 +803,7 @@
                 "safra": "2023/2024",
                 "ciclo": 3,
                 "cultura": "Arroz",
-                "variedade": "A706",
+                "variedade": "424",
                 "finalizado_colheita": false,
                 "id_plantio": 1736
             },
@@ -660,6 +823,22 @@
                 "finalizado_colheita": false,
                 "id_plantio": 1739
             },
+            "D07a": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "424",
+                "finalizado_colheita": false,
+                "id_plantio": 10313
+            },
+            "D07b": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "424",
+                "finalizado_colheita": false,
+                "id_plantio": 10330
+            },
             "D08": {
                 "safra": "2023/2024",
                 "ciclo": 3,
@@ -667,6 +846,14 @@
                 "variedade": "424",
                 "finalizado_colheita": false,
                 "id_plantio": 1758
+            },
+            "D09": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "424",
+                "finalizado_colheita": false,
+                "id_plantio": 1744
             },
             "D10": {
                 "safra": "2023/2024",
@@ -1199,7 +1386,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 8760
             },
             "B05": {
@@ -1231,7 +1418,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 8753
             },
             "C03": {
@@ -1239,7 +1426,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 8754
             },
             "C04": {
@@ -1447,7 +1634,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 8748
             },
             "F03": {
@@ -1746,13 +1933,21 @@
                 "finalizado_colheita": false,
                 "id_plantio": 10310
             },
-            "Ib": {
+            "J01": {
                 "safra": "2023/2024",
                 "ciclo": 3,
                 "cultura": "Arroz",
-                "variedade": "Pampeira",
+                "variedade": "A705",
                 "finalizado_colheita": false,
-                "id_plantio": 10316
+                "id_plantio": 1990
+            },
+            "J02": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A705",
+                "finalizado_colheita": false,
+                "id_plantio": 1991
             },
             "L01": {
                 "safra": "2023/2024",
@@ -1913,7 +2108,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10194
             },
             "C03": {
@@ -1921,7 +2116,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10195
             },
             "C04": {
@@ -1929,7 +2124,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10196
             },
             "C05": {
@@ -1937,7 +2132,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10197
             },
             "C06": {
@@ -1945,7 +2140,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10198
             },
             "D01": {
@@ -1953,7 +2148,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10199
             },
             "D01a": {
@@ -1969,7 +2164,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10200
             },
             "D03": {
@@ -1977,7 +2172,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10201
             },
             "D04": {
@@ -1985,7 +2180,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10204
             },
             "D05": {
@@ -1993,7 +2188,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 10202
             },
             "D06": {
@@ -2235,7 +2430,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 9635
             },
             "B01a": {
@@ -2251,7 +2446,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 9637
             },
             "B02a": {
@@ -2267,7 +2462,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 9636
             },
             "B04": {
@@ -2275,7 +2470,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 9638
             },
             "B05": {
@@ -2291,7 +2486,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 9640
             },
             "B07": {
@@ -2299,7 +2494,7 @@
                 "ciclo": 3,
                 "cultura": "Arroz",
                 "variedade": "424",
-                "finalizado_colheita": false,
+                "finalizado_colheita": true,
                 "id_plantio": 9641
             },
             "B08": {
@@ -2952,6 +3147,142 @@
                 "finalizado_colheita": false,
                 "id_plantio": 2321
             },
+            "B01": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2322
+            },
+            "B02": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2323
+            },
+            "B03": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2324
+            },
+            "B04": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2325
+            },
+            "B05": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2327
+            },
+            "B06": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2326
+            },
+            "B07": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2328
+            },
+            "B08": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2329
+            },
+            "B09": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2330
+            },
+            "B10": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2331
+            },
+            "B11": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2332
+            },
+            "B12": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2333
+            },
+            "B13": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2334
+            },
+            "B14": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2335
+            },
+            "B15": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2435
+            },
+            "C01": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2336
+            },
+            "C02": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2340
+            },
             "C03": {
                 "safra": "2023/2024",
                 "ciclo": 3,
@@ -3007,6 +3338,14 @@
                 "variedade": "424",
                 "finalizado_colheita": false,
                 "id_plantio": 2343
+            },
+            "D01": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 2434
             },
             "D03": {
                 "safra": "2023/2024",
@@ -3814,6 +4153,14 @@
                 "finalizado_colheita": false,
                 "id_plantio": 9764
             },
+            "1d": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 9765
+            },
             "1e": {
                 "safra": "2023/2024",
                 "ciclo": 3,
@@ -3878,6 +4225,38 @@
                 "finalizado_colheita": false,
                 "id_plantio": 9772
             },
+            "3a": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 9773
+            },
+            "3b": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 9774
+            },
+            "3c": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "424",
+                "finalizado_colheita": false,
+                "id_plantio": 9775
+            },
+            "3d": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A705",
+                "finalizado_colheita": false,
+                "id_plantio": 9776
+            },
             "4a": {
                 "safra": "2023/2024",
                 "ciclo": 3,
@@ -3894,6 +4273,14 @@
                 "finalizado_colheita": false,
                 "id_plantio": 9778
             },
+            "4c": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 9779
+            },
             "4d": {
                 "safra": "2023/2024",
                 "ciclo": 3,
@@ -3909,6 +4296,14 @@
                 "variedade": "424",
                 "finalizado_colheita": false,
                 "id_plantio": 9781
+            },
+            "5a": {
+                "safra": "2023/2024",
+                "ciclo": 3,
+                "cultura": "Arroz",
+                "variedade": "A706",
+                "finalizado_colheita": false,
+                "id_plantio": 9782
             }
         },
         "Projeto Safira": {
