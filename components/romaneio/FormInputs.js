@@ -253,6 +253,7 @@ function FormInputs({
 						placeholder="Placa"
 						maxLength={7}
 						autoComplete={"off"}
+						autoCorrect={false}
 					/>
 				)}
 			/>
@@ -279,6 +280,7 @@ function FormInputs({
 						inputStyles={styles.inputStyles}
 						placeholder="Motorista"
 						autoComplete={"off"}
+						autoCorrect={false}
 					/>
 				)}
 			/>
