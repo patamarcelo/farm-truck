@@ -247,13 +247,13 @@ function FormInputs({
 							);
 						}}
 						value={value}
-						// keyboardType="email-address"
 						onBlur={onBlur}
 						inputStyles={styles.inputStyles}
 						placeholder="Placa"
 						maxLength={7}
 						autoComplete={"off"}
 						autoCorrect={false}
+						keyboardType="visible-password"
 					/>
 				)}
 			/>
@@ -275,12 +275,12 @@ function FormInputs({
 							onChange(e.toUpperCase());
 						}}
 						value={value}
-						// keyboardType="email-address"
 						onBlur={onBlur}
 						inputStyles={styles.inputStyles}
 						placeholder="Motorista"
 						autoComplete={"off"}
 						autoCorrect={false}
+						keyboardType="visible-password"
 					/>
 				)}
 			/>

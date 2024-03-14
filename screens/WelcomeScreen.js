@@ -263,6 +263,8 @@ function WelcomeScreen() {
 					createdAt: new Date(dataToAdd.createdAt),
 					entrada: new Date(dataToAdd.entrada),
 					userDataApp: user.email,
+					userCreateDoc: user?.displayName,
+					uploadedToProtheus: false,
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
