@@ -51,6 +51,8 @@ import * as Location from "expo-location";
 import BottomSheet, { BottomSheetMethods } from "@devvie/bottom-sheet";
 import BottomSheetSelect from "./BottomSheetSelect";
 
+import QrBottomSheet from "./QrBottom";
+
 const schema = yup.object({
 	placa: yup
 		.string()
@@ -217,7 +219,27 @@ const FormScreen = ({ navigation }) => {
 		console.log("open");
 		sheetRef.current?.close();
 	};
+	
 	const sheetRef = useRef();
+	
+
+	// QR CODE
+	const handleModalQr = () => {
+		console.log("open");
+		sheetRefQr.current?.open();
+	};
+
+	const handleCloseModalQr = () => {
+		console.log("open");
+		sheetRefQr.current?.close();
+	};
+	const sheetRefQr = useRef();
+
+
+	useEffect(() => {
+		handleModalQr()
+	}, []);
+
 
 	if (isLoading) {
 		return <LoadingOverlay message={"Salvando..."} />;
@@ -326,6 +348,13 @@ const FormScreen = ({ navigation }) => {
 					})}
 				</ScrollView>
 			</BottomSheet>
+			<BottomSheet ref={sheetRefQr} style={styles.bottomSheetStlQr}
+			height={200}
+			>
+                <QrBottomSheet 
+				onClose={handleCloseModalQr}
+				/>
+            </BottomSheet>
 		</KeyboardAvoidingView>
 	);
 };
@@ -342,6 +371,10 @@ const styles = StyleSheet.create({
 		color: "rgba(255,255,255,0.6)",
 		fontSize: 20,
 		fontWeight: "bold"
+	},
+	bottomSheetStlQr: {
+		backgroundColor: Colors.primary[901],
+		paddingHorizontal: 20,
 	},
 	bottomSheetStl: {
 		backgroundColor: Colors.primary[901],
