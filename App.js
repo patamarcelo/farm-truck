@@ -53,6 +53,8 @@ import Splash from "./components/ui/Splash";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+import QrCamera from "./components/romaneio/QrCamera";
+
 function AuthStack() {
 	return (
 		<Stack.Navigator
@@ -387,6 +389,15 @@ const NewAuthStack = () => {
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
+			{/* <Stack.Screen
+				name="ScanScreen"
+				component={QrCamera}
+				options={{
+					// presentation: "modal",
+					headerShown: false,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/> */}
 			<Stack.Screen
 				name="ModalRomaneio"
 				component={ModalRomaneioScreen}

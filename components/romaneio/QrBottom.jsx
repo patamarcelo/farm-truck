@@ -5,7 +5,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 const QrBottomSheet = (props) => {
 
-    const { onClose } = props
+    const { onClose , goToCamera} = props
     return (
 
         <View style={styles.container}
@@ -16,6 +16,7 @@ const QrBottomSheet = (props) => {
 				pressed && styles.pressed,
 				styles.iconContainer
 			]}
+            onPress={goToCamera}
             >
                 <AntDesign name="qrcode" size={48} color="white" />
                 <Text style={{ color: 'whitesmoke' }}>QrCode</Text>

@@ -1,52 +1,60 @@
 {
-  "expo": {
-    "name": "farm-truck",
-    "slug": "farm-truck",
-    "version": "1.0.9",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "plugins": [
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Permitir que o $(PRODUCT_NAME) use sua localização."
+    "expo": {
+        "name": "farm-truck",
+        "slug": "farm-truck",
+        "version": "1.0.9",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "plugins": [
+            [
+                "expo-location",
+                {
+                    "locationAlwaysAndWhenInUsePermission": "Permitir que o $(PRODUCT_NAME) use sua localização."
+                }
+            ],
+            [
+                "expo-camera",
+                {
+                    "cameraPermission": "Permitir que o $(PRODUCT_NAME) use sua camera para ler o QrCode",
+                    "microphonePermission": "Permitir que o $(PRODUCT_NAME) acesse seu microfone",
+                    "recordAudioAndroid": true
+                }
+            ]
+        ],
+        "splash": {
+            "image": "",
+            "resizeMode": "contain",
+            "backgroundColor": "#1A43C0"
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "ios": {
+            "buildNumber": "1.0.0",
+            "supportsTablet": true,
+            "bundleIdentifier": "com.patamarcelo.farmtruck"
+        },
+        "android": {
+            "versionCode": 10,
+            "versionName": "1.0.9",
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.patamarcelo.farmtruck"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "075458d8-8b7f-45b4-87cb-83f54f03c491"
+            }
+        },
+        "runtimeVersion": "exposdk:46.0.0",
+        "updates": {
+            "url": "https://u.expo.dev/075458d8-8b7f-45b4-87cb-83f54f03c491"
         }
-      ]
-    ],
-    "splash": {
-      "image": "",
-      "resizeMode": "contain",
-      "backgroundColor": "#1A43C0"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "buildNumber": "1.0.0",
-      "supportsTablet": true,
-      "bundleIdentifier": "com.patamarcelo.farmtruck"
-    },
-    "android": {
-      "versionCode": 10,
-      "versionName": "1.0.9",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.patamarcelo.farmtruck"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "075458d8-8b7f-45b4-87cb-83f54f03c491"
-      }
-    },
-    "runtimeVersion": "exposdk:46.0.0",
-    "updates": {
-      "url": "https://u.expo.dev/075458d8-8b7f-45b4-87cb-83f54f03c491"
     }
-  }
 }
