@@ -47,15 +47,15 @@ const QrCamera = ({closeCamera, setQrValues}) => {
                 >
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.cancelButton} onPress={closeCamera}>
-                            <Text style={styles.cancelText}>Cancel</Text>
+                            <Text style={styles.cancelText}>Cancelar</Text>
                         </TouchableOpacity>
                     </View>
                 </Camera>
             )}
             {!hasPermission?.granted && (
-                <Text style={styles.text}>Camera permission not granted</Text>
+                <Text style={styles.text}>Permissão de uso da Camera não liberado</Text>
             )}
-            {scanned && <Text style={styles.scanText}>Scanned!</Text>}
+            {scanned && <Text style={styles.scanText}>Feito!!</Text>}
         </View>
     );
 }
@@ -68,11 +68,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 12
     },
     camera: {
         width: '95%',
         height: '50%',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        borderRadius: 12
     },
     cancelText: {
         fontSize: 20,
