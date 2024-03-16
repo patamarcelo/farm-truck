@@ -208,19 +208,16 @@ const FormScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		if(qrValues){
-			console.log('Valores da Camera: ', qrValues)
-			console.log('Valores da Camera: ', typeof qrValues)
-			const values = JSON.stringify(qrValues)
-			let valuesObj = JSON.parse(values)
-			// valuesObj =  JSON.parse(valuesObj)
-			// const valuesObj2 = JSON.parse(valuesObj)
-			// console.log('Placa do QR: ', valuesObj2.placa)
-			// console.log('Motorista: ', valuesObj2.motorista)
-			// console.log('código do QR: ', valuesObj2.cod_ticket)
-			// console.log('Filial: ', valuesObj2.filial)
-			setValue('motorista', valuesObj.motorista)
-			setValue('placa', valuesObj.placa)
-			setValue('codTicketPro', valuesObj.cod_ticket)
+			const newStr = qrValues.toString().split('|')
+			const newObj = {}
+			newStr.forEach((str, index) => {
+				if(index % 2 === 0 ){
+					newObj[str] = newStr[index + 1]
+				}
+			})
+			setValue('motorista', newObj.motorista)
+			setValue('placa', newObj.placa)
+			setValue('codTicketPro', newObj.cod_ticket)
 		}
 	}, [qrValues]);
 

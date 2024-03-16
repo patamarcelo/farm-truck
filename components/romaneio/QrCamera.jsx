@@ -17,7 +17,6 @@ const QrCamera = ({closeCamera, setQrValues}) => {
         const dataStr = JSON.stringify(data)
         const dataParsed = JSON.parse(dataStr)
         setQrValues(dataParsed)
-        // console.log('dataFromCamera: ',data)
         // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     };
 
@@ -38,28 +37,6 @@ const QrCamera = ({closeCamera, setQrValues}) => {
     // }, []);
 
 
-    // const renderCamera = () => {
-    //     return (
-    //         <View style={styles.cameraContainer}>
-    //             <Camera
-    //                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-    //                 style={styles.camera}
-    //             />
-    //         </View>
-    //     );
-    // };
-
-    // if (hasPermission === null) {
-    //     return <View />;
-    // }
-
-    // if (hasPermission === false) {
-    //     return (
-    //         <View style={styles.container}>
-    //             <Text style={styles.text}>Camera permission not granted</Text>
-    //         </View>
-    //     );
-    // }
 
     return (
         <View style={styles.container}>
