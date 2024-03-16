@@ -218,6 +218,7 @@ const FormScreen = ({ navigation }) => {
 			setValue('motorista', newObj.motorista)
 			setValue('placa', newObj.placa)
 			setValue('codTicketPro', newObj.cod_ticket)
+			setValue('filialPro', newObj.filial)
 		}
 	}, [qrValues]);
 
