@@ -52,6 +52,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
+import nodeServer from "../utils/axios/axios";
+
 const width = Dimensions.get("window").width; //full width
 const colorScheme = Appearance.getColorScheme();
 // const colorText = colorScheme === "dark" ? "whitesmoke" : "black";
@@ -109,7 +111,24 @@ const TrySom = ({ placa, motorista }) => {
 	);
 };
 
+const handlerUploadProtheus = async (dataToAdd) => {
+	try {
+		const response = await nodeServer
+			.post("upload-romaneio/", {
+				headers: {
+					Authorization: `Token ${process.env.EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
+				},
+				data: dataToAdd
+			})
+			.catch((err) => console.log(err));
+		return response.data
+	} catch (err) {
+		console.log("Erro ao consumir a API", err);
+	}
+};
+
 function WelcomeScreen() {
+	console.log(process.env.NODE_ENV)
 	const data = useSelector(romaneioSelector);
 	const projetosData = useSelector(projetosSelector);
 	const navigation = useNavigation();
@@ -247,6 +266,7 @@ function WelcomeScreen() {
 		);
 	};
 
+
 	const handleRefresh = async (idToFind) => {
 		const dataToAdd = data.find((data) => data.idApp === idToFind);
 		setRefreshing(true);
@@ -268,7 +288,9 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
+				const responseProtheus = await handlerUploadProtheus(response)
 				console.log("Response: ", response);
+				console.log("ResponseProtheus: ", responseProtheus);
 				if (response) {
 					dispatch(removeFromCargas(idToFind));
 					const last = await getDocs();
@@ -306,6 +328,8 @@ function WelcomeScreen() {
 			setRefreshing(false);
 		}
 	};
+
+
 	const handleRefreshScroll = async () => {
 		const dataToAdd = data[0];
 		const idToFind = dataToAdd.idApp;
@@ -326,7 +350,9 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
+				const responseProtheus = await handlerUploadProtheus(response)
 				console.log("Response: ", response);
+				console.log("ResponseProtheus: ", responseProtheus);
 				if (response) {
 					dispatch(removeFromCargas(idToFind));
 					const last = await getDocs();

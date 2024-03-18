@@ -215,10 +215,10 @@ const FormScreen = ({ navigation }) => {
 					newObj[str] = newStr[index + 1]
 				}
 			})
-			setValue('motorista', newObj.motorista)
-			setValue('placa', newObj.placa)
-			setValue('codTicketPro', newObj.cod_ticket)
-			setValue('filialPro', newObj.filial)
+			setValue('motorista', newObj?.motorista ? newObj?.motorista : '' )
+			setValue('placa', newObj?.placa ? newObj?.placa : '')
+			setValue('codTicketPro', newObj?.cod_ticket ? newObj?.cod_ticket : '')
+			setValue('filialPro', newObj?.filial ? newObj?.filial : '')
 		}
 	}, [qrValues]);
 

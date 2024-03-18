@@ -4,7 +4,7 @@ import { Camera } from 'expo-camera';
 import { CameraView, useCameraPermissions } from 'expo-camera/next';
 
 
-const QrCamera = ({closeCamera, setQrValues}) => {
+const QrCamera = ({ closeCamera, setQrValues }) => {
     const [scanned, setScanned] = useState(false);
     const [hasPermission, askPermission] = useCameraPermissions();
 
@@ -21,10 +21,10 @@ const QrCamera = ({closeCamera, setQrValues}) => {
     };
 
     useEffect(() => {
-        if(scanned){
+        if (scanned) {
             setTimeout(() => {
                 closeCamera()
-            },500)
+            }, 500)
         }
     }, [scanned]);
 
@@ -71,15 +71,15 @@ const styles = StyleSheet.create({
         borderRadius: 12
     },
     camera: {
-        width: '95%',
-        height: '50%',
+        width: '100%',
+        height: '100%',
         justifyContent: 'flex-end',
         borderRadius: 12
     },
     cancelText: {
         fontSize: 20,
         textAlign: 'center',
-        color:'rgba(244,244,244,0.9)'
+        color: 'rgba(244,244,244,0.9)'
     },
     text: {
         fontSize: 20,
@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    buttonContainer:{
-        alignItems: 'stretch'
+    buttonContainer: {
+        alignItems: 'stretch',
+        marginBottom: 40
     }
 });
