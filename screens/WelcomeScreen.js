@@ -44,7 +44,8 @@ import {
 	Toast
 } from "react-native-alert-notification";
 
-import NetInfo from "@react-native-community/netinfo";
+import {useNetInfo} from "@react-native-community/netinfo";
+
 import IconButton from "../components/ui/IconButton";
 
 import Swipeout from "react-native-swipeout";
@@ -139,6 +140,11 @@ function WelcomeScreen() {
 
 	const [preventSroll, setPreventSroll] = useState(true);
 
+
+	const [isDisabled, setIsDisabled] = useState(false);
+
+	const netInfo = useNetInfo();
+
 	const user = useSelector(userSelector);
 	console.log("user:::", user.uid);
 	console.log(checkUserActive(user.uid));
@@ -215,8 +221,9 @@ function WelcomeScreen() {
 						<FontAwesome name="send" color={"white"} size={20} />
 					</View>
 				),
-				backgroundColor: "rgba(017,201,17, 1)",
+				backgroundColor: isDisabled ? "rgba(237,231,225)" : "rgba(017,201,17, 1)",
 				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
+				disabled: isDisabled,
 				onPress: () => {
 					handleRefresh(itemData.item.idApp);
 				}
@@ -241,7 +248,7 @@ function WelcomeScreen() {
 						/>
 					</View>
 				),
-				backgroundColor: Colors.danger[600],
+				backgroundColor:  Colors.danger[600],
 				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
 				onPress: () => {
 					dispatch(removeFromCargas(itemData.item.idApp));
@@ -253,12 +260,21 @@ function WelcomeScreen() {
 			}
 		];
 
+		const handleOpenSwipe = async () => {
+			setPreventSroll(false)
+			const isConected = netInfo.isConnected.toString()
+			if(isConected === 'true'){
+				setIsDisabled(false)
+			} else {
+				setIsDisabled(true)
+			}
+		}
 		return (
 			<Swipeout
 				right={swipeoutBtnsRight}
 				left={swipeoutBtnsLeft}
 				autoClose={true}
-				onOpen={() => setPreventSroll(false)}
+				onOpen={handleOpenSwipe}
 				onClose={() => setPreventSroll(true)}
 			>
 				<CardRomaneio data={itemData.item} />
@@ -271,12 +287,8 @@ function WelcomeScreen() {
 		const dataToAdd = data.find((data) => data.idApp === idToFind);
 		setRefreshing(true);
 		try {
-			const isConnected = await NetInfo.fetch().then((state) => {
-				// console.log("está conectado :", state.isConnected);
-				// console.log("estado: ", state);
-				return state.isConnected;
-			});
-			if (isConnected === true) {
+			const isConnected = netInfo.isConnected.toString()
+			if (isConnected === 'true') {
 				const dataToSave = {
 					...dataToAdd,
 					appDate: new Date(dataToAdd.appDate),
@@ -312,6 +324,7 @@ function WelcomeScreen() {
 						// 	navigation.navigate("PagamentosTab");
 						// }
 					});
+					setRefreshing(false);
 				}
 			} else {
 				console.log("is not conected!!");
@@ -335,12 +348,8 @@ function WelcomeScreen() {
 		const idToFind = dataToAdd.idApp;
 		setRefreshing(true);
 		try {
-			const isConnected = await NetInfo.fetch().then((state) => {
-				// console.log("está conectado :", state.isConnected);
-				// console.log("estado: ", state);
-				return state.isConnected;
-			});
-			if (isConnected === true) {
+			const isConnected = netInfo.isConnected.toString()
+			if (isConnected === 'true') {
 				const dataToSave = {
 					...dataToAdd,
 					appDate: new Date(dataToAdd.appDate),
@@ -393,6 +402,13 @@ function WelcomeScreen() {
 		}
 	};
 
+	const handleScrollRefresh = () => {
+		setRefreshing(false);
+		setTimeout(() => {
+			Alert.alert('Atualize no botão', 'Utilize o Botão deslizando para salvar o romaneio')
+		},300)
+	}
+
 	return (
 		<AlertNotificationRoot>
 			<View style={styles.rootContainer}>
@@ -415,7 +431,8 @@ function WelcomeScreen() {
 								refreshControl={
 									<RefreshControl
 										refreshing={refreshing}
-										onRefresh={handleRefreshScroll}
+										// onRefresh={handleRefreshScroll}
+										onRefresh={handleScrollRefresh}
 										colors={["#9Bd35A", "#689F38"]}
 										tintColor={"whitesmoke"}
 									/>
