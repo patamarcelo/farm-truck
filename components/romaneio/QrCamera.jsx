@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { Camera } from 'expo-camera';
 import { CameraView, useCameraPermissions } from 'expo-camera/next';
@@ -7,6 +7,18 @@ import { CameraView, useCameraPermissions } from 'expo-camera/next';
 const QrCamera = ({ closeCamera, setQrValues }) => {
     const [scanned, setScanned] = useState(false);
     const [hasPermission, askPermission] = useCameraPermissions();
+
+    const cameraRef = useRef(null);
+
+    useEffect(() => {
+        (async () => {
+            // Make sure camera is loaded before setting the focus
+            if (cameraRef.current) {
+                // Set the focus depth to a value that works well for scanning QR codes
+                await cameraRef.current?.camera?.setFocusDepth(0); // Adjust this value as needed
+            }
+        })();
+    }, []);
 
     useEffect(() => {
         askPermission();
@@ -42,9 +54,14 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
         <View style={styles.container}>
             {hasPermission?.granted && (
                 <Camera
+                    ref={cameraRef}
                     style={styles.camera}
                     onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    barcodeScannerSettings={{
+                        barcodeTypes: ["qr"],
+                    }}
                 >
+                    <View style={styles.overlay} />
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.cancelButton} onPress={closeCamera}>
                             <Text style={styles.cancelText}>Cancelar</Text>
@@ -63,6 +80,17 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
 export default QrCamera
 
 const styles = StyleSheet.create({
+    overlay: {
+        position: 'absolute',
+        top: '30%', // Adjust this value to position the overlay
+        left: '15%', // Adjust this value to position the overlay
+        width: '70%',
+        height: '28%',
+        borderWidth: 2,
+        borderColor: 'white',
+        borderRadius: 5,
+        opacity: 0.5,
+    },
     container: {
         flex: 1,
         flexDirection: 'column',

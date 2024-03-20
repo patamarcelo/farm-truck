@@ -208,6 +208,7 @@ const FormScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		if(qrValues){
+
 			const newStr = qrValues.toString().split('|')
 			const newObj = {}
 			newStr.forEach((str, index) => {
@@ -215,6 +216,7 @@ const FormScreen = ({ navigation }) => {
 					newObj[str] = newStr[index + 1]
 				}
 			})
+			console.log('objFromQRCODE: ', newObj)
 			setValue('motorista', newObj?.motorista ? newObj?.motorista : '' )
 			setValue('placa', newObj?.placa ? newObj?.placa : '')
 			setValue('codTicketPro', newObj?.cod_ticket ? newObj?.cod_ticket : '')

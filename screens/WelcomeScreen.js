@@ -25,7 +25,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import ResumoContainer from "../components/romaneio/ResumoContainer";
 
-import { useEffect, useState, useLayoutEffect, useContext } from "react";
+import { useEffect, useState, useLayoutEffect, useContext, Suspense } from "react";
 import { AuthContext } from "../store/auth-context";
 import {
 	getAllDocsFirebase,
@@ -116,13 +116,10 @@ const handlerUploadProtheus = async (dataToAdd) => {
 	try {
 		const response = await nodeServer
 			.post("upload-romaneio/", {
-				headers: {
-					Authorization: `Token ${process.env.EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
-				},
-				data: dataToAdd
+				id: dataToAdd
 			})
 			.catch((err) => console.log(err));
-		return response.data
+		return response
 	} catch (err) {
 		console.log("Erro ao consumir a API", err);
 	}
@@ -300,7 +297,7 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
-				const responseProtheus = await handlerUploadProtheus(response)
+				const responseProtheus = handlerUploadProtheus(response)
 				console.log("Response: ", response);
 				console.log("ResponseProtheus: ", responseProtheus);
 				if (response) {
@@ -359,7 +356,7 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
-				const responseProtheus = await handlerUploadProtheus(response)
+				const responseProtheus = handlerUploadProtheus(response)
 				console.log("Response: ", response);
 				console.log("ResponseProtheus: ", responseProtheus);
 				if (response) {
