@@ -19,7 +19,7 @@ const djangoApi = axios.create({
 
 export const nodeServer = axios.create({
 	baseURL:
-		process.env.NODE_ENV !== "production" ? baseURLdevNode : baseURLNode,
+		process.env.NODE_ENV !== "production" ? baseURLNode : baseURLNode,
 	headers: {
 		"Content-Type": "application/json",
 		"Authorization": `Token ${process.env.EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`
