@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { Camera } from 'expo-camera';
 import { CameraView, useCameraPermissions } from 'expo-camera/next';
+import { BarCodeScanner } from 'expo-barcode-scanner'
 
 
 const QrCamera = ({ closeCamera, setQrValues }) => {
@@ -54,12 +55,10 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
         <View style={styles.container}>
             {hasPermission?.granted && (
                 <Camera
+                    barCodeScannerSettings={{ barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr] }}
                     ref={cameraRef}
                     style={styles.camera}
                     onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                    barcodeScannerSettings={{
-                        barcodeTypes: ["qr"],
-                    }}
                 >
                     <View style={styles.overlay} />
                     <View style={styles.buttonContainer}>
