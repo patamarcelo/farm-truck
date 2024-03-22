@@ -410,6 +410,8 @@ const styles = StyleSheet.create({
 	bottomSheetStlQr: {
 		backgroundColor: Colors.primary[901],
 		paddingHorizontal: 20,
+		// justifyContent: 'center',
+		alignItems: 'center'
 	},
 	bottomSheetStl: {
 		backgroundColor: Colors.primary[901],

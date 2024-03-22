@@ -18,22 +18,9 @@ const QrBottomSheet = (props) => {
 			]}
             onPress={goToCamera}
             >
-                <AntDesign name="qrcode" size={48} color="white" />
+                <AntDesign name="qrcode" size={70} color="white" />
                 <Text style={{ color: 'whitesmoke' }}>QrCode</Text>
             </Pressable>
-            <Pressable
-            style={({ pressed }) => [
-				styles.button,
-				pressed && styles.pressed,
-				styles.iconContainer
-			]}
-            onPress={onClose}>
-                {/* <Button onPress={onClose}> */}
-                    <FontAwesome5 name="keyboard" size={48} color="white" />
-                {/* </Button> */}
-                    <Text style={{ color: 'whitesmoke' }}>Teclado</Text>
-            </Pressable>
-
         </View>
     );
 }
