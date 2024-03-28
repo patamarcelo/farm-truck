@@ -33,7 +33,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Icon } from "react-native-paper";
 
-function IconButton({ icon, color, size, onPress, type, btnStyles }) {
+function IconButton({ icon, color, size, onPress, type, btnStyles, disabled }) {
 	if (type === "paper") {
 		return (
 			<Pressable
@@ -43,6 +43,7 @@ function IconButton({ icon, color, size, onPress, type, btnStyles }) {
 					btnStyles
 				]}
 				onPress={onPress}
+				disabled={disabled}
 			>
 				<Icon source={icon} size={size} color={color} />
 			</Pressable>
@@ -56,6 +57,7 @@ function IconButton({ icon, color, size, onPress, type, btnStyles }) {
 				btnStyles
 			]}
 			onPress={onPress}
+			disabled={disabled}
 		>
 			{type === "awesome" ? (
 				<FontAwesome name={icon} size={size} color={color} />

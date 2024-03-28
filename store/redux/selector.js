@@ -1,5 +1,4 @@
 export const romaneioSelector = (state) => {
-	console.log("from State: ", state.romaneios.cargas);
 	return state.romaneios.cargas;
 };
 

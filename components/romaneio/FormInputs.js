@@ -32,6 +32,9 @@ import { projetosSelector } from "../../store/redux/selector";
 import { useSelector } from "react-redux";
 
 import { LogBox } from "react-native";
+import CaixasParcelas from "./CaixasParcelas";
+
+import * as Haptics from "expo-haptics";
 
 // import { Modal } from "react-native-paper";
 
@@ -74,6 +77,7 @@ function FormInputs({
 	filteInputparcelas,
 	setFilteInputparcelas,
 	setParcelasSelectedObject,
+	parcelasSelectedObject,
 	obsCheckIcon,
 	setObsCheckIcon
 }) {
@@ -152,6 +156,20 @@ function FormInputs({
 		console.log("parcelas Selected: ", filteInputparcelas);
 	}, [filteInputparcelas]);
 
+	const removeparcela = (parcela) => {
+		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+		const newparcelas = filteInputparcelas.filter(
+			(data) => data !== parcela
+		);
+		setFilteInputparcelas(newparcelas);
+
+		const newObjParcela = filteredParcelasFarmObj.filter(
+			(data) => data.parcela !== parcela
+		);
+		setParcelasSelectedObject(newObjParcela);
+		setValue("parcelasNovas", newparcelas);
+	};
+
 	useEffect(() => {
 		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
 			const selectedData = customData.dados[selectedFarm];
@@ -226,6 +244,21 @@ function FormInputs({
 	const handlerChangeSelectDest = (dest) => {
 		setSelectedDest(dest);
 		setValue("fazendaDestino", dest);
+	};
+
+	const handleCaixas = (parcela, caixas) => {
+		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+		console.log("Parcela", parcela);
+		console.log("Caixas", caixas);
+		const newObj = parcelasSelectedObject.filter(
+			(data) => data.parcela === parcela
+		)[0];
+		const updateObj = { ...newObj, caixas: caixas };
+		const updateObjArr = parcelasSelectedObject.filter(
+			(data) => data.parcela !== parcela
+		);
+		const finalArr = [...updateObjArr, updateObj];
+		setParcelasSelectedObject(finalArr);
 	};
 
 	return (
@@ -434,6 +467,8 @@ function FormInputs({
 										/>
 										<View>
 											{value &&
+												filteInputparcelas.length ===
+													1 &&
 												this.multiSelect &&
 												this.multiSelect.getSelectedItemsExt(
 													value
@@ -451,6 +486,25 @@ function FormInputs({
 					</>
 				)}
 
+			{filteInputparcelas.length > 1 && (
+				<>
+					<View style={{ alignItems: "center", marginBottom: 5 }}>
+						<Text style={{ color: "whitesmoke", fontSize: 14 }}>
+							Informe as Caixas de cada Parcela
+						</Text>
+					</View>
+					{filteInputparcelas.map((parcela, i) => {
+						return (
+							<CaixasParcelas
+								key={i}
+								parcela={parcela}
+								removeparcela={removeparcela}
+								handleCaixas={handleCaixas}
+							/>
+						);
+					})}
+				</>
+			)}
 			{parcelasSelected.length == 0 ||
 				(selectedFarm === "Selecione a Fazenda" && (
 					<View style={{ marginBottom: 10 }}>

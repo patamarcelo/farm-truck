@@ -83,6 +83,10 @@ const FormScreen = ({ navigation }) => {
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
 	const [parcelasSelectedObject, setParcelasSelectedObject] = useState([]);
 
+	useEffect(() => {
+		console.log("parcelas Selecionadas", filteInputparcelas);
+	}, [filteInputparcelas]);
+
 	const [location, setLocation] = useState(null);
 
 	const [obsCheckIcon, setObsCheckIcon] = useState("");
@@ -207,20 +211,22 @@ const FormScreen = ({ navigation }) => {
 	};
 
 	useEffect(() => {
-		if(qrValues){
-
-			const newStr = qrValues.toString().split('|')
-			const newObj = {}
+		if (qrValues) {
+			const newStr = qrValues.toString().split("|");
+			const newObj = {};
 			newStr.forEach((str, index) => {
-				if(index % 2 === 0 ){
-					newObj[str] = newStr[index + 1]
+				if (index % 2 === 0) {
+					newObj[str] = newStr[index + 1];
 				}
-			})
-			console.log('objFromQRCODE: ', newObj)
-			setValue('motorista', newObj?.motorista ? newObj?.motorista : '' )
-			setValue('placa', newObj?.placa ? newObj?.placa : '')
-			setValue('codTicketPro', newObj?.cod_ticket ? newObj?.cod_ticket : '')
-			setValue('filialPro', newObj?.filial ? newObj?.filial : '')
+			});
+			console.log("objFromQRCODE: ", newObj);
+			setValue("motorista", newObj?.motorista ? newObj?.motorista : "");
+			setValue("placa", newObj?.placa ? newObj?.placa : "");
+			setValue(
+				"codTicketPro",
+				newObj?.cod_ticket ? newObj?.cod_ticket : ""
+			);
+			setValue("filialPro", newObj?.filial ? newObj?.filial : "");
 		}
 	}, [qrValues]);
 
@@ -242,9 +248,8 @@ const FormScreen = ({ navigation }) => {
 		console.log("open");
 		sheetRef.current?.close();
 	};
-	
+
 	const sheetRef = useRef();
-	
 
 	// QR CODE
 	const handleModalQr = () => {
@@ -258,9 +263,8 @@ const FormScreen = ({ navigation }) => {
 	};
 	const sheetRefQr = useRef();
 
-
 	useEffect(() => {
-		handleModalQr()
+		handleModalQr();
 	}, []);
 
 	// const handleOpenCamera = ()=>{
@@ -268,15 +272,20 @@ const FormScreen = ({ navigation }) => {
 	// }
 
 	const handleOpenCamera = () => {
-		setOpenCamera(!openCamera)
-	}
+		setOpenCamera(!openCamera);
+	};
 
 	if (isLoading) {
 		return <LoadingOverlay message={"Salvando..."} />;
 	}
 
-	if(openCamera){
-		return <QrCamera closeCamera={handleOpenCamera} setQrValues={setQrValues}/>
+	if (openCamera) {
+		return (
+			<QrCamera
+				closeCamera={handleOpenCamera}
+				setQrValues={setQrValues}
+			/>
+		);
 	}
 
 	return (
@@ -322,6 +331,7 @@ const FormScreen = ({ navigation }) => {
 						filteInputparcelas={filteInputparcelas}
 						setFilteInputparcelas={setFilteInputparcelas}
 						setParcelasSelectedObject={setParcelasSelectedObject}
+						parcelasSelectedObject={parcelasSelectedObject}
 						obsCheckIcon={obsCheckIcon}
 						setObsCheckIcon={setObsCheckIcon}
 					/>
@@ -382,14 +392,16 @@ const FormScreen = ({ navigation }) => {
 					})}
 				</ScrollView>
 			</BottomSheet>
-			<BottomSheet ref={sheetRefQr} style={styles.bottomSheetStlQr}
-			height={200}
+			<BottomSheet
+				ref={sheetRefQr}
+				style={styles.bottomSheetStlQr}
+				height={200}
 			>
-                <QrBottomSheet 
-				onClose={handleCloseModalQr}
-				goToCamera={handleOpenCamera}
+				<QrBottomSheet
+					onClose={handleCloseModalQr}
+					goToCamera={handleOpenCamera}
 				/>
-            </BottomSheet>
+			</BottomSheet>
 		</KeyboardAvoidingView>
 	);
 };
@@ -411,7 +423,7 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.primary[901],
 		paddingHorizontal: 20,
 		// justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: "center"
 	},
 	bottomSheetStl: {
 		backgroundColor: Colors.primary[901],

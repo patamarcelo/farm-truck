@@ -72,7 +72,6 @@ const CardRomaneio = (props) => {
 			.split(",")[1]
 			.trim()
 			.slice(0, 5);
-	console.log('tryDatahere: ', data)
 	return (
 		<>
 			<Pressable
@@ -91,30 +90,31 @@ const CardRomaneio = (props) => {
 							paddingLeft: 20
 						}}
 					>
-						{
-							data.tara > 0 || data.pesoBruto > 0 || data.liquido > 0 
-							 ?
-<MaterialCommunityIcons
-							name="truck-check-outline"
-							size={42}
-							color={
-								data.tara === "" || data.pesoBruto === "" || data.liquido === "" 
-								? Colors.yellow[700]
-								:Colors.success[500]
-							}
-							/>
-							 :
-
+						{data.tara > 0 ||
+						data.pesoBruto > 0 ||
+						data.liquido > 0 ? (
 							<MaterialCommunityIcons
-							name="dump-truck"
-							size={42}
-							color={
-								data.id
-								? Colors.success[500]
-								: Colors.yellow[700]
-							}
+								name="truck-check-outline"
+								size={42}
+								color={
+									data.tara === "" ||
+									data.pesoBruto === "" ||
+									data.liquido === ""
+										? Colors.yellow[700]
+										: Colors.success[500]
+								}
 							/>
-					}
+						) : (
+							<MaterialCommunityIcons
+								name="dump-truck"
+								size={42}
+								color={
+									data.id
+										? Colors.success[500]
+										: Colors.yellow[700]
+								}
+							/>
+						)}
 						<Text style={styles.textNumber}>
 							Nº{" "}
 							{data?.relatorioColheita

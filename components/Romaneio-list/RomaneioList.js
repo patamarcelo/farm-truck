@@ -41,7 +41,6 @@ const RomaneioList = ({ search, data }) => {
 							dataFilter.appDate.nanoseconds / 1000000
 					)
 				).format("DD/MM/YYYY - HH:mm");
-				console.log("newDate: ", formatDate);
 				return (
 					dataFilter.placa
 						.toLowerCase()

@@ -25,7 +25,13 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import ResumoContainer from "../components/romaneio/ResumoContainer";
 
-import { useEffect, useState, useLayoutEffect, useContext, Suspense } from "react";
+import {
+	useEffect,
+	useState,
+	useLayoutEffect,
+	useContext,
+	Suspense
+} from "react";
 import { AuthContext } from "../store/auth-context";
 import {
 	getAllDocsFirebase,
@@ -44,7 +50,7 @@ import {
 	Toast
 } from "react-native-alert-notification";
 
-import {useNetInfo} from "@react-native-community/netinfo";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import IconButton from "../components/ui/IconButton";
 
@@ -119,14 +125,13 @@ const handlerUploadProtheus = async (dataToAdd) => {
 				id: dataToAdd
 			})
 			.catch((err) => console.log(err));
-		return response
+		return response;
 	} catch (err) {
 		console.log("Erro ao consumir a API", err);
 	}
 };
 
 function WelcomeScreen() {
-	console.log(process.env.NODE_ENV)
 	const data = useSelector(romaneioSelector);
 	const projetosData = useSelector(projetosSelector);
 	const navigation = useNavigation();
@@ -136,7 +141,6 @@ function WelcomeScreen() {
 	const [lastDoc, setLastDoc] = useState(null);
 
 	const [preventSroll, setPreventSroll] = useState(true);
-
 
 	const [isDisabled, setIsDisabled] = useState(false);
 
@@ -218,7 +222,9 @@ function WelcomeScreen() {
 						<FontAwesome name="send" color={"white"} size={20} />
 					</View>
 				),
-				backgroundColor: isDisabled ? "rgba(237,231,225)" : "rgba(017,201,17, 1)",
+				backgroundColor: isDisabled
+					? "rgba(237,231,225)"
+					: "rgba(017,201,17, 1)",
 				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
 				disabled: isDisabled,
 				onPress: () => {
@@ -245,7 +251,7 @@ function WelcomeScreen() {
 						/>
 					</View>
 				),
-				backgroundColor:  Colors.danger[600],
+				backgroundColor: Colors.danger[600],
 				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
 				onPress: () => {
 					dispatch(removeFromCargas(itemData.item.idApp));
@@ -258,14 +264,14 @@ function WelcomeScreen() {
 		];
 
 		const handleOpenSwipe = async () => {
-			setPreventSroll(false)
-			const isConected = netInfo.isConnected.toString()
-			if(isConected === 'true'){
-				setIsDisabled(false)
+			setPreventSroll(false);
+			const isConected = netInfo.isConnected.toString();
+			if (isConected === "true") {
+				setIsDisabled(false);
 			} else {
-				setIsDisabled(true)
+				setIsDisabled(true);
 			}
-		}
+		};
 		return (
 			<Swipeout
 				right={swipeoutBtnsRight}
@@ -279,13 +285,12 @@ function WelcomeScreen() {
 		);
 	};
 
-
 	const handleRefresh = async (idToFind) => {
 		const dataToAdd = data.find((data) => data.idApp === idToFind);
 		setRefreshing(true);
 		try {
-			const isConnected = netInfo.isConnected.toString()
-			if (isConnected === 'true') {
+			const isConnected = netInfo.isConnected.toString();
+			if (isConnected === "true") {
 				const dataToSave = {
 					...dataToAdd,
 					appDate: new Date(dataToAdd.appDate),
@@ -297,7 +302,7 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
-				const responseProtheus = handlerUploadProtheus(response)
+				const responseProtheus = handlerUploadProtheus(response);
 				console.log("Response: ", response);
 				console.log("ResponseProtheus: ", responseProtheus);
 				if (response) {
@@ -339,14 +344,13 @@ function WelcomeScreen() {
 		}
 	};
 
-
 	const handleRefreshScroll = async () => {
 		const dataToAdd = data[0];
 		const idToFind = dataToAdd.idApp;
 		setRefreshing(true);
 		try {
-			const isConnected = netInfo.isConnected.toString()
-			if (isConnected === 'true') {
+			const isConnected = netInfo.isConnected.toString();
+			if (isConnected === "true") {
 				const dataToSave = {
 					...dataToAdd,
 					appDate: new Date(dataToAdd.appDate),
@@ -356,7 +360,7 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
-				const responseProtheus = handlerUploadProtheus(response)
+				const responseProtheus = handlerUploadProtheus(response);
 				console.log("Response: ", response);
 				console.log("ResponseProtheus: ", responseProtheus);
 				if (response) {
@@ -402,9 +406,12 @@ function WelcomeScreen() {
 	const handleScrollRefresh = () => {
 		setRefreshing(false);
 		setTimeout(() => {
-			Alert.alert('Atualize no botão', 'Utilize o Botão deslizando para salvar o romaneio')
-		},300)
-	}
+			Alert.alert(
+				"Atualize no botão",
+				"Utilize o Botão deslizando para salvar o romaneio"
+			);
+		}, 300);
+	};
 
 	return (
 		<AlertNotificationRoot>

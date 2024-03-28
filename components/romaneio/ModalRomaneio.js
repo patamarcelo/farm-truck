@@ -46,7 +46,6 @@ const ModalRomaneioScreen = ({ navigation }) => {
 	const [NumberRomaneio, setNumberRomaneio] = useState();
 
 	useLayoutEffect(() => {
-		console.log("data :", data);
 		const compData = data.filter((dataFind) => dataFind.idApp === id)[0];
 		setDataShow(compData);
 		// console.log("compData: ", compData.appDate);
