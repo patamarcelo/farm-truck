@@ -136,16 +136,18 @@ function FormInputs({
 	}, [isFocused]);
 
 	useEffect(() => {
+		console.log('Array of Selected Parcelas: ', filteInputparcelas)
+		console.log('Array of Selected Parcelas Size: ', filteInputparcelas.length)
 		const filInputSelect = filteredParcelasFarmObj.filter((data) =>
 			filteInputparcelas.includes(data.parcela)
 		);
-		console.log("parcelas Selecionadas Obj: ", filInputSelect);
-		setParcelasSelectedObject(filInputSelect);
 		const onlyVars = filInputSelect.map((data) => data.variedade);
 		const onlyCult = filInputSelect.map((data) => data.cultura);
 		setValue("mercadoria", onlyVars[0]);
 		setValue("cultura", onlyCult[0]);
 	}, [filteInputparcelas]);
+
+
 
 	useEffect(() => {
 		setFilteInputparcelas([]);
@@ -163,7 +165,7 @@ function FormInputs({
 		);
 		setFilteInputparcelas(newparcelas);
 
-		const newObjParcela = filteredParcelasFarmObj.filter(
+		const newObjParcela = parcelasSelectedObject.filter(
 			(data) => data.parcela !== parcela
 		);
 		setParcelasSelectedObject(newObjParcela);
@@ -261,6 +263,31 @@ function FormInputs({
 		setParcelasSelectedObject(finalArr);
 	};
 
+	useEffect(() => {
+		const newArrObj = parcelasSelectedObject.map((data) => data.parcela)
+		if (parcelasSelectedObject.length === 0) {
+			const filInputSelect = filteredParcelasFarmObj.filter((data) =>
+				filteInputparcelas.includes(data.parcela)
+			);
+			setParcelasSelectedObject(filInputSelect);
+		}
+		if(filteInputparcelas.length > parcelasSelectedObject.length) {
+			const insertParcelas = filteInputparcelas.filter((data) => !newArrObj.includes(data))[0]
+			const addParcela = filteredParcelasFarmObj.filter((data) => data.parcela === insertParcelas)[0]
+			const newArray = [...parcelasSelectedObject, addParcela]
+			setParcelasSelectedObject(newArray);
+		}
+		if(filteInputparcelas.length < parcelasSelectedObject.length) {
+			const insertParcelas = filteInputparcelas.filter((data) => !newArrObj.includes(data))[0]
+			const removed = parcelasSelectedObject.filter((data) => data.parcela !==insertParcelas)
+			setParcelasSelectedObject(removed);
+		}
+		if(filteInputparcelas.length === 0){
+			setParcelasSelectedObject([]);
+		}
+	}, [filteInputparcelas]);
+
+
 	return (
 		<View style={styles.form}>
 			<Controller
@@ -336,7 +363,7 @@ function FormInputs({
 						justifyContent: "center",
 						backgroundColor:
 							selectedFarm !== "Selecione a Fazenda" &&
-							selectedFarm !== null
+								selectedFarm !== null
 								? Colors.success[400]
 								: "grey"
 					}}
@@ -468,7 +495,7 @@ function FormInputs({
 										<View>
 											{value &&
 												filteInputparcelas.length ===
-													1 &&
+												1 &&
 												this.multiSelect &&
 												this.multiSelect.getSelectedItemsExt(
 													value
@@ -654,7 +681,7 @@ function FormInputs({
 				// presentationStyle="pageSheet"
 				animationType="slide"
 				transparent={true}
-				// cons={{ backgroundColor: Colors.primary[901] }}
+			// cons={{ backgroundColor: Colors.primary[901] }}
 			>
 				<View
 					style={{

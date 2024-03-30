@@ -69,7 +69,9 @@ const styles = StyleSheet.create({
 	},
 	valueField: {
 		color: "whitesmoke",
-		marginHorizontal: 10
+		marginHorizontal: 10,
+		fontWeight: 'bold',
+		fontSize: 16
 	},
 	parcelasText: {
 		color: "whitesmoke",

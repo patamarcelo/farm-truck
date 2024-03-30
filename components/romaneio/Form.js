@@ -83,9 +83,24 @@ const FormScreen = ({ navigation }) => {
 	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
 	const [parcelasSelectedObject, setParcelasSelectedObject] = useState([]);
 
+	const [checkIfCaixasSeted, setCheckIfCaixasSeted] = useState(false);
+
+
 	useEffect(() => {
-		console.log("parcelas Selecionadas", filteInputparcelas);
-	}, [filteInputparcelas]);
+		console.log('change Parcelas, ', parcelasSelectedObject)
+		const sizeArr = parcelasSelectedObject?.length
+		if(sizeArr > 1){
+			setCheckIfCaixasSeted(true)
+			const getNoneorZero = (parcelas) => parcelas.caixas === undefined || parcelas.caixas === 0
+			const caixaNumbers = parcelasSelectedObject.some(getNoneorZero)
+			console.log('get caixas zero :, ',caixaNumbers)
+			if(!caixaNumbers){
+				setCheckIfCaixasSeted(false)
+			}
+		} else {
+			setCheckIfCaixasSeted(false)
+		}
+	}, [parcelasSelectedObject]);
 
 	const [location, setLocation] = useState(null);
 
@@ -110,7 +125,6 @@ const FormScreen = ({ navigation }) => {
 	}, [isFocused]);
 
 	useEffect(() => {
-		console.log(selectedFarm);
 		if (isFocused) {
 			setSelectedFarm(null);
 			reset();
@@ -340,7 +354,8 @@ const FormScreen = ({ navigation }) => {
 					<Button
 						disabled={
 							Object.keys(errors).length > 0 ||
-							selectedDest === "Selecione o Destino"
+							selectedDest === "Selecione o Destino" ||
+							checkIfCaixasSeted === true
 						}
 						onPress={handleSubmit(submitHandler)}
 						btnStyles={styles.btnbtnStylesRegister}
