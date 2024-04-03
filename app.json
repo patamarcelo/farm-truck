@@ -2,7 +2,7 @@
     "expo": {
         "name": "farm-truck",
         "slug": "farm-truck",
-        "version": "1.0.15",
+        "version": "1.0.16",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
@@ -36,8 +36,8 @@
             "bundleIdentifier": "com.patamarcelo.farmtruck"
         },
         "android": {
-            "versionCode": 15,
-            "versionName": "1.0.14",
+            "versionCode": 16,
+            "versionName": "1.0.15",
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
