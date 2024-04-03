@@ -302,10 +302,10 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
-				const responseProtheus = handlerUploadProtheus(response);
-				console.log("Response: ", response);
-				console.log("ResponseProtheus: ", responseProtheus);
 				if (response) {
+					const responseProtheus = handlerUploadProtheus(response);
+					console.log("Response: ", response);
+					console.log("ResponseProtheus: ", responseProtheus);
 					dispatch(removeFromCargas(idToFind));
 					const last = await getDocs();
 					// console.log("last", last);
@@ -327,6 +327,8 @@ function WelcomeScreen() {
 						// }
 					});
 					setRefreshing(false);
+				} else {
+					Alert.alert("Ocorreu um erro na hora de salvar", "Tente novamente mais tarde....")
 				}
 			} else {
 				console.log("is not conected!!");

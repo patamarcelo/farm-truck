@@ -253,6 +253,12 @@ const FormScreen = ({ navigation }) => {
 		console.log("refresh ");
 	};
 
+	useEffect(() => {
+		setFilteInputparcelas([])
+		setValue("fazendaDestino", "Selecione o Destino");
+		setSelectedDest("Selecione o Destino")
+	}, [selectedFarm]);
+
 	const handleModal = () => {
 		console.log("open");
 		sheetRef.current?.open();
@@ -355,7 +361,8 @@ const FormScreen = ({ navigation }) => {
 						disabled={
 							Object.keys(errors).length > 0 ||
 							selectedDest === "Selecione o Destino" ||
-							checkIfCaixasSeted === true
+							checkIfCaixasSeted === true ||
+							parcelasSelectedObject.length === 0
 						}
 						onPress={handleSubmit(submitHandler)}
 						btnStyles={styles.btnbtnStylesRegister}
