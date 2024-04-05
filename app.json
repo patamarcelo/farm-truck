@@ -33,7 +33,10 @@
         "ios": {
             "buildNumber": "1.0.2",
             "supportsTablet": true,
-            "bundleIdentifier": "com.patamarcelo.farmtruck"
+            "bundleIdentifier": "com.patamarcelo.farmtruck",
+            "infoPlist": { 
+                "NSPrivacyAccessedAPITypes": ["NSPrivacyAccessedAPICategoryFileTimestamp", "NSPrivacyAccessedAPICategoryDiskSpace", "NSPrivacyAccessedAPICategoryUserDefaults", "NSPrivacyAccessedAPICategorySystemBootTime"]
+            }
         },
         "android": {
             "versionCode": 16,
