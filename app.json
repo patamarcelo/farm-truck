@@ -2,7 +2,7 @@
     "expo": {
         "name": "farm-truck",
         "slug": "farm-truck",
-        "version": "1.0.16",
+        "version": "1.0.17",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
@@ -34,13 +34,29 @@
             "buildNumber": "1.0.3",
             "supportsTablet": true,
             "bundleIdentifier": "com.patamarcelo.farmtruck",
-            "infoPlist": { 
-                "NSPrivacyAccessedAPITypes": ["NSPrivacyAccessedAPICategoryFileTimestamp", "NSPrivacyAccessedAPICategoryDiskSpace", "NSPrivacyAccessedAPICategoryUserDefaults", "NSPrivacyAccessedAPICategorySystemBootTime"]
+            "infoPlist": {
+                "NSPrivacyAccessedAPITypes": [{
+                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategorySystemBootTime",
+                        "NSPrivacyAccessedAPIUsageDescription": "This app requires access to system boot time to optimize performance."
+                    },
+                    {
+                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryDiskSpace",
+                        "NSPrivacyAccessedAPIUsageDescription": "This app needs access to disk space to store and manage data efficiently."
+                    },
+                    {
+                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryFileTimestamp",
+                        "NSPrivacyAccessedAPIUsageDescription": "Access to file timestamps is essential for managing files and ensuring data integrity."
+                    },
+                    {
+                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryUserDefaults",
+                        "NSPrivacyAccessedAPIUsageDescription": "Access to user defaults is required to store user preferences and settings."
+                    }
+                ]
             }
         },
         "android": {
-            "versionCode": 16,
-            "versionName": "1.0.15",
+            "versionCode": 17,
+            "versionName": "1.0.17",
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"

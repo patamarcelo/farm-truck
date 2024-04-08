@@ -76,10 +76,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 					<View style={styles.mainContainer}>
 						<View style={styles.headerContainer}>
 							<Text style={styles.headerTitle}>
-								DETALHE DO ROMANEIO
-							</Text>
-							<Text style={styles.headerRomaneio}>
-								Nº {NumberRomaneio}
+								DETALHES DO ROMANEIO
 							</Text>
 						</View>
 						{/* <ScrollView
@@ -87,20 +84,15 @@ const ModalRomaneioScreen = ({ navigation }) => {
 					> */}
 						<View
 							style={[
-								styles.dataContainer,
+								styles.dataContainerNumber,
 								{
 									backgroundColor: statusColor(dataShow.id),
 									opacity: 1
 								}
 							]}
 						>
-							<Text style={[styles.titleDoc, { color: "white" }]}>
-								Status:{" "}
-							</Text>
-							<Text
-								style={[styles.resultDoc, { color: "white" }]}
-							>
-								{dataShow.id ? "Sincronizado" : "Pendente"}
+							<Text style={[styles.titleDocNumber, { color: "white" }]}>
+							Nº {NumberRomaneio}
 							</Text>
 						</View>
 						<View style={styles.dataContainer}>
@@ -215,6 +207,14 @@ const ModalRomaneioScreen = ({ navigation }) => {
 											})}
 									</Text>
 								</View>
+								<View style={styles.dataContainer}>
+									<Text style={styles.titleDoc}>
+										Obs.:
+									</Text>
+									<Text style={styles.resultDocObs}>
+										{dataShow?.observacoes}
+									</Text>
+								</View>
 							</>
 						)}
 						{/* </ScrollView> */}
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
 	headerContainer: {
 		justifyContent: "center",
 		alignItems: "center",
-		marginBottom: 10
+		marginBottom: 5
 	},
 	grid: {
 		width: width / 2,
@@ -277,6 +277,12 @@ const styles = StyleSheet.create({
 		width: width / 2
 		// paddingLeft: 5
 	},
+	resultDocObs: {
+		textAlign: "left",
+		// backgroundColor: "red",
+		width: width / 2,
+		paddingRight: 20
+	},
 	titleDoc: {
 		textAlign: "right",
 		fontWeight: "bold",
@@ -284,7 +290,13 @@ const styles = StyleSheet.create({
 		paddingRight: 10
 		// backgroundColor: "green"
 	},
-	dataContainer: {
+	titleDocNumber: {
+		textAlign: "center",
+		fontWeight: "bold",
+		width: width,
+		// backgroundColor: "green"
+	},
+	dataContainerNumber: {
 		flexDirection: "row",
 		alignItems: "center",
 		// gap: 12,
@@ -293,11 +305,19 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		paddingHorizontal: 8
 	},
-
+	dataContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		// gap: 12,
+		backgroundColor: "whitesmoke",
+		width: width,
+		paddingVertical: 9,
+		paddingHorizontal: 8
+	},
 	mainContainer: {
 		flex: 1,
 		top: Platform.OS === "ios" && 20,
-		gap: 15,
+		gap: 10,
 		paddingBottom: 20,
 		// justifyContent: "center",
 		alignItems: "center"

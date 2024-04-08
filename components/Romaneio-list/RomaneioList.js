@@ -22,9 +22,8 @@ const renderRomaneioList = (itemData) => {
 	);
 };
 
-const RomaneioList = ({ search, data }) => {
+const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 	// const data = useSelector(romaneioSelector);
-	const [filteredData, setFilteredData] = useState([]);
 	useLayoutEffect(() => {
 		setFilteredData(data);
 	}, []);
@@ -34,30 +33,31 @@ const RomaneioList = ({ search, data }) => {
 
 	useEffect(() => {
 		if (search) {
-			const newArr = data.filter((dataFilter) => {
-				const formatDate = moment(
-					new Date(
-						dataFilter.appDate.seconds * 1000 +
+			const newArr = data
+				.filter((data) => Number(data.liquido) !== 1)
+				.filter((dataFilter) => {
+					const formatDate = moment(
+						new Date(
+							dataFilter.appDate.seconds * 1000 +
 							dataFilter.appDate.nanoseconds / 1000000
-					)
-				).format("DD/MM/YYYY - HH:mm");
-				return (
-					dataFilter.placa
-						.toLowerCase()
-						.includes(search.toLowerCase()) ||
-					dataFilter.motorista
-						.toLowerCase()
-						.includes(search.toLowerCase()) ||
-					dataFilter.parcelasNovas
-						?.join("")
-						.toLowerCase()
-						.includes(search.toLowerCase()) ||
-					dataFilter.relatorioColheita
-						.toString()
-						.includes(search.toString()) ||
-					formatDate.includes(search)
-				);
-			});
+						)
+					).format("DD/MM/YYYY - HH:mm");
+					return (
+						dataFilter.placa.toLowerCase().includes(search.toLowerCase()) ||
+						dataFilter.fazendaOrigem
+							.toLowerCase()
+							.includes(search.toLowerCase()) ||
+						dataFilter.motorista.toLowerCase().includes(search.toLowerCase()) ||
+						dataFilter.parcelasNovas
+							?.join("")
+							.toLowerCase()
+							.includes(search.toLowerCase()) ||
+						dataFilter.relatorioColheita
+							.toString()
+							.includes(search.toString()) ||
+						formatDate.includes(search)
+					);
+				});
 			setFilteredData(newArr);
 		} else {
 			setFilteredData(data);
@@ -76,9 +76,7 @@ const RomaneioList = ({ search, data }) => {
 	if (filteredData.length === 0) {
 		return (
 			<View style={[styles.adviseContainer, styles.bannerContainer]}>
-				<Text style={styles.adviseContainerTitle}>
-					Sem Romaneio Cadastrado
-				</Text>
+				<Text style={styles.adviseContainerTitle}>Sem Romaneio Cadastrado</Text>
 			</View>
 		);
 	}

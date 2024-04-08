@@ -45,6 +45,8 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const [isLoading, seTisLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
+	const [filteredData, setFilteredData] = useState([]);
+
 	const projetosData = useSelector(projetosSelector);
 
 	const context = useContext(AuthContext);
@@ -76,7 +78,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 						dispatch(addRomaneiosFarm([]));
 						context.logout();
 					}
-					dispatch(addRomaneiosFarm(data));
+					dispatch(addRomaneiosFarm(data.filter((data) => Number(data.liquido) !== 1)));
 				} catch (error) {
 					if (error.code === "permission-denied") {
 						dispatch(addRomaneiosFarm([]));
@@ -162,6 +164,12 @@ const RomaneioScreen = ({ navigation, route }) => {
 					search={search}
 					updateSearchHandler={updateSearchHandler}
 				/>
+				<View style={styles.infoHeaderContainer}>
+					{
+						filteredData && filteredData.length > 0 &&
+						<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
+					}
+				</View>
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					ref={ref}
@@ -174,7 +182,11 @@ const RomaneioScreen = ({ navigation, route }) => {
 						/>
 					}
 				>
-					<RomaneioList search={search} data={sentData} />
+					<RomaneioList search={search} data={sentData}
+						filteredData={filteredData}
+						setFilteredData={setFilteredData}
+
+					/>
 				</ScrollView>
 			</View>
 		);
@@ -184,6 +196,15 @@ const RomaneioScreen = ({ navigation, route }) => {
 export default RomaneioScreen;
 
 const styles = StyleSheet.create({
+	infoHeaderContainer: {
+		width: '100%',
+		alignItems: 'flex-end',
+		paddingRight: 10,
+		marginBottom: 2
+	},
+	infoHeader: {
+		color: 'whitesmoke',
+	},
 	listContainer: {
 		with: "50%"
 	},

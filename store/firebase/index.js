@@ -132,7 +132,7 @@ export const getAllDocsFirebase = async (farm) => {
 			where("fazendaOrigem", "in", farm),
 			where("createdBy", "==", "App"),
 			orderBy("syncDate", "desc"),
-			limit(101)
+			limit(100)
 		);
 		const querySnapshot = await getDocs(q);
 		let allData = [];
