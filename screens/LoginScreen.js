@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { Alert } from "react-native";
 import { AuthContext } from "../store/auth-context";
-import { setUser, setProjetos } from "../store/redux/romaneios";
+import { setUser, setProjetos, setUserAttr } from "../store/redux/romaneios";
 import { useDispatch } from "react-redux";
 function LoginScreen() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +23,7 @@ function LoginScreen() {
 			dispatch(setUser(user.user));
 			const pl = JSON.parse(user.user.reloadUserInfo.customAttributes);
 			dispatch(setProjetos(pl.projetosLiberados));
+			dispatch(setUserAttr(pl));
 		} catch (error) {
 			console.log("erro ao logar usuário", error);
 			Alert.alert(

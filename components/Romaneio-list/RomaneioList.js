@@ -55,6 +55,9 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 						dataFilter.relatorioColheita
 							.toString()
 							.includes(search.toString()) ||
+						dataFilter.ticket
+							.toString()
+							.includes(search.toString()) ||
 						formatDate.includes(search)
 					);
 				});

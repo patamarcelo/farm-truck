@@ -6,6 +6,10 @@ export const userSelector = (state) => {
 	return state.romaneios.user;
 };
 
+export const userSelectorAttr = (state) => {
+	return state.romaneios.userCustomAttr;
+};
+
 export const projetosSelector = (state) => {
 	return state.romaneios.projetosCadastrados;
 };

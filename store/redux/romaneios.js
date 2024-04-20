@@ -5,7 +5,8 @@ const initialState = {
 	user: "",
 	projetosCadastrados: [],
 	cargas: [],
-	romaneiosFarm: []
+	romaneiosFarm: [],
+	userCustomAttr: {}
 };
 const RomaneioSlice = createSlice({
 	name: "romaneios",
@@ -13,6 +14,9 @@ const RomaneioSlice = createSlice({
 	reducers: {
 		setUser: (state, action) => {
 			state.user = action.payload;
+		},
+		setUserAttr: (state, action) => {
+			state.userCustomAttr = action.payload
 		},
 		setProjetos: (state, action) => {
 			state.projetosCadastrados = action.payload;
@@ -46,6 +50,7 @@ export const removeFavorite = RomaneioSlice.actions.removeFavorite;
 export const addRomaneiosFarm = RomaneioSlice.actions.setRomaneiosFarm;
 export const removeFromCargas = RomaneioSlice.actions.removeFromCargas;
 export const setUser = RomaneioSlice.actions.setUser;
+export const setUserAttr = RomaneioSlice.actions.setUserAttr;
 export const setProjetos = RomaneioSlice.actions.setProjetos;
 
 export default RomaneioSlice.reducer;

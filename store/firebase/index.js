@@ -121,7 +121,7 @@ export const getDocumentosFirebase = async (idForm) => {
 	}
 };
 
-export const getAllDocsFirebase = async (farm) => {
+export const getAllDocsFirebase = async (farm, maxQuery) => {
 	const userActivated = await checkUserActive();
 	if (!userActivated) {
 		return false;
@@ -132,7 +132,7 @@ export const getAllDocsFirebase = async (farm) => {
 			where("fazendaOrigem", "in", farm),
 			where("createdBy", "==", "App"),
 			orderBy("syncDate", "desc"),
-			limit(100)
+			limit(maxQuery)
 		);
 		const querySnapshot = await getDocs(q);
 		let allData = [];

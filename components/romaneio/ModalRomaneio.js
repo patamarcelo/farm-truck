@@ -115,7 +115,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 						<View style={styles.dataContainer}>
 							<Text style={styles.titleDoc}>Motorista: </Text>
 							<Text style={styles.resultDoc}>
-								{dataShow.motorista}
+								{dataShow.motorista.length > 20 ? dataShow.motorista.substring(0,20) + "..." : dataShow.motorista}
 							</Text>
 						</View>
 
@@ -159,6 +159,14 @@ const ModalRomaneioScreen = ({ navigation }) => {
 							</Text>
 							<Text style={styles.resultDoc}>
 								{dataShow.parcelasNovas?.join("-").trim()}
+							</Text>
+						</View>
+						<View style={styles.dataContainer}>
+							<Text style={styles.titleDoc}>
+								Ticket
+							</Text>
+							<Text style={styles.resultDoc}>
+								{dataShow?.ticket ? dataShow?.ticket : '-' }
 							</Text>
 						</View>
 

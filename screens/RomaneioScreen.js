@@ -26,13 +26,16 @@ import { useIsFocused } from "@react-navigation/native";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addRomaneiosFarm } from "../store/redux/romaneios";
-import { romaneiosFarmSelector } from "../store/redux/selector";
+import { romaneiosFarmSelector, userSelectorAttr } from "../store/redux/selector";
 
 import { Dimensions, RefreshControl } from "react-native";
 
 import { useScrollToTop } from "@react-navigation/native";
 
 import { projetosSelector } from "../store/redux/selector";
+
+import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const width = Dimensions.get("window").width; //full width
 
@@ -41,11 +44,14 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const [sentData, setSentData] = useState([]);
 	const dispatch = useDispatch();
 	const data = useSelector(romaneiosFarmSelector);
+	const user = useSelector(userSelectorAttr);
 
 	const [isLoading, seTisLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
 	const [filteredData, setFilteredData] = useState([]);
+	const [onlyLoadTruck, setOnlyLoadTruck] = useState(0);
+	const [onlyWeiTruck, setOnlyWeiTruck] = useState(0);
 
 	const projetosData = useSelector(projetosSelector);
 
@@ -71,9 +77,14 @@ const RomaneioScreen = ({ navigation, route }) => {
 		if (projetosData) {
 			seTisLoading(true);
 			console.log("alterando loader para true");
+			console.log('userADmin: ', user.admin)
 			const getDataFire = async () => {
 				try {
-					const data = await getAllDocsFirebase(projetosData);
+					let maxQuery = 100
+					if(user?.admin){
+						maxQuery = 150
+					}
+					const data = await getAllDocsFirebase(projetosData, maxQuery);
 					if (data === false) {
 						dispatch(addRomaneiosFarm([]));
 						context.logout();
@@ -143,6 +154,15 @@ const RomaneioScreen = ({ navigation, route }) => {
 
 	useScrollToTop(ref);
 
+	useEffect(() => {
+		if(filteredData.length > 0){
+			const onlyLoad = filteredData.filter((data) => data.pesoBruto.length === 0)
+			setOnlyLoadTruck(onlyLoad?.length)
+			const onlyWei = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido.length === 0)
+			setOnlyWeiTruck(onlyWei?.length)
+		}
+	}, [filteredData]);
+
 	if (isLoading) {
 		return (
 			<View
@@ -167,7 +187,15 @@ const RomaneioScreen = ({ navigation, route }) => {
 				<View style={styles.infoHeaderContainer}>
 					{
 						filteredData && filteredData.length > 0 &&
-						<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
+						<View style={styles.containerInfo}>
+							<View style={styles.containerInfoTruck}>
+								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[400]}/> {onlyLoadTruck}</Text>
+								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-check-outline" size={24} color={Colors.yellow[700]}/> {onlyWeiTruck}</Text>
+							</View>
+							<View style={styles.containerInfoTotal}>
+								<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
+							</View>
+						</View>
 					}
 				</View>
 				<ScrollView
@@ -196,11 +224,22 @@ const RomaneioScreen = ({ navigation, route }) => {
 export default RomaneioScreen;
 
 const styles = StyleSheet.create({
+	containerInfo:{
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: "flex-end",
+		width: '100%',
+	},
+	containerInfoTruck:{
+		flexDirection: 'row',
+		gap: 20,
+	},
+	containerInfoTotal:{},
 	infoHeaderContainer: {
 		width: '100%',
-		alignItems: 'flex-end',
 		paddingRight: 10,
-		marginBottom: 2
+		paddingLeft: 10,
+		marginBottom: 5
 	},
 	infoHeader: {
 		color: 'whitesmoke',

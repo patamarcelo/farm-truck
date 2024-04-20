@@ -17,7 +17,8 @@ const SearchBarComp = (props) => {
 				/>
 				<View style={styles.helperTextContainer}>
 					<Text style={styles.helpText}>
-						Por Placa, ou Motorista, ou Parcela(s), ou Romaneio, ou Data
+						Procure por: Placa, Motorista, Parcela, Romaneio, Data, Ticket
+						{/* Por Placa, ou Motorista, ou Parcela(s), ou Romaneio, ou Data, ou Ti */}
 					</Text>
 				</View>
 			</View>

@@ -106,7 +106,7 @@ const CardRomaneio = (props) => {
 							/>
 						) : (
 							<MaterialCommunityIcons
-								name="dump-truck"
+								name="truck-fast"
 								size={42}
 								color={
 									data.id
