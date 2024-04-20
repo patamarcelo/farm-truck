@@ -78,11 +78,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 			seTisLoading(true);
 			const getDataFire = async () => {
 				try {
-					let maxQuery = 100
-					if(user?.admin){
-						maxQuery = 150
-					}
-					const data = await getAllDocsFirebase(projetosData, maxQuery);
+					const data = await getAllDocsFirebase(projetosData);
 					if (data === false) {
 						dispatch(addRomaneiosFarm([]));
 						context.logout();
