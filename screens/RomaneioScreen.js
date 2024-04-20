@@ -76,8 +76,6 @@ const RomaneioScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		if (projetosData) {
 			seTisLoading(true);
-			console.log("alterando loader para true");
-			console.log('userADmin: ', user.admin)
 			const getDataFire = async () => {
 				try {
 					let maxQuery = 100
