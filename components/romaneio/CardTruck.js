@@ -137,7 +137,7 @@ const CardRomaneio = (props) => {
 										data.appDate.seconds * 1000 +
 											data.appDate.nanoseconds / 1000000
 									)
-								).format("DD/MM/YYYY - HH:mm")}
+								).format("DD/MM/YY  HH:mm")}
 							</Text>
 						) : (
 							<Text style={styles.textData}>
@@ -168,21 +168,26 @@ const CardRomaneio = (props) => {
 
 								<Text style={styles.labelInput}>
 									{data.placa.slice(0, 3)}-
-									{data.placa.slice(3, 12)}
+									{data.placa.slice(3, 12)} | {" "}
 								</Text>
+								<Text style={styles.titleInput}>Ticket: </Text>
+								<Text style={styles.labelInput}>
+									{data?.ticket ? data?.ticket : '-'}
+								</Text>
+
 							</View>
 							<View style={styles.containerDataInfo}>
 								<Text style={styles.titleInput}>
 									{labelParcelas(data)}:{" "}
 								</Text>
-								<Text>{data.parcelasNovas?.join(" - ")}</Text>
+								<Text style={styles.labelInput}>{data.parcelasNovas?.join(" - ")}</Text>
 							</View>
-							<View style={styles.containerDataInfo}>
+							<View style={styles.containerDataInfoProj}>
 								<Text
-									style={{ fontWeight: "bold" }}
+									style={{ fontWeight: "bold", color: 'whitesmoke', fontSize: 10 }}
 									numberOfLines={1}
 								>
-									{data.fazendaOrigem.replace("Projeto", "")}
+									{data.fazendaOrigem.replace("Projeto ", "")}
 								</Text>
 							</View>
 						</View>
@@ -230,11 +235,21 @@ const styles = StyleSheet.create({
 	containerDataInfo: {
 		flexDirection: "row"
 	},
+	containerDataInfoProj: {
+		flexDirection: "row",
+		backgroundColor: Colors.primary[600],
+		padding: 5,
+		justifyContent: 'center',
+		borderRadius: 12
+	},
 	titleInput: {
 		fontWeight: "bold",
+		fontSize: 12,
 		padding: 0
 	},
-	labelInput: {},
+	labelInput: {
+		fontSize: 12
+	},
 	dataIntraContainer: {
 		// alignItems: "center",
 		justifyContent: "space-around",
