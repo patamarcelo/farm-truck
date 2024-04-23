@@ -34,7 +34,6 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 	useEffect(() => {
 		if (search) {
 			const newArr = data
-				.filter((data) => Number(data.liquido) !== 1)
 				.filter((dataFilter) => {
 					const formatDate = moment(
 						new Date(

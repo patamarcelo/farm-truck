@@ -120,7 +120,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 				context.logout();
 			}
 			if (data) {
-				dispatch(addRomaneiosFarm(data));
+				dispatch(addRomaneiosFarm(data.filter((data) => Number(data.liquido) !== 1)))
 			}
 		} catch (error) {
 			console.log("Erro ao pegar os dados: ", error);
