@@ -7,7 +7,8 @@ import {
 	Alert,
 	Appearance,
 	Platform,
-	StatusBar
+	StatusBar,
+	Pressable
 } from "react-native";
 
 import CardRomaneio from "../components/romaneio/CardTruck";
@@ -54,7 +55,8 @@ import { useNetInfo } from "@react-native-community/netinfo";
 
 import IconButton from "../components/ui/IconButton";
 
-import Swipeout from "react-native-swipeout";
+// import Swipeout from "react-native-swipeout";
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -144,6 +146,8 @@ function WelcomeScreen() {
 
 	const [isDisabled, setIsDisabled] = useState(false);
 
+	const [isOpendSwipe, setisOpendSwipe] = useState(false);
+
 	const netInfo = useNetInfo();
 
 	const user = useSelector(userSelector);
@@ -208,60 +212,88 @@ function WelcomeScreen() {
 	}, [user]);
 
 	const renderRomaneioList = (itemData) => {
-		const swipeoutBtnsRight = [
-			{
-				component: (
-					<View
-						style={{
-							flex: 1,
-							alignItems: "center",
-							justifyContent: "center",
-							flexDirection: "column"
-						}}
-					>
-						<FontAwesome name="send" color={"white"} size={20} />
-					</View>
-				),
-				backgroundColor: isDisabled
-					? "rgba(237,231,225)"
-					: "rgba(017,201,17, 1)",
-				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
-				disabled: isDisabled,
-				onPress: () => {
-					handleRefresh(itemData.item.idApp);
-				}
-			}
-		];
+		const renderRightActions = () => (
+			<Pressable
+				disabled={isDisabled}
+				onPress={() => handleRefresh(itemData.item.idApp)}
+				style={{ width: 80, backgroundColor: isDisabled ? "rgba(237,231,225)" : "rgba(017,201,17, 1)", justifyContent: 'center', alignItems: 'center' }}
+			>
+				<FontAwesome name="send" color={"white"} size={20} />
+			</Pressable>
+		);
 
-		const swipeoutBtnsLeft = [
-			{
-				component: (
-					<View
-						style={{
-							flex: 1,
-							alignItems: "center",
-							justifyContent: "center",
-							flexDirection: "column"
-						}}
-					>
-						<Ionicons
-							name="trash-sharp"
-							color={"white"}
-							size={20}
-						/>
-					</View>
-				),
-				backgroundColor: Colors.danger[600],
-				underlayColor: "rgba(0, 0, 0, 1, 0.6)",
-				onPress: () => {
+		const renderLeftActions = () => (
+			<Pressable
+				onPress={() => {
 					dispatch(removeFromCargas(itemData.item.idApp));
 					Alert.alert(
 						"Romaneio Excluído",
 						`${itemData.item.placa} - ${itemData.item.motorista} deletado com sucesso!!`
-					);
-				}
-			}
-		];
+					)
+				}}
+				style={{ width: 80, backgroundColor: Colors.danger[600], justifyContent: 'center', alignItems: 'center' }}
+			>
+				<Ionicons
+					name="trash-sharp"
+					color={"white"}
+					size={20}
+				/>
+			</Pressable>
+		)
+		// const swipeoutBtnsRight = [
+		// 	{
+		// 		component: (
+		// 			<View
+		// 				style={{
+		// 					flex: 1,
+		// 					alignItems: "center",
+		// 					justifyContent: "center",
+		// 					flexDirection: "column"
+		// 				}}
+		// 			>
+		// 				<FontAwesome name="send" color={"white"} size={20} />
+		// 			</View>
+		// 		),
+		// 		backgroundColor: isDisabled
+		// 			? "rgba(237,231,225)"
+		// 			: "rgba(017,201,17, 1)",
+		// 		underlayColor: "rgba(0, 0, 0, 1, 0.6)",
+		// 		disabled: isDisabled,
+		// 		onPress: () => {
+		// 			handleRefresh(itemData.item.idApp);
+		// 		}
+		// 	}
+		// ];
+
+		// const swipeoutBtnsLeft = [
+		// 	{
+		// 		component: (
+		// 			<View
+		// 				style={{
+		// 					flex: 1,
+		// 					alignItems: "center",
+		// 					justifyContent: "center",
+		// 					flexDirection: "column"
+		// 				}}
+		// 			>
+		// 				<Ionicons
+		// 					name="trash-sharp"
+		// 					color={"white"}
+		// 					size={20}
+		// 				/>
+		// 			</View>
+		// 		),
+		// backgroundColor: Colors.danger[600],
+		// 		underlayColor: "rgba(0, 0, 0, 1, 0.6)",
+		// 		onPress: () => {
+		// 			dispatch(removeFromCargas(itemData.item.idApp));
+		// 			Alert.alert(
+		// 				"Romaneio Excluído",
+		// 				`${itemData.item.placa} - ${itemData.item.motorista} deletado com sucesso!!`
+		// 			);
+		// 		}
+		// 	}
+		// ];
 
 		const handleOpenSwipe = async () => {
 			setPreventSroll(false);
@@ -273,15 +305,26 @@ function WelcomeScreen() {
 			}
 		};
 		return (
-			<Swipeout
-				right={swipeoutBtnsRight}
-				left={swipeoutBtnsLeft}
-				autoClose={true}
-				onOpen={handleOpenSwipe}
-				onClose={() => setPreventSroll(true)}
-			>
-				<CardRomaneio data={itemData.item} />
-			</Swipeout>
+			<GestureHandlerRootView>
+				<Swipeable
+					renderRightActions={renderRightActions}
+					renderLeftActions={renderLeftActions}
+					onSwipeableOpen={() => setisOpendSwipe(false)}
+					onSwipeableClose={() => setisOpendSwipe(true)}
+
+				>
+					<CardRomaneio data={itemData.item} isOpendSwipe={!isOpendSwipe} />
+				</Swipeable>
+			</GestureHandlerRootView>
+			// <Swipeout
+			// 	right={swipeoutBtnsRight}
+			// 	left={swipeoutBtnsLeft}
+			// 	autoClose={true}
+			// 	onOpen={handleOpenSwipe}
+			// 	onClose={() => setPreventSroll(true)}
+			// >
+			// 	<CardRomaneio data={itemData.item} />
+			// </Swipeout>
 		);
 	};
 

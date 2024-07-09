@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { Camera } from 'expo-camera';
-import { CameraView, useCameraPermissions } from 'expo-camera/next';
+import { useCameraPermissions } from 'expo-camera';
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
 

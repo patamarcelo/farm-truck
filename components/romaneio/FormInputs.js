@@ -23,6 +23,7 @@ import { Picker as SelectPicker } from "@react-native-picker/picker";
 import { DEST } from "../../store/initialForm";
 import { Divider } from "@rneui/themed";
 
+// TODO
 const customData = require("../../store/parcelas.json");
 
 import { useIsFocused } from "@react-navigation/native";

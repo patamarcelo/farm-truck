@@ -22,7 +22,7 @@ const dictRoute = {
 };
 
 const CardRomaneio = (props) => {
-	const { data, styleContainer } = props;
+	const { data, styleContainer , isOpendSwipe} = props;
 	const [dataArr, setDataArr] = useState([]);
 
 	useEffect(() => {
@@ -81,6 +81,7 @@ const CardRomaneio = (props) => {
 					pressed && styles.pressed
 				]}
 				onPress={handleDataTruck}
+				disabled={isOpendSwipe}
 			>
 				<View style={styles.truckContainer}>
 					<View
