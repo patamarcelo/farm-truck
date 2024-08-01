@@ -2,7 +2,7 @@
     "expo": {
         "name": "FarmTruck",
         "slug": "farm-truck",
-        "version": "1.0.21",
+        "version": "1.0.22",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
@@ -31,7 +31,7 @@
             "**/*"
         ],
         "ios": {
-            "buildNumber": "1.0.21",
+            "buildNumber": "1.0.22",
             "supportsTablet": true,
             "bundleIdentifier": "com.patamarcelo.farmtruck",
             "infoPlist": {
@@ -55,8 +55,8 @@
             }
         },
         "android": {
-            "versionCode": 21,
-            "versionName": "1.0.21",
+            "versionCode": 22,
+            "versionName": "1.0.22",
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"

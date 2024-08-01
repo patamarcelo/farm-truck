@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { Camera } from 'expo-camera';
+import { CameraView } from 'expo-camera';
 import { useCameraPermissions } from 'expo-camera';
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
@@ -30,7 +30,6 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
         const dataStr = JSON.stringify(data)
         const dataParsed = JSON.parse(dataStr)
         setQrValues(dataParsed)
-        // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     };
 
     useEffect(() => {
@@ -54,11 +53,15 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
     return (
         <View style={styles.container}>
             {hasPermission?.granted && (
-                <Camera
-                    barCodeScannerSettings={{ barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr] }}
+                <CameraView
+                    barcodeScannerSettings={{
+                        barcodeTypes: ["qr"],
+                    }}
+                    enableTorch={true}
                     ref={cameraRef}
                     style={styles.camera}
-                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+
                 >
                     <View style={styles.overlay} />
                     <View style={styles.buttonContainer}>
@@ -66,7 +69,7 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
                             <Text style={styles.cancelText}>Cancelar</Text>
                         </TouchableOpacity>
                     </View>
-                </Camera>
+                </CameraView>
             )}
             {!hasPermission?.granted && (
                 <Text style={styles.text}>Permissão de uso da Camera não liberado</Text>
