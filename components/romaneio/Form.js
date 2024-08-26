@@ -292,6 +292,7 @@ const FormScreen = ({ navigation }) => {
 	// }
 
 	const handleOpenCamera = () => {
+		console.log('Close Camera')
 		setOpenCamera(!openCamera);
 	};
 
