@@ -318,6 +318,7 @@ const FormScreen = ({ navigation }) => {
 		// 	// keyboardVerticalOffset={Platform.select({ ios: 80, android: 500 })}
 		// >
 		// 	<ScrollView>
+		<SafeAreaView style={{flex: 1}}>
 		<KeyboardAvoidingView
 			style={styles.mainRootContainer}
 			showsVerticalScrollIndicator={false}
@@ -393,7 +394,7 @@ const FormScreen = ({ navigation }) => {
 					</View>
 				</View>
 			</View>
-			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl}>
+			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl} >
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					style={{
@@ -426,6 +427,7 @@ const FormScreen = ({ navigation }) => {
 				/>
 			</BottomSheet>
 		</KeyboardAvoidingView>
+		</SafeAreaView>
 	);
 };
 
@@ -479,7 +481,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		width: "90%",
 		gap: 10,
-		marginBottom: 50
+		marginBottom: 70
 	},
 	mainContainer: {
 		flex: 1,

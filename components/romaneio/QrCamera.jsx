@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Button, SafeAreaView } from 'react-native';
 import { CameraView } from 'expo-camera';
 import { useCameraPermissions } from 'expo-camera';
-import { BarCodeScanner } from 'expo-barcode-scanner'
 
 
 const QrCamera = ({ closeCamera, setQrValues }) => {
@@ -51,11 +50,11 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
 
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {hasPermission?.granted && (
                 <CameraView
                     barcodeScannerSettings={{
-                        barcodeTypes: ["qr"],
+                    
                     }}
                     enableTorch={true}
                     ref={cameraRef}
@@ -75,7 +74,7 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
                 <Text style={styles.text}>Permissão de uso da Camera não liberado</Text>
             )}
             {scanned && <Text style={styles.scanText}>Feito!!</Text>}
-        </View>
+        </SafeAreaView>
     );
 }
 

@@ -178,10 +178,11 @@ function WelcomeScreen() {
 			headerShadowVisible: false, // applied here
 			headerRight: ({ tintColor }) => (
 				<IconButton
-					icon="power"
+					icon="menu"
 					color={"white"}
 					size={24}
-					onPress={() => context.logout()}
+					// onPress={() => context.logout()}
+					onPress={() => navigation.toggleDrawer()}
 				/>
 			),
 			headerLeft: ({ tintColor }) => (

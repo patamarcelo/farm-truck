@@ -87,7 +87,7 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 		<FlatList
 			scrollEnabled={false}
 			data={filteredData}
-			keyExtractor={(item, i) => item.idApp}
+			keyExtractor={(item, i) => item.idApp + i}
 			renderItem={renderRomaneioList}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
 		/>

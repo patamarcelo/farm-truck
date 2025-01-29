@@ -17,3 +17,7 @@ export const projetosSelector = (state) => {
 export const romaneiosFarmSelector = (state) => {
 	return state.romaneios.romaneiosFarm;
 };
+
+export const plantioDataFromServerSelector = (state) => {
+	return state.romaneios.plantioDataFromServer;
+};

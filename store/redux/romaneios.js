@@ -6,7 +6,8 @@ const initialState = {
 	projetosCadastrados: [],
 	cargas: [],
 	romaneiosFarm: [],
-	userCustomAttr: {}
+	userCustomAttr: {},
+	plantioDataFromServer: {}
 };
 const RomaneioSlice = createSlice({
 	name: "romaneios",
@@ -40,7 +41,10 @@ const RomaneioSlice = createSlice({
 		},
 		removeFavorite: (state, action) => {
 			state.romaneios.splice(state.ids.indexOf(action.payload.id), 1);
-		}
+		},
+		setPlantioDataFromServer: (state, action) => {
+			state.plantioDataFromServer = action.payload;
+		},
 	}
 });
 
@@ -52,5 +56,6 @@ export const removeFromCargas = RomaneioSlice.actions.removeFromCargas;
 export const setUser = RomaneioSlice.actions.setUser;
 export const setUserAttr = RomaneioSlice.actions.setUserAttr;
 export const setProjetos = RomaneioSlice.actions.setProjetos;
+export const setPlantioDataFromServer = RomaneioSlice.actions.setPlantioDataFromServer;
 
 export default RomaneioSlice.reducer;

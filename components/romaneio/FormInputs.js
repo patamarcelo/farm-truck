@@ -23,13 +23,11 @@ import { Picker as SelectPicker } from "@react-native-picker/picker";
 import { DEST } from "../../store/initialForm";
 import { Divider } from "@rneui/themed";
 
-// TODO
-const customData = require("../../store/parcelas.json");
 
 import { useIsFocused } from "@react-navigation/native";
 import IconButton from "../ui/IconButton";
 
-import { projetosSelector } from "../../store/redux/selector";
+import { projetosSelector, plantioDataFromServerSelector } from "../../store/redux/selector";
 import { useSelector } from "react-redux";
 
 import { LogBox } from "react-native";
@@ -38,6 +36,8 @@ import CaixasParcelas from "./CaixasParcelas";
 import * as Haptics from "expo-haptics";
 
 // import { Modal } from "react-native-paper";
+
+
 
 const FadeInView = (props) => {
 	const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
@@ -89,6 +89,7 @@ function FormInputs({
 	const [openModal, setOpenModal] = useState(false);
 
 	const projetosData = useSelector(projetosSelector);
+	const customData = useSelector(plantioDataFromServerSelector)
 
 	const isFocused = useIsFocused();
 
@@ -102,8 +103,8 @@ function FormInputs({
 
 	useLayoutEffect(() => {
 		console.log("start");
-		if (projetosData) {
-			const filteredArr = customData.resumo_safra
+		if (projetosData && customData) {
+			const filteredArr = customData?.resumo_safra
 				.filter((farm) =>
 					projetosData.includes(farm.talhao__fazenda__nome)
 				)
@@ -175,7 +176,7 @@ function FormInputs({
 
 	useEffect(() => {
 		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
-			const selectedData = customData.dados[selectedFarm];
+			const selectedData = customData?.dados[selectedFarm];
 			const filteredArrParcelas = Object.keys(selectedData);
 			if (filteredArrParcelas) {
 				const parcelasObj = filteredArrParcelas.map((data, i) => {
@@ -206,7 +207,7 @@ function FormInputs({
 
 	useEffect(() => {
 		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
-			const selectedData = customData.dados[selectedFarm];
+			const selectedData = customData?.dados[selectedFarm];
 			const filteredArrParcelas = Object.keys(selectedData);
 			if (filteredArrParcelas) {
 				const parcelasObj = filteredArrParcelas.map((data, i) => {
@@ -372,49 +373,6 @@ function FormInputs({
 					{selectedFarm ? selectedFarm : "Selecione a Fazenda"}
 				</Button>
 			</View>
-			{/* <View
-				style={[
-					styles.pickerView,
-					styles.inputContainer,
-					errors.fazendaOrigem && styles.errorStyle
-				]}
-			>
-				{
-					<Controller
-						control={control}
-						name="fazendaOrigem"
-						render={({ field: { onChange, onBlur, value } }) => (
-							<SelectPicker
-								selectionColor={"rgba(255,255,255,0.2)"}
-								itemStyle={{ color: "whitesmoke" }}
-								style={{ height: 100 }}
-								selectedValue={selectedFarm}
-								onValueChange={(e) => {
-									handlerChangeSelect(e, "Parcelas");
-								}}
-							>
-								{filteredFarms.map((data, i) => {
-									return (
-										<SelectPicker.Item
-											key={i}
-											label={data.label.replace(
-												"Projeto",
-												""
-											)}
-											value={data.value}
-										/>
-									);
-								})}
-							</SelectPicker>
-						)}
-					/>
-				}
-			</View>
-			{errors.fazendaOrigem && (
-				<Text style={styles.labelError}>
-					{errors.fazendaOrigem?.message}
-				</Text>
-			)} */}
 			{selectedFarm &&
 				selectedFarm !== "Selecione a Fazenda" &&
 				parcelasSelected.length > 0 && (
@@ -493,15 +451,6 @@ function FormInputs({
 												}
 											}
 										/>
-										<View>
-											{value &&
-												filteInputparcelas.length ===
-												1 &&
-												this.multiSelect &&
-												this.multiSelect.getSelectedItemsExt(
-													value
-												)}
-										</View>
 										{errors.parcelasNovas && (
 											<Text style={styles.labelError}>
 												{errors.parcelasNovas?.message}
@@ -514,14 +463,15 @@ function FormInputs({
 					</>
 				)}
 
-			{filteInputparcelas.length > 1 && (
+			{filteInputparcelas.length > 0 && (
 				<>
 					<View style={{ alignItems: "center", marginBottom: 5 }}>
 						<Text style={{ color: "whitesmoke", fontSize: 14 }}>
 							Informe as Caixas de cada Parcela
 						</Text>
 					</View>
-					{filteInputparcelas.map((parcela, i) => {
+					{parcelasSelectedObject.map((parcela, i) => {
+						console.log('parcela: ', parcela)
 						return (
 							<CaixasParcelas
 								key={i}
@@ -544,52 +494,6 @@ function FormInputs({
 				selectedFarm !== "Selecione a Fazenda" &&
 				selectedFarm !== null && (
 					<>
-						<View style={styles.computedValues}>
-							<Controller
-								control={control}
-								name="cultura"
-								render={({
-									field: { onChange, onBlur, value }
-								}) => (
-									<Input
-										styleInput={{
-											backgroundColor: Colors.primary100
-										}}
-										inputContainerProps={{ width: "48%" }}
-										label="Cultura"
-										onUpdateValue={onChange}
-										value={value}
-										// keyboardType="email-address"
-										onBlur={onBlur}
-										inputStyles={styles.inputStyles}
-										placeholder="Cultura"
-										disabled={true}
-									/>
-								)}
-							/>
-							<Controller
-								control={control}
-								name="mercadoria"
-								render={({
-									field: { onChange, onBlur, value }
-								}) => (
-									<Input
-										styleInput={{
-											backgroundColor: Colors.primary100
-										}}
-										inputContainerProps={{ width: "48%" }}
-										label="Variedade"
-										onUpdateValue={onChange}
-										value={value}
-										// keyboardType="email-address"
-										onBlur={onBlur}
-										inputStyles={styles.inputStyles}
-										placeholder="Variedade"
-										disabled={true}
-									/>
-								)}
-							/>
-						</View>
 						<Pressable
 							style={({ pressed }) => [
 								pressed && styles.pressed,

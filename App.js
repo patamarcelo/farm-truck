@@ -1,6 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
 import { StatusBar } from "expo-status-bar";
 
 import LoginScreen from "./screens/LoginScreen";
@@ -49,11 +51,12 @@ const width = Dimensions.get("window").width; //full width
 
 import { AntDesign } from "@expo/vector-icons";
 import Splash from "./components/ui/Splash";
+import DrawerHome from "./components/Drawer";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-import QrCamera from "./components/romaneio/QrCamera";
 
 function AuthStack() {
 	return (
@@ -140,6 +143,7 @@ function RomaneioStack({ route, navigation }) {
 		</Stack.Navigator>
 	);
 }
+
 
 function HomeScrennStack({ route, navigation }) {
 	const routeName = getFocusedRouteNameFromRoute(route);
@@ -262,14 +266,6 @@ function AuthenticatedStack({ navigation }) {
 					initialRouteName: "inicio"
 				}}
 			>
-				{/* <Tab.Screen
-					name="Splash"
-					component={Splash}
-					options={{
-						headerShown: false,
-						contentStyle: { backgroundColor: Colors.primary500 }
-					}}
-				/> */}
 				<Tab.Screen
 					name="inicio"
 					component={HomeScrennStack}
@@ -327,40 +323,23 @@ function AuthenticatedStack({ navigation }) {
 						)
 					}}
 				/>
-				{/* <Tab.Screen
-				name="Usuário"
-				component={UserScreen}
-				options={{
-					// headerRight: ({ tintColor }) => (
-					// 	<IconButton
-					// 		icon="exit"
-					// 		color={tintColor}
-					// 		size={24}
-					// 		onPress={context.logout}
-					// 	/>
-					// ),
-					tabBarIcon: ({ color, size }) => (
-						<FontAwesome5
-							name="user-alt"
-							size={size}
-							color={color}
-						/>
-					)
-				}}
-			/> */}
 			</Tab.Navigator>
-
-			{/* <View style={[styles.buttonContainerResum]}>
-				<IconButton
-					styleContainer={styles.addButton}
-					icon="add"
-					color="white"
-					size={36}
-					onPress={() => navigation.navigate("Form")}
-					styleIcon={styles.addIcon}
-				/>
-			</View> */}
 		</>
+	);
+}
+
+
+function DrawerNavigator() {
+	return (
+		<Drawer.Navigator
+		screenOptions={{
+			headerShown: false
+		}}
+		drawerContent={(props) => <DrawerHome {...props} />}
+		>
+			<Drawer.Screen name="WelcomeDrawer" component={AuthenticatedStack} />
+			{/* Add other screens here */}
+		</Drawer.Navigator>
 	);
 }
 
@@ -374,7 +353,7 @@ const NewAuthStack = () => {
 		>
 			<Stack.Screen
 				name="NewAuthStack"
-				component={AuthenticatedStack}
+				component={DrawerNavigator}
 				options={{
 					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
@@ -389,15 +368,6 @@ const NewAuthStack = () => {
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>
-			{/* <Stack.Screen
-				name="ScanScreen"
-				component={QrCamera}
-				options={{
-					// presentation: "modal",
-					headerShown: false,
-					contentStyle: { backgroundColor: Colors.primary500 }
-				}}
-			/> */}
 			<Stack.Screen
 				name="ModalRomaneio"
 				component={ModalRomaneioScreen}
