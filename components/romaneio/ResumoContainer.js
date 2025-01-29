@@ -11,7 +11,7 @@ const ResumoContainer = () => {
 	const [parcelasArr, setParcelasArr] = useState([]);
 
 	useLayoutEffect(() => {
-		const newParcelas = data.map((d) => d.parcelasNovas);
+		const newParcelas = data.map((d) => d.parcelasObjFiltered.map((data) => data.parcela));
 		const reducerData = newParcelas
 			.flat()
 			.sort((a, b) => a.localeCompare(b))

@@ -47,8 +47,8 @@ const CaixasParcelas = (props) => {
 	}
 
 	return (
-		<Animated.View style={{ ...styles.container, opacity: fadeAnim }}>
-			<View style={styles.parcelaContainer}>
+		<Animated.View style={[{ ...styles.container, opacity: fadeAnim }, valueParcela === 0 && styles.notSelectedCaixas]}>
+			<View style={styles.parcelaContainer }>
 				<IconButton
 					icon="trash"
 					color={Colors.danger[400]}
@@ -89,6 +89,10 @@ const CaixasParcelas = (props) => {
 export default CaixasParcelas;
 
 const styles = StyleSheet.create({
+	notSelectedCaixas:{
+		borderWidth: 1,
+		borderColor: 'red'
+	},
 	iconStylesRemove: {},
 	container: {
 		flex: 1,

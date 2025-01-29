@@ -16,8 +16,6 @@ import { Controller } from "react-hook-form";
 import { Colors } from "../../constants/styles";
 
 import { Ionicons } from "@expo/vector-icons";
-
-import MultiSelect from "react-native-multiple-select";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
 
 import { DEST } from "../../store/initialForm";
@@ -80,7 +78,9 @@ function FormInputs({
 	setParcelasSelectedObject,
 	parcelasSelectedObject,
 	obsCheckIcon,
-	setObsCheckIcon
+	setObsCheckIcon,
+	navigation,
+	route
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -133,45 +133,23 @@ function FormInputs({
 	}, []);
 
 	useEffect(() => {
-		setFilteInputparcelas([]);
-		setObsCheckIcon("");
+		const fromGoBack = route.params?.fromGoBack || false;
+		console.log('fromGoBack: ', fromGoBack)
+		if (isFocused) {
+			if (!fromGoBack) {
+				setObsCheckIcon("");
+			}
+		}
 	}, [isFocused]);
 
-	useEffect(() => {
-		console.log('Array of Selected Parcelas: ', filteInputparcelas)
-		console.log('Array of Selected Parcelas Size: ', filteInputparcelas.length)
-		const filInputSelect = filteredParcelasFarmObj.filter((data) =>
-			filteInputparcelas.includes(data.parcela)
-		);
-		const onlyVars = filInputSelect.map((data) => data.variedade);
-		const onlyCult = filInputSelect.map((data) => data.cultura);
-		setValue("mercadoria", onlyVars[0]);
-		setValue("cultura", onlyCult[0]);
-	}, [filteInputparcelas]);
 
-
-
-	useEffect(() => {
-		setFilteInputparcelas([]);
-		return () => setFilteInputparcelas([]);
-	}, []);
-
-	useEffect(() => {
-		console.log("parcelas Selected: ", filteInputparcelas);
-	}, [filteInputparcelas]);
 
 	const removeparcela = (parcela) => {
 		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-		const newparcelas = filteInputparcelas.filter(
-			(data) => data !== parcela
-		);
-		setFilteInputparcelas(newparcelas);
-
 		const newObjParcela = parcelasSelectedObject.filter(
 			(data) => data.parcela !== parcela
 		);
 		setParcelasSelectedObject(newObjParcela);
-		setValue("parcelasNovas", newparcelas);
 	};
 
 	useEffect(() => {
@@ -265,30 +243,70 @@ function FormInputs({
 		setParcelasSelectedObject(finalArr);
 	};
 
-	useEffect(() => {
-		const newArrObj = parcelasSelectedObject.map((data) => data.parcela)
-		if (parcelasSelectedObject.length === 0) {
-			const filInputSelect = filteredParcelasFarmObj.filter((data) =>
-				filteInputparcelas.includes(data.parcela)
-			);
-			setParcelasSelectedObject(filInputSelect);
-		}
-		if(filteInputparcelas.length > parcelasSelectedObject.length) {
-			const insertParcelas = filteInputparcelas.filter((data) => !newArrObj.includes(data))[0]
-			const addParcela = filteredParcelasFarmObj.filter((data) => data.parcela === insertParcelas)[0]
-			const newArray = [...parcelasSelectedObject, addParcela]
-			setParcelasSelectedObject(newArray);
-		}
-		if(filteInputparcelas.length < parcelasSelectedObject.length) {
-			const insertParcelas = filteInputparcelas.filter((data) => !newArrObj.includes(data))[0]
-			const removed = parcelasSelectedObject.filter((data) => data.parcela !==insertParcelas)
-			setParcelasSelectedObject(removed);
-		}
-		if(filteInputparcelas.length === 0){
-			setParcelasSelectedObject([]);
-		}
-	}, [filteInputparcelas]);
+	// useEffect(() => {
+	// 	console.log('filteInputparcelas:::::', filteInputparcelas)
+	// 	const newArrObj = parcelasSelectedObject.map((data) => data.parcela)
+	// 	if (parcelasSelectedObject.length === 0) {
+	// 		const filInputSelect = filteredParcelasFarmObj.filter((data) =>
+	// 			filteInputparcelas.includes(data.parcela)
+	// 		);
+	// 		setParcelasSelectedObject(filInputSelect);
+	// 	}
+	// 	if (filteInputparcelas?.length > parcelasSelectedObject.length) {
+	// 		const insertParcelas = filteInputparcelas?.filter((data) => !newArrObj.includes(data))[0]
+	// 		const addParcela = filteredParcelasFarmObj.filter((data) => data.parcela === insertParcelas)[0]
+	// 		const newArray = [...parcelasSelectedObject, addParcela]
+	// 		setParcelasSelectedObject(newArray);
+	// 	}
+	// 	if (filteInputparcelas?.length < parcelasSelectedObject.length) {
+	// 		const insertParcelas = filteInputparcelas?.filter((data) => !newArrObj.includes(data))[0]
+	// 		const removed = parcelasSelectedObject.filter((data) => data.parcela !== insertParcelas)
+	// 		setParcelasSelectedObject(removed);
+	// 	}
+	// 	// if (filteInputparcelas.length === 0) {
+	// 	// 	setParcelasSelectedObject([]);
+	// 	// }
+	// }, [filteInputparcelas]);
 
+	
+	// const navigateToCurrentScreen = () => {
+    //     navigation.navigate("CurrentScreenRoute", {
+    //         onGoBack: (data) => {
+    //             console.log("Data received from Current Screen:", data);
+    //             // Handle the returned data here
+    //         },
+    //     });
+    // };
+
+	const handleSelecteParcelas = (parcelas) => {
+		const markSelectedParcels = (parcelas, parcelasSelected) => {
+			return parcelas.map(parcela => {
+				// Check if the parcela exists in the parcelasSelected array
+				const selectedParcel = parcelasSelected.find(
+					selected => selected.parcela === parcela.parcela
+				);
+		
+				// If a matching parcel is found, set `selected: true`
+				if (selectedParcel) {
+					return { ...parcela, selected: true };  // Add selected property
+				}
+		
+				return parcela;  // Return original parcela if not found
+			});
+		};
+		const checkParcelas = markSelectedParcels(parcelas, parcelasSelectedObject)		
+		navigation.navigate("ParcelasScreenRoute", {
+			parcelas: checkParcelas,
+            onGoBack: (data) => {
+				console.log('filteInputparcelas', filteInputparcelas)
+				console.log('Received data:', data);  // Check
+				setParcelasSelectedObject((prev) => {
+					return [...prev, data]});
+                // Handle the returned data here
+            },
+        });
+		// navigation.navigate("ParcelasScreenRoute", { parcelas });
+	}
 
 	return (
 		<View style={styles.form}>
@@ -373,100 +391,34 @@ function FormInputs({
 					{selectedFarm ? selectedFarm : "Selecione a Fazenda"}
 				</Button>
 			</View>
-			{selectedFarm &&
-				selectedFarm !== "Selecione a Fazenda" &&
-				parcelasSelected.length > 0 && (
-					<>
-						<FadeInView style={styles.pickerMult}>
-							<Controller
-								control={control}
-								name="parcelasNovas"
-								render={({
-									field: { onChange, onBlur, value }
-								}) => (
-									<>
-										<MultiSelect
-											hideTags
-											items={parcelasSelected}
-											uniqueKey="id"
-											ref={(component) => {
-												this.multiSelect = component;
-											}}
-											onSelectedItemsChange={(e) => {
-												handlerChange(e, "parcelas");
-												setFilteInputparcelas(e);
-												onChange(e);
-												this.multiSelect._clearSelectorCallback();
-											}}
-											selectedText={
-												value.length > 1
-													? "Parcelas selecionadas"
-													: "Parcela selecionada"
-											}
-											selectedItems={value}
-											selectText="Selecione as Parcelas"
-											searchInputPlaceholderText="Procure as Parcelas"
-											onChangeInput={(text) =>
-												console.log(text)
-											}
-											// altFontFamily="ProximaNova-Light"
-											tagRemoveIconColor="#CCC"
-											tagBorderColor="white"
-											tagTextColor="white"
-											selectedItemTextColor="#CCC"
-											selectedItemIconColor="#CCC"
-											itemTextColor="#000"
-											displayKey="name"
-											searchInputStyle={{
-												color: "#CCC",
-												padding: 8
-											}}
-											submitButtonColor="black"
-											submitButtonText="Confirmar"
-											styleDropdownMenuSubsection={{
-												borderRadius: 4,
-												borderWidth:
-													errors.parcelasNovas && 1,
-												borderColor:
-													errors.parcelasNovas &&
-													"#ff375b"
-											}}
-											styleTextDropdown={{
-												paddingHorizontal: 8
-											}}
-											styleTextDropdownSelected={{
-												paddingHorizontal: 8
-											}}
-											styleDropdownMenu={{ marginTop: 8 }}
-											styleIndicator={{
-												bottom: 5,
-												left: 10
-											}}
-											tagContainerStyle={{
-												borderRadius: 8
-											}}
-											styleItemsContainer={
-												{
-													// maxHeightheight: "80%"
-												}
-											}
-										/>
-										{errors.parcelasNovas && (
-											<Text style={styles.labelError}>
-												{errors.parcelasNovas?.message}
-											</Text>
-										)}
-									</>
-								)}
-							/>
-						</FadeInView>
-					</>
-				)}
+			{
+				selectedFarm &&
+				<View style={styles.farmSelectButton}>
+					<Button
+						onPress={handleSelecteParcelas.bind(this, filteredParcelasFarmObj)}
+						hasIcon={true}
+						btnStyles={{
+							height: 40,
+							alignItems: "flex-start",
+							justifyContent: "center",
+							backgroundColor: 'rgba(280,280,280,0.8)',
+							text: 'black'
+						}}
+						textStyles={{
+							color: 'black',
+							textAlign:'left',
+							fontWeight: '600'
+						}}
+					>
+						Selecione as parcelas
+					</Button>
+				</View>
+			}
 
-			{filteInputparcelas.length > 0 && (
+			{parcelasSelectedObject.length > 0 && (
 				<>
 					<View style={{ alignItems: "center", marginBottom: 5 }}>
-						<Text style={{ color: "whitesmoke", fontSize: 14 }}>
+						<Text style={{ color: "white", fontSize: 14, fontWeight: 'bold' }}>
 							Informe as Caixas de cada Parcela
 						</Text>
 					</View>
@@ -490,7 +442,7 @@ function FormInputs({
 					</View>
 				))}
 
-			{filteInputparcelas.length > 0 &&
+			{parcelasSelectedObject.length > 0 &&
 				selectedFarm !== "Selecione a Fazenda" &&
 				selectedFarm !== null && (
 					<>
@@ -533,7 +485,7 @@ function FormInputs({
 					</>
 				)}
 
-			{filteInputparcelas.length > 0 && (
+			{parcelasSelectedObject.length > 0 && (
 				<View style={[styles.pickerView, styles.inputContainer]}>
 					{
 						<Controller
@@ -639,7 +591,7 @@ export default FormInputs;
 
 const styles = StyleSheet.create({
 	farmSelectButton: {
-		marginVertical: 20
+		marginVertical: 10
 	},
 	pressed: {
 		opacity: 0.7

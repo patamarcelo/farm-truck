@@ -52,7 +52,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 	}, [isFocused]);
 
 	const labelParcelas = (data) => {
-		return data.parcelasNovas?.length > 1 ? "Parcelas:" : "Parcela:";
+		return data?.parcelasObjFiltered.map((data) => data.parcela)?.length > 1 ? "Parcelas:" : "Parcela:";
 	};
 
 	const statusColor = (status) => {
@@ -158,7 +158,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 								{labelParcelas(dataShow)}
 							</Text>
 							<Text style={styles.resultDoc}>
-								{dataShow.parcelasNovas?.join("-").trim()}
+								{dataShow?.parcelasObjFiltered.map((data) => data.parcela)?.join("-").trim()}
 							</Text>
 						</View>
 						<View style={styles.dataContainer}>

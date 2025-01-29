@@ -59,7 +59,7 @@ const CardRomaneio = (props) => {
 	};
 
 	const labelParcelas = (data) => {
-		return data.parcelasNovas?.length > 1 ? "Parcelas" : "Parcela";
+		return data.parcelasObjFiltered?.length > 1 ? "Parcelas" : "Parcela";
 	};
 
 	const timeS =
@@ -181,7 +181,7 @@ const CardRomaneio = (props) => {
 								<Text style={styles.titleInput}>
 									{labelParcelas(data)}:{" "}
 								</Text>
-								<Text style={styles.labelInput}>{data.parcelasNovas?.join(" - ")}</Text>
+								<Text style={styles.labelInput}>{data.parcelasObjFiltered.map((data) => data.parcela)?.join(" - ")}</Text>
 							</View>
 							<View style={styles.containerDataInfoProj}>
 								<Text

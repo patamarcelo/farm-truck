@@ -24,11 +24,30 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
         askPermission();
     }, []);
 
+    // const handleBarCodeScanned = ({ type, data }) => {
+    //     setScanned(true);
+    //     const dataStr = JSON.stringify(data)
+    //     const dataParsed = JSON.parse(dataStr)
+    //     setQrValues(dataParsed)
+    // };
+
     const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
-        const dataStr = JSON.stringify(data)
-        const dataParsed = JSON.parse(dataStr)
-        setQrValues(dataParsed)
+        console.log('Scanned:', data);  // Log the scanned data
+        setScanned(true);  // Set scanned to true immediately
+    
+        try {
+            const dataStr = JSON.stringify(data);
+            const dataParsed = JSON.parse(dataStr);  // Parse the scanned QR data
+            console.log('Parsed QR data:', dataParsed);
+            setQrValues(dataParsed);  // Save parsed data to state
+        } catch (error) {
+            console.error('Error parsing QR data:', error);
+        }
+    
+        // Optionally reset 'scanned' after a timeout to allow future scans
+        setTimeout(() => {
+            setScanned(false);
+        }, 2000);  // This timeout will reset the scanned state after 2 seconds
     };
 
     useEffect(() => {
@@ -53,13 +72,11 @@ const QrCamera = ({ closeCamera, setQrValues }) => {
         <SafeAreaView style={styles.container}>
             {hasPermission?.granted && (
                 <CameraView
-                    barcodeScannerSettings={{
-                    
-                    }}
+                    barcodeScannerEnabled
                     enableTorch={true}
                     ref={cameraRef}
                     style={styles.camera}
-                    onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    onBarcodeScanned={!scanned ? handleBarCodeScanned : undefined}
 
                 >
                     <View style={styles.overlay} />

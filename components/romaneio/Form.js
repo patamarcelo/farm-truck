@@ -62,10 +62,9 @@ const schema = yup.object({
 		.max(7),
 	motorista: yup.string().required("Digite o nome do Motorista"),
 	// fazendaOrigem: yup.string().required("Selecione uma fazenda"),
-	parcelasNovas: yup.array().min(1, "Selecione pelo menos 1 parcela")
 });
 
-const FormScreen = ({ navigation }) => {
+const FormScreen = ({ navigation , route}) => {
 	const romaneioData = useSelector(romaneioSelector);
 	const dispatch = useDispatch();
 	const height = useHeaderHeight();
@@ -80,10 +79,12 @@ const FormScreen = ({ navigation }) => {
 	const [filteredFarms, setFilteredFarms] = useState([]);
 	const isFocused = useIsFocused();
 
-	const [filteInputparcelas, setFilteInputparcelas] = useState([]);
+	
 	const [parcelasSelectedObject, setParcelasSelectedObject] = useState([]);
 
 	const [checkIfCaixasSeted, setCheckIfCaixasSeted] = useState(false);
+
+	const [cameFromGoBack, setCameFromGoBack] = useState(true);
 
 
 	useEffect(() => {
@@ -110,27 +111,28 @@ const FormScreen = ({ navigation }) => {
 
 	const [qrValues, setQrValues] = useState({});
 
-	useEffect(() => {
-		(async () => {
-			let { status } = await Location.requestForegroundPermissionsAsync();
-			console.log("abrindo o formulário");
-			if (status !== "granted") {
-				setErrorMsg("Permissão para localização negada!!");
-				return;
-			}
+	// useEffect(() => {
+	// 	if (isFocused) {
+	// 		setSelectedFarm(null);
+	// 		reset();
+	// 		clearErrors();
+	// 	}
+	// }, [isFocused]);
 
-			let location = await Location.getCurrentPositionAsync({});
-			setLocation(location);
-		})();
-	}, [isFocused]);
+	// useEffect(() => {
+	// 	// Check the parameter passed via navigation
+	// 	const fromGoBack = route.params?.fromGoBack || false;
+	// 	console.log('fromGoBack: ,,,,', fromGoBack)
+	// 	if (isFocused) {
+	// 		if (!fromGoBack) {
+	// 			// Trigger logic only when not coming from goBack
+	// 			setSelectedFarm(null);
+	// 			reset();
+	// 			clearErrors();
+	// 		}
+	// 	}
+	// }, [isFocused]);
 
-	useEffect(() => {
-		if (isFocused) {
-			setSelectedFarm(null);
-			reset();
-			clearErrors();
-		}
-	}, [isFocused]);
 
 	const {
 		control,
@@ -147,7 +149,6 @@ const FormScreen = ({ navigation }) => {
 			placa: "",
 			motorista: "",
 			fazendaOrigem: "Selecione uma fazenda",
-			parcelasNovas: [],
 			cultura: "",
 			mercadoria: "",
 			observacoes: "",
@@ -155,6 +156,7 @@ const FormScreen = ({ navigation }) => {
 		}
 	});
 
+	console.log('errors::::', errors);	
 	const submitHandler = async (data) => {
 		const numbers = romaneioData.map((data) => data.relatorioColheita);
 		const romNum = Math.max.apply(Math, numbers);
@@ -188,7 +190,7 @@ const FormScreen = ({ navigation }) => {
 			setTimeout(() => {
 				setIsLoading(false);
 				reset();
-				navigation.navigate("Welcome");
+				navigation.navigate("NewAuthStack");
 			}, 500);
 		}
 	};
@@ -245,7 +247,7 @@ const FormScreen = ({ navigation }) => {
 	}, [qrValues]);
 
 	const refreshHandler = () => {
-		setFilteInputparcelas([]);
+		setParcelasSelectedObject([]);
 		setObsCheckIcon("");
 		setSelectedFarm(null);
 		reset();
@@ -254,7 +256,6 @@ const FormScreen = ({ navigation }) => {
 	};
 
 	useEffect(() => {
-		setFilteInputparcelas([])
 		setValue("fazendaDestino", "Selecione o Destino");
 		setSelectedDest("Selecione o Destino")
 	}, [selectedFarm]);
@@ -319,10 +320,10 @@ const FormScreen = ({ navigation }) => {
 		// >
 		// 	<ScrollView>
 		<SafeAreaView style={{flex: 1}}>
-		<KeyboardAvoidingView
+		{/* <KeyboardAvoidingView
 			style={styles.mainRootContainer}
 			showsVerticalScrollIndicator={false}
-		>
+		> */}
 			<View style={styles.mainContainer}>
 				<KeyboardAwareScrollView
 					style={styles.formContainer}
@@ -350,12 +351,12 @@ const FormScreen = ({ navigation }) => {
 						handleModal={handleModal}
 						setFilteredFarms={setFilteredFarms}
 						filteredFarms={filteredFarms}
-						filteInputparcelas={filteInputparcelas}
-						setFilteInputparcelas={setFilteInputparcelas}
 						setParcelasSelectedObject={setParcelasSelectedObject}
 						parcelasSelectedObject={parcelasSelectedObject}
 						obsCheckIcon={obsCheckIcon}
 						setObsCheckIcon={setObsCheckIcon}
+						navigation={navigation}
+						route={route}
 					/>
 				</KeyboardAwareScrollView>
 				<View style={styles.buttonContainer}>
@@ -395,6 +396,7 @@ const FormScreen = ({ navigation }) => {
 				</View>
 			</View>
 			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl} >
+				<SafeAreaView>
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					style={{
@@ -415,18 +417,19 @@ const FormScreen = ({ navigation }) => {
 						);
 					})}
 				</ScrollView>
+				</SafeAreaView>
 			</BottomSheet>
 			<BottomSheet
 				ref={sheetRefQr}
 				style={styles.bottomSheetStlQr}
-				height={200}
+				height={250}
 			>
 				<QrBottomSheet
 					onClose={handleCloseModalQr}
 					goToCamera={handleOpenCamera}
 				/>
 			</BottomSheet>
-		</KeyboardAvoidingView>
+		{/* </KeyboardAvoidingView> */}
 		</SafeAreaView>
 	);
 };
@@ -481,7 +484,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		width: "90%",
 		gap: 10,
-		marginBottom: 70
+		marginBottom: 30
 	},
 	mainContainer: {
 		flex: 1,

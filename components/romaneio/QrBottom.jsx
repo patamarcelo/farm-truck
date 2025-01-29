@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginHorizontal: 50,
+        // marginHorizontal: 50,
         marginTop: 20
     },
     iconContainer: {

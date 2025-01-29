@@ -52,6 +52,7 @@ const width = Dimensions.get("window").width; //full width
 import { AntDesign } from "@expo/vector-icons";
 import Splash from "./components/ui/Splash";
 import DrawerHome from "./components/Drawer";
+import ParcelasScreen from "./screens/ParcelasScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -363,7 +364,7 @@ const NewAuthStack = () => {
 				name="NewFormScreen"
 				component={FormScreen}
 				options={{
-					presentation: "modal",
+					// presentation: "modal",
 					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
@@ -373,6 +374,17 @@ const NewAuthStack = () => {
 				component={ModalRomaneioScreen}
 				options={{
 					presentation: "modal",
+					title: "",
+					headerShadowVisible: false, // applied here
+					headerShown: Platform.OS === "ios" ? false : true,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+			<Stack.Screen
+				name="ParcelasScreenRoute"
+				component={ParcelasScreen}
+				options={{
+					// presentation: "modal",
 					title: "",
 					headerShadowVisible: false, // applied here
 					headerShown: Platform.OS === "ios" ? false : true,
