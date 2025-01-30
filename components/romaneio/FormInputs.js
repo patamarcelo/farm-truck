@@ -104,10 +104,9 @@ function FormInputs({
 	useLayoutEffect(() => {
 		console.log("start");
 		if (projetosData && customData) {
-			const filteredArr = customData?.resumo_safra
-				.filter((farm) =>
-					projetosData.includes(farm.talhao__fazenda__nome)
-				)
+			const filteredArr = customData?.resumo_safra?.filter((farm) =>
+				projetosData.includes(farm.talhao__fazenda__nome)
+			)
 				.map((data) => {
 					return data.talhao__fazenda__nome;
 				});
@@ -145,7 +144,7 @@ function FormInputs({
 
 	const removeparcela = (parcela) => {
 		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-		const newObjParcela = parcelasSelectedObject.filter(
+		const newObjParcela = parcelasSelectedObject?.filter(
 			(data) => data.parcela !== parcela
 		);
 		setParcelasSelectedObject(newObjParcela);
@@ -229,11 +228,11 @@ function FormInputs({
 
 	const handleCaixas = (parcela, caixas) => {
 		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-		const newObj = parcelasSelectedObject.filter(
+		const newObj = parcelasSelectedObject?.filter(
 			(data) => data.parcela === parcela
 		)[0];
 		const updateObj = { ...newObj, caixas: caixas };
-		const updateObjArr = parcelasSelectedObject.filter(
+		const updateObjArr = parcelasSelectedObject?.filter(
 			(data) => data.parcela !== parcela
 		);
 		const finalArr = [...updateObjArr, updateObj];
@@ -248,24 +247,25 @@ function FormInputs({
 				const selectedParcel = parcelasSelected.find(
 					selected => selected.parcela === parcela.parcela
 				);
-		
+
 				// If a matching parcel is found, set `selected: true`
 				if (selectedParcel) {
 					return { ...parcela, selected: true };  // Add selected property
 				}
-		
+
 				return parcela;  // Return original parcela if not found
 			});
 		};
-		const checkParcelas = markSelectedParcels(parcelas, parcelasSelectedObject)		
+		const checkParcelas = markSelectedParcels(parcelas, parcelasSelectedObject)
 		navigation.navigate("ParcelasScreenRoute", {
 			parcelas: checkParcelas,
-            onGoBack: (data) => {
+			onGoBack: (data) => {
 				setParcelasSelectedObject((prev) => {
-					return [...prev, data]});
-                // Handle the returned data here
-            },
-        });
+					return [...prev, data]
+				});
+				// Handle the returned data here
+			},
+		});
 	}
 
 	return (
@@ -366,7 +366,7 @@ function FormInputs({
 						}}
 						textStyles={{
 							color: 'black',
-							textAlign:'left',
+							textAlign: 'left',
 							fontWeight: '600'
 						}}
 					>
