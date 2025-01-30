@@ -5,12 +5,26 @@ import Button from '../components/ui/Button'
 import { Colors } from '../constants/styles';
 
 import { ICON_URL, findImg } from "../utils/imageUrl";
+import { useState, useEffect } from 'react';
 
 const ParcelasScreen = ({ navigation, route }) => {
 
     const { parcelas } = route.params; // Access the passed parameter
 
-    console.log('parcelas router, ', parcelas)
+    const [filterModules, setFilterModules] = useState([]);
+    const [filteredModule, setFilteredModule] = useState(null);
+    const [filtedLetterModule, setFiltedLetterModule] = useState('Geral');
+
+
+    useEffect(() => {
+        if (parcelas) {
+            const letters = parcelas.map(item => item.parcela[0]);
+            const allLetters = ["Geral", ...letters]
+            const uniqueLetters = [...new Set(allLetters)];
+            setFilterModules(uniqueLetters)
+        }
+    }, [parcelas]);
+
 
 
     const handleGOBack = (data) => {
@@ -22,12 +36,28 @@ const ParcelasScreen = ({ navigation, route }) => {
     };
 
 
+    const handlerFilterparcelas = (text) => {
+        if (text === 'Geral') {
+            setFilteredModule(parcelas)
+            setFiltedLetterModule(text)
+        }
+        if (text && text !== 'Geral') {
+            const filteredData = parcelas.filter((item) =>
+                item.parcela.toLowerCase().includes(text.toLowerCase())
+            );
+            setFilteredModule(filteredData);
+            setFiltedLetterModule(text)
+        } else {
+            setFilteredModule(null); // Reset filter if input is cleared
+        }
+    }
+
+
     const renderPacelasList = (itemData) => {
-        console.log('data', itemData.item)
         const { parcela, cultura, variedade, selected } = itemData.item;
 
         return (
-            <View style={[styles.cardContainer, selected && {backgroundColor: Colors.success[200]}]}>
+            <View style={[styles.cardContainer, selected && { backgroundColor: Colors.success[200] }]}>
                 <Pressable
                     disabled={selected}
                     onPress={handleGOBack.bind(this, itemData.item)}
@@ -53,12 +83,45 @@ const ParcelasScreen = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{color: 'whitesmoke', fontWeight: 'bold'}}>Selecione uma Parcela</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: 'whitesmoke', fontWeight: 'bold' }}>Selecione uma Parcela</Text>
+
+            </View>
+            <ScrollView
+                contentContainerStyle={styles.containerModule}
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+                scrollEventThrottle={16} // For smoother scrolling
+                
+
+
+            >
+                {
+                    filterModules && filterModules.map((data, i) => {
+                        return (
+                            <Pressable key={i}
+                                style={({ pressed }) => [
+                                    pressed && styles.pressed,
+                                    styles.filteCard,
+                                    data === filtedLetterModule && styles.selectedModule
+                                ]}
+                                onPress={handlerFilterparcelas.bind(this, data)}
+                                android_ripple={true}
+                            >
+                                <View>
+                                    <Text style={{fontWeight: 'bold'}}>{data}</Text>
+                                </View>
+                            </Pressable>
+                        )
+                    })
+                }
+            </ScrollView>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: 'grey' }}>Filtre por módulos</Text>
             </View>
             <FlatList
                 // scrollEnabled={false}
-                data={parcelas}
+                data={filteredModule || parcelas} // Use filtered data or original
                 keyExtractor={(item, i) => item.parcela + i}
                 renderItem={renderPacelasList}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -85,6 +148,29 @@ const ParcelasScreen = ({ navigation, route }) => {
 export default ParcelasScreen
 
 const styles = StyleSheet.create({
+    selectedModule: {
+        backgroundColor: Colors.success[200]
+    },
+    filteCard: {
+        backgroundColor: Colors.secondary[200],
+        width: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        height: 40,
+        width: 60,
+    },
+    containerModule: {
+        flexDirection: 'row',
+        paddingVertical: 10,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: 15,
+        flexGrow: 1,
+        paddingLeft: 5,
+        paddingRight: 5
+        // backgroundColor: Colors.primary[800]
+    },
     buttonContainer: {
         position: 'absolute', // Position button at the bottom
         bottom: 0, // Align at the bottom

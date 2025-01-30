@@ -134,7 +134,6 @@ function FormInputs({
 
 	useEffect(() => {
 		const fromGoBack = route.params?.fromGoBack || false;
-		console.log('fromGoBack: ', fromGoBack)
 		if (isFocused) {
 			if (!fromGoBack) {
 				setObsCheckIcon("");
@@ -230,8 +229,6 @@ function FormInputs({
 
 	const handleCaixas = (parcela, caixas) => {
 		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-		console.log("Parcela", parcela);
-		console.log("Caixas", caixas);
 		const newObj = parcelasSelectedObject.filter(
 			(data) => data.parcela === parcela
 		)[0];
@@ -243,40 +240,6 @@ function FormInputs({
 		setParcelasSelectedObject(finalArr);
 	};
 
-	// useEffect(() => {
-	// 	console.log('filteInputparcelas:::::', filteInputparcelas)
-	// 	const newArrObj = parcelasSelectedObject.map((data) => data.parcela)
-	// 	if (parcelasSelectedObject.length === 0) {
-	// 		const filInputSelect = filteredParcelasFarmObj.filter((data) =>
-	// 			filteInputparcelas.includes(data.parcela)
-	// 		);
-	// 		setParcelasSelectedObject(filInputSelect);
-	// 	}
-	// 	if (filteInputparcelas?.length > parcelasSelectedObject.length) {
-	// 		const insertParcelas = filteInputparcelas?.filter((data) => !newArrObj.includes(data))[0]
-	// 		const addParcela = filteredParcelasFarmObj.filter((data) => data.parcela === insertParcelas)[0]
-	// 		const newArray = [...parcelasSelectedObject, addParcela]
-	// 		setParcelasSelectedObject(newArray);
-	// 	}
-	// 	if (filteInputparcelas?.length < parcelasSelectedObject.length) {
-	// 		const insertParcelas = filteInputparcelas?.filter((data) => !newArrObj.includes(data))[0]
-	// 		const removed = parcelasSelectedObject.filter((data) => data.parcela !== insertParcelas)
-	// 		setParcelasSelectedObject(removed);
-	// 	}
-	// 	// if (filteInputparcelas.length === 0) {
-	// 	// 	setParcelasSelectedObject([]);
-	// 	// }
-	// }, [filteInputparcelas]);
-
-	
-	// const navigateToCurrentScreen = () => {
-    //     navigation.navigate("CurrentScreenRoute", {
-    //         onGoBack: (data) => {
-    //             console.log("Data received from Current Screen:", data);
-    //             // Handle the returned data here
-    //         },
-    //     });
-    // };
 
 	const handleSelecteParcelas = (parcelas) => {
 		const markSelectedParcels = (parcelas, parcelasSelected) => {
@@ -298,14 +261,11 @@ function FormInputs({
 		navigation.navigate("ParcelasScreenRoute", {
 			parcelas: checkParcelas,
             onGoBack: (data) => {
-				console.log('filteInputparcelas', filteInputparcelas)
-				console.log('Received data:', data);  // Check
 				setParcelasSelectedObject((prev) => {
 					return [...prev, data]});
                 // Handle the returned data here
             },
         });
-		// navigation.navigate("ParcelasScreenRoute", { parcelas });
 	}
 
 	return (
@@ -423,7 +383,6 @@ function FormInputs({
 						</Text>
 					</View>
 					{parcelasSelectedObject.map((parcela, i) => {
-						console.log('parcela: ', parcela)
 						return (
 							<CaixasParcelas
 								key={i}

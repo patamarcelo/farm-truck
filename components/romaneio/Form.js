@@ -88,7 +88,6 @@ const FormScreen = ({ navigation , route}) => {
 
 
 	useEffect(() => {
-		console.log('change Parcelas, ', parcelasSelectedObject)
 		const sizeArr = parcelasSelectedObject?.length
 		if(sizeArr > 1){
 			setCheckIfCaixasSeted(true)
@@ -173,7 +172,7 @@ const FormScreen = ({ navigation , route}) => {
 			parcelasObjFiltered: parcelasSelectedObject,
 			relatorioColheita: numbers.length > 0 ? romNum + 1 : 1
 		};
-		console.log(newData);
+		// console.log(newData);
 		setIsLoading(true);
 		//salve local
 		try {
@@ -258,6 +257,10 @@ const FormScreen = ({ navigation , route}) => {
 	useEffect(() => {
 		setValue("fazendaDestino", "Selecione o Destino");
 		setSelectedDest("Selecione o Destino")
+		if(selectedFarm){
+			console.log('alterou a fazenda')
+			setParcelasSelectedObject([]);
+		}
 	}, [selectedFarm]);
 
 	const handleModal = () => {
@@ -311,19 +314,7 @@ const FormScreen = ({ navigation , route}) => {
 	}
 
 	return (
-		// <KeyboardAvoidingView
-		// 	style={{ flex: 1 }}
-		// 	behavior={Platform.OS === "ios" ? "padding" : null}
-		// 	enabled
-		// 	keyboardVerticalOffset={height}
-		// 	// keyboardVerticalOffset={Platform.select({ ios: 80, android: 500 })}
-		// >
-		// 	<ScrollView>
 		<SafeAreaView style={{flex: 1}}>
-		{/* <KeyboardAvoidingView
-			style={styles.mainRootContainer}
-			showsVerticalScrollIndicator={false}
-		> */}
 			<View style={styles.mainContainer}>
 				<KeyboardAwareScrollView
 					style={styles.formContainer}
@@ -404,7 +395,6 @@ const FormScreen = ({ navigation , route}) => {
 					}}
 				>
 					{filteredFarms.map((farm, i) => {
-						console.log(farm);
 						return (
 							<BottomSheetSelect
 								key={i}
@@ -429,7 +419,6 @@ const FormScreen = ({ navigation , route}) => {
 					goToCamera={handleOpenCamera}
 				/>
 			</BottomSheet>
-		{/* </KeyboardAvoidingView> */}
 		</SafeAreaView>
 	);
 };
@@ -450,7 +439,6 @@ const styles = StyleSheet.create({
 	bottomSheetStlQr: {
 		backgroundColor: Colors.primary[901],
 		paddingHorizontal: 20,
-		// justifyContent: 'center',
 		alignItems: "center"
 	},
 	bottomSheetStl: {
