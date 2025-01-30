@@ -1,78 +1,81 @@
 {
-    "expo": {
-        "name": "FarmTruck",
-        "slug": "farm-truck",
-        "version": "1.0.25",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "plugins": [
-            [
-                "expo-location",
-                {
-                    "locationAlwaysAndWhenInUsePermission": "Permitir que o $(PRODUCT_NAME) use sua localização."
-                }
-            ],
-            [
-                "expo-camera",
-                {
-                    "cameraPermission": "Permitir que o $(PRODUCT_NAME) use sua camera para ler o QrCode",
-                    "microphonePermission": "Permitir que o $(PRODUCT_NAME) acesse seu microfone",
-                    "recordAudioAndroid": true
-                }
-            ]
-        ],
-        "splash": {
-            "image": "",
-            "resizeMode": "contain",
-            "backgroundColor": "#1A43C0"
-        },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
-        "ios": {
-            "buildNumber": "1.0.25",
-            "supportsTablet": true,
-            "bundleIdentifier": "com.patamarcelo.farmtruck",
-            "infoPlist": {
-                "NSPrivacyAccessedAPITypes": [{
-                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategorySystemBootTime",
-                        "NSPrivacyAccessedAPIUsageDescription": "This app requires access to system boot time to optimize performance."
-                    },
-                    {
-                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryDiskSpace",
-                        "NSPrivacyAccessedAPIUsageDescription": "This app needs access to disk space to store and manage data efficiently."
-                    },
-                    {
-                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryFileTimestamp",
-                        "NSPrivacyAccessedAPIUsageDescription": "Access to file timestamps is essential for managing files and ensuring data integrity."
-                    },
-                    {
-                        "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryUserDefaults",
-                        "NSPrivacyAccessedAPIUsageDescription": "Access to user defaults is required to store user preferences and settings."
-                    }
-                ]
-            }
-        },
-        "android": {
-            "versionCode": 25,
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            },
-            "package": "com.patamarcelo.farmtruck"
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "extra": {
-            "eas": {
-                "projectId": "075458d8-8b7f-45b4-87cb-83f54f03c491"
-            }
-        },
-        "runtimeVersion": "exposdk:46.0.0",
-        "updates": {
-            "url": "https://u.expo.dev/075458d8-8b7f-45b4-87cb-83f54f03c491"
+  "expo": {
+    "name": "FarmTruck",
+    "slug": "farm-truck",
+    "version": "1.0.25",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Permitir que o $(PRODUCT_NAME) use sua localização."
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permitir que o $(PRODUCT_NAME) use sua camera para ler o QrCode",
+          "microphonePermission": "Permitir que o $(PRODUCT_NAME) acesse seu microfone",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "resizeMode": "contain",
+          "backgroundColor": "#1A43C0",
+          "image": "./assets/splash.png"
+        }
+      ]
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "buildNumber": "1.0.25",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.patamarcelo.farmtruck",
+      "infoPlist": {
+        "NSPrivacyAccessedAPITypes": [{
+            "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategorySystemBootTime",
+            "NSPrivacyAccessedAPIUsageDescription": "This app requires access to system boot time to optimize performance."
+          },
+          {
+            "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryDiskSpace",
+            "NSPrivacyAccessedAPIUsageDescription": "This app needs access to disk space to store and manage data efficiently."
+          },
+          {
+            "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryFileTimestamp",
+            "NSPrivacyAccessedAPIUsageDescription": "Access to file timestamps is essential for managing files and ensuring data integrity."
+          },
+          {
+            "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPIUsageDescription": "Access to user defaults is required to store user preferences and settings."
+          }
+        ]
+      }
+    },
+    "android": {
+      "versionCode": 27,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.patamarcelo.farmtruck"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "075458d8-8b7f-45b4-87cb-83f54f03c491"
+      }
+    },
+    "runtimeVersion": "exposdk:46.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/075458d8-8b7f-45b4-87cb-83f54f03c491"
     }
+  }
 }
