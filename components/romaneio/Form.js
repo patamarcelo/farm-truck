@@ -13,7 +13,7 @@ import {
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 import Button from "../ui/Button";
 import FormInputs from "./FormInputs";
@@ -316,7 +316,7 @@ const FormScreen = ({ navigation , route}) => {
 	return (
 		<SafeAreaView style={{flex: 1}}>
 			<View style={styles.mainContainer}>
-				<KeyboardAwareScrollView
+				<ScrollView
 					style={styles.formContainer}
 					contentContainerStyle={styles.formContainerContent}
 					showsVerticalScrollIndicator={false}
@@ -349,7 +349,7 @@ const FormScreen = ({ navigation , route}) => {
 						navigation={navigation}
 						route={route}
 					/>
-				</KeyboardAwareScrollView>
+				</ScrollView>
 				<View style={styles.buttonContainer}>
 					<Button
 						disabled={

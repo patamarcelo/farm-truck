@@ -606,6 +606,7 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		flex: 1,
+		// height: 'auto',
 		// justifyContent: "c",
 		// alignItems: "center",
 		width: "100%"
