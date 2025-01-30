@@ -27,7 +27,6 @@
     "axios": "^1.5.0",
     "deprecated-react-native-prop-types": "^5.0.0",
     "expo": "^52.0.28",
-    "expo-barcode-scanner": "~13.0.1",
     "expo-camera": "^16.0.14",
     "expo-dev-client": "^5.0.10",
     "expo-haptics": "^14.0.1",

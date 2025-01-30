@@ -34,11 +34,12 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "1.0.25",
+      "buildNumber": "1.0.26",
       "supportsTablet": true,
       "bundleIdentifier": "com.patamarcelo.farmtruck",
       "infoPlist": {
-        "NSPrivacyAccessedAPITypes": [{
+        "NSPrivacyAccessedAPITypes": [
+          {
             "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategorySystemBootTime",
             "NSPrivacyAccessedAPIUsageDescription": "This app requires access to system boot time to optimize performance."
           },
@@ -58,7 +59,7 @@
       }
     },
     "android": {
-      "versionCode": 27,
+      "versionCode": 28,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
