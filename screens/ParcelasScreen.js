@@ -184,7 +184,8 @@ const styles = StyleSheet.create({
         paddingBottom: 70, // Make space for the button at the bottom (adjust as necessary)
     },
     pressed: {
-        opacity: 0.5
+        opacity: 0.5,
+        backgroundColor: Colors.success[200]
     },
     container: {
         flex: 1,

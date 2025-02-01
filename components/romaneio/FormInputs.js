@@ -4,7 +4,7 @@ import {
 	StyleSheet,
 	View,
 	Text,
-	Animated,
+	// Animated,
 	Pressable
 } from "react-native";
 
@@ -33,31 +33,9 @@ import CaixasParcelas from "./CaixasParcelas";
 
 import * as Haptics from "expo-haptics";
 
+import Animated, { BounceIn, BounceOut, FadeIn, FadeInUp, FadeOut, FadeOutUp, Layout } from 'react-native-reanimated';
+
 // import { Modal } from "react-native-paper";
-
-
-
-const FadeInView = (props) => {
-	const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
-	useEffect(() => {
-		Animated.timing(fadeAnim, {
-			toValue: 1,
-			duration: 500,
-			useNativeDriver: true
-		}).start();
-	}, [fadeAnim]);
-
-	return (
-		<Animated.View // Special animatable View
-			style={{
-				...props.style,
-				opacity: fadeAnim // Bind opacity to animated value
-			}}
-		>
-			{props.children}
-		</Animated.View>
-	);
-};
 
 function FormInputs({
 	isLogin,
@@ -382,10 +360,10 @@ function FormInputs({
 							Informe as Caixas de cada Parcela
 						</Text>
 					</View>
-					{parcelasSelectedObject.map((parcela, i) => {
+					{parcelasSelectedObject.sort((a, b) => a.parcela.localeCompare(b.parcela)).map((parcela, i) => {
 						return (
 							<CaixasParcelas
-								key={i}
+								key={parcela.parcela}
 								parcela={parcela}
 								removeparcela={removeparcela}
 								handleCaixas={handleCaixas}
@@ -405,37 +383,45 @@ function FormInputs({
 				selectedFarm !== "Selecione a Fazenda" &&
 				selectedFarm !== null && (
 					<>
-						<Pressable
-							style={({ pressed }) => [
-								pressed && styles.pressed,
-								{
-									flexDirection: "row",
-									alignItems: "center",
-									width: "100%",
-									height: 60
-								}
-							]}
-							onPress={handlerModal}
-							android_ripple={true}
+						<Animated.View
+							style={[{ ...styles.container }]}
+							exiting={FadeOutUp.duration(100)}
+							entering={FadeInUp.duration(100)}
+							layout={Layout.springify().damping(10).stiffness(50)}
 						>
-							<IconButton
-								type={"awesome"}
-								icon={"plus"}
-								color="white"
-								size={16}
-							/>
-							<Text style={{ fontSize: 18, color: "whitesmoke" }}>
-								Observações
-							</Text>
-							{obsCheckIcon?.trim().length > 0 && (
-								<Ionicons
-									name="checkmark-done"
-									color={Colors.success[100]}
-									size={24}
-									style={{ marginLeft: 5 }}
+
+							<Pressable
+								style={({ pressed }) => [
+									pressed && styles.pressed,
+									{
+										flexDirection: "row",
+										alignItems: "center",
+										width: "100%",
+										height: 60
+									}
+								]}
+								onPress={handlerModal}
+								android_ripple={true}
+							>
+								<IconButton
+									type={"awesome"}
+									icon={"plus"}
+									color="white"
+									size={16}
 								/>
-							)}
-						</Pressable>
+								<Text style={{ fontSize: 18, color: "whitesmoke" }}>
+									Observações
+								</Text>
+								{obsCheckIcon?.trim().length > 0 && (
+									<Ionicons
+										name="checkmark-done"
+										color={Colors.success[100]}
+										size={24}
+										style={{ marginLeft: 5 }}
+									/>
+								)}
+							</Pressable>
+						</Animated.View>
 						<Divider
 							width={0.5}
 							color={"white"}
@@ -445,7 +431,13 @@ function FormInputs({
 				)}
 
 			{parcelasSelectedObject.length > 0 && (
-				<View style={[styles.pickerView, styles.inputContainer]}>
+				<Animated.View
+					exiting={FadeOutUp.duration(100)}
+					entering={FadeInUp.duration(100)}
+					layout={Layout.springify().damping(10).stiffness(50)}
+
+
+					style={[styles.pickerView, styles.inputContainer]}>
 					{
 						<Controller
 							control={control}
@@ -484,7 +476,7 @@ function FormInputs({
 							)}
 						/>
 					}
-				</View>
+				</Animated.View>
 			)}
 
 			{/* {errors.fazendaDestino && (

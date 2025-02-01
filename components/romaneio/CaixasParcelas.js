@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, Image, Animated, Easing } from "react-native";
+import { View, Text, StyleSheet, Image, Easing } from "react-native";
 import IconButton from "../ui/IconButton";
 import { useState, useEffect } from "react";
 import { Colors } from "../../constants/styles";
 import * as Haptics from "expo-haptics";
 
 import { ICON_URL, findImg } from "../../utils/imageUrl";
+import Animated, { BounceIn, BounceOut, FadeIn, FadeInUp, FadeOut, FadeOutUp, Layout} from 'react-native-reanimated';
 
 const CaixasParcelas = (props) => {
 	const { parcela, removeparcela, handleCaixas } = props;
@@ -15,30 +16,12 @@ const CaixasParcelas = (props) => {
 		handleCaixas(parcela?.parcela, valueParcela);
 	}, [valueParcela]);
 
-	const fadeAnim = new Animated.Value(1); // Initial opacity of 0 (invisible)
+	// const fadeAnim = new Animated.Value(1); // Initial opacity of 0 (invisible)
 
 	// Trigger the fade-in and fade-out animation on mount/unmount
 	const [isVisible, setIsVisible] = useState(true);
 
-	useEffect(() => {
-		if (isVisible) {
-			// Fade in animation when the component is mounted
-			Animated.timing(fadeAnim, {
-				toValue: 1, // Fully visible
-				duration: 300,
-				easing: Easing.ease,
-				useNativeDriver: true,
-			}).start();
-		} else {
-			// Fade out animation when the component is unmounted
-			Animated.timing(fadeAnim, {
-				toValue: 0, // Fully invisible
-				duration: 300,
-				easing: Easing.ease,
-				useNativeDriver: true,
-			}).start();
-		}
-	}, [isVisible]);
+	
 	const handleDelete = (parcela) =>{
 		setIsVisible(false)
 		setTimeout(() => {
@@ -47,7 +30,12 @@ const CaixasParcelas = (props) => {
 	}
 
 	return (
-		<Animated.View style={[{ ...styles.container, opacity: fadeAnim }, valueParcela === 0 && styles.notSelectedCaixas]}>
+		<Animated.View
+		style={[{ ...styles.container }, valueParcela === 0 && styles.notSelectedCaixas]}
+		exiting={FadeOutUp.duration(100)}
+		entering={FadeInUp.duration(100)}
+		layout={Layout.springify().damping(20).stiffness(90)}
+		>
 			<View style={styles.parcelaContainer }>
 				<IconButton
 					icon="trash"
@@ -70,7 +58,7 @@ const CaixasParcelas = (props) => {
 					size={28}
 					disabled={valueParcela === 0}
 					onPress={() => setValueParcela((prev) => (prev -= 1))}
-					btnStyles={styles.iconStyles}
+					btnStyles={[styles.iconStyles, valueParcela === 0 && styles.disabledButton] }
 				/>
 				<Text style={styles.valueField}>{valueParcela}</Text>
 				<IconButton
@@ -89,6 +77,9 @@ const CaixasParcelas = (props) => {
 export default CaixasParcelas;
 
 const styles = StyleSheet.create({
+	disabledButton:{
+		opacity: 0.5
+	},
 	notSelectedCaixas:{
 		borderWidth: 1,
 		borderColor: 'red'
@@ -99,11 +90,11 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		width: "100%",
 		justifyContent: "space-between",
-		marginVertical: 10,
+		marginVertical: 5,
 		paddingHorizontal: 10,
 		alignItems: "center",
 		backgroundColor: "rgba(248,248,248,0.1)",
-		borderRadius: 12
+		borderRadius: 8
 	},
 	containerButtons: {
 		flexDirection: "row",
