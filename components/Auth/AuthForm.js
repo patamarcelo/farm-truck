@@ -106,10 +106,11 @@ export default AuthForm;
 
 const styles = StyleSheet.create({
 	buttons: {
-		marginTop: 12
+		marginTop: 12,
 	},
 	btnStyle: {
 		backgroundColor: "green",
-		marginTop: 20
+		marginTop: 20,
+		paddingVertical: 12
 	}
 });

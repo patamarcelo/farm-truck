@@ -45,7 +45,10 @@ import * as Font from "expo-font";
 import { useDispatch } from "react-redux";
 import { resetData } from "./store/redux/romaneios";
 
-import { View, Text, Platform } from "react-native";
+import { useSelector } from "react-redux";
+import { plantioDataFromServerSelector } from "./store/redux/selector";
+
+import { View, Text, Platform, Alert } from "react-native";
 const width = Dimensions.get("window").width; //full width
 
 import { AntDesign } from "@expo/vector-icons";
@@ -241,6 +244,9 @@ function HomeScrennStack({ route, navigation }) {
 	);
 }
 function AuthenticatedStack({ navigation }) {
+	const dataColheita = useSelector(plantioDataFromServerSelector);
+	const isObjectNotEmpty = (obj) => obj && Object.keys(obj).length > 0;
+	const isNotEmpty = isObjectNotEmpty(dataColheita)
 	return (
 		<>
 			<Tab.Navigator
@@ -297,15 +303,22 @@ function AuthenticatedStack({ navigation }) {
 							/>
 						)
 					})}
-					listeners={{
+					listeners={({ navigation }) => ({
 						tabPress: (e) => {
-							// Prevent default action
-							e.preventDefault();
+							e.preventDefault(); // Prevent default tab action
 
-							//Any custom code here
-							navigation.navigate("NewFormScreen");
-						}
-					}}
+							// Use useSelector to get conditional logic
+							// const isAllowed = useSelector((state) => state.someSlice.isAllowed);
+							const isAllowed = isNotEmpty
+							if (isAllowed) {
+								// Only navigate if the condition is met
+								navigation.navigate("NewFormScreen");
+							} else {
+								// Optionally show a message if action is disabled
+								Alert.alert('Atenção', 'Por favor atualizar os dados da colheita')
+							}
+						},
+					})}
 				/>
 				<Tab.Screen
 					name="RomaneiosTap"
@@ -332,10 +345,10 @@ function AuthenticatedStack({ navigation }) {
 function DrawerNavigator() {
 	return (
 		<Drawer.Navigator
-		screenOptions={{
-			headerShown: false
-		}}
-		drawerContent={(props) => <DrawerHome {...props} />}
+			screenOptions={{
+				headerShown: false
+			}}
+			drawerContent={(props) => <DrawerHome {...props} />}
 		>
 			<Drawer.Screen name="WelcomeDrawer" component={AuthenticatedStack} />
 			{/* Add other screens here */}
@@ -462,16 +475,16 @@ export default function App() {
 	return (
 		<>
 			<StatusBar style="light" />
-			<AuthContextprovider>
-				<Provider store={store}>
-					<PersistGate
-						loading={<Text>Loading...</Text>}
-						persistor={persistor}
-					>
+			<Provider store={store}>
+				<PersistGate
+					loading={<Text>Loading...</Text>}
+					persistor={persistor}
+				>
+					<AuthContextprovider>
 						<Root />
-					</PersistGate>
-				</Provider>
-			</AuthContextprovider>
+					</AuthContextprovider>
+				</PersistGate>
+			</Provider>
 		</>
 	);
 }

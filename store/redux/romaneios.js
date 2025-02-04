@@ -45,6 +45,8 @@ const RomaneioSlice = createSlice({
 		setPlantioDataFromServer: (state, action) => {
 			state.plantioDataFromServer = action.payload;
 		},
+		// Add this action to reset all state
+		resetState: () => initialState
 	}
 });
 
@@ -57,5 +59,8 @@ export const setUser = RomaneioSlice.actions.setUser;
 export const setUserAttr = RomaneioSlice.actions.setUserAttr;
 export const setProjetos = RomaneioSlice.actions.setProjetos;
 export const setPlantioDataFromServer = RomaneioSlice.actions.setPlantioDataFromServer;
+
+// RESET SLICE
+export const resetState = RomaneioSlice.actions.resetState;
 
 export default RomaneioSlice.reducer;

@@ -158,7 +158,7 @@ const CardRomaneio = (props) => {
 									Motorista:{" "}
 								</Text>
 								<Text
-									style={styles.labelInput}
+									style={[styles.labelInput,{width: '155%'}]}
 									numberOfLines={1}
 								>
 									{data.motorista}
@@ -181,7 +181,9 @@ const CardRomaneio = (props) => {
 								<Text style={styles.titleInput}>
 									{labelParcelas(data)}:{" "}
 								</Text>
-								<Text style={styles.labelInput}>{data.parcelasObjFiltered.map((data) => data.parcela)?.join(" - ")}</Text>
+								<Text style={styles.labelInputParcelas}
+								numberOfLines={1}
+								>{data.parcelasObjFiltered.map((data) => data.parcela)?.join(" - ")}</Text>
 							</View>
 							<View style={styles.containerDataInfoProj}>
 								<Text
@@ -202,7 +204,7 @@ const CardRomaneio = (props) => {
 									<Text style={styles.titleInput}>
 										Variedade:
 									</Text>
-									<Text>{data.mercadoria}</Text>
+									<Text style={styles.labelInput}>{data.mercadoria}</Text>
 								</View>
 							</View>
 						</View>
@@ -245,11 +247,15 @@ const styles = StyleSheet.create({
 	},
 	titleInput: {
 		fontWeight: "bold",
-		fontSize: 12,
+		fontSize: 11,
 		padding: 0
 	},
 	labelInput: {
-		fontSize: 12
+		fontSize: 11
+	},
+	labelInputParcelas: {
+		fontSize: 11,
+		flexWrap: 'wrap'
 	},
 	dataIntraContainer: {
 		// alignItems: "center",

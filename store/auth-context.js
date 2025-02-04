@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { resetState } from "./redux/romaneios";
 
 export const AuthContext = createContext({
 	token: "",
@@ -12,6 +14,7 @@ export const AuthContext = createContext({
 const AuthContextprovider = ({ children }) => {
 	const [authToken, setAuthToken] = useState();
 	const [routeName, setRouteName] = useState();
+	const dispatch = useDispatch()
 
 	const authenticate = (token) => {
 		AsyncStorage.setItem("token", token);
@@ -21,6 +24,7 @@ const AuthContextprovider = ({ children }) => {
 	const logout = () => {
 		setAuthToken(null);
 		AsyncStorage.removeItem("token");
+		dispatch(resetState())
 	};
 
 	const defineRouteName = (routeName) => {

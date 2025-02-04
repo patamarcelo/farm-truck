@@ -1,12 +1,12 @@
-export const ICON_URL = [
-	{ title: "Feijão", uri: require("../constants/icons/beans2.png") },
-	{ title: "Arroz", uri: require("../constants/icons/rice.png") },
-	{ title: "Soja", uri: require("../constants/icons/soy.png") }
-];
+export const ICON_URL = {
+	"Feijão": require("../constants/icons/beans2.png"),
+	"Arroz": require("../constants/icons/rice.png"),
+	"Soja": require("../constants/icons/soy.png")
+};
 
 export const findImg = (data, icon) => {
-	if (icon) {
-		const newData = data.filter((data) => data.title === icon);
-		return newData[0].uri;
+	if (icon && ICON_URL[icon]) {
+		return ICON_URL[icon]
 	}
+	return require("../constants/icons/question.png")
 };

@@ -163,7 +163,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 						</View>
 						<View style={styles.dataContainer}>
 							<Text style={styles.titleDoc}>
-								Ticket
+								Ticket:
 							</Text>
 							<Text style={styles.resultDoc}>
 								{dataShow?.ticket ? dataShow?.ticket : '-' }
