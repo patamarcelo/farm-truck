@@ -44,10 +44,13 @@ const ModalRomaneioScreen = ({ navigation }) => {
 
 	const [dataShow, setDataShow] = useState("");
 	const [NumberRomaneio, setNumberRomaneio] = useState();
+	const [prodType, setProdType] = useState(null);
 
 	useLayoutEffect(() => {
 		const compData = data.filter((dataFind) => dataFind.idApp === id)[0];
 		setDataShow(compData);
+		const getProduct = compData?.parcelasObjFiltered?.map((data) => ({cultura: data?.cultura, mercadoria: data?.variedade }))[0]
+		setProdType(getProduct)
 		// console.log("compData: ", compData.appDate);
 	}, [isFocused]);
 
@@ -135,9 +138,9 @@ const ModalRomaneioScreen = ({ navigation }) => {
 									flexDirection: "row"
 								}}
 							>
-								<Text>{dataShow.cultura}</Text>
+								<Text>{prodType?.cultura}</Text>
 								<Image
-									source={findImg(ICON_URL, dataShow.cultura)}
+									source={findImg(ICON_URL, prodType?.cultura)}
 									style={{
 										width: 25,
 										height: 25,
@@ -149,7 +152,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 						<View style={styles.dataContainer}>
 							<Text style={styles.titleDoc}>Variedade:</Text>
 							<Text style={styles.resultDoc}>
-								{dataShow.mercadoria.trim()}
+								{prodType?.mercadoria?.trim()}
 							</Text>
 						</View>
 
@@ -166,7 +169,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 								Ticket:
 							</Text>
 							<Text style={styles.resultDoc}>
-								{dataShow?.ticket ? dataShow?.ticket : '-' }
+								{dataShow?.ticket ? dataShow?.ticket : Number(dataShow?.codTicketPro.replace(/^0+/, '')) }
 							</Text>
 						</View>
 

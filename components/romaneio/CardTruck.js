@@ -24,6 +24,7 @@ const dictRoute = {
 
 const CardRomaneio = (props) => {
 	const { data, styleContainer , isOpendSwipe} = props;
+	console.log('data here: ', data)
 	const [dataArr, setDataArr] = useState([]);
 	const [getProduct] = data?.parcelasObjFiltered?.map((data) => ({cultura: data?.cultura, mercadoria: data?.variedade }))
 
@@ -176,7 +177,7 @@ const CardRomaneio = (props) => {
 								</Text>
 								<Text style={styles.titleInput}>Ticket: </Text>
 								<Text style={styles.labelInput}>
-									{data?.ticket ? data?.ticket : '-'}
+								{data?.ticket || (data?.codTicketPro ? Number(data?.codTicketPro.replace(/^0+/, '')) : null)}
 								</Text>
 
 							</View>
