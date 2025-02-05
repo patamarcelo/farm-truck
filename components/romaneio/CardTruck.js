@@ -21,9 +21,12 @@ const dictRoute = {
 	Welcome: "ModalRomaneio"
 };
 
+
 const CardRomaneio = (props) => {
 	const { data, styleContainer , isOpendSwipe} = props;
 	const [dataArr, setDataArr] = useState([]);
+	const [getProduct] = data?.parcelasObjFiltered?.map((data) => ({cultura: data?.cultura, mercadoria: data?.variedade }))
+
 
 	useEffect(() => {
 		if (data.length > 0) {
@@ -91,8 +94,8 @@ const CardRomaneio = (props) => {
 							paddingLeft: 20
 						}}
 					>
-						{data.tara > 0 &&
-						data.pesoBruto > 0 &&
+						{data.tara > 0 ||
+						data.pesoBruto > 0 ||
 						data.liquido > 0 ? (
 							<MaterialCommunityIcons
 								name="truck-check-outline"
@@ -197,14 +200,14 @@ const CardRomaneio = (props) => {
 						<View style={styles.conatiner2}>
 							<View style={styles.containerDataInfo2}>
 								<Image
-									source={findImg(ICON_URL, data.cultura)}
+									source={findImg(ICON_URL, getProduct.cultura)}
 									style={{ width: 25, height: 25 }}
 								/>
 								<View style={{ alignItems: "flex-end" }}>
 									<Text style={styles.titleInput}>
 										Variedade:
 									</Text>
-									<Text style={styles.labelInput}>{data.mercadoria}</Text>
+									<Text style={styles.labelInput}>{getProduct?.mercadoria}</Text>
 								</View>
 							</View>
 						</View>
