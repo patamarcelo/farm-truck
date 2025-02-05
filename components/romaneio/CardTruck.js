@@ -24,7 +24,6 @@ const dictRoute = {
 
 const CardRomaneio = (props) => {
 	const { data, styleContainer , isOpendSwipe} = props;
-	console.log('data here: ', data)
 	const [dataArr, setDataArr] = useState([]);
 	const [getProduct] = data?.parcelasObjFiltered?.map((data) => ({cultura: data?.cultura, mercadoria: data?.variedade }))
 
