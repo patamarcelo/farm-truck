@@ -91,8 +91,8 @@ const CardRomaneio = (props) => {
 							paddingLeft: 20
 						}}
 					>
-						{data.tara > 0 ||
-						data.pesoBruto > 0 ||
+						{data.tara > 0 &&
+						data.pesoBruto > 0 &&
 						data.liquido > 0 ? (
 							<MaterialCommunityIcons
 								name="truck-check-outline"
@@ -110,8 +110,8 @@ const CardRomaneio = (props) => {
 								name="truck-fast"
 								size={42}
 								color={
-									data.id
-										? Colors.success[500]
+									data?.id
+										? Colors.secondary[400]
 										: Colors.yellow[700]
 								}
 							/>

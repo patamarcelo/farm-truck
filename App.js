@@ -308,7 +308,6 @@ function AuthenticatedStack({ navigation }) {
 							e.preventDefault(); // Prevent default tab action
 
 							// Use useSelector to get conditional logic
-							// const isAllowed = useSelector((state) => state.someSlice.isAllowed);
 							const isAllowed = isNotEmpty
 							if (isAllowed) {
 								// Only navigate if the condition is met

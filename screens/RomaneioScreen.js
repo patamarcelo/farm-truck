@@ -183,8 +183,8 @@ const RomaneioScreen = ({ navigation, route }) => {
 						filteredData && filteredData.length > 0 &&
 						<View style={styles.containerInfo}>
 							<View style={styles.containerInfoTruck}>
-								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[400]}/> {onlyLoadTruck}</Text>
-								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-check-outline" size={24} color={Colors.yellow[700]}/> {onlyWeiTruck}</Text>
+								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]}/> {onlyLoadTruck}</Text>
+								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]}/> {onlyWeiTruck}</Text>
 							</View>
 							<View style={styles.containerInfoTotal}>
 								<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
