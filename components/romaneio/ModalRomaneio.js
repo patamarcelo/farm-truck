@@ -139,6 +139,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 								}}
 							>
 								<Text>{prodType?.cultura}</Text>
+								<View style={styles.shadowContainer}>
 								<Image
 									source={findImg(ICON_URL, prodType?.cultura)}
 									style={{
@@ -147,6 +148,7 @@ const ModalRomaneioScreen = ({ navigation }) => {
 										marginLeft: 10
 									}}
 								/>
+								</View>
 							</View>
 						</View>
 						<View style={styles.dataContainer}>
@@ -241,10 +243,12 @@ const ModalRomaneioScreen = ({ navigation }) => {
 							</Text>
 						</View>
 						<View style={styles.imgContainer}>
+						<View style={styles.shadowContainer}>
 							<Image
 								source={require("../../assets/diamond.png")}
 								style={styles.image}
 							/>
+							</View>
 						</View>
 					</View>
 				</ScrollView>
@@ -258,9 +262,17 @@ const ModalRomaneioScreen = ({ navigation }) => {
 export default ModalRomaneioScreen;
 
 const styles = StyleSheet.create({
+	shadowContainer: {
+        shadowColor: "#000",  // Shadow color
+        shadowOffset: { width: 3, height: 5 },  // Offset for drop shadow effect
+        shadowOpacity: 0.4,  // Opacity of shadow
+        shadowRadius: 4,  // Spread of shadow
+        elevation: 6,  // Required for Android
+    },
 	image: {
 		width: 40,
-		height: 40
+		height: 40,
+		 resizeMode: 'contain'
 	},
 	headerRomaneio: {
 		fontStyle: "italic",

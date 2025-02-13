@@ -23,9 +23,9 @@ const dictRoute = {
 
 
 const CardRomaneio = (props) => {
-	const { data, styleContainer , isOpendSwipe} = props;
+	const { data, styleContainer, isOpendSwipe } = props;
 	const [dataArr, setDataArr] = useState([]);
-	const [getProduct] = data?.parcelasObjFiltered?.map((data) => ({cultura: data?.cultura, mercadoria: data?.variedade }))
+	const [getProduct] = data?.parcelasObjFiltered?.map((data) => ({ cultura: data?.cultura, mercadoria: data?.variedade }))
 
 
 	useEffect(() => {
@@ -40,9 +40,9 @@ const CardRomaneio = (props) => {
 				const sortDate =
 					typeof data.appDate === "object"
 						? new Date(
-								data.appDate.seconds * 1000 +
-									data.appDate.nanoseconds / 1000000
-						  )
+							data.appDate.seconds * 1000 +
+							data.appDate.nanoseconds / 1000000
+						)
 						: new Date(data.appDate);
 				return { ...data, sortDate, createdAtForm };
 			});
@@ -95,29 +95,33 @@ const CardRomaneio = (props) => {
 						}}
 					>
 						{data.tara > 0 ||
-						data.pesoBruto > 0 ||
-						data.liquido > 0 ? (
-							<MaterialCommunityIcons
-								name="truck-check-outline"
-								size={42}
-								color={
-									data.tara === "" ||
-									data.pesoBruto === "" ||
-									data.liquido === ""
-										? Colors.yellow[700]
-										: Colors.success[500]
-								}
-							/>
+							data.pesoBruto > 0 ||
+							data.liquido > 0 ? (
+							<View style={styles.shadowContainer}>
+								<MaterialCommunityIcons
+									name="truck-check-outline"
+									size={42}
+									color={
+										data.tara === "" ||
+											data.pesoBruto === "" ||
+											data.liquido === ""
+											? Colors.yellow[700]
+											: Colors.success[500]
+									}
+								/>
+							</View>
 						) : (
-							<MaterialCommunityIcons
-								name="truck-fast"
-								size={42}
-								color={
-									data?.id
-										? Colors.secondary[400]
-										: Colors.yellow[700]
-								}
-							/>
+							<View style={styles.shadowContainer}>
+								<MaterialCommunityIcons
+									name="truck-fast"
+									size={42}
+									color={
+										data?.id
+											? Colors.secondary[500]
+											: Colors.yellow[700]
+									}
+								/>
+							</View>
 						)}
 						<Text style={styles.textNumber}>
 							Nº{" "}
@@ -134,12 +138,12 @@ const CardRomaneio = (props) => {
 						}}
 					>
 						{typeof data?.appDate === "object" &&
-						data?.id.length > 0 ? (
+							data?.id.length > 0 ? (
 							<Text style={styles.textData}>
 								{moment(
 									new Date(
 										data.appDate.seconds * 1000 +
-											data.appDate.nanoseconds / 1000000
+										data.appDate.nanoseconds / 1000000
 									)
 								).format("DD/MM/YY  HH:mm")}
 							</Text>
@@ -156,12 +160,12 @@ const CardRomaneio = (props) => {
 							<View style={styles.containerDataInfo}>
 								<Text
 									style={styles.titleInput}
-									// numberOfLines={1}
+								// numberOfLines={1}
 								>
 									Motorista:{" "}
 								</Text>
 								<Text
-									style={[styles.labelInput,{width: '155%'}]}
+									style={[styles.labelInput, { width: '155%' }]}
 									numberOfLines={1}
 								>
 									{data.motorista}
@@ -176,7 +180,7 @@ const CardRomaneio = (props) => {
 								</Text>
 								<Text style={styles.titleInput}>Ticket: </Text>
 								<Text style={styles.labelInput}>
-								{data?.ticket || (data?.codTicketPro ? Number(data?.codTicketPro.replace(/^0+/, '')) : null)}
+									{data?.ticket || (data?.codTicketPro ? Number(data?.codTicketPro.replace(/^0+/, '')) : null)}
 								</Text>
 
 							</View>
@@ -185,7 +189,7 @@ const CardRomaneio = (props) => {
 									{labelParcelas(data)}:{" "}
 								</Text>
 								<Text style={styles.labelInputParcelas}
-								numberOfLines={1}
+									numberOfLines={1}
 								>{data.parcelasObjFiltered.map((data) => data.parcela)?.join(" - ")}</Text>
 							</View>
 							<View style={styles.containerDataInfoProj}>
@@ -199,15 +203,17 @@ const CardRomaneio = (props) => {
 						</View>
 						<View style={styles.conatiner2}>
 							<View style={styles.containerDataInfo2}>
-								<Image
-									source={findImg(ICON_URL, getProduct.cultura)}
-									style={{ width: 25, height: 25 }}
-								/>
+								<View style={styles.shadowContainer}>
+									<Image
+										source={findImg(ICON_URL, getProduct.cultura)}
+										style={{ width: 25, height: 25, resizeMode: 'contain' }}
+									/>
+								</View>
 								<View style={{ alignItems: "flex-end" }}>
 									<Text style={styles.titleInput}>
 										Variedade:
 									</Text>
-									<Text style={styles.labelInput}>{getProduct?.mercadoria}</Text>
+									<Text style={[styles.labelInput,{fontWeight: 'bold', color: Colors.secondary[600]}]}>{getProduct?.mercadoria}</Text>
 								</View>
 							</View>
 						</View>
@@ -222,6 +228,13 @@ const CardRomaneio = (props) => {
 export default CardRomaneio;
 
 const styles = StyleSheet.create({
+	shadowContainer: {
+		shadowColor: "#000",  // Shadow color
+		shadowOffset: { width: 3, height: 5 },  // Offset for drop shadow effect
+		shadowOpacity: 0.4,  // Opacity of shadow
+		shadowRadius: 4,  // Spread of shadow
+		elevation: 6,  // Required for Android
+	},
 	textData: {
 		fontSize: 10,
 		marginLeft: -8,
@@ -254,11 +267,15 @@ const styles = StyleSheet.create({
 		padding: 0
 	},
 	labelInput: {
-		fontSize: 11
+		fontSize: 11,
+		fontWeight: 'bold',
+		color: Colors.secondary[700]
 	},
 	labelInputParcelas: {
 		fontSize: 11,
-		flexWrap: 'wrap'
+		flexWrap: 'wrap',
+		fontWeight: 'bold',
+		color: Colors.secondary[600]
 	},
 	dataIntraContainer: {
 		// alignItems: "center",
@@ -318,6 +335,8 @@ const styles = StyleSheet.create({
 	textNumber: {
 		fontSize: 10,
 		marginLeft: 8,
-		color: "grey"
+		// color: "grey",
+		color: Colors.secondary[600],
+		fontWeight: 'bold'
 	}
 });

@@ -71,10 +71,12 @@ const ParcelasScreen = ({ navigation, route }) => {
                         <Text style={styles.plantedArea}>{variedade}</Text>
                     </View>
                     <View>
+                    <View style={styles.shadowContainer}>
                         <Image
                             source={findImg(ICON_URL, cultura)}
                             style={styles.image}
                         />
+                        </View>
                     </View>
                 </Pressable>
             </View>
@@ -117,7 +119,7 @@ const ParcelasScreen = ({ navigation, route }) => {
                 }
             </ScrollView>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: 'grey' }}>Filtre por módulos</Text>
+                <Text style={{ color: Colors.secondary[400], fontWeight: 'bold' }}>Filtre por módulos</Text>
             </View>
             <FlatList
                 // scrollEnabled={false}
@@ -212,6 +214,14 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 8,
         marginRight: 12,
+        resizeMode: 'contain'
+    },
+    shadowContainer: {
+        shadowColor: "#000",  // Shadow color
+        shadowOffset: { width: 3, height: 5 },  // Offset for drop shadow effect
+        shadowOpacity: 0.4,  // Opacity of shadow
+        shadowRadius: 4,  // Spread of shadow
+        elevation: 6,  // Required for Android
     },
     textContainer: {
         flex: 1,
@@ -224,8 +234,9 @@ const styles = StyleSheet.create({
         color: Colors.primary,
     },
     plantedArea: {
-        fontSize: 14,
-        color: Colors.textGray,
+        fontSize: 12,
+        color: Colors.secondary[600],
+        fontWeight:'bold'
     },
     separator: {
         height: 0,

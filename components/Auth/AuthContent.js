@@ -72,7 +72,9 @@ function AuthContent({ isLogin, onAuthenticate }) {
 	return (
 		<>
 			<View style={styles.mainContainer}>
-				<Text style={styles.title}>Colheitas</Text>
+				<View style={styles.shadowContainer}>
+					<Text style={styles.title}>Colheitas</Text>
+				</View>
 				<View style={styles.authContent}>
 					<AuthForm
 						isLogin={isLogin}
@@ -87,13 +89,17 @@ function AuthContent({ isLogin, onAuthenticate }) {
 				</View>
 			</View>
 			<View style={styles.titleContainer}>
-				<Image
-					source={require("../../assets/diamond.png")}
-					style={styles.image}
-				/>
+				<View style={styles.shadowContainer}>
+
+					<Image
+						source={require("../../assets/diamond.png")}
+						style={styles.image}
+					/>
+				</View>
 				<Text
 					style={{
-						color: "grey"
+						color: "grey",
+						fontWeight: 'bold'
 					}}
 				>
 					{expo.version}
@@ -106,6 +112,13 @@ function AuthContent({ isLogin, onAuthenticate }) {
 export default AuthContent;
 
 const styles = StyleSheet.create({
+	shadowContainer: {
+		shadowColor: "#000",  // Shadow color
+		shadowOffset: { width: 3, height: 5 },  // Offset for drop shadow effect
+		shadowOpacity: 0.4,  // Opacity of shadow
+		shadowRadius: 4,  // Spread of shadow
+		elevation: 6,  // Required for Android
+	},
 	title: {
 		fontSize: 32,
 		color: "whitesmoke",
