@@ -113,14 +113,28 @@ function RomaneioStack({ route, navigation }) {
 		<Stack.Navigator
 			screenOptions={{
 				headerStyle: { backgroundColor: Colors.primary500 },
-				headerTintColor: "whitesmoke"
+				headerTintColor: "whitesmoke",
+				
+				headerShown: true, // Make sure the header is visible
+				headerStyle: {
+					backgroundColor: Colors.primary500,
+					...(Platform.OS === 'ios' && { headerBlurEffect: 'regular' }), // Avoids crash on Android
+				},
+				headerTitleStyle: {
+					// fontSize: 36, // Large title font size
+					fontWeight: 'bold', // You can change this as needed
+				},
+				headerLargeTitle: true, // Enable large title for iOS
+				headerTitleAlign: 'center', // Align title to the center
+				
 			}}
 		>
 			<Stack.Screen
 				name="Romaneios"
 				component={RomaneioScreen}
 				options={{
-					headerShown: false,
+					title: 'Romaneios',
+					headerShadowVisible: false, // applied here
 					contentStyle: { backgroundColor: Colors.primary500 }
 					// headerLeft: ({ tintColor }) => (
 					// 	<IconButton

@@ -176,12 +176,12 @@ const CardRomaneio = (props) => {
 
 								<Text style={styles.labelInput}>
 									{data.placa.slice(0, 3)}-
-									{data.placa.slice(3, 12)} | {" "}
+									{data.placa.slice(3, 12)}
 								</Text>
-								<Text style={styles.titleInput}>Ticket: </Text>
+								{/* <Text style={styles.titleInput}>Ticket: </Text>
 								<Text style={styles.labelInput}>
 									{data?.ticket || (data?.codTicketPro ? Number(data?.codTicketPro.replace(/^0+/, '')) : null)}
-								</Text>
+								</Text> */}
 
 							</View>
 							<View style={styles.containerDataInfo}>
@@ -210,12 +210,13 @@ const CardRomaneio = (props) => {
 									/>
 								</View>
 								<View style={{ alignItems: "flex-end" }}>
-									<Text style={styles.titleInput}>
-										Variedade:
-									</Text>
 									<Text style={[styles.labelInput,{fontWeight: 'bold', color: Colors.secondary[600]}]}>{getProduct?.mercadoria}</Text>
 								</View>
 							</View>
+							<Text style={styles.titleInputTicket}>Ticket </Text>
+								<Text style={styles.labelInputTicket}>
+									{data?.ticket || (data?.codTicketPro ? Number(data?.codTicketPro.replace(/^0+/, '')) : null)}
+								</Text>
 						</View>
 					</View>
 				</View>
@@ -248,8 +249,9 @@ const styles = StyleSheet.create({
 	containerDataInfo2: {
 		flexDirection: "column",
 		alignItems: "flex-end",
-		justifyContent: "space-around",
-		flex: 0.8
+		justifyContent: "center",
+		flex: 0.8,
+		gap: 5
 	},
 	containerDataInfo: {
 		flexDirection: "row"
@@ -270,6 +272,19 @@ const styles = StyleSheet.create({
 		fontSize: 11,
 		fontWeight: 'bold',
 		color: Colors.secondary[700]
+	},
+	titleInputTicket: {
+		fontWeight: "bold",
+		fontSize: 9,
+		padding: 0,
+		alignSelf: 'flex-end',
+		marginRight: -8
+	},
+	labelInputTicket: {
+		fontSize: 10,
+		fontWeight: 'bold',
+		color: Colors.secondary[500],
+		marginRight: -8
 	},
 	labelInputParcelas: {
 		fontSize: 11,

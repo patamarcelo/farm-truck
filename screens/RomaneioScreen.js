@@ -7,13 +7,15 @@ import {
 	ScrollView,
 	ActivityIndicator,
 	StatusBar,
-	Platform
+	Platform,
+	Animated as AnimatedOrigin
 } from "react-native";
 // import { ScrollView } from "react-native-virtualized-view";
+import Animated, { FadeInRight, FadeOut, Layout, BounceIn, BounceOut } from 'react-native-reanimated';
 
 import CardButton from "../components/ui/CardButton";
 import { Colors } from "../constants/styles";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 
 import { AuthContext } from "../store/auth-context";
 
@@ -21,7 +23,7 @@ import RomaneioList from "../components/Romaneio-list/RomaneioList";
 import SearchBar from "../components/Romaneio-list/RomaneioSearchBar";
 
 import { getAllDocsFirebase } from "../store/firebase/index";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +39,10 @@ import { projetosSelector } from "../store/redux/selector";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { FAB } from "react-native-paper"; // Floating Action Button
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import * as Haptics from 'expo-haptics';
+
 const width = Dimensions.get("window").width; //full width
 
 const RomaneioScreen = ({ navigation, route }) => {
@@ -46,18 +52,61 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const data = useSelector(romaneiosFarmSelector);
 	const user = useSelector(userSelectorAttr);
 
+	const tabBarHeight = useBottomTabBarHeight();
+
 	const [isLoading, seTisLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
 	const [filteredData, setFilteredData] = useState([]);
 	const [onlyLoadTruck, setOnlyLoadTruck] = useState(0);
 	const [onlyWeiTruck, setOnlyWeiTruck] = useState(0);
+	const [onlyPendingProtheusTruck, setOnlyPendingProtheusTruck] = useState(0);
+
+	const [showSearch, setShowSearch] = useState(false);
 
 	const projetosData = useSelector(projetosSelector);
 
 	const context = useContext(AuthContext);
 
 	const ref = useRef(null);
+
+	const slideAnim = useRef(new AnimatedOrigin.Value(-100)).current; // start off-screen (above)
+
+	// State to control visibility
+	const [visible, setVisible] = useState(false);
+
+	// Function to slide down (show)
+	const slideDown = () => {
+		setVisible(true);
+		AnimatedOrigin.timing(slideAnim, {
+			toValue: 0,
+			duration: 500,
+			useNativeDriver: true,
+		}).start();
+	};
+
+	// Function to slide up (hide)
+	const slideUp = () => {
+		AnimatedOrigin.timing(slideAnim, {
+			toValue: -100,
+			duration: 500,
+			useNativeDriver: true,
+		}).start(() => {
+			setVisible(false);
+		});
+	};
+	const handleFilterProps = () => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+		setShowSearch((prev) => {
+			if (!prev) {
+				slideDown()
+				return !prev
+			} else {
+				slideUp()
+				return !prev
+			}
+		})
+	}
 
 	useEffect(() => {
 		if (data) {
@@ -149,11 +198,15 @@ const RomaneioScreen = ({ navigation, route }) => {
 	useScrollToTop(ref);
 
 	useEffect(() => {
-		if(filteredData.length > 0){
+		if (filteredData.length > 0) {
 			const onlyLoad = filteredData.filter((data) => data.pesoBruto.length === 0)
 			setOnlyLoadTruck(onlyLoad?.length)
 			const onlyWei = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido.length === 0)
 			setOnlyWeiTruck(onlyWei?.length)
+
+			const onlyPendingProtheus = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido > 0 && data.uploadedToProtheus === false)
+			setOnlyPendingProtheusTruck(onlyPendingProtheus?.length)
+
 		}
 	}, [filteredData]);
 
@@ -171,27 +224,20 @@ const RomaneioScreen = ({ navigation, route }) => {
 		);
 	}
 
+
 	if (!isLoading) {
 		return (
-			<View style={styles.mainContainer}>
-				<SearchBar
-					search={search}
-					updateSearchHandler={updateSearchHandler}
-				/>
-				<View style={styles.infoHeaderContainer}>
-					{
-						filteredData && filteredData.length > 0 &&
-						<View style={styles.containerInfo}>
-							<View style={styles.containerInfoTruck}>
-								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]}/> {onlyLoadTruck}</Text>
-								<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]}/> {onlyWeiTruck}</Text>
-							</View>
-							<View style={styles.containerInfoTotal}>
-								<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
-							</View>
-						</View>
-					}
-				</View>
+			<SafeAreaView style={styles.mainContainer}>
+				{
+					showSearch && (
+						<AnimatedOrigin.View style={[styles.mainContainer, { transform: [{ translateY: slideAnim }] }]}>
+							<SearchBar
+								search={search}
+								updateSearchHandler={updateSearchHandler}
+							/>
+						</AnimatedOrigin.View>
+					)
+				}
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					ref={ref}
@@ -203,14 +249,45 @@ const RomaneioScreen = ({ navigation, route }) => {
 							tintColor={"whitesmoke"}
 						/>
 					}
-				>
+				><View style={styles.infoHeaderContainer}>
+						{
+							filteredData && filteredData.length > 0 &&
+							<View style={styles.containerInfo}>
+								<View style={styles.containerInfoTruck}>
+									{
+										onlyLoadTruck > 0 &&
+										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
+									}
+									{
+										onlyWeiTruck > 0 &&
+										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
+									}
+									{
+										onlyPendingProtheusTruck > 0 &&
+										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
+									}
+								</View>
+								<View style={styles.containerInfoTotal}>
+									<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
+								</View>
+							</View>
+						}
+					</View>
 					<RomaneioList search={search} data={sentData}
 						filteredData={filteredData}
 						setFilteredData={setFilteredData}
 
 					/>
 				</ScrollView>
-			</View>
+				<View style={[styles.fabContainer, { marginBottom: showSearch && tabBarHeight }]}>
+					<FAB
+						style={[styles.fab, { backgroundColor: "rgba(200, 200, 200, 0.3)", marginBottom: showSearch && tabBarHeight }]}
+						icon={showSearch ? "close" : "magnify"}
+						color="black" // Icon color
+						onPress={handleFilterProps}
+					/>
+				</View>
+			</SafeAreaView>
 		);
 	}
 };
@@ -218,17 +295,17 @@ const RomaneioScreen = ({ navigation, route }) => {
 export default RomaneioScreen;
 
 const styles = StyleSheet.create({
-	containerInfo:{
+	containerInfo: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: "flex-end",
 		width: '100%',
 	},
-	containerInfoTruck:{
+	containerInfoTruck: {
 		flexDirection: 'row',
 		gap: 20,
 	},
-	containerInfoTotal:{},
+	containerInfoTotal: {},
 	infoHeaderContainer: {
 		width: '100%',
 		paddingRight: 10,
@@ -256,5 +333,41 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: Colors.primary500,
 		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-	}
+	},
+	fabContainer: {
+		position: "absolute",
+		right: 20,
+		bottom: 20
+	},
+	fab: {
+		position: "absolute",
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(200, 200, 200, 0.3)", // Grey, almost transparent
+		width: 50,
+		height: 50,
+		borderRadius: 25, // Makes it perfectly circular
+		justifyContent: "center",
+		alignItems: "center",
+		elevation: 4,
+		borderColor: Colors.success[300],
+		borderWidth: 1
+	},
+	fab2: {
+		position: "absolute",
+		right: 0,
+		bottom: 65,
+		backgroundColor: "rgba(200, 200, 200, 0.3)", // Grey, almost transparent
+		width: 50,
+		height: 50,
+		borderRadius: 25, // Makes it perfectly circular
+		justifyContent: "center",
+		alignItems: "center",
+		elevation: 4
+	},
+	mainContainer: {
+		width: "100%",
+		paddingVertical: 10,
+		paddingHorizontal: 5
+	},
 });
