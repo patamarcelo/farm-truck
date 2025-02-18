@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
 	},
 	mainContainer: {
 		width: "100%",
-		paddingVertical: 10,
-		paddingHorizontal: 5
+		paddingVertical: 0,
+		paddingHorizontal: 0
 	},
 	mainContainerInput: {
 		width: "100%",

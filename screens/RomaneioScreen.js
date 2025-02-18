@@ -230,7 +230,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 			<SafeAreaView style={styles.mainContainer}>
 				{
 					showSearch && (
-						<AnimatedOrigin.View style={[styles.mainContainer, { transform: [{ translateY: slideAnim }] }]}>
+						<AnimatedOrigin.View style={[styles.mainContainer, { transform: [{ translateY: slideAnim }], padding: 0, margin: 0, paddingTop: 0 }]}>
 							<SearchBar
 								search={search}
 								updateSearchHandler={updateSearchHandler}
@@ -241,6 +241,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					ref={ref}
+					contentInsetAdjustmentBehavior='automatic'
 					refreshControl={
 						<RefreshControl
 							refreshing={refreshing}
@@ -276,6 +277,10 @@ const RomaneioScreen = ({ navigation, route }) => {
 					<RomaneioList search={search} data={sentData}
 						filteredData={filteredData}
 						setFilteredData={setFilteredData}
+						refreshing={refreshing}
+						onRefresh={handleRefresh}
+						
+
 
 					/>
 				</ScrollView>
