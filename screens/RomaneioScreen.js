@@ -267,6 +267,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					ref={ref}
+					contentContainerStyle={{minHeight: '100%'}}
 					contentInsetAdjustmentBehavior='automatic'
 					refreshControl={
 						<RefreshControl
@@ -381,6 +382,7 @@ const styles = StyleSheet.create({
 		// padding: 2,
 		backgroundColor: "red",
 		flex: 1,
+		// flexGrow: 1,
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: Colors.primary500,

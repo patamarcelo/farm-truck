@@ -33,7 +33,7 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 
 	useEffect(() => {
 		if (search) {
-			const newArr = data
+			const newArr = filteredData
 				.filter((dataFilter) => {
 					const formatDate = moment(
 						new Date(
