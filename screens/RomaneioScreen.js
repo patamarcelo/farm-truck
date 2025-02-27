@@ -12,7 +12,7 @@ import {
 	Pressable
 } from "react-native";
 // import { ScrollView } from "react-native-virtualized-view";
-import Animated, { FadeInRight, FadeOut, Layout, BounceIn, BounceOut } from 'react-native-reanimated';
+import Animated, { FadeInRight, FadeOut, Layout, BounceIn, BounceOut, FadeOutRight } from 'react-native-reanimated';
 
 import CardButton from "../components/ui/CardButton";
 import { Colors } from "../constants/styles";
@@ -267,7 +267,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					ref={ref}
-					contentContainerStyle={{minHeight: '100%'}}
+					contentContainerStyle={{ minHeight: '100%' }}
 					contentInsetAdjustmentBehavior='automatic'
 					refreshControl={
 						<RefreshControl
@@ -284,36 +284,62 @@ const RomaneioScreen = ({ navigation, route }) => {
 								<View style={styles.containerInfoTruck}>
 									{
 										onlyLoadTruck > 0 &&
-										<Pressable
-											onPress={handleFilterTruck.bind(this, 'onlyLoadTruck')}
+										<Animated.View
+											entering={FadeInRight.duration(500)} // Root-level animation for appearance
+											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+											layout={Layout.springify()}    // 
 										>
-											<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
-										</Pressable>
+
+											<Pressable
+												onPress={handleFilterTruck.bind(this, 'onlyLoadTruck')}
+											>
+												<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
+											</Pressable>
+										</Animated.View>
 									}
 									{
 										onlyWeiTruck > 0 &&
-										<Pressable
-											onPress={handleFilterTruck.bind(this, 'onlyWeiTruck')}
+										<Animated.View
+											entering={FadeInRight.duration(500)} // Root-level animation for appearance
+											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+											layout={Layout.springify()}    // 
 										>
-											<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
-										</Pressable>
+
+											<Pressable
+												onPress={handleFilterTruck.bind(this, 'onlyWeiTruck')}
+											>
+												<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
+											</Pressable>
+										</Animated.View>
 									}
 									{
 										onlyPendingProtheusTruck > 0 &&
-										<Pressable
-											onPress={handleFilterTruck.bind(this, 'onlyPendingProtheusTruck')}
+										<Animated.View
+											entering={FadeInRight.duration(500)} // Root-level animation for appearance
+											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+											layout={Layout.springify()}    // 
 										>
-											<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
-										</Pressable>
+											<Pressable
+												onPress={handleFilterTruck.bind(this, 'onlyPendingProtheusTruck')}
+											>
+												<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
+											</Pressable>
+										</Animated.View>
 									}
 									{
 										isFiltered &&
-										<Pressable
-											onPress={handleFilterTruck.bind(this, 'clear')}
+										<Animated.View
+											entering={FadeInRight.duration(500)} // Root-level animation for appearance
+											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+											layout={Layout.springify()}    // 
 										>
+											<Pressable
+												onPress={handleFilterTruck.bind(this, 'clear')}
+											>
 
-											<MaterialCommunityIcons name="progress-close" size={24} color={Colors.gold[500]} />
-										</Pressable>
+												<MaterialCommunityIcons name="progress-close" size={24} color={Colors.gold[500]} />
+											</Pressable>
+										</Animated.View>
 									}
 								</View>
 								<View style={styles.containerInfoTotal}>
