@@ -8,7 +8,8 @@ import {
 	ActivityIndicator,
 	StatusBar,
 	Platform,
-	Animated as AnimatedOrigin
+	Animated as AnimatedOrigin,
+	Pressable
 } from "react-native";
 // import { ScrollView } from "react-native-virtualized-view";
 import Animated, { FadeInRight, FadeOut, Layout, BounceIn, BounceOut } from 'react-native-reanimated';
@@ -63,6 +64,8 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const [onlyPendingProtheusTruck, setOnlyPendingProtheusTruck] = useState(0);
 
 	const [showSearch, setShowSearch] = useState(false);
+	const [isFiltered, setIsFiltered] = useState(false);
+	const [oldArray, setOldArray] = useState([]);
 
 	const projetosData = useSelector(projetosSelector);
 
@@ -206,9 +209,32 @@ const RomaneioScreen = ({ navigation, route }) => {
 
 			const onlyPendingProtheus = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido > 0 && data.uploadedToProtheus === false)
 			setOnlyPendingProtheusTruck(onlyPendingProtheus?.length)
-
+			setOldArray(data)
 		}
 	}, [filteredData]);
+
+	const handleFilterTruck = (trucks) => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+		if (trucks === 'clear') {
+			setFilteredData(oldArray)
+			setIsFiltered(false)
+		}
+		if (trucks === 'onlyLoadTruck') {
+			const onlyLoad = oldArray.filter((data) => data.pesoBruto.length === 0)
+			setFilteredData(onlyLoad)
+			setIsFiltered(true)
+		}
+		if (trucks === 'onlyWeiTruck') {
+			const onlyWei = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido.length === 0)
+			setFilteredData(onlyWei)
+			setIsFiltered(true)
+		}
+		if (trucks === 'onlyPendingProtheusTruck') {
+			const onlyPendingProtheus = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido > 0 && data.uploadedToProtheus === false)
+			setFilteredData(onlyPendingProtheus)
+			setIsFiltered(true)
+		}
+	}
 
 	if (isLoading) {
 		return (
@@ -257,15 +283,36 @@ const RomaneioScreen = ({ navigation, route }) => {
 								<View style={styles.containerInfoTruck}>
 									{
 										onlyLoadTruck > 0 &&
-										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
+										<Pressable
+											onPress={handleFilterTruck.bind(this, 'onlyLoadTruck')}
+										>
+											<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
+										</Pressable>
 									}
 									{
 										onlyWeiTruck > 0 &&
-										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
+										<Pressable
+											onPress={handleFilterTruck.bind(this, 'onlyWeiTruck')}
+										>
+											<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
+										</Pressable>
 									}
 									{
 										onlyPendingProtheusTruck > 0 &&
-										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
+										<Pressable
+											onPress={handleFilterTruck.bind(this, 'onlyPendingProtheusTruck')}
+										>
+											<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
+										</Pressable>
+									}
+									{
+										isFiltered &&
+										<Pressable
+											onPress={handleFilterTruck.bind(this, 'clear')}
+										>
+
+											<MaterialCommunityIcons name="progress-close" size={24} color={Colors.gold[500]} />
+										</Pressable>
 									}
 								</View>
 								<View style={styles.containerInfoTotal}>
@@ -279,7 +326,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 						setFilteredData={setFilteredData}
 						refreshing={refreshing}
 						onRefresh={handleRefresh}
-						
+
 
 
 					/>

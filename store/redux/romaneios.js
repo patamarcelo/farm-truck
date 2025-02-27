@@ -46,7 +46,12 @@ const RomaneioSlice = createSlice({
 			state.plantioDataFromServer = action.payload;
 		},
 		// Add this action to reset all state
-		resetState: () => initialState
+		resetState: (state) => {
+			Object.assign(state, {
+				...initialState,
+				cargas: state.cargas, // Preserve cargas data
+			});
+		}
 	}
 });
 

@@ -90,6 +90,7 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 			keyExtractor={(item, i) => item.idApp + i}
 			renderItem={renderRomaneioList}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
+			contentContainerStyle={{ flexGrow: 1 }}
 		/>
 	);
 };
