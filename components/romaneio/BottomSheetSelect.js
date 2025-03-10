@@ -1,5 +1,6 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import { Colors } from "../../constants/styles";
+import * as Haptics from 'expo-haptics';
 
 const BottomSheetSelect = ({
 	navigation,
@@ -9,6 +10,7 @@ const BottomSheetSelect = ({
 	label
 }) => {
 	const handleSelect = (farm) => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
 		console.log("selecionar a Fazenda");
 		onClose();
 		setSelectedFarm(farm);

@@ -54,6 +54,8 @@ import BottomSheetSelect from "./BottomSheetSelect";
 import QrBottomSheet from "./QrBottom";
 import QrCamera from "./QrCamera";
 
+import * as Haptics from 'expo-haptics';
+
 const schema = yup.object({
 	placa: yup
 		.string()
@@ -197,6 +199,7 @@ const FormScreen = ({ navigation , route}) => {
 	const cancelHandler = () => {
 		// console.log("limpar o formulário");
 		// navigation.navigate("Welcome");
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
 		navigation.goBack(null);
 		clearErrors();
 	};
@@ -277,6 +280,7 @@ const FormScreen = ({ navigation , route}) => {
 
 	// QR CODE
 	const handleModalQr = () => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
 		console.log("open");
 		sheetRefQr.current?.open();
 	};
@@ -296,6 +300,7 @@ const FormScreen = ({ navigation , route}) => {
 	// }
 
 	const handleOpenCamera = () => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
 		console.log('Close Camera')
 		setOpenCamera(!openCamera);
 	};

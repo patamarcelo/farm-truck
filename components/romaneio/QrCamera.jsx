@@ -1,100 +1,77 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import { CameraView } from 'expo-camera';
 import { useCameraPermissions } from 'expo-camera';
-
+import * as Haptics from 'expo-haptics';
 
 const QrCamera = ({ closeCamera, setQrValues }) => {
     const [scanned, setScanned] = useState(false);
     const [hasPermission, askPermission] = useCameraPermissions();
-
     const cameraRef = useRef(null);
 
+    // Request camera permission if not already granted
     useEffect(() => {
-        (async () => {
-            // Make sure camera is loaded before setting the focus
-            if (cameraRef.current) {
-                // Set the focus depth to a value that works well for scanning QR codes
-                await cameraRef.current?.camera?.setFocusDepth(0); // Adjust this value as needed
-            }
-        })();
-    }, []);
+        if (!hasPermission?.granted) {
+            askPermission();
+        }
+    }, [hasPermission]);
 
-    useEffect(() => {
-        askPermission();
-    }, []);
-
-    // const handleBarCodeScanned = ({ type, data }) => {
-    //     setScanned(true);
-    //     const dataStr = JSON.stringify(data)
-    //     const dataParsed = JSON.parse(dataStr)
-    //     setQrValues(dataParsed)
-    // };
+    // Ensure CameraView is mounted only when permission is granted
+    if (hasPermission === null) {
+        return <Text style={styles.text}>Verificando permissão da câmera...</Text>;
+    }
 
     const handleBarCodeScanned = ({ type, data }) => {
-        console.log('Scanned:', data);  // Log the scanned data
-        setScanned(true);  // Set scanned to true immediately
-    
+        if (scanned) return; // Prevent duplicate scans
+        
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+        console.log('Scanned:', data);
+        setScanned(true);
+
         try {
-            const dataStr = JSON.stringify(data);
-            const dataParsed = JSON.parse(dataStr);  // Parse the scanned QR data
+            const dataParsed = JSON.parse(JSON.stringify(data));
             console.log('Parsed QR data:', dataParsed);
-            setQrValues(dataParsed);  // Save parsed data to state
+            setQrValues(dataParsed);
         } catch (error) {
             console.error('Error parsing QR data:', error);
         }
-    
-        // Optionally reset 'scanned' after a timeout to allow future scans
+
         setTimeout(() => {
             setScanned(false);
-        }, 2000);  // This timeout will reset the scanned state after 2 seconds
+            closeCamera();
+        }, 750); // Reset scan and close camera after 2 seconds
     };
-
-    useEffect(() => {
-        if (scanned) {
-            setTimeout(() => {
-                closeCamera()
-            }, 500)
-        }
-    }, [scanned]);
-
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const { status } = await Camera.requestPermissionsAsync();
-    //         setHasPermission(status === 'granted');
-    //     })();
-    // }, []);
-
 
 
     return (
         <SafeAreaView style={styles.container}>
-            {hasPermission?.granted && (
+            {hasPermission.granted ? (
                 <CameraView
                     barcodeScannerEnabled
                     enableTorch={true}
                     ref={cameraRef}
                     style={styles.camera}
-                    onBarcodeScanned={!scanned ? handleBarCodeScanned : undefined}
-
+                    onBarcodeScanned={handleBarCodeScanned}
                 >
                     <View style={styles.overlay} />
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.cancelButton} onPress={closeCamera}>
-                            <Text style={styles.cancelText}>Cancelar</Text>
-                        </TouchableOpacity>
+                        {
+                            !scanned &&
+                            <TouchableOpacity style={styles.cancelButton} onPress={closeCamera}>
+                                <Text style={styles.cancelText}>Cancelar</Text>
+                            </TouchableOpacity>
+                        }
+                        {scanned && <Text style={styles.scanText}>Feito!!</Text>}
                     </View>
                 </CameraView>
+
+            ) : (
+                <Text style={styles.text}>Permissão de uso da câmera não liberada</Text>
             )}
-            {!hasPermission?.granted && (
-                <Text style={styles.text}>Permissão de uso da Camera não liberado</Text>
-            )}
-            {scanned && <Text style={styles.scanText}>Feito!!</Text>}
+
         </SafeAreaView>
     );
-}
-
+};
 export default QrCamera
 
 const styles = StyleSheet.create({
