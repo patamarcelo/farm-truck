@@ -160,22 +160,33 @@ export const checkUserActive = async (userId) => {
 
 export const saveDataOnFirebaseAndUpdate = async (newData) => {
 	const userActivated = await checkUserActive();
-	if (userActivated) {
+	if (!userActivated) return false;
 		try {
+			// Step 1: Check if data already exists
+			if(newData?.codTicketPro && newData?.filialPro){
+				const q = query(
+					collection(db, "truckmove"),
+					where("codTicketPro", "==", newData.codTicketPro),
+					where("filialPro", "==", newData.filialPro),
+					limit(1)
+				)
+				
+				const querySnapshot = await getDocs(q)
+				if (!querySnapshot.empty) {
+					return "DUPLICATE"; // Prevent duplicate save
+				}
+			}
 			const lastRomaneio = await getLastRomaneioNUmber();
 			const updatedData = {
 				...newData,
 				relatorioColheita: Number(lastRomaneio) + 1
 			};
 			const response = await addRomaneioFirebase(updatedData);
-			// if (response) {
-			// 	await getDocumentosFirebase(response);
-			return response;
-			// }
+			if (response) {
+				await getDocumentosFirebase(response);
+				return 'SALVO COM SUCESSO!!'
+			}
 		} catch (err) {
 			console.log("erro ao salvar os dados", err);
 		}
-	} else {
-		return false;
-	}
 };

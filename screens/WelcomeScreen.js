@@ -219,7 +219,7 @@ function WelcomeScreen() {
 				onPress={() => handleRefresh(itemData.item.idApp)}
 				style={{ width: 80, backgroundColor: isDisabled ? "rgba(237,231,225)" : "rgba(017,201,17, 1)", justifyContent: 'center', alignItems: 'center' }}
 			>
-				<FontAwesome name="send" color={"white"} size={20} />
+				{refreshing ? <ActivityIndicator color="white" /> : <FontAwesome name="send" color={"white"} size={20} />}
 			</Pressable>
 		);
 
@@ -241,60 +241,6 @@ function WelcomeScreen() {
 				/>
 			</Pressable>
 		)
-		// const swipeoutBtnsRight = [
-		// 	{
-		// 		component: (
-		// 			<View
-		// 				style={{
-		// 					flex: 1,
-		// 					alignItems: "center",
-		// 					justifyContent: "center",
-		// 					flexDirection: "column"
-		// 				}}
-		// 			>
-		// 				<FontAwesome name="send" color={"white"} size={20} />
-		// 			</View>
-		// 		),
-		// 		backgroundColor: isDisabled
-		// 			? "rgba(237,231,225)"
-		// 			: "rgba(017,201,17, 1)",
-		// 		underlayColor: "rgba(0, 0, 0, 1, 0.6)",
-		// 		disabled: isDisabled,
-		// 		onPress: () => {
-		// 			handleRefresh(itemData.item.idApp);
-		// 		}
-		// 	}
-		// ];
-
-		// const swipeoutBtnsLeft = [
-		// 	{
-		// 		component: (
-		// 			<View
-		// 				style={{
-		// 					flex: 1,
-		// 					alignItems: "center",
-		// 					justifyContent: "center",
-		// 					flexDirection: "column"
-		// 				}}
-		// 			>
-		// 				<Ionicons
-		// 					name="trash-sharp"
-		// 					color={"white"}
-		// 					size={20}
-		// 				/>
-		// 			</View>
-		// 		),
-		// backgroundColor: Colors.danger[600],
-		// 		underlayColor: "rgba(0, 0, 0, 1, 0.6)",
-		// 		onPress: () => {
-		// 			dispatch(removeFromCargas(itemData.item.idApp));
-		// 			Alert.alert(
-		// 				"Romaneio Excluído",
-		// 				`${itemData.item.placa} - ${itemData.item.motorista} deletado com sucesso!!`
-		// 			);
-		// 		}
-		// 	}
-		// ];
 
 		const handleOpenSwipe = async () => {
 			setPreventSroll(false);
@@ -317,15 +263,6 @@ function WelcomeScreen() {
 					<CardRomaneio data={itemData.item} isOpendSwipe={!isOpendSwipe} />
 				</Swipeable>
 			</GestureHandlerRootView>
-			// <Swipeout
-			// 	right={swipeoutBtnsRight}
-			// 	left={swipeoutBtnsLeft}
-			// 	autoClose={true}
-			// 	onOpen={handleOpenSwipe}
-			// 	onClose={() => setPreventSroll(true)}
-			// >
-			// 	<CardRomaneio data={itemData.item} />
-			// </Swipeout>
 		);
 	};
 
@@ -346,13 +283,18 @@ function WelcomeScreen() {
 					syncDate: new Date()
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
+				const codTicketPro = dataToAdd?.codTicketPro ? dataToAdd.codTicketPro.replace(/^0+/, '') : '';
+				
+				if(response ==='DUPLICATE'){
+					Alert.alert('Ticket já Cadastrado',`O Ticket ${codTicketPro} da Filial ${dataToAdd?.filialPro} já foi cadastrado!!`)
+					return
+				}
+				
 				const responseProtheus = handlerUploadProtheus(response);
 				console.log("Response: ", response);
 				console.log("ResponseProtheus: ", responseProtheus);
-				if (response) {
+				if(response === 'SALVO COM SUCESSO!!'){
 					dispatch(removeFromCargas(idToFind));
-					const last = await getDocs();
-					// console.log("last", last);
 					Dialog.show({
 						type: ALERT_TYPE.SUCCESS,
 						title: <Title text={"Feito!!"} />,
@@ -366,9 +308,6 @@ function WelcomeScreen() {
 							/>
 						),
 						button: "Finalizar"
-						// onPressButton: () => {
-						// 	navigation.navigate("PagamentosTab");
-						// }
 					});
 					setRefreshing(false);
 				} else {
@@ -467,7 +406,6 @@ function WelcomeScreen() {
 				</View>
 				<SafeAreaView style={styles.roundList}>
 					<View style={styles.listContainer}>
-						{/* {refreshing ? <ActivityIndicator /> : null} */}
 						{data && data.length > 0 && (
 							<FlatList
 								data={data}

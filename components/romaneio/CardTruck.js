@@ -210,12 +210,12 @@ const CardRomaneio = (props) => {
 									/>
 								</View>
 								<View style={{ alignItems: "flex-end" }}>
-									<Text style={[styles.labelInput,{fontWeight: 'bold', color: Colors.secondary[600]}]}>{getProduct?.mercadoria}</Text>
+									<Text style={[styles.labelInput,{fontWeight: 'bold',textAlign: 'right', marginRight: -1, color: Colors.secondary[600]}]}>{getProduct?.mercadoria}</Text>
 								</View>
 							</View>
 							<Text style={styles.titleInputTicket}>Ticket </Text>
 								<Text style={styles.labelInputTicket}>
-									{data?.ticket || (data?.codTicketPro ? Number(data?.codTicketPro.replace(/^0+/, '')) : null)}
+									{data?.ticket || (data?.codTicketPro ? Number(data?.codTicketPro?.trim().replace(/^0+/, '')) : null)}
 								</Text>
 						</View>
 					</View>
@@ -278,13 +278,15 @@ const styles = StyleSheet.create({
 		fontSize: 9,
 		padding: 0,
 		alignSelf: 'flex-end',
+		color: Colors.secondary[600],
 		marginRight: -8
 	},
 	labelInputTicket: {
-		fontSize: 10,
+		fontSize: 11,
 		fontWeight: 'bold',
-		color: Colors.secondary[500],
-		marginRight: -8
+		color: Colors.primary[500],
+		marginRight: -7,
+		textAlign: 'right'
 	},
 	labelInputParcelas: {
 		fontSize: 11,
