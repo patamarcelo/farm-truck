@@ -184,7 +184,7 @@ export const saveDataOnFirebaseAndUpdate = async (newData) => {
 			const response = await addRomaneioFirebase(updatedData);
 			if (response) {
 				await getDocumentosFirebase(response);
-				return 'SALVO COM SUCESSO!!'
+				return response
 			}
 		} catch (err) {
 			console.log("erro ao salvar os dados", err);

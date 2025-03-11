@@ -293,7 +293,7 @@ function WelcomeScreen() {
 				const responseProtheus = handlerUploadProtheus(response);
 				console.log("Response: ", response);
 				console.log("ResponseProtheus: ", responseProtheus);
-				if(response === 'SALVO COM SUCESSO!!'){
+				if(response){
 					dispatch(removeFromCargas(idToFind));
 					Dialog.show({
 						type: ALERT_TYPE.SUCCESS,
