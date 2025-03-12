@@ -4,8 +4,12 @@ import { SafeAreaView, StyleSheet, View, Text, Animated } from "react-native";
 import { Colors } from "../../constants/styles";
 
 const SearchBarComp = (props) => {
-	const { search, updateSearchHandler } = props;
+	const { search, updateSearchHandler, ...restProps } = props;
 	const slideAnim = useRef(new Animated.Value(-100)).current; // start off-screen (above)
+
+
+	const searchBarRef = useRef(null); // Ref for SearchBar
+
 
 	// State to control visibility
 	const [visible, setVisible] = useState(false);
@@ -17,7 +21,10 @@ const SearchBarComp = (props) => {
 			toValue: 0,
 			duration: 250,
 			useNativeDriver: true,
-		}).start();
+		}).start(() => {
+			// Focus on search bar after animation completes
+			searchBarRef.current?.focus();
+		});
 	};
 
 	// Function to slide up (hide)
@@ -34,24 +41,28 @@ const SearchBarComp = (props) => {
 	useEffect(() => {
 		slideDown()
 	}, []);
+
 	return (
 		<SafeAreaView style={styles.mainContainer}>
 			{visible &&
-				<Animated.View style={[styles.mainContainer, { transform: [{ translateY: slideAnim }] }]}>
-					<SearchBar
-						containerStyle={styles.mainContainerInput}
-						inputContainerStyle={styles.inputCont}
-						placeholder="Procure um Romaneio"
-						onChangeText={updateSearchHandler}
-						value={search}
-					/>
-					<View style={styles.helperTextContainer}>
-						<Text style={styles.helpText}>
-							Procure por: Placa, Motorista, Parcela, Romaneio, Data, Ticket
-							{/* Por Placa, ou Motorista, ou Parcela(s), ou Romaneio, ou Data, ou Ti */}
-						</Text>
-					</View>
-				</Animated.View>
+				<>
+					<Animated.View key="searchContainer" style={[styles.mainContainer, { transform: [{ translateY: slideAnim }] }]}>
+						<SearchBar
+							ref={searchBarRef} // Attach ref to SearchBar
+							containerStyle={styles.mainContainerInput}
+							inputContainerStyle={styles.inputCont}
+							placeholder="Procure um Romaneio"
+							onChangeText={updateSearchHandler}
+							value={search}
+						/>
+						<View style={styles.helperTextContainer}>
+							<Text style={styles.helpText}>
+								Procure por: Placa, Motorista, Parcela, Romaneio, Data, Ticket
+								{/* Por Placa, ou Motorista, ou Parcela(s), ou Romaneio, ou Data, ou Ti */}
+							</Text>
+						</View>
+					</Animated.View>
+				</>
 			}
 		</SafeAreaView>
 	);

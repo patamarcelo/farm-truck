@@ -33,7 +33,7 @@ import { romaneiosFarmSelector, userSelectorAttr } from "../store/redux/selector
 
 import { Dimensions, RefreshControl } from "react-native";
 
-import { useScrollToTop } from "@react-navigation/native";
+// import { useScrollToTop } from "@react-navigation/native";
 
 import { projetosSelector } from "../store/redux/selector";
 
@@ -71,7 +71,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 
 	const context = useContext(AuthContext);
 
-	const ref = useRef(null);
+	// const ref = useRef(null);
 
 	const slideAnim = useRef(new AnimatedOrigin.Value(-100)).current; // start off-screen (above)
 
@@ -106,6 +106,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 				return !prev
 			} else {
 				slideUp()
+				setSearch("");
 				return !prev
 			}
 		})
@@ -164,6 +165,7 @@ const RomaneioScreen = ({ navigation, route }) => {
 	}, [isFocused]);
 
 	const handleRefresh = async () => {
+		console.log('atualuizando os dadosssss')
 		setRefreshing(true);
 		try {
 			const data = await getAllDocsFirebase(projetosData);
@@ -192,13 +194,13 @@ const RomaneioScreen = ({ navigation, route }) => {
 		setSearch(e);
 	};
 
-	useScrollToTop(
-		useRef({
-			scrollToTop: () => ref.current?.scrollTo({ y: 0 })
-		})
-	);
+	// useScrollToTop(
+	// 	useRef({
+	// 		scrollToTop: () => ref.current?.scrollTo({ y: 0 })
+	// 	})
+	// );
 
-	useScrollToTop(ref);
+	// useScrollToTop(ref);
 
 	useEffect(() => {
 		if (filteredData.length > 0) {
@@ -251,6 +253,82 @@ const RomaneioScreen = ({ navigation, route }) => {
 	}
 
 
+	const HeaderComp = () => {
+		return (
+			<View style={styles.infoHeaderContainer}>
+				{
+					filteredData && filteredData.length > 0 &&
+					<View style={styles.containerInfo}>
+						<View style={styles.containerInfoTruck}>
+							{
+								onlyLoadTruck > 0 &&
+								<View
+									entering={FadeInRight.duration(500)} // Root-level animation for appearance
+									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+									layout={Layout.springify()}    // 
+								>
+
+									<Pressable
+										onPress={handleFilterTruck.bind(this, 'onlyLoadTruck')}
+									>
+										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
+									</Pressable>
+								</View>
+							}
+							{
+								onlyWeiTruck > 0 &&
+								<View
+									entering={FadeInRight.duration(500)} // Root-level animation for appearance
+									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+									layout={Layout.springify()}    // 
+								>
+
+									<Pressable
+										onPress={handleFilterTruck.bind(this, 'onlyWeiTruck')}
+									>
+										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
+									</Pressable>
+								</View>
+							}
+							{
+								onlyPendingProtheusTruck > 0 &&
+								<View
+									entering={FadeInRight.duration(500)} // Root-level animation for appearance
+									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+									layout={Layout.springify()}    // 
+								>
+									<Pressable
+										onPress={handleFilterTruck.bind(this, 'onlyPendingProtheusTruck')}
+									>
+										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
+									</Pressable>
+								</View>
+							}
+							{
+								isFiltered &&
+								<View
+									entering={FadeInRight.duration(500)} // Root-level animation for appearance
+									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
+									layout={Layout.springify()}    // 
+								>
+									<Pressable
+										onPress={handleFilterTruck.bind(this, 'clear')}
+									>
+
+										<MaterialCommunityIcons name="progress-close" size={24} color={Colors.gold[500]} />
+									</Pressable>
+								</View>
+							}
+						</View>
+						<View style={styles.containerInfoTotal}>
+							<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
+						</View>
+					</View>
+				}
+			</View>
+		)
+	}
+
 	if (!isLoading) {
 		return (
 			<SafeAreaView style={styles.mainContainer}>
@@ -264,100 +342,28 @@ const RomaneioScreen = ({ navigation, route }) => {
 						</AnimatedOrigin.View>
 					)
 				}
-				<ScrollView
+				<View
 					showsVerticalScrollIndicator={false}
-					ref={ref}
-					contentContainerStyle={{ minHeight: '100%' }}
+					// ref={ref}
+					// contentContainerStyle={{ minHeight: '100%' }}
 					contentInsetAdjustmentBehavior='automatic'
-					refreshControl={
-						<RefreshControl
-							refreshing={refreshing}
-							onRefresh={handleRefresh}
-							colors={["#9Bd35A", "#689F38"]}
-							tintColor={"whitesmoke"}
-						/>
-					}
-				><View style={styles.infoHeaderContainer}>
-						{
-							filteredData && filteredData.length > 0 &&
-							<View style={styles.containerInfo}>
-								<View style={styles.containerInfoTruck}>
-									{
-										onlyLoadTruck > 0 &&
-										<Animated.View
-											entering={FadeInRight.duration(500)} // Root-level animation for appearance
-											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-											layout={Layout.springify()}    // 
-										>
-
-											<Pressable
-												onPress={handleFilterTruck.bind(this, 'onlyLoadTruck')}
-											>
-												<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
-											</Pressable>
-										</Animated.View>
-									}
-									{
-										onlyWeiTruck > 0 &&
-										<Animated.View
-											entering={FadeInRight.duration(500)} // Root-level animation for appearance
-											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-											layout={Layout.springify()}    // 
-										>
-
-											<Pressable
-												onPress={handleFilterTruck.bind(this, 'onlyWeiTruck')}
-											>
-												<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
-											</Pressable>
-										</Animated.View>
-									}
-									{
-										onlyPendingProtheusTruck > 0 &&
-										<Animated.View
-											entering={FadeInRight.duration(500)} // Root-level animation for appearance
-											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-											layout={Layout.springify()}    // 
-										>
-											<Pressable
-												onPress={handleFilterTruck.bind(this, 'onlyPendingProtheusTruck')}
-											>
-												<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
-											</Pressable>
-										</Animated.View>
-									}
-									{
-										isFiltered &&
-										<Animated.View
-											entering={FadeInRight.duration(500)} // Root-level animation for appearance
-											exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-											layout={Layout.springify()}    // 
-										>
-											<Pressable
-												onPress={handleFilterTruck.bind(this, 'clear')}
-											>
-
-												<MaterialCommunityIcons name="progress-close" size={24} color={Colors.gold[500]} />
-											</Pressable>
-										</Animated.View>
-									}
-								</View>
-								<View style={styles.containerInfoTotal}>
-									<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
-								</View>
-							</View>
-						}
-					</View>
+				// refreshControl={
+				// 	<RefreshControl
+				// 		refreshing={refreshing}
+				// 		onRefresh={handleRefresh}
+				// 		colors={["#9Bd35A", "#689F38"]}
+				// 		tintColor={"whitesmoke"}
+				// 	/>
+				// }
+				>
 					<RomaneioList search={search} data={sentData}
 						filteredData={filteredData}
 						setFilteredData={setFilteredData}
 						refreshing={refreshing}
-						onRefresh={handleRefresh}
-
-
-
+						handleRefresh={handleRefresh}
+						HeaderComp={<HeaderComp />}
 					/>
-				</ScrollView>
+				</View>
 				<View style={[styles.fabContainer, { marginBottom: showSearch && tabBarHeight }]}>
 					<FAB
 						style={[styles.fab, { backgroundColor: "rgba(200, 200, 200, 0.3)", marginBottom: showSearch && tabBarHeight }]}

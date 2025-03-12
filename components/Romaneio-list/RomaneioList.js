@@ -1,9 +1,10 @@
-import { FlatList, View, StyleSheet, Text } from "react-native";
+import { FlatList, View, StyleSheet, Text, RefreshControl, ScrollView, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
 import { romaneioSelector } from "../../store/redux/selector";
 
 import CardRomaneio from "../romaneio/CardTruck";
-import { useLayoutEffect, useState, useEffect } from "react";
+import { useLayoutEffect, useState, useEffect, useRef } from "react";
+import { useScrollToTop } from "@react-navigation/native";
 
 import { Dimensions } from "react-native";
 const width = Dimensions.get("window").width; //full width
@@ -22,13 +23,16 @@ const renderRomaneioList = (itemData) => {
 	);
 };
 
-const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
+const RomaneioList = ({ search, data, filteredData, setFilteredData, handleRefresh, refreshing, HeaderComp }) => {
 	// const data = useSelector(romaneioSelector);
+	const listRef = useRef(null);
+
+	const [isLoading, setIsLoading] = useState(true);
+
+
 	useLayoutEffect(() => {
 		setFilteredData(data);
-	}, []);
-	useLayoutEffect(() => {
-		setFilteredData(data);
+		setIsLoading(false);
 	}, [data]);
 
 	useEffect(() => {
@@ -66,16 +70,24 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 		}
 	}, [search]);
 
-	if (filteredData.length === 0 && data.length > 0) {
+	useScrollToTop(
+		useRef({
+			scrollToOffset: (params) => listRef.current?.scrollToOffset(params),
+		})
+	);
+
+
+	// Show loading indicator if data is still being processed
+	if (isLoading) {
 		return (
-			<View style={styles.adviseContainer}>
-				<Text style={styles.adviseContainerTitle}>
-					Sem resultados para essa busca
-				</Text>
+			<View style={styles.loadingContainer}>
+				<ActivityIndicator size="large" color="#689F38" />
 			</View>
 		);
 	}
-	if (filteredData.length === 0) {
+
+	// Handle empty states
+	if (!data.length) {
 		return (
 			<View style={[styles.adviseContainer, styles.bannerContainer]}>
 				<Text style={styles.adviseContainerTitle}>Sem Romaneio Cadastrado</Text>
@@ -83,15 +95,35 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData }) => {
 		);
 	}
 
+	if (!filteredData.length) {
+		return (
+			<View style={styles.adviseContainer}>
+				<Text style={styles.adviseContainerTitle}>Sem resultados para essa busca</Text>
+			</View>
+		);
+	}
 	return (
+
+
 		<FlatList
-			scrollEnabled={false}
+			// scrollEnabled={false}
+			ref={listRef}
 			data={filteredData}
 			keyExtractor={(item, i) => item.idApp + i}
 			renderItem={renderRomaneioList}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
 			contentContainerStyle={{ flexGrow: 1 }}
+			ListHeaderComponent={HeaderComp}
+			refreshControl={
+				<RefreshControl
+					refreshing={refreshing}
+					onRefresh={handleRefresh}
+					colors={["#9Bd35A", "#689F38"]}
+					tintColor={"whitesmoke"}
+				/>
+			}
 		/>
+
 	);
 };
 
