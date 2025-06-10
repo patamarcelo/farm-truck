@@ -21,7 +21,7 @@ function NewPassword() {
 
 			Alert.alert(
 				"Senha resetada!!",
-				`Um e-mail foi enviado para ${email} com as intstruções para redefinição!!`
+				`Um e-mail foi enviado para ${email} com as intstruções para redefinição da Senha!!`
 			);
 			navigation.navigate("Login");
 		} catch (err) {
