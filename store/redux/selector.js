@@ -21,3 +21,6 @@ export const romaneiosFarmSelector = (state) => {
 export const plantioDataFromServerSelector = (state) => {
 	return state.romaneios.plantioDataFromServer;
 };
+
+
+export const selectMapDataPlot = (state) => state.romaneios.mapDataPlot

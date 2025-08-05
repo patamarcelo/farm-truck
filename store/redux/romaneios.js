@@ -7,7 +7,8 @@ const initialState = {
 	cargas: [],
 	romaneiosFarm: [],
 	userCustomAttr: {},
-	plantioDataFromServer: {}
+	plantioDataFromServer: {},
+	mapDataPlot: [],
 };
 const RomaneioSlice = createSlice({
 	name: "romaneios",
@@ -51,7 +52,10 @@ const RomaneioSlice = createSlice({
 				...initialState,
 				cargas: state.cargas, // Preserve cargas data
 			});
-		}
+		},
+		setMapPlot: (state, action) => {
+			state.mapDataPlot = action.payload;
+		},
 	}
 });
 
@@ -64,6 +68,7 @@ export const setUser = RomaneioSlice.actions.setUser;
 export const setUserAttr = RomaneioSlice.actions.setUserAttr;
 export const setProjetos = RomaneioSlice.actions.setProjetos;
 export const setPlantioDataFromServer = RomaneioSlice.actions.setPlantioDataFromServer;
+export const setMapPlotData = RomaneioSlice.actions.setMapPlot;
 
 // RESET SLICE
 export const resetState = RomaneioSlice.actions.resetState;

@@ -9,41 +9,97 @@ import { useContext, useState } from 'react';
 import { EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN } from "@env";
 
 import { useDispatch } from 'react-redux';
-import { setPlantioDataFromServer } from '../../store/redux/romaneios';
+import { setPlantioDataFromServer, setMapPlotData } from '../../store/redux/romaneios';
 
 
 
 const DrawerHome = (props) => {
     const context = useContext(AuthContext);
     const dispatch = useDispatch()
-    
+
     const [loading, setLoading] = useState(false);
 
+    // const handleTopButtonPress = async () => {
+    //     setLoading(true); // Show loading indicator
+    //     try {
+    //         // Simulate API request (replace with your actual API call)
+    //         const response = await fetch("https://diamante-quality.up.railway.app/diamante/plantio/get_plantio/", {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Authorization: `Token ${EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
+    //             },
+    //         });
+    //         const result = await response.json();
+    //         if (response.ok) {
+    //             dispatch(setPlantioDataFromServer(result))
+    //             // Show success message
+    //             Alert.alert('Feito', 'Dados Atualizados com sucesso!');
+    //         } else {
+    //             // Handle API error response
+    //             Alert.alert('Erro', result.message || 'Alguma coisa deu errado!!');
+    //         }
+    //     } catch (error) {
+    //         // Handle network or other errors
+    //         Alert.alert('Erro', 'Erro ao pegar os dados, Por favor tente novamente');
+    //     } finally {
+    //         setLoading(false); // Hide loading indicator
+    //     }
+    // };
+    const getPlantioData = async () => {
+        console.log('pegando dados do plantio')
+        const response = await fetch("https://diamante-quality.up.railway.app/diamante/plantio/get_plantio/", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
+            },
+        });
+
+        const result = await response.json();
+        console.log('pegando dados do plantio', result)
+
+        if (response.ok) {
+            dispatch(setPlantioDataFromServer(result));
+            return true;
+        } else {
+            throw new Error(result.message || 'Erro na API de Plantio');
+        }
+    };
+    const getMapData = async () => {
+        console.log('pegando dados do mapa')
+        const response = await fetch("https://diamante-quality.up.railway.app/diamante/plantio/get_map_plot_app_fetch_app/", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
+            },
+        });
+
+        console.log('pegando dados do mapa', response)
+        if (response.ok) {
+            const data = await response.json();
+            dispatch(setMapPlotData(data.dados));
+            return true;
+        } else {
+            throw new Error('Erro na API de Mapa');
+        }
+    };
+
     const handleTopButtonPress = async () => {
-        setLoading(true); // Show loading indicator
+        setLoading(true);
+
         try {
-            // Simulate API request (replace with your actual API call)
-            const response = await fetch("https://diamante-quality.up.railway.app/diamante/plantio/get_plantio/", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Token ${EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
-                },
-            });
-            const result = await response.json();
-            if (response.ok) {
-                dispatch(setPlantioDataFromServer(result))
-                // Show success message
-                Alert.alert('Feito', 'Dados Atualizados com sucesso!');
-            } else {
-                // Handle API error response
-                Alert.alert('Erro', result.message || 'Alguma coisa deu errado!!');
-            }
+            await Promise.all([
+                getPlantioData(),
+                getMapData()
+            ]);
+
+            Alert.alert('Feito', 'Dados Atualizados com sucesso!');
         } catch (error) {
-            // Handle network or other errors
-            Alert.alert('Erro', 'Erro ao pegar os dados, Por favor tente novamente');
+            Alert.alert('Erro', error.message || 'Erro ao atualizar os dados');
         } finally {
-            setLoading(false); // Hide loading indicator
+            setLoading(false);
         }
     };
 
@@ -51,10 +107,10 @@ const DrawerHome = (props) => {
     return (
         <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1, backgroundColor: Colors.primary[100] }}>
             {/* Top Button */}
-            <TouchableOpacity 
-            style={[styles.topButton, loading && styles.disabledTopButton]}
-            onPress={handleTopButtonPress}
-            disabled={loading}
+            <TouchableOpacity
+                style={[styles.topButton, loading && styles.disabledTopButton]}
+                onPress={handleTopButtonPress}
+                disabled={loading}
             >
                 {loading ? (
                     <ActivityIndicator color="#fff" />
@@ -68,10 +124,10 @@ const DrawerHome = (props) => {
             {/* <DrawerItemList {...props} /> */}
 
             {/* Bottom Button */}
-            <TouchableOpacity 
-            style={[styles.bottomButton, loading && styles.disabledBottomButton]}
-            onPress={() => context.logout()}
-            disabled={loading}
+            <TouchableOpacity
+                style={[styles.bottomButton, loading && styles.disabledBottomButton]}
+                onPress={() => context.logout()}
+                disabled={loading}
             >
                 <Text style={styles.buttonText}>Sair</Text>
             </TouchableOpacity>
@@ -103,10 +159,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    disabledTopButton:{
+    disabledTopButton: {
         backgroundColor: Colors.primary[300]
     },
-    disabledBottomButton:{
+    disabledBottomButton: {
         backgroundColor: Colors.danger[300]
     }
 });

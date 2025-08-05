@@ -55,6 +55,7 @@ import { AntDesign } from "@expo/vector-icons";
 import Splash from "./components/ui/Splash";
 import DrawerHome from "./components/Drawer";
 import ParcelasScreen from "./screens/ParcelasScreen";
+import MapScreen from "./components/Global/MapScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -164,7 +165,7 @@ function RomaneioStack({ route, navigation }) {
 
 function HomeScrennStack({ route, navigation }) {
 	const routeName = getFocusedRouteNameFromRoute(route);
-	console.log("routeName", routeName);
+	// console.log("routeName", routeName);
 	const context = useContext(AuthContext);
 	const dispatch = useDispatch();
 
@@ -413,6 +414,17 @@ const NewAuthStack = () => {
 					title: "",
 					headerShadowVisible: false, // applied here
 					headerShown: Platform.OS === "ios" ? false : true,
+					contentStyle: { backgroundColor: Colors.primary500 }
+				}}
+			/>
+			<Stack.Screen
+				name="MapScreen"
+				component={MapScreen}
+				options={{
+					// presentation: "modal",
+					title: "",
+					headerShadowVisible: false, // applied here
+					headerShown: Platform.OS === "ios" ? false : false,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>

@@ -4,7 +4,7 @@ import { Colors } from "../../constants/styles";
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 
 
-function Button({ children, onPress, btnStyles, disabled, textStyles, hasIcon = false }) {
+function Button({ children, onPress, btnStyles, disabled = false, textStyles, hasIcon = false }) {
 	return (
 		<Pressable
 			disabled={disabled}

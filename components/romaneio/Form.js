@@ -353,6 +353,7 @@ const FormScreen = ({ navigation , route}) => {
 						setObsCheckIcon={setObsCheckIcon}
 						navigation={navigation}
 						route={route}
+						openCamera={openCamera}
 					/>
 				</ScrollView>
 				<View style={styles.buttonContainer}>

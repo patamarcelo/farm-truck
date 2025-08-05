@@ -58,7 +58,8 @@ function FormInputs({
 	obsCheckIcon,
 	setObsCheckIcon,
 	navigation,
-	route
+	route,
+	openCamera
 }) {
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -74,7 +75,7 @@ function FormInputs({
 	const handlerModal = () => {
 		setOpenModal(!openModal);
 	};
-
+	
 	useEffect(() => {
 		LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
 	}, []);
@@ -140,16 +141,18 @@ function FormInputs({
 			}
 			let finalArr = [];
 			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
-				const obj = {
-					parcela: data,
-					ciclo: selectedData[data].ciclo,
-					cultura: selectedData[data].cultura,
-					variedade: selectedData[data].variedade,
-					colheita: selectedData[data].finalizado_colheita,
-					safra: selectedData[data].safra,
-					id_plantio: selectedData[data].id_plantio
-				};
-				finalArr.push(obj);
+				if (selectedData[data]?.plantio_descontinuado === false) {
+					const obj = {
+						parcela: data,
+						ciclo: selectedData[data].ciclo,
+						cultura: selectedData[data].cultura,
+						variedade: selectedData[data].variedade,
+						colheita: selectedData[data].finalizado_colheita,
+						safra: selectedData[data].safra,
+						id_plantio: selectedData[data].id_plantio
+					};
+					finalArr.push(obj);
+				}
 			});
 			setfilteredParcelasFarmObj(finalArr);
 		}
@@ -171,16 +174,18 @@ function FormInputs({
 			}
 			let finalArr = [];
 			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
-				const obj = {
-					parcela: data,
-					ciclo: selectedData[data].ciclo,
-					cultura: selectedData[data].cultura,
-					variedade: selectedData[data].variedade,
-					colheita: selectedData[data].finalizado_colheita,
-					safra: selectedData[data].safra,
-					ciclo: selectedData[data].ciclo
-				};
-				finalArr.push(obj);
+				if (selectedData[data]?.plantio_descontinuado === false) {
+					const obj = {
+						parcela: data,
+						ciclo: selectedData[data].ciclo,
+						cultura: selectedData[data].cultura,
+						variedade: selectedData[data].variedade,
+						colheita: selectedData[data].finalizado_colheita,
+						safra: selectedData[data].safra,
+						id_plantio: selectedData[data].id_plantio
+					};
+					finalArr.push(obj);
+				}
 			});
 			setfilteredParcelasFarmObj(finalArr);
 		}
@@ -191,12 +196,12 @@ function FormInputs({
 	}, []);
 
 	const onSelectedItemsChange = (items) => {
-		console.log("farm", items);
+		// console.log("farm", items);
 		setSelectedItems(items);
 	};
 
 	const handlerChangeSelect = (farm) => {
-		console.log("farm", farm);
+		// console.log("farm", farm);
 		setSelectedFarm(farm);
 	};
 	const handlerChangeSelectDest = (dest) => {
@@ -237,7 +242,9 @@ function FormInputs({
 		const checkParcelas = markSelectedParcels(parcelas, parcelasSelectedObject)
 		navigation.navigate("ParcelasScreenRoute", {
 			parcelas: checkParcelas,
+			farmName: selectedFarm,
 			onGoBack: (data) => {
+				// console.log('data recebida de volta', data)
 				setParcelasSelectedObject((prev) => {
 					return [...prev, data]
 				});

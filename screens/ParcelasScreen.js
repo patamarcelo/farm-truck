@@ -1,4 +1,4 @@
-import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Image } from 'react-native'
+import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 import Button from '../components/ui/Button'
@@ -6,15 +6,18 @@ import { Colors } from '../constants/styles';
 
 import { ICON_URL, findImg } from "../utils/imageUrl";
 import { useState, useEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+
+import { Linking } from 'react-native';
+
 
 const ParcelasScreen = ({ navigation, route }) => {
 
-    const { parcelas } = route.params; // Access the passed parameter
+    const { parcelas, farmName, onGoBack } = route.params; // Access the passed parameter
 
     const [filterModules, setFilterModules] = useState([]);
     const [filteredModule, setFilteredModule] = useState(null);
     const [filtedLetterModule, setFiltedLetterModule] = useState('Geral');
-
 
     useEffect(() => {
         if (parcelas) {
@@ -51,6 +54,16 @@ const ParcelasScreen = ({ navigation, route }) => {
             setFilteredModule(null); // Reset filter if input is cleared
         }
     }
+    const handleGoMap = (data) => {
+        navigation.navigate("MapScreen",
+            {
+                onSelectLocation: onGoBack,
+                farmName: farmName,
+                parcelas: parcelas
+            }
+        )
+            ;
+    }
 
 
     const renderPacelasList = (itemData) => {
@@ -71,11 +84,11 @@ const ParcelasScreen = ({ navigation, route }) => {
                         <Text style={styles.plantedArea}>{variedade}</Text>
                     </View>
                     <View>
-                    <View style={styles.shadowContainer}>
-                        <Image
-                            source={findImg(ICON_URL, cultura)}
-                            style={styles.image}
-                        />
+                        <View style={styles.shadowContainer}>
+                            <Image
+                                source={findImg(ICON_URL, cultura)}
+                                style={styles.image}
+                            />
                         </View>
                     </View>
                 </Pressable>
@@ -94,7 +107,7 @@ const ParcelasScreen = ({ navigation, route }) => {
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
                 scrollEventThrottle={16} // For smoother scrolling
-                
+
 
 
             >
@@ -111,7 +124,7 @@ const ParcelasScreen = ({ navigation, route }) => {
                                 android_ripple={true}
                             >
                                 <View>
-                                    <Text style={{fontWeight: 'bold'}}>{data}</Text>
+                                    <Text style={{ fontWeight: 'bold' }}>{data}</Text>
                                 </View>
                             </Pressable>
                         )
@@ -130,18 +143,28 @@ const ParcelasScreen = ({ navigation, route }) => {
                 contentContainerStyle={styles.flatListContent} // Add padding to the list
             />
             <View style={styles.buttonContainer}>
-                <Button
-                    onPress={() => navigation.goBack()}
-                    btnStyles={{
-                        height: 50,
-                        marginVertical: 10,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: Colors.gold[700]
-                    }}
-                >
-                    Voltar
-                </Button>
+                {/* Botão Voltar */}
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                    <Button
+                        onPress={() => navigation.goBack()}
+                        btnStyles={{
+                            height: 50,
+                            marginVertical: 10,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: Colors.gold[700],
+                        }}
+                    >
+                        Voltar
+                    </Button>
+                </View>
+            </View>
+
+            {/* Botão Mapa flutuante */}
+            <View style={styles.fabContainer}>
+                <TouchableOpacity onPress={handleGoMap} style={styles.fab}>
+                    <Ionicons name="map-outline" size={35} color="#fff" />
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )
@@ -173,14 +196,34 @@ const styles = StyleSheet.create({
         paddingRight: 5
         // backgroundColor: Colors.primary[800]
     },
+    fabContainer: {
+        position: "absolute",
+        right: 20,
+        bottom: 120
+    },
+    fab: {
+        position: "absolute",
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(26,67,192,0.9)", // Grey, almost transparent
+        width: 65,
+        height: 65,
+        borderRadius: 50, // Makes it perfectly circular
+        justifyContent: "center",
+        alignItems: "center",
+        elevation: 4,
+        borderColor: Colors.primary[300],
+        borderWidth: 1
+    },
     buttonContainer: {
         position: 'absolute', // Position button at the bottom
         bottom: 0, // Align at the bottom
         left: 0, // Align to the left of the screen
         right: 0, // Stretch to the right of the screen
-        marginBottom: 30, // Optional: Add some margin from the bottom
+        // marginBottom: 30, // Optional: Add some margin from the bottom
         paddingHorizontal: 20, // Optional: Add some padding on the sides
-        backgroundColor: Colors.primary500
+        paddingBottom: 30,
+        backgroundColor: Colors.primary500,
     },
     flatListContent: {
         paddingBottom: 70, // Make space for the button at the bottom (adjust as necessary)
@@ -236,7 +279,7 @@ const styles = StyleSheet.create({
     plantedArea: {
         fontSize: 12,
         color: Colors.secondary[600],
-        fontWeight:'bold'
+        fontWeight: 'bold'
     },
     separator: {
         height: 0,
