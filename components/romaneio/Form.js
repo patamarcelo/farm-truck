@@ -66,7 +66,7 @@ const schema = yup.object({
 	// fazendaOrigem: yup.string().required("Selecione uma fazenda"),
 });
 
-const FormScreen = ({ navigation , route}) => {
+const FormScreen = ({ navigation, route }) => {
 	const romaneioData = useSelector(romaneioSelector);
 	const dispatch = useDispatch();
 	const height = useHeaderHeight();
@@ -81,7 +81,7 @@ const FormScreen = ({ navigation , route}) => {
 	const [filteredFarms, setFilteredFarms] = useState([]);
 	const isFocused = useIsFocused();
 
-	
+
 	const [parcelasSelectedObject, setParcelasSelectedObject] = useState([]);
 
 	const [checkIfCaixasSeted, setCheckIfCaixasSeted] = useState(false);
@@ -91,12 +91,12 @@ const FormScreen = ({ navigation , route}) => {
 
 	useEffect(() => {
 		const sizeArr = parcelasSelectedObject?.length
-		if(sizeArr > 1){
+		if (sizeArr > 1) {
 			setCheckIfCaixasSeted(true)
 			const getNoneorZero = (parcelas) => parcelas.caixas === undefined || parcelas.caixas === 0
 			const caixaNumbers = parcelasSelectedObject.some(getNoneorZero)
-			console.log('get caixas zero :, ',caixaNumbers)
-			if(!caixaNumbers){
+			console.log('get caixas zero :, ', caixaNumbers)
+			if (!caixaNumbers) {
 				setCheckIfCaixasSeted(false)
 			}
 		} else {
@@ -157,7 +157,7 @@ const FormScreen = ({ navigation , route}) => {
 		}
 	});
 
-	console.log('errors::::', errors);	
+	console.log('errors::::', errors);
 	const submitHandler = async (data) => {
 		const numbers = romaneioData.map((data) => data.relatorioColheita);
 		const romNum = Math.max.apply(Math, numbers);
@@ -260,7 +260,7 @@ const FormScreen = ({ navigation , route}) => {
 	useEffect(() => {
 		setValue("fazendaDestino", "Selecione o Destino");
 		setSelectedDest("Selecione o Destino")
-		if(selectedFarm){
+		if (selectedFarm) {
 			console.log('alterou a fazenda')
 			setParcelasSelectedObject([]);
 		}
@@ -305,6 +305,15 @@ const FormScreen = ({ navigation , route}) => {
 		setOpenCamera(!openCamera);
 	};
 
+	// No FormScreen
+	useEffect(() => {
+		if (!openCamera && qrValues && Object.keys(qrValues).length > 0) {
+			setTimeout(() => {
+				sheetRef.current?.open();
+			}, 200); // espera o BottomSheet montar
+		}
+	}, [openCamera, qrValues]);
+
 	if (isLoading) {
 		return <LoadingOverlay message={"Salvando..."} />;
 	}
@@ -319,7 +328,7 @@ const FormScreen = ({ navigation , route}) => {
 	}
 
 	return (
-		<SafeAreaView style={{flex: 1}}>
+		<SafeAreaView style={{ flex: 1 }}>
 			<View style={styles.mainContainer}>
 				<ScrollView
 					style={styles.formContainer}
@@ -392,27 +401,27 @@ const FormScreen = ({ navigation , route}) => {
 					</View>
 				</View>
 			</View>
-			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl} >
+			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl}>
 				<SafeAreaView>
-				<ScrollView
-					showsVerticalScrollIndicator={false}
-					style={{
-						marginBottom: 50
-					}}
-				>
-					{filteredFarms.map((farm, i) => {
-						return (
-							<BottomSheetSelect
-								key={i}
-								setSelectedFarm={setSelectedFarm}
-								navigation={navigation}
-								onClose={handleCloseModal}
-								name={farm.label.replace("Projeto", "")}
-								label={farm.label}
-							/>
-						);
-					})}
-				</ScrollView>
+					<ScrollView
+						showsVerticalScrollIndicator={false}
+						style={{
+							marginBottom: 50
+						}}
+					>
+						{filteredFarms.map((farm, i) => {
+							return (
+								<BottomSheetSelect
+									key={i}
+									setSelectedFarm={setSelectedFarm}
+									navigation={navigation}
+									onClose={handleCloseModal}
+									name={farm.label.replace("Projeto", "")}
+									label={farm.label}
+								/>
+							);
+						})}
+					</ScrollView>
 				</SafeAreaView>
 			</BottomSheet>
 			<BottomSheet
@@ -461,16 +470,19 @@ const styles = StyleSheet.create({
 		marginBottom: 20
 	},
 	btnbtnStylesRegister: {
-		backgroundColor: Colors.success[400]
+		backgroundColor: Colors.success[400],
+		height: 40
 	},
 	btnbtnStylesCancel: {
 		backgroundColor: "grey",
-		width: "48%"
+		width: "48%",
+		height: 40
 	},
 	btnbtnStylesClean: {
 		backgroundColor: Colors.yellow[300],
 		width: "48%",
-		opacity: 0.6
+		opacity: 0.9,
+		height: 40
 	},
 	textBtnCancelStyle: {
 		color: "grey"
