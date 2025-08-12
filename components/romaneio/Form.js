@@ -272,8 +272,10 @@ const FormScreen = ({ navigation, route }) => {
 	};
 
 	const handleCloseModal = () => {
-		console.log("open");
-		sheetRef.current?.close();
+		console.log("Fechando BottomSheet");
+		if (sheetRef.current) {
+			sheetRef.current.close(); // ou dismiss(), conforme lib
+		}
 	};
 
 	const sheetRef = useRef();
@@ -404,6 +406,7 @@ const FormScreen = ({ navigation, route }) => {
 			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl}>
 				<SafeAreaView>
 					<ScrollView
+						keyboardShouldPersistTaps="handled"
 						showsVerticalScrollIndicator={false}
 						style={{
 							marginBottom: 50
