@@ -13,7 +13,7 @@ import {
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 
-
+import { AntDesign } from '@expo/vector-icons';
 
 import Button from "../ui/Button";
 import FormInputs from "./FormInputs";
@@ -23,7 +23,9 @@ import {
 	useState,
 	useLayoutEffect,
 	useContext,
-	useEffect
+	useEffect,
+	useMemo,
+	useCallback
 } from "react";
 import { Colors } from "../../constants/styles";
 
@@ -48,7 +50,8 @@ import { useIsFocused } from "@react-navigation/native";
 
 import * as Location from "expo-location";
 
-import BottomSheet, { BottomSheetMethods } from "@devvie/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import BottomSheetSelect from "./BottomSheetSelect";
 
 import QrBottomSheet from "./QrBottom";
@@ -73,6 +76,7 @@ const FormScreen = ({ navigation, route }) => {
 	// const navigation = useNavigation();
 	const navigationContext = useContext(NavigationContext);
 	const [isLoading, setIsLoading] = useState(false);
+	const sheetRef = useRef();
 
 	const [isLogin, setIsLogin] = useState(false);
 	const [parcelasSelected, setParcelasSelected] = useState([]);
@@ -85,8 +89,6 @@ const FormScreen = ({ navigation, route }) => {
 	const [parcelasSelectedObject, setParcelasSelectedObject] = useState([]);
 
 	const [checkIfCaixasSeted, setCheckIfCaixasSeted] = useState(false);
-
-	const [cameFromGoBack, setCameFromGoBack] = useState(true);
 
 
 	useEffect(() => {
@@ -268,7 +270,7 @@ const FormScreen = ({ navigation, route }) => {
 
 	const handleModal = () => {
 		console.log("open");
-		sheetRef.current?.open();
+		sheetRef.current?.snapToIndex(0); // abre o primeiro snapPoint
 	};
 
 	const handleCloseModal = () => {
@@ -278,28 +280,7 @@ const FormScreen = ({ navigation, route }) => {
 		}
 	};
 
-	const sheetRef = useRef();
 
-	// QR CODE
-	const handleModalQr = () => {
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-		console.log("open");
-		sheetRefQr.current?.open();
-	};
-
-	const handleCloseModalQr = () => {
-		console.log("open");
-		sheetRefQr.current?.close();
-	};
-	const sheetRefQr = useRef();
-
-	useEffect(() => {
-		handleModalQr();
-	}, []);
-
-	// const handleOpenCamera = ()=>{
-	// 	navigation.navigate('ScanScreen')
-	// }
 
 	const handleOpenCamera = () => {
 		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
@@ -307,11 +288,18 @@ const FormScreen = ({ navigation, route }) => {
 		setOpenCamera(!openCamera);
 	};
 
+	useEffect(() => {
+		handleOpenCamera()
+	}, []);
+
+	// Definir tamanhos do snap
+	const snapPoints = useMemo(() => ["30%", "40%"], []);
+
 	// No FormScreen
 	useEffect(() => {
 		if (!openCamera && qrValues && Object.keys(qrValues).length > 0) {
 			setTimeout(() => {
-				sheetRef.current?.open();
+				handleModal()
 			}, 200); // espera o BottomSheet montar
 		}
 	}, [openCamera, qrValues]);
@@ -367,6 +355,20 @@ const FormScreen = ({ navigation, route }) => {
 						openCamera={openCamera}
 					/>
 				</ScrollView>
+				{!selectedFarm && (
+					<View style={styles.qrButtonContainer}>
+						<Pressable
+							onPress={handleOpenCamera}
+							style={({ pressed }) => [
+								styles.qrButton,
+								pressed && styles.qrButtonPressed,
+							]}
+						>
+							<AntDesign name="qrcode" size={40} color="white" />
+							<Text style={styles.qrButtonText}>QR Code</Text>
+						</Pressable>
+					</View>
+				)}
 				<View style={styles.buttonContainer}>
 					<Button
 						disabled={
@@ -403,39 +405,33 @@ const FormScreen = ({ navigation, route }) => {
 					</View>
 				</View>
 			</View>
-			<BottomSheet ref={sheetRef} style={styles.bottomSheetStl}>
-				<SafeAreaView>
-					<ScrollView
+			{/* Lista de Fazendas */}
+			<BottomSheet
+				ref={sheetRef}
+				index={-1} // fechado inicialmente
+				snapPoints={snapPoints}
+				enablePanDownToClose
+				backgroundStyle={{ backgroundColor: "#222" }}
+				handleIndicatorStyle={{ backgroundColor: "#fff" }}
+			>
+				<SafeAreaView style={{ flex: 1 }}>
+					<BottomSheetScrollView
 						keyboardShouldPersistTaps="handled"
 						showsVerticalScrollIndicator={false}
-						style={{
-							marginBottom: 50
-						}}
+						contentContainerStyle={{ paddingBottom: 50 }}
 					>
-						{filteredFarms.map((farm, i) => {
-							return (
-								<BottomSheetSelect
-									key={i}
-									setSelectedFarm={setSelectedFarm}
-									navigation={navigation}
-									onClose={handleCloseModal}
-									name={farm.label.replace("Projeto", "")}
-									label={farm.label}
-								/>
-							);
-						})}
-					</ScrollView>
+						{filteredFarms.map((farm, i) => (
+							<BottomSheetSelect
+								key={i}
+								setSelectedFarm={setSelectedFarm}
+								navigation={navigation}
+								onClose={handleCloseModal}
+								name={farm.label.replace("Projeto", "")}
+								label={farm.label}
+							/>
+						))}
+					</BottomSheetScrollView>
 				</SafeAreaView>
-			</BottomSheet>
-			<BottomSheet
-				ref={sheetRefQr}
-				style={styles.bottomSheetStlQr}
-				height={250}
-			>
-				<QrBottomSheet
-					onClose={handleCloseModalQr}
-					goToCamera={handleOpenCamera}
-				/>
 			</BottomSheet>
 		</SafeAreaView>
 	);
@@ -444,6 +440,32 @@ const FormScreen = ({ navigation, route }) => {
 export default FormScreen;
 
 const styles = StyleSheet.create({
+	mainContainer: {
+		flex: 1,
+		justifyContent: "space-between",
+		alignItems: "center",
+		height: "100%",
+		padding: 10,
+	},
+	formContainer: {
+		flexGrow: 0,
+		width: "90%",
+		marginBottom: 20,
+	},
+	qrButtonContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
+	buttonContainer: {
+		width: "90%",
+		gap: 10,
+		marginBottom: 30,
+	},
+	pressed: {
+		backgroundColor: Colors.primary[500]
+	},
 	headerFormTitle: {
 		padding: 10,
 		justifyContent: "center",
@@ -462,6 +484,11 @@ const styles = StyleSheet.create({
 	bottomSheetStl: {
 		backgroundColor: Colors.primary[901],
 		paddingHorizontal: 20
+	},
+	bottomSheet: {
+		backgroundColor: "#222",
+		borderTopLeftRadius: 16,
+		borderTopRightRadius: 16,
 	},
 	cancelContainer: {
 		flexDirection: "row",
@@ -508,5 +535,37 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: Colors.primary500,
 		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-	}
+	},
+	qrButtonContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
+
+	qrButton: {
+		backgroundColor: Colors.primary[700] || "#007AFF", // azul (troque pra cor que quiser)
+		paddingVertical: 12,
+		paddingHorizontal: 30,
+		borderRadius: 10,
+		alignItems: "center",
+		justifyContent: "center",
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: 3 },
+		shadowOpacity: 0.3,
+		shadowRadius: 5,
+		elevation: 5, // sombra Android
+		flexDirection: "row",
+		columnGap: 10,
+	},
+
+	qrButtonPressed: {
+		opacity: 0.7,
+	},
+
+	qrButtonText: {
+		color: "white",
+		fontSize: 18,
+		fontWeight: "600",
+	},
 });

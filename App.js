@@ -1,3 +1,6 @@
+import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -115,7 +118,7 @@ function RomaneioStack({ route, navigation }) {
 			screenOptions={{
 				headerStyle: { backgroundColor: Colors.primary500 },
 				headerTintColor: "whitesmoke",
-				
+
 				headerShown: true, // Make sure the header is visible
 				headerStyle: {
 					backgroundColor: Colors.primary500,
@@ -127,7 +130,7 @@ function RomaneioStack({ route, navigation }) {
 				},
 				headerLargeTitle: true, // Enable large title for iOS
 				headerTitleAlign: 'center', // Align title to the center
-				
+
 			}}
 		>
 			<Stack.Screen
@@ -435,13 +438,15 @@ const NewAuthStack = () => {
 function Navigation() {
 	const context = useContext(AuthContext);
 	return (
-		<NavigationContainer style={styles.rootContainer}>
-			{!context.isAuth ? (
-				<AuthStack />
-			) : (
-				<NewAuthStack context={context} />
-			)}
-		</NavigationContainer>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<NavigationContainer style={styles.rootContainer}>
+				{!context.isAuth ? (
+					<AuthStack />
+				) : (
+					<NewAuthStack context={context} />
+				)}
+			</NavigationContainer>
+		</GestureHandlerRootView>
 	);
 }
 

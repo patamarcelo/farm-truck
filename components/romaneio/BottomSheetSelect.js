@@ -19,6 +19,7 @@ const BottomSheetSelect = ({
 		<Pressable
 			// onPress={handleSelect.bind(this, data, i)}
 			onPress={handleSelect.bind(this, label)}
+			android_ripple={{ color: 'rgba(255,255,255,0.2)' }}	
 			style={({ pressed }) => [
 				pressed && styles.pressed,
 				styles.mainContainer
