@@ -108,8 +108,7 @@ const updateSingleDoc = async (idDoc) => {
 	const lastNumber = await getLastRomaneioNUmber();
 	const documentUpdate = doc(db, "truckmove", idDoc);
 	await updateDoc(documentUpdate, {
-		id: idDoc,
-		relatorioColheita: Number(lastNumber) + 1
+		id: idDoc
 	});
 };
 
