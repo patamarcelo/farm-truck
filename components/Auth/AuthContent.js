@@ -6,7 +6,9 @@ import AuthForm from "./AuthForm";
 import { Colors } from "../../constants/styles";
 import { useNavigation } from "@react-navigation/native";
 
-import { expo } from "../../app.json";
+// import { expo } from "../../app.json";
+// import { expo } from '../../app.config'
+import * as Application from 'expo-application';
 
 function AuthContent({ isLogin, onAuthenticate }) {
 	const navigation = useNavigation();
@@ -102,7 +104,8 @@ function AuthContent({ isLogin, onAuthenticate }) {
 						fontWeight: 'bold'
 					}}
 				>
-					{expo.version}
+					{/* {expo.version} */}
+					{Application.nativeApplicationVersion || 'v1.0.0'}
 				</Text>
 			</View>
 		</>

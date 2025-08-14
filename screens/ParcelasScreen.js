@@ -65,7 +65,6 @@ const ParcelasScreen = ({ navigation, route }) => {
             ;
     }
 
-
     const renderPacelasList = (itemData) => {
         const { parcela, cultura, variedade, selected } = itemData.item;
 
