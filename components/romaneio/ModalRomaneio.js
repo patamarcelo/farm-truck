@@ -1,351 +1,216 @@
+import React, { useLayoutEffect, useEffect, useState, memo } from "react";
 import {
-	View,
-	Text,
-	StyleSheet,
-	Image,
-	ScrollView,
-	Platform
+	View, Text, StyleSheet, Image, ScrollView, TouchableOpacity,
+	Dimensions, Platform
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation, useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import {
-	romaneiosFarmSelector,
-	romaneioSelector
-} from "../../store/redux/selector";
-import { useLayoutEffect, useState, useEffect } from "react";
-
-import { Colors } from "../../constants/styles";
-
-import { Dimensions } from "react-native";
-
+import { romaneiosFarmSelector, romaneioSelector } from "../../store/redux/selector";
 import { ICON_URL, findImg } from "../../utils/imageUrl";
-import { formatDateFirebase, formatDate } from "../../utils/formatDate";
+import { formatDateFirebase } from "../../utils/formatDate";
 
-import { useIsFocused } from "@react-navigation/native";
+const width = Dimensions.get("window").width;
 
-const width = Dimensions.get("window").width; //full width
+const Divider = () => <View style={styles.divider} />;
 
-const ModalRomaneioScreen = ({ navigation }) => {
+const Section = ({ title, children }) => (
+	<View style={styles.section}>
+		<Text style={styles.sectionTitle}>{title}</Text>
+		<View style={styles.card}>{children}</View>
+	</View>
+);
+
+const InfoRow = memo(({ label, value, right }) => (
+	<View style={styles.row} accessibilityLabel={`${label}: ${value || "—"}`}>
+		<Text style={styles.label}>{label}</Text>
+		<View style={styles.valueWrap}>
+			<Text style={styles.value} numberOfLines={1}>{value || "—"}</Text>
+			{right}
+		</View>
+	</View>
+));
+
+const Chip = ({ children }) => (
+	<View style={styles.chip}><Text style={styles.chipText}>{children}</Text></View>
+);
+
+const formatPercent = (n) =>
+	(n === undefined || n === null || n === "") ? "—"
+		: `${Number(n).toLocaleString("pt-br", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+
+export default function ModalRomaneioScreen({ navigation }) {
 	const route = useRoute();
 	const id = route.params.data;
 	const filtId = route.params.filtId;
 
-	console.log(id);
-
-	const { name } = navigation.getState()?.routes[1];
 	const isFocused = useIsFocused();
+	const data = filtId?.length > 5 ? useSelector(romaneiosFarmSelector) : useSelector(romaneioSelector);
 
-	let data = [];
-	if (filtId.length > 5) {
-		data = useSelector(romaneiosFarmSelector);
-	} else {
-		data = useSelector(romaneioSelector);
-	}
-
-	const [dataShow, setDataShow] = useState("");
-	const [NumberRomaneio, setNumberRomaneio] = useState();
+	const [dataShow, setDataShow] = useState(null);
 	const [prodType, setProdType] = useState(null);
+	const [docNumber, setDocNumber] = useState("");
 
 	useLayoutEffect(() => {
-		const compData = data.filter((dataFind) => dataFind.idApp === id)[0];
+		const compData = data.find(d => d.idApp === id);
 		setDataShow(compData);
-		const getProduct = compData?.parcelasObjFiltered?.map((data) => ({cultura: data?.cultura, mercadoria: data?.variedade }))[0]
-		setProdType(getProduct)
-		// console.log("compData: ", compData.appDate);
-	}, [isFocused]);
-
-	const labelParcelas = (data) => {
-		return data?.parcelasObjFiltered.map((data) => data.parcela)?.length > 1 ? "Parcelas:" : "Parcela:";
-	};
-
-	const statusColor = (status) => {
-		if (status) {
-			return "green";
-		}
-		return "red";
-	};
+		const p = compData?.parcelasObjFiltered?.map(x => ({ cultura: x?.cultura, mercadoria: x?.variedade }))[0];
+		setProdType(p);
+	}, [isFocused, data, id]);
 
 	useEffect(() => {
-		const newNumber = dataShow?.relatorioColheita
-			? dataShow?.relatorioColheita
-			: dataShow?.idApp;
-		setNumberRomaneio(newNumber);
+		if (!dataShow) return;
+		setDocNumber(dataShow?.relatorioColheita || dataShow?.idApp);
 	}, [dataShow]);
 
+	if (!dataShow) return null;
+
+	const peso = (n) => n ? parseInt(n).toLocaleString("pt-br") : "—";
+	const placaFmt = `${dataShow.placa?.slice(0, 3)}-${dataShow.placa?.slice(3)}`;
+	const dataFmt = dataShow.id ? formatDateFirebase(dataShow) : new Date(dataShow.appDate).toLocaleString("pt-BR").replace(",", " ·");
+
+	const parcelas = dataShow?.parcelasObjFiltered?.map(x => x.parcela)?.join(" - ")?.trim();
+	const ticket = dataShow?.ticket || Number(dataShow?.codTicketPro?.replace(/^0+/, ""));
+
 	return (
-		<>
-			{dataShow ? (
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<View style={styles.mainContainer}>
-						<View style={styles.headerContainer}>
-							<Text style={styles.headerTitle}>
-								DETALHES DO ROMANEIO
-							</Text>
-						</View>
-						{/* <ScrollView
-					gap={20}
-					> */}
-						<View
-							style={[
-								styles.dataContainerNumber,
-								{
-									backgroundColor: statusColor(dataShow.id),
-									opacity: 1
-								}
-							]}
-						>
-							<Text style={[styles.titleDocNumber, { color: "white" }]}>
-							Nº {NumberRomaneio}
-							</Text>
-						</View>
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>Data: </Text>
-							<Text style={styles.resultDoc}>
-								{dataShow.id
-									? formatDateFirebase(dataShow)
-									: new Date(dataShow.appDate)
-											.toLocaleString("pt-BR")
-											.replace(",", " -")}
-							</Text>
-						</View>
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>Placa:</Text>
-							<Text style={styles.resultDoc}>
-								{dataShow.placa.slice(0, 3)}-
-								{dataShow.placa.slice(3, 12)}
-							</Text>
-						</View>
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>Motorista: </Text>
-							<Text style={styles.resultDoc}>
-								{dataShow.motorista.length > 20 ? dataShow.motorista.substring(0,20) + "..." : dataShow.motorista}
-							</Text>
-						</View>
+		<View style={styles.container}>
+			{/* Header */}
+			<View style={styles.header}>
+				<View style={styles.headerHandle} />
+				<Text style={styles.headerTitle}>DETALHES DO ROMANEIO</Text>
+				<Image source={require("../../assets/diamond.png")} style={styles.brand} />
+			</View>
 
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>Projeto:</Text>
-							<Text style={styles.resultDoc}>
-								{dataShow.fazendaOrigem
-									.replace("Projeto", "")
-									.trim()}
-							</Text>
-						</View>
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>Cultura: </Text>
-							<View
-								style={{
-									alignItems: "center",
-									flexDirection: "row"
-								}}
-							>
-								<Text>{prodType?.cultura}</Text>
-								<View style={styles.shadowContainer}>
-								<Image
-									source={findImg(ICON_URL, prodType?.cultura)}
-									style={{
-										width: 25,
-										height: 25,
-										marginLeft: 10
-									}}
-								/>
-								</View>
-							</View>
-						</View>
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>Variedade:</Text>
-							<Text style={styles.resultDoc}>
-								{prodType?.mercadoria?.trim()}
-							</Text>
-						</View>
+			<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
+				{/* Banner Nº */}
+				<View style={[styles.banner, { backgroundColor: dataShow.id ? "#1E7F34" : "#1B4FA3" }]}>
+					<Text style={styles.bannerText}>Nº {docNumber}</Text>
+				</View>
 
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>
-								{labelParcelas(dataShow)}
-							</Text>
-							<Text style={styles.resultDoc}>
-								{dataShow?.parcelasObjFiltered.map((data) => data.parcela)?.join("-").trim()}
-							</Text>
-						</View>
-						<View style={styles.dataContainer}>
-							<Text style={styles.titleDoc}>
-								Ticket:
-							</Text>
-							<Text style={styles.resultDoc}>
-								{dataShow?.ticket ? dataShow?.ticket : Number(dataShow?.codTicketPro.replace(/^0+/, '')) }
-							</Text>
-						</View>
+				{/* Cabeçalho curto */}
+				<Section title="Geral">
+					<InfoRow label="Data" value={dataFmt} />
+					<Divider />
+					<InfoRow label="Placa" value={placaFmt} />
+					<Divider />
+					<InfoRow label="Motorista" value={(dataShow.motorista || "").trim()} />
+					<Divider />
+					<InfoRow label="Projeto" value={(dataShow.fazendaOrigem || "").replace("Projeto", "").trim()} />
+				</Section>
 
-						{dataShow.id && (
-							<>
-								<View style={styles.dataContainer}>
-									<Text style={styles.titleDoc}>
-										Peso Bruto:
-									</Text>
-									<Text style={styles.resultDoc}>
-										{dataShow.pesoBruto &&
-											parseInt(
-												dataShow.pesoBruto
-											).toLocaleString("pt-br", {
-												minimumFractionDigits: 0,
-												maximumFractionDigits: 0
-											})}
-									</Text>
-								</View>
-								<View style={styles.dataContainer}>
-									<Text style={styles.titleDoc}>
-										Peso Tara:
-									</Text>
-									<Text style={styles.resultDoc}>
-										{dataShow.tara &&
-											parseInt(
-												dataShow.tara
-											).toLocaleString("pt-br", {
-												minimumFractionDigits: 0,
-												maximumFractionDigits: 0
-											})}
-									</Text>
-								</View>
-
-								<View style={styles.dataContainer}>
-									<Text style={styles.titleDoc}>
-										Peso Líquido:
-									</Text>
-									<Text style={styles.resultDoc}>
-										{dataShow.liquido &&
-											parseInt(
-												dataShow.liquido
-											).toLocaleString("pt-br", {
-												minimumFractionDigits: 0,
-												maximumFractionDigits: 0
-											})}
-									</Text>
-								</View>
-								<View style={styles.dataContainer}>
-									<Text style={styles.titleDoc}>
-										Obs.:
-									</Text>
-									<Text style={styles.resultDocObs}>
-										{dataShow?.observacoes}
-									</Text>
-								</View>
-							</>
-						)}
-						{/* </ScrollView> */}
-						<View
-							style={{
-								width: "100%",
-								alignItems: "center"
-								// marginTop: 40
-							}}
-						>
-							<Text style={styles.headerRomaneio}>
-								{dataShow.id ? dataShow.id : dataShow.idApp}
-							</Text>
-						</View>
-						<View style={styles.imgContainer}>
-						<View style={styles.shadowContainer}>
+				{/* Produção */}
+				<Section title="Produção">
+					<InfoRow
+						label="Cultura"
+						value={" "}
+						right={
 							<Image
-								source={require("../../assets/diamond.png")}
-								style={styles.image}
+								source={findImg(ICON_URL, prodType?.cultura)}
+								style={{ width: 20, height: 20, marginLeft: 8 }}
 							/>
-							</View>
-						</View>
-					</View>
-				</ScrollView>
-			) : (
-				<></>
-			)}
-		</>
-	);
-};
+						}
+					/>
+					<Divider />
+					<InfoRow label="Variedade" value={prodType?.mercadoria?.trim()} />
+					<Divider />
+					<InfoRow label={dataShow?.parcelasObjFiltered?.length > 1 ? "Parcelas" : "Parcela"} value={parcelas} />
+					<Divider />
+					<InfoRow label="Ticket" value={String(ticket || "—")} />
+				</Section>
 
-export default ModalRomaneioScreen;
+				{/* Pesagem */}
+				{dataShow.id && (
+					<Section title="Pesagem">
+						<InfoRow label="Peso Bruto" value={peso(dataShow.pesoBruto)} />
+						<Divider />
+						<InfoRow label="Peso Tara" value={peso(dataShow.tara)} />
+						<Divider />
+						{
+							dataShow?.liquido > 0 ?
+								<View style={styles.row}>
+									<Text style={styles.label}>Peso Líquido</Text>
+									<View style={styles.valueWrap}>
+										<View style={styles.pill}>
+											<Text style={styles.pillText}>{peso(dataShow.liquido)}</Text>
+										</View>
+									</View>
+								</View>
+								:
+								<InfoRow label="Peso Líquido" value={""} />
+
+
+						}
+
+						<Divider />
+						<InfoRow label="Umidade" value={formatPercent(dataShow.umidade)} />
+						<Divider />
+						<InfoRow label="impureza" value={formatPercent(dataShow.impureza)} />
+					</Section>
+				)}
+
+				{/* Observação */}
+				<Section title="Observações">
+					<View style={styles.obsBox}>
+						<Text style={styles.obsText}>{dataShow?.observacoes?.trim() || "Nenhuma observação"}</Text>
+					</View>
+				</Section>
+
+				{/* Rodapé/chave */}
+				<View style={styles.footer}>
+					<Text style={styles.footerKey}>{dataShow.id || dataShow.idApp}</Text>
+				</View>
+			</ScrollView>
+		</View>
+	);
+}
 
 const styles = StyleSheet.create({
-	shadowContainer: {
-        shadowColor: "#000",  // Shadow color
-        shadowOffset: { width: 3, height: 5 },  // Offset for drop shadow effect
-        shadowOpacity: 0.4,  // Opacity of shadow
-        shadowRadius: 4,  // Spread of shadow
-        elevation: 6,  // Required for Android
-    },
-	image: {
-		width: 40,
-		height: 40,
-		 resizeMode: 'contain'
+	container: { flex: 1, paddingHorizontal: 16, paddingTop: Platform.OS === "ios" ? 12 : 6 },
+	header: {
+		alignItems: "center", marginBottom: 8,
 	},
-	headerRomaneio: {
-		fontStyle: "italic",
-		color: "grey",
-		fontWeight: "bold"
+	headerHandle: {
+		width: 48, height: 6, borderRadius: 999, backgroundColor: "#DADDE2", marginBottom: 10,
 	},
-	headerContainer: {
-		justifyContent: "center",
-		alignItems: "center",
-		marginBottom: 5
+	headerTitle: { fontSize: 14, fontWeight: "700", color: "whitesmoke", letterSpacing: 0.5 },
+	brand: { width: 32, height: 32, position: "absolute", right: 0, top: 0, resizeMode: "contain" },
+
+	banner: {
+		borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12,
+		alignItems: "center", justifyContent: "center",
+		...Platform.select({
+			ios: { shadowColor: "#000", shadowOpacity: 0.15, shadowRadius: 6, shadowOffset: { width: 0, height: 4 } },
+			android: { elevation: 3 }
+		}),
+		marginBottom: 8
 	},
-	grid: {
-		width: width / 2,
-		flex: 1
+	bannerText: { color: "#fff", fontWeight: "800", fontSize: 16, letterSpacing: 0.5 },
+
+	section: { marginTop: 10 },
+	sectionTitle: { color: "whitesmoke", fontWeight: "700", marginBottom: 6 },
+	card: {
+		borderRadius: 14, backgroundColor: "#fff",
+		...Platform.select({
+			ios: { shadowColor: "#000", shadowOpacity: 0.08, shadowRadius: 8, shadowOffset: { width: 0, height: 4 } },
+			android: { elevation: 2 }
+		})
 	},
-	headerTitle: {
-		fontSize: 14,
-		fontWeight: "bold",
-		color: "white",
-		marginBottom: 10
-	},
-	resultDoc: {
-		textAlign: "left",
-		// backgroundColor: "red",
-		width: width / 2
-		// paddingLeft: 5
-	},
-	resultDocObs: {
-		textAlign: "left",
-		// backgroundColor: "red",
-		width: width / 2,
-		paddingRight: 20
-	},
-	titleDoc: {
-		textAlign: "right",
-		fontWeight: "bold",
-		width: width / 2,
-		paddingRight: 10
-		// backgroundColor: "green"
-	},
-	titleDocNumber: {
-		textAlign: "center",
-		fontWeight: "bold",
-		width: width,
-		// backgroundColor: "green"
-	},
-	dataContainerNumber: {
-		flexDirection: "row",
-		alignItems: "center",
-		// gap: 12,
-		backgroundColor: "whitesmoke",
-		width: width,
-		paddingVertical: 10,
-		paddingHorizontal: 8
-	},
-	dataContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		// gap: 12,
-		backgroundColor: "whitesmoke",
-		width: width,
-		paddingVertical: 9,
-		paddingHorizontal: 8
-	},
-	mainContainer: {
-		flex: 1,
-		top: Platform.OS === "ios" && 20,
-		gap: 10,
-		paddingBottom: 20,
-		// justifyContent: "center",
-		alignItems: "center"
-	},
-	text: {
-		color: "white"
-	}
+
+	row: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, paddingVertical: 6 },
+	label: { width: width * 0.34, textAlign: "right", paddingRight: 10, fontWeight: "700", color: "#334155", flexShrink: 0 },
+	valueWrap: { flexDirection: "row", alignItems: "center", flex: 1, minWidth: 0 },
+	value: { color: "#0F172A", flexShrink: 1 },
+
+	divider: { height: StyleSheet.hairlineWidth, backgroundColor: "rgba(51,51,51,0.5)", marginLeft: width * 0.34 + 14 },
+
+	chip: { backgroundColor: "#EEF6EE", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 },
+	chipText: { color: "#1E7F34", fontWeight: "600" },
+
+	pill: { backgroundColor: "#ECFDF5", borderRadius: 10, paddingHorizontal: 6, paddingVertical: 6 },
+	pillText: { color: "#065F46", fontWeight: "800" },
+
+	obsBox: { paddingHorizontal: 14, paddingVertical: 12 },
+	obsText: { color: "#475569" },
+
+	footer: { alignItems: "center", marginTop: 8 },
+	footerKey: { fontStyle: "italic", color: "grey", fontWeight: "bold" },
 });

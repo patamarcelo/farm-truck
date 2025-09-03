@@ -13,6 +13,7 @@ const height = Dimensions.get("screen").height; //full heihgt
 import { formatDate } from "../../utils/formatDate";
 
 import moment from "moment";
+import { useCallback } from "react";
 
 const renderRomaneioList = (itemData) => {
 	return (
@@ -24,70 +25,51 @@ const renderRomaneioList = (itemData) => {
 };
 
 const RomaneioList = ({ search, data, filteredData, setFilteredData, handleRefresh, refreshing, HeaderComp }) => {
-	// const data = useSelector(romaneioSelector);
 	const listRef = useRef(null);
-
 	const [isLoading, setIsLoading] = useState(true);
-
 
 	useLayoutEffect(() => {
 		setFilteredData(data);
 		setIsLoading(false);
-	}, [data]);
+	}, [data, setFilteredData]);
 
 	useEffect(() => {
-		if (search) {
-			const newArr = filteredData
-				.filter((dataFilter) => {
-					const formatDate = moment(
-						new Date(
-							dataFilter.appDate.seconds * 1000 +
-							dataFilter.appDate.nanoseconds / 1000000
-						)
-					).format("DD/MM/YYYY - HH:mm");
-					return (
-						dataFilter.placa.toLowerCase().includes(search.toLowerCase()) ||
-						dataFilter.fazendaOrigem
-							.toLowerCase()
-							.includes(search.toLowerCase()) ||
-						dataFilter.motorista.toLowerCase().includes(search.toLowerCase()) ||
-						dataFilter.parcelasNovas
-							?.join("")
-							.toLowerCase()
-							.includes(search.toLowerCase()) ||
-						dataFilter.relatorioColheita
-							.toString()
-							.includes(search.toString()) ||
-						dataFilter.ticket
-							.toString()
-							.includes(search.toString()) ||
-						formatDate.includes(search)
-					);
-				});
-			setFilteredData(newArr);
-		} else {
+		if (!search) {
 			setFilteredData(data);
+			return;
 		}
-	}, [search]);
+		const normalized = search.toLowerCase();
+		const newArr = data.filter((row) => {
+			const appDateStr = moment(
+				new Date(row.appDate.seconds * 1000 + row.appDate.nanoseconds / 1e6)
+			).format("DD/MM/YYYY - HH:mm");
+
+			return (
+				row.placa.toLowerCase().includes(normalized) ||
+				row.fazendaOrigem?.toLowerCase().includes(normalized) ||
+				row.motorista?.toLowerCase().includes(normalized) ||
+				row.parcelasNovas?.join("").toLowerCase().includes(normalized) ||
+				row.relatorioColheita?.toString().includes(search) ||
+				row.ticket?.toString().includes(search) ||
+				appDateStr.includes(search)
+			);
+		});
+		setFilteredData(newArr);
+	}, [search, data, setFilteredData]);
 
 	useScrollToTop(
-		useRef({
-			scrollToOffset: (params) => listRef.current?.scrollToOffset(params),
-		})
+		useRef({ scrollToOffset: (params) => listRef.current?.scrollToOffset(params) })
 	);
 
+	const renderItem = useCallback(
+		({ item }) => <CardRomaneio data={item} styleContainer={styles.bannerContainer} />,
+		[]
+	);
 
-	// Show loading indicator if data is still being processed
-	if (isLoading) {
-		return (
-			<View style={styles.loadingContainer}>
-				<ActivityIndicator size="large" color="#689F38" />
-			</View>
-		);
-	}
+	const isFetching = isLoading || refreshing;
 
-	// Handle empty states
-	if (!data.length) {
+
+	if (!isFetching && !data.length) {
 		return (
 			<View style={[styles.adviseContainer, styles.bannerContainer]}>
 				<Text style={styles.adviseContainerTitle}>Sem Romaneio Cadastrado</Text>
@@ -95,35 +77,39 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData, handleRefre
 		);
 	}
 
-	if (!filteredData.length) {
+	if (!isFetching && !filteredData.length) {
 		return (
 			<View style={styles.adviseContainer}>
 				<Text style={styles.adviseContainerTitle}>Sem resultados para essa busca</Text>
 			</View>
 		);
 	}
+
 	return (
-
-
 		<FlatList
-			// scrollEnabled={false}
 			ref={listRef}
 			data={filteredData}
-			keyExtractor={(item, i) => item.idApp + i}
-			renderItem={renderRomaneioList}
+			keyExtractor={(item) => String(item.idApp)}
+			renderItem={renderItem}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
 			contentContainerStyle={{ flexGrow: 1 }}
 			ListHeaderComponent={HeaderComp}
+			// refreshing={refreshing}
+			// onRefresh={handleRefresh}
+
 			refreshControl={
 				<RefreshControl
 					refreshing={refreshing}
 					onRefresh={handleRefresh}
-					colors={["#9Bd35A", "#689F38"]}
-					tintColor={"whitesmoke"}
+					colors={["#f5f5f5"]}       // Android → array de cores
+					tintColor="#f5f5f5"        // iOS → cor do spinner
+					progressBackgroundColor="#333" // Android → fundo do círculo
 				/>
 			}
+			removeClippedSubviews
+			initialNumToRender={10}
+			windowSize={7}
 		/>
-
 	);
 };
 
@@ -148,5 +134,11 @@ const styles = StyleSheet.create({
 		// borderRadius: 12,
 		width: "100%",
 		alignSelf: "center"
+	},
+	loadingContainer:{
+		flex: 1,
+		backgroundColor: 'red', 
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });

@@ -48,9 +48,10 @@ const width = Dimensions.get("window").width; //full width
 
 const RomaneioScreen = ({ navigation, route }) => {
 	const isFocused = useIsFocused();
-	const [sentData, setSentData] = useState([]);
 	const dispatch = useDispatch();
 	const data = useSelector(romaneiosFarmSelector);
+	const [sentData, setSentData] = useState(() => data ?? []);
+
 	const user = useSelector(userSelectorAttr);
 
 	const tabBarHeight = useBottomTabBarHeight();
@@ -77,6 +78,9 @@ const RomaneioScreen = ({ navigation, route }) => {
 
 	// State to control visibility
 	const [visible, setVisible] = useState(false);
+	useEffect(() => {
+		setSentData(data ?? []);
+	}, [data]);
 
 	// Function to slide down (show)
 	const slideDown = () => {
@@ -165,25 +169,30 @@ const RomaneioScreen = ({ navigation, route }) => {
 	}, [isFocused]);
 
 	const handleRefresh = async () => {
-		console.log('atualuizando os dadosssss')
+		console.log("Atualizando dados...");
 		setRefreshing(true);
+
+		const start = Date.now();
+
 		try {
 			const data = await getAllDocsFirebase(projetosData);
 			if (data === false) {
 				dispatch(addRomaneiosFarm([]));
 				context.logout();
+			} else {
+				dispatch(addRomaneiosFarm(data.filter((d) => Number(d.liquido) !== 1)));
 			}
-			if (data) {
-				dispatch(addRomaneiosFarm(data.filter((data) => Number(data.liquido) !== 1)))
-			}
+			setRefreshing(false);
 		} catch (error) {
 			console.log("Erro ao pegar os dados: ", error);
 			if (error.code === "permission-denied") {
 				dispatch(addRomaneiosFarm([]));
 				context.logout();
 			}
-		} finally {
 			setRefreshing(false);
+		} finally {
+			// Calcula quanto tempo já passou
+			
 		}
 	};
 
