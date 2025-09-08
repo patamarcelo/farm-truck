@@ -16,7 +16,7 @@ import Animated, { FadeInRight, FadeOut, Layout, BounceIn, BounceOut, FadeOutRig
 
 import CardButton from "../components/ui/CardButton";
 import { Colors } from "../constants/styles";
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useCallback } from "react";
 
 import { AuthContext } from "../store/auth-context";
 
@@ -45,9 +45,14 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
 
 const width = Dimensions.get("window").width; //full width
+import { InteractionManager } from "react-native";
+import { Portal } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const RomaneioScreen = ({ navigation, route }) => {
-	const isFocused = useIsFocused();
+
+
+const RomaneioScreen = () => {
+	// const isFocused = useIsFocused();
 	const dispatch = useDispatch();
 	const data = useSelector(romaneiosFarmSelector);
 	const [sentData, setSentData] = useState(() => data ?? []);
@@ -71,6 +76,9 @@ const RomaneioScreen = ({ navigation, route }) => {
 	const projetosData = useSelector(projetosSelector);
 
 	const context = useContext(AuthContext);
+	
+	const insets = useSafeAreaInsets();
+	const FAB_OFFSET = 16; // distância do fundo
 
 	// const ref = useRef(null);
 
@@ -93,28 +101,50 @@ const RomaneioScreen = ({ navigation, route }) => {
 	};
 
 	// Function to slide up (hide)
-	const slideUp = () => {
+	const slideUp = (onFinish) => {
 		AnimatedOrigin.timing(slideAnim, {
 			toValue: -100,
 			duration: 500,
 			useNativeDriver: true,
 		}).start(() => {
 			setVisible(false);
+			if (onFinish) onFinish(); // executa só depois da animação
 		});
 	};
+
+
+	// const handleFilterProps = () => {
+	// 	Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+	// 	setShowSearch((prev) => {
+	// 		if (!prev) {
+	// 			slideDown()
+	// 			return !prev
+	// 		} else {
+	// 			slideUp()
+	// 			setSearch("");
+	// 			return !prev
+	// 		}
+	// 	})
+	// }
 	const handleFilterProps = () => {
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-		setShowSearch((prev) => {
-			if (!prev) {
-				slideDown()
-				return !prev
-			} else {
-				slideUp()
-				setSearch("");
-				return !prev
-			}
-		})
-	}
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+
+		if (!showSearch) {
+			slideDown();
+			setShowSearch(true);
+		} else {
+			setShowSearch(false);
+			slideUp(() => setSearch("")); // limpa só depois do slideUp terminar
+		}
+	};
+
+	useEffect(() => {
+		if (!showSearch) {
+			const task = InteractionManager.runAfterInteractions(() => setSearch(""));
+			return () => task?.cancel?.();
+		}
+	}, [showSearch]);
+
 
 	useEffect(() => {
 		if (data) {
@@ -130,86 +160,66 @@ const RomaneioScreen = ({ navigation, route }) => {
 		}
 	}, [data]);
 
-	useEffect(() => {
-		if (projetosData) {
+	const fetchRomaneios = useCallback(async () => {
+		if (data.length === 0) {
 			seTisLoading(true);
-			const getDataFire = async () => {
-				try {
-					const data = await getAllDocsFirebase(projetosData);
-					if (data === false) {
-						dispatch(addRomaneiosFarm([]));
-						context.logout();
-					}
-					dispatch(addRomaneiosFarm(data.filter((data) => Number(data.liquido) !== 1)));
-				} catch (error) {
-					if (error.code === "permission-denied") {
-						dispatch(addRomaneiosFarm([]));
-						context.logout();
-					}
-				} finally {
-					// seTisLoading(false);
-				}
-			};
-			if (isFocused) {
-				console.log("isFocused", isFocused);
-				getDataFire();
-				console.log("finalizou de pegar os dados");
-			}
-		} else {
-			dispatch(addRomaneiosFarm([]));
-			// seTisLoading(false);
 		}
-		seTisLoading(false);
-	}, [isFocused]);
-
-	useEffect(() => {
-		if (isFocused) {
-			setSearch("");
-		}
-	}, [isFocused]);
-
-	const handleRefresh = async () => {
-		console.log("Atualizando dados...");
-		setRefreshing(true);
-
-		const start = Date.now();
-
 		try {
+			if (!projetosData) {
+				dispatch(addRomaneiosFarm([]));
+				return;
+			}
 			const data = await getAllDocsFirebase(projetosData);
 			if (data === false) {
 				dispatch(addRomaneiosFarm([]));
 				context.logout();
-			} else {
-				dispatch(addRomaneiosFarm(data.filter((d) => Number(d.liquido) !== 1)));
+				return;
 			}
-			setRefreshing(false);
+			dispatch(addRomaneiosFarm(data.filter(d => Number(d.liquido) !== 1)));
 		} catch (error) {
-			console.log("Erro ao pegar os dados: ", error);
-			if (error.code === "permission-denied") {
+			if (error?.code === "permission-denied") {
 				dispatch(addRomaneiosFarm([]));
 				context.logout();
 			}
-			setRefreshing(false);
 		} finally {
-			// Calcula quanto tempo já passou
-			
+			seTisLoading(false);
+		}
+	}, [projetosData, dispatch, context]);
+
+	const hasFetchedOnce = useRef(false);
+
+	useEffect(() => {
+		if (hasFetchedOnce.current) return;        // evita rodar novamente
+		if (!projetosData) return;                 // espera ter projetosData válido
+		hasFetchedOnce.current = true;
+		fetchRomaneios();
+	}, [projetosData, fetchRomaneios]);
+
+
+	const handleRefresh = async () => {
+		setRefreshing(true);
+		try {
+			await fetchRomaneios();
+		} finally {
+			setRefreshing(false);
 		}
 	};
 
-	// const context = useContext(AuthContext);
+	// useEffect(() => {
+	// 	if (isFocused) {
+	// 		setSearch("");
+	// 	}
+	// }, [isFocused]);
+
+
 	const [search, setSearch] = useState("");
 
 	const updateSearchHandler = (e) => {
+		console.log('handler e', e)
 		setSearch(e);
 	};
 
-	// useScrollToTop(
-	// 	useRef({
-	// 		scrollToTop: () => ref.current?.scrollTo({ y: 0 })
-	// 	})
-	// );
 
-	// useScrollToTop(ref);
 
 	useEffect(() => {
 		if (filteredData.length > 0) {
@@ -353,34 +363,31 @@ const RomaneioScreen = ({ navigation, route }) => {
 				}
 				<View
 					showsVerticalScrollIndicator={false}
-					// ref={ref}
-					// contentContainerStyle={{ minHeight: '100%' }}
 					contentInsetAdjustmentBehavior='automatic'
-				// refreshControl={
-				// 	<RefreshControl
-				// 		refreshing={refreshing}
-				// 		onRefresh={handleRefresh}
-				// 		colors={["#9Bd35A", "#689F38"]}
-				// 		tintColor={"whitesmoke"}
-				// 	/>
-				// }
 				>
 					<RomaneioList search={search} data={sentData}
 						filteredData={filteredData}
 						setFilteredData={setFilteredData}
 						refreshing={refreshing}
 						handleRefresh={handleRefresh}
-						HeaderComp={<HeaderComp />}
+						HeaderComp={HeaderComp}
 					/>
 				</View>
-				<View style={[styles.fabContainer, { marginBottom: showSearch && tabBarHeight }]}>
+				<Portal>
 					<FAB
-						style={[styles.fab, { backgroundColor: "rgba(200, 200, 200, 0.3)", marginBottom: showSearch && tabBarHeight }]}
 						icon={showSearch ? "close" : "magnify"}
-						color="black" // Icon color
+						color="black"
 						onPress={handleFilterProps}
+						style={{
+							position: "absolute",
+							right: 16,
+							bottom: (tabBarHeight || 0) + (insets.bottom || 0) + FAB_OFFSET,
+							backgroundColor: "rgba(200,200,200,0.3)",
+							borderColor: Colors.success[300],
+							borderWidth: 1,
+						}}
 					/>
-				</View>
+				</Portal>
 			</SafeAreaView>
 		);
 	}

@@ -93,7 +93,8 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData, handleRefre
 			renderItem={renderItem}
 			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
 			contentContainerStyle={{ flexGrow: 1 }}
-			ListHeaderComponent={HeaderComp}
+			ListHeaderComponent={HeaderComp ? <HeaderComp /> : null}
+
 			// refreshing={refreshing}
 			// onRefresh={handleRefresh}
 

@@ -52,6 +52,10 @@ import { useSelector } from "react-redux";
 import { plantioDataFromServerSelector } from "./store/redux/selector";
 
 import { View, Text, Platform, Alert } from "react-native";
+import { Provider as PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+
 const width = Dimensions.get("window").width; //full width
 
 import { AntDesign } from "@expo/vector-icons";
@@ -439,13 +443,13 @@ function Navigation() {
 	const context = useContext(AuthContext);
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
-			<NavigationContainer style={styles.rootContainer}>
-				{!context.isAuth ? (
-					<AuthStack />
-				) : (
-					<NewAuthStack context={context} />
-				)}
-			</NavigationContainer>
+			<PaperProvider>
+				<SafeAreaProvider>
+					<NavigationContainer>
+						{!context.isAuth ? <AuthStack /> : <NewAuthStack context={context} />}
+					</NavigationContainer>
+				</SafeAreaProvider>
+			</PaperProvider>
 		</GestureHandlerRootView>
 	);
 }

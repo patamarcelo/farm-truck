@@ -130,6 +130,7 @@ export const getAllDocsFirebase = async (farm) => {
 			collection(db, "truckmove"),
 			where("fazendaOrigem", "in", farm),
 			where("createdBy", "==", "App"),
+			where("liquido", '!=', 1),
 			orderBy("syncDate", "desc"),
 			limit(150)
 		);
