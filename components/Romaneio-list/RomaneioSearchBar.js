@@ -1,10 +1,24 @@
-import { SearchBar } from "react-native-elements";
+import { SearchBar, Icon } from "react-native-elements";
 import { useState, useRef, useEffect } from "react";
 import { SafeAreaView, StyleSheet, View, Text, Animated } from "react-native";
 import { Colors } from "../../constants/styles";
+import { TouchableOpacity, } from "react-native";
 
+
+function ClearButton({ onClear }) {
+	return (
+		<TouchableOpacity
+			onPress={onClear}
+			hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+			style={{ paddingHorizontal: 6, paddingVertical: 4 }}
+		>
+			<Icon type="feather" name="x" size={18} color="grey"/>
+		</TouchableOpacity>
+	);
+}
 const SearchBarComp = (props) => {
 	const { search, updateSearchHandler, ...restProps } = props;
+	const { key: _ignoreKey, searchIcon, clearIcon, ...clean } = restProps;
 	const slideAnim = useRef(new Animated.Value(-100)).current; // start off-screen (above)
 
 
@@ -54,6 +68,17 @@ const SearchBarComp = (props) => {
 							placeholder="Procure um Romaneio"
 							onChangeText={updateSearchHandler}
 							value={search}
+							clearIcon={
+								<ClearButton
+									onClear={() => {
+										updateSearchHandler("");
+										searchBarRef.current?.focus?.();
+										// se você já usa onClear em algum lugar:
+										// props.onClear?.();
+									}}
+								/>
+							}
+							rightIconContainerStyle={{ paddingRight: 6 }}
 						/>
 						<View style={styles.helperTextContainer}>
 							<Text style={styles.helpText}>

@@ -52,7 +52,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 
 const RomaneioScreen = () => {
-	// const isFocused = useIsFocused();
+	const isFocused = useIsFocused();
 	const dispatch = useDispatch();
 	const data = useSelector(romaneiosFarmSelector);
 	const [sentData, setSentData] = useState(() => data ?? []);
@@ -76,7 +76,7 @@ const RomaneioScreen = () => {
 	const projetosData = useSelector(projetosSelector);
 
 	const context = useContext(AuthContext);
-	
+
 	const insets = useSafeAreaInsets();
 	const FAB_OFFSET = 16; // distância do fundo
 
@@ -90,25 +90,27 @@ const RomaneioScreen = () => {
 		setSentData(data ?? []);
 	}, [data]);
 
-	// Function to slide down (show)
 	const slideDown = () => {
-		setVisible(true);
 		AnimatedOrigin.timing(slideAnim, {
 			toValue: 0,
-			duration: 500,
-			useNativeDriver: true,
-		}).start();
-	};
-
-	// Function to slide up (hide)
-	const slideUp = (onFinish) => {
-		AnimatedOrigin.timing(slideAnim, {
-			toValue: -100,
-			duration: 500,
+			duration: 10,
 			useNativeDriver: true,
 		}).start(() => {
-			setVisible(false);
-			if (onFinish) onFinish(); // executa só depois da animação
+			// depois da animação concluída podemos marcar como visível
+			requestAnimationFrame(() => setShowSearch(true));
+		});
+	};
+
+	const slideUp = (onFinish) => {
+		AnimatedOrigin.timing(slideAnim, {
+			toValue: 100,
+			duration: 200,
+			useNativeDriver: true,
+		}).start(() => {
+			// só após terminar a animação
+			requestAnimationFrame(() => {
+				onFinish?.();
+			});
 		});
 	};
 
@@ -129,12 +131,15 @@ const RomaneioScreen = () => {
 	const handleFilterProps = () => {
 		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
 
+		// se está oculto (fora da tela), abrimos
 		if (!showSearch) {
 			slideDown();
-			setShowSearch(true);
 		} else {
-			setShowSearch(false);
-			slideUp(() => setSearch("")); // limpa só depois do slideUp terminar
+			// fechamos e só DEPOIS limpamos estado
+			slideUp(() => {
+				setShowSearch(false);   // muda pointerEvents/opacity fora do tick de inserção
+				setSearch("");          // limpa busca fora do tick também
+			});
 		}
 	};
 
@@ -350,45 +355,52 @@ const RomaneioScreen = () => {
 
 	if (!isLoading) {
 		return (
-			<SafeAreaView style={styles.mainContainer}>
-				{
-					showSearch && (
-						<AnimatedOrigin.View style={[styles.mainContainer, { transform: [{ translateY: slideAnim }], padding: 0, margin: 0, paddingTop: 0 }]}>
-							<SearchBar
-								search={search}
-								updateSearchHandler={updateSearchHandler}
-							/>
+			<Portal.Host>
+				<SafeAreaView style={styles.mainContainer}>
+					{
+						showSearch &&
+						<AnimatedOrigin.View
+							style={[
+								styles.searchWrap,
+								{ transform: [{ translateY: slideAnim }], opacity: showSearch ? 1 : 0.001, height: showSearch ? 70 : 0 }
+							]}
+							pointerEvents={showSearch ? 'auto' : 'none'}
+						>
+							<SearchBar search={search} updateSearchHandler={setSearch} />
 						</AnimatedOrigin.View>
-					)
-				}
-				<View
-					showsVerticalScrollIndicator={false}
-					contentInsetAdjustmentBehavior='automatic'
-				>
-					<RomaneioList search={search} data={sentData}
-						filteredData={filteredData}
-						setFilteredData={setFilteredData}
-						refreshing={refreshing}
-						handleRefresh={handleRefresh}
-						HeaderComp={HeaderComp}
-					/>
-				</View>
-				<Portal>
-					<FAB
-						icon={showSearch ? "close" : "magnify"}
-						color="black"
-						onPress={handleFilterProps}
-						style={{
-							position: "absolute",
-							right: 16,
-							bottom: (tabBarHeight || 0) + (insets.bottom || 0) + FAB_OFFSET,
-							backgroundColor: "rgba(200,200,200,0.3)",
-							borderColor: Colors.success[300],
-							borderWidth: 1,
-						}}
-					/>
-				</Portal>
-			</SafeAreaView>
+					}
+					<View
+						showsVerticalScrollIndicator={false}
+						contentInsetAdjustmentBehavior='automatic'
+					>
+						<RomaneioList search={search} data={sentData}
+							filteredData={filteredData}
+							setFilteredData={setFilteredData}
+							refreshing={refreshing}
+							handleRefresh={handleRefresh}
+							HeaderComp={HeaderComp}
+						/>
+					</View>
+					{/* {
+					isFocused && */}
+					<Portal>
+						<FAB
+							icon={showSearch ? "close" : "magnify"}
+							color="black"
+							onPress={handleFilterProps}
+							style={{
+								position: "absolute",
+								right: 16,
+								bottom: (insets.bottom || 0) + FAB_OFFSET,
+								backgroundColor: "rgba(200,200,200,0.3)",
+								borderColor: Colors.success[300],
+								borderWidth: 1,
+							}}
+						/>
+					</Portal>
+					{/* } */}
+				</SafeAreaView>
+			</Portal.Host>
 		);
 	}
 };
