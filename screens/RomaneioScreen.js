@@ -154,14 +154,6 @@ const RomaneioScreen = () => {
 	useEffect(() => {
 		if (data) {
 			setSentData(data);
-		} else {
-			setSentData([]);
-		}
-	}, []);
-
-	useEffect(() => {
-		if (data) {
-			setSentData(data);
 		}
 	}, [data]);
 
@@ -370,8 +362,7 @@ const RomaneioScreen = () => {
 						</AnimatedOrigin.View>
 					}
 					<View
-						showsVerticalScrollIndicator={false}
-						contentInsetAdjustmentBehavior='automatic'
+						// contentInsetAdjustmentBehavior='automatic'
 					>
 						<RomaneioList search={search} data={sentData}
 							filteredData={filteredData}

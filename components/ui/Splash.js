@@ -15,7 +15,7 @@ import { AuthContext } from "../../store/auth-context";
 import { useRoute } from "@react-navigation/native";
 
 const Splash = ({ logIng }) => {
-	context = useContext(AuthContext);
+	const context = useContext(AuthContext);
 
 	const toGo = !context.isAuth ? "inicio" : "Login";
 	const screen = !context.isAuth ? "Welcome" : "";

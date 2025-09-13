@@ -64,6 +64,9 @@ import DrawerHome from "./components/Drawer";
 import ParcelasScreen from "./screens/ParcelasScreen";
 import MapScreen from "./components/Global/MapScreen";
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -269,29 +272,42 @@ function AuthenticatedStack({ navigation }) {
 	const dataColheita = useSelector(plantioDataFromServerSelector);
 	const isObjectNotEmpty = (obj) => obj && Object.keys(obj).length > 0;
 	const isNotEmpty = isObjectNotEmpty(dataColheita)
+	const insets = useSafeAreaInsets();
+
 	return (
 		<>
 			<Tab.Navigator
-				initialRouteName="inicio"
 				screenOptions={{
-					headerStyle: { backgroundColor: Colors.primary500 },
-					headerTintColor: "white",
-					tabBarStyle: { display: "none" },
-					// headerStyle: {
-					// 	borderBottomColor: Colors.primary500
-					// },
-					tabBarActiveTintColor: "white",
+					// 1) Dê altura fixa e trate o safe area (nada de variar por tela)
 					tabBarStyle: {
 						backgroundColor: Colors.primary800,
-						borderTopColor: "transparent"
+						borderTopColor: 'transparent',
+						height: 60 + insets.bottom,
+						paddingBottom: insets.bottom,  // impede “pulos” entre telas
 					},
-					tabBarOptions: {
-						indicatorStyle: {
-							backgroundColor: "transparent"
-						}
+
+					// 2) Centralize o conteúdo do item (ícone+label) – sem marginTop
+					tabBarItemStyle: {
+						justifyContent: 'center',
+						alignItems: 'center',
+						paddingVertical: 10,
 					},
-					// contentStyle: { backgroundColor: Colors.primary500 },
-					initialRouteName: "inicio"
+
+					// 3) Remova empurrões: não use marginTop; só ajuste tipografia
+					tabBarIconStyle: {
+						// nada de marginTop aqui
+					},
+					tabBarLabelStyle: {
+						// nada de marginTop; só fonte
+						fontSize: 12,
+						includeFontPadding: false,   // Android: evita “empurrão” do texto
+					},
+
+					// 4) Mantenha comportamento estável
+					tabBarHideOnKeyboard: true,    // evita teclado mexer na barra
+					tabBarActiveTintColor: 'white',
+					headerStyle: { backgroundColor: Colors.primary500 },
+					headerTintColor: 'white',
 				}}
 			>
 				<Tab.Screen
@@ -319,7 +335,7 @@ function AuthenticatedStack({ navigation }) {
 						contentStyle: { backgroundColor: Colors.primary500 },
 						tabBarIcon: ({ color, size }) => (
 							<AntDesign
-								name="pluscircleo"
+								name="plus-circle"
 								color={color}
 								size={size}
 							/>

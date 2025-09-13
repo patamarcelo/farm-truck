@@ -17,7 +17,7 @@ export const formatDateFirebase = (entry) => {
 	let atTime = "";
 	if (typeof entrada === "object") {
 		// console.log("dateEntryEntrada: ", entrada);
-		newDate = moment(
+		const newDate = moment(
 			new Date(entrada.seconds * 1000 + entrada.nanoseconds / 1000000)
 		).format("DD/MM/YYYY - HH:mm");
 		// const newDate = new Date(

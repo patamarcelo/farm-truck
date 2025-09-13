@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { FlatList, View, StyleSheet, Text, RefreshControl, ScrollView, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
 import { romaneioSelector } from "../../store/redux/selector";
@@ -66,6 +67,19 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData, handleRefre
 		[]
 	);
 
+	const memoRefreshControl = useMemo(
+		() => (
+			<RefreshControl
+				refreshing={refreshing}
+				onRefresh={handleRefresh}
+				colors={["#f5f5f5"]}            // Android
+				tintColor="#f5f5f5"             // iOS
+				progressBackgroundColor="#333"  // Android
+			/>
+		),
+		[refreshing, handleRefresh]
+	);
+
 	const isFetching = isLoading || refreshing;
 
 
@@ -98,15 +112,18 @@ const RomaneioList = ({ search, data, filteredData, setFilteredData, handleRefre
 			// refreshing={refreshing}
 			// onRefresh={handleRefresh}
 
-			refreshControl={
-				<RefreshControl
-					refreshing={refreshing}
-					onRefresh={handleRefresh}
-					colors={["#f5f5f5"]}       // Android → array de cores
-					tintColor="#f5f5f5"        // iOS → cor do spinner
-					progressBackgroundColor="#333" // Android → fundo do círculo
-				/>
-			}
+			// refreshControl={
+			// 	<RefreshControl
+			// 		refreshing={refreshing}
+			// 		onRefresh={handleRefresh}
+			// 		colors={["#f5f5f5"]}       // Android → array de cores
+			// 		tintColor="#f5f5f5"        // iOS → cor do spinner
+			// 		progressBackgroundColor="#333" // Android → fundo do círculo
+			// 	/>
+			// }
+
+			refreshControl={memoRefreshControl}
+
 			removeClippedSubviews
 			initialNumToRender={10}
 			windowSize={7}
@@ -136,9 +153,9 @@ const styles = StyleSheet.create({
 		width: "100%",
 		alignSelf: "center"
 	},
-	loadingContainer:{
+	loadingContainer: {
 		flex: 1,
-		backgroundColor: 'red', 
+		backgroundColor: 'red',
 		justifyContent: 'center',
 		alignItems: 'center'
 	}
