@@ -24,7 +24,7 @@ const InfoRow = memo(({ label, value, right }) => (
 	<View style={styles.row} accessibilityLabel={`${label}: ${value || "—"}`}>
 		<Text style={styles.label}>{label}</Text>
 		<View style={styles.valueWrap}>
-			<Text style={styles.value} numberOfLines={1}>{value || "—"}</Text>
+			<Text style={styles.value} numberOfLines={2}>{value || "—"}</Text>
 			{right}
 		</View>
 	</View>
