@@ -9,6 +9,7 @@ const initialState = {
 	userCustomAttr: {},
 	plantioDataFromServer: {},
 	mapDataPlot: [],
+	ciclo: null
 };
 const RomaneioSlice = createSlice({
 	name: "romaneios",
@@ -46,6 +47,9 @@ const RomaneioSlice = createSlice({
 		setPlantioDataFromServer: (state, action) => {
 			state.plantioDataFromServer = action.payload;
 		},
+		setCurrentCiclo: (state, action) => {
+			state.ciclo = action.payload;
+		},
 		// Add this action to reset all state
 		resetState: (state) => {
 			Object.assign(state, {
@@ -69,6 +73,7 @@ export const setUserAttr = RomaneioSlice.actions.setUserAttr;
 export const setProjetos = RomaneioSlice.actions.setProjetos;
 export const setPlantioDataFromServer = RomaneioSlice.actions.setPlantioDataFromServer;
 export const setMapPlotData = RomaneioSlice.actions.setMapPlot;
+export const setCurrentCiclo = RomaneioSlice.actions.setCurrentCiclo;
 
 // RESET SLICE
 export const resetState = RomaneioSlice.actions.resetState;

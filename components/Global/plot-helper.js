@@ -1,5 +1,8 @@
 export const newMapArr = (mapPlot) => {
-    const newArrMap = mapPlot?.map((data) => {
+    const newArrMap = mapPlot?.map((data, index) => {
+        if(index < 3){
+            console.log('dataHere', data, '\n')
+        }
         const newArr = data?.map_geo_points?.map((lonLat) => {
             return {
                 latitude: parseFloat(lonLat?.latitude),
@@ -21,7 +24,8 @@ export const newMapArr = (mapPlot) => {
             idDjango: data?.pk,
             safra: data?.safra__safra,
             ciclo: data?.ciclo__ciclo,
-            colheita: data?.finalizado_colheita
+            colheita: data?.finalizado_colheita,
+            plantioFinalizado: data?.finalizado_plantio
 
 
         };

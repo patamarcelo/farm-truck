@@ -4,11 +4,11 @@ import MapView, {
 	Marker,
 	Polygon
 } from "react-native-maps";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform, Pressable, Animated } from "react-native";
 // import Button from "../../components/ui/Button";
 import IconButton from "../../components/ui/IconButton";
 
-import { useState, useEffect, createRef, useRef } from "react";
+import { useState, useEffect, createRef, useRef, useMemo } from "react";
 import * as Haptics from "expo-haptics";
 
 import * as Location from "expo-location";
@@ -18,8 +18,10 @@ import { newMapArr } from "./plot-helper";
 
 import { Linking, Alert } from 'react-native';
 
-import { useSelector } from "react-redux";
-import { selectMapDataPlot, plantioDataFromServerSelector } from "../../store/redux/selector";
+import { useDispatch, useSelector } from "react-redux";
+
+import { selectMapDataPlot, plantioDataFromServerSelector, selectCurrentCiclo } from "../../store/redux/selector";
+import { setCurrentCiclo } from "../../store/redux/romaneios";
 
 
 
@@ -44,6 +46,10 @@ const MapScreen = ({ navigation, route }) => {
 	const mapPlotData = useSelector(selectMapDataPlot)
 	const plantedData = useSelector(plantioDataFromServerSelector)
 
+	const dispatch = useDispatch();
+	const currentCiclo = useSelector(selectCurrentCiclo);
+
+
 	const [propsToBottom, setPropsToBottom] = useState({});
 	const [mapCoordsInit, setmapCoordsInit] = useState({
 		latitude: "",
@@ -63,6 +69,11 @@ const MapScreen = ({ navigation, route }) => {
 
 	const [zoomLevel, setZoomLevel] = useState(0);
 	const [mapRegion, setMapRegion] = useState(null);
+
+	// opacidade global dos polígonos
+	const polygonFade = useRef(new Animated.Value(1)).current;
+	const [polygonOpacity, setPolygonOpacity] = useState(1);
+
 
 
 
@@ -121,7 +132,6 @@ const MapScreen = ({ navigation, route }) => {
 			};
 			const getMapCords = getRegionForCoordinates(onlyCoords)
 			setmapCoordsInit(getMapCords)
-
 			setfilteredFarmArr(filteredFarm)
 		}
 	}, [farmName]);
@@ -185,9 +195,58 @@ const MapScreen = ({ navigation, route }) => {
 		setLongitude(location.coords.longitude);
 	};
 
+	// ciclos disponíveis (Number) a partir do próprio filteredFarmArr
+	const numericCycles = useMemo(() => {
+		return Array.from(
+			new Set(
+				filteredFarmArr
+					.map(item => Number(item.ciclo))
+					.filter(c => !Number.isNaN(c))
+			)
+		).sort((a, b) => a - b);
+	}, [filteredFarmArr]);
+
+	useEffect(() => {
+		if (
+			numericCycles.length > 0 &&
+			(currentCiclo === null || currentCiclo === undefined)
+		) {
+			// define o primeiro ciclo da lista como padrão
+			dispatch(setCurrentCiclo(numericCycles[0]));
+		}
+	}, [numericCycles, currentCiclo, dispatch]);
+
+
+	useEffect(() => {
+		if (!filteredFarmArr.length) return;
+
+		// começa um pouco “apagado”
+		polygonFade.setValue(0.3);
+
+		const sub = polygonFade.addListener(({ value }) => {
+			setPolygonOpacity(value);
+		});
+
+		Animated.timing(polygonFade, {
+			toValue: 1,
+			duration: 220,
+			useNativeDriver: false, // estamos usando o valor em JS, não em estilo nativo
+		}).start(() => {
+			polygonFade.removeListener(sub);
+		});
+
+		return () => {
+			polygonFade.removeListener(sub);
+		};
+	}, [currentCiclo, filteredFarmArr.length, polygonFade]);
+
+
 	if (filteredFarmArr.length === 0) {
 		return <Text>Loading..</Text>
 	}
+
+
+
 
 	const handleLineColor = (canpress, color) => {
 		if (canpress) return 'green'
@@ -217,15 +276,24 @@ const MapScreen = ({ navigation, route }) => {
 		return color;
 	};
 
-	const getColor = (cultura, variedadeInside, isActive = true, colorInside = 'rgb(0,128,0)', isSelected = false) => {
+	const getColor = (
+		cultura,
+		variedadeInside,
+		isActive = true,
+		colorInside = 'rgb(0,128,0)',
+		isSelected = false,
+		isHarvested = false,
+		isPlantioFinalizado = false,
+		globalOpacity = 1
+	) => {
 		let baseColor;
 
 		if (!isActive) {
-			baseColor = "rgba(245,245,245,0.6)";
+			baseColor = "rgba(245,245,245,1)";
 		} else if (cultura === 'Arroz') {
 			baseColor = "rgba(251,191,112,1)";
 		} else if (cultura === 'Soja') {
-			baseColor = colorInside;
+			baseColor = colorInside; // normalmente "rgb(0,128,0)"
 		} else if (variedadeInside === 'Mungo Preto') {
 			baseColor = 'rgba(170,88,57,1.0)';
 		} else if (variedadeInside === 'Mungo Verde') {
@@ -233,16 +301,30 @@ const MapScreen = ({ navigation, route }) => {
 		} else if (variedadeInside === 'Caupi') {
 			baseColor = '#3F4B7D';
 		} else {
-			baseColor = "rgba(245,245,245,0.6)";
+			baseColor = "rgba(245,245,245,1)";
 		}
 
-		// Se estiver selecionado, aplique uma opacidade de 0.5
+		// 1) Selecionado → 0.5
 		if (isSelected) {
-			return applyOpacity(baseColor, 0.5);
+			return applyOpacity(baseColor, 0.5 * globalOpacity);
 		}
 
-		return baseColor;
+		// 3) Plantio finalizado (mas sem colheita) → mais apagado
+		if (!isPlantioFinalizado) {
+			return applyOpacity(baseColor, 0.3 * globalOpacity);
+		}
+
+		// 2) Colheita finalizada → cor sólida
+		if (isHarvested) {
+			return applyOpacity(baseColor, 0.4 * globalOpacity);
+		}
+
+
+
+		// 4) Default → 0.5
+		return applyOpacity(baseColor, 0.8 * globalOpacity);
 	};
+
 	if (mapCoordsInit.latitude !== null) {
 
 		return (
@@ -268,70 +350,92 @@ const MapScreen = ({ navigation, route }) => {
 					mapType="satellite"
 				>
 					{
-						filteredFarmArr.length > 0 && filteredFarmArr.map((coordArr, i) => {
-							const cultura = coordArr?.cultura || ''
-							const variedade = coordArr?.variedade || ''
+						filteredFarmArr.length > 0 &&
+						filteredFarmArr
+							.filter(item => currentCiclo == null || Number(item.ciclo) === currentCiclo)
+							.filter((data) => data.ativo === true)
+							.map((coordArr, i) => {
+								const cultura = coordArr?.cultura || ''
+								const variedade = coordArr?.variedade || ''
 
-							const isActive = coordArr?.ativo
+								const isActive = coordArr?.ativo
 
-							const canPressCheck = isActive && cultura.length > 3
-							const selected = parcelas.find((parc) => parc.parcela.split(" ").join("") === coordArr.talhao.split(" ").join(""))?.selected
-							const canPress = !selected && canPressCheck
-							const isPressedHere = isPressed && isPressed === canPress?.parcela ? 1 : 0.6
-							// console.log('can press data: ', canPress)
-							// console.log('parcela', coordArr)
-							return (
-								<View key={i}>
-									<Polygon
-										// fillColor={canPress ? `rgba(251,191,112,${isPressedHere})` : "rgba(245,245,245,0.6)"}
-										fillColor={getColor(cultura, variedade, isActive, 'rgb(0,128,0)', selected)}
-										coordinates={coordArr.coords}
-										// strokeColor={getColor(cultura, variedade, isActive)}
-										strokeColor={handleLineColor(selected, coordArr.culturaColorLine)} // Set your desired border color here
-										strokeWidth={2} // Set the border width (thickness)
-										onPress={e => {
-											if (canPress) {
-												// console.log('Press Event',)
-												Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-												setIsPressed(coordArr.talhao)
-												const objToAdd =
-												{
-													"ciclo": coordArr?.ciclo,
-													"colheita": coordArr?.colheita,
-													"cultura": cultura,
-													"id_plantio": coordArr?.idDjango,
-													"parcela": coordArr?.talhao,
-													"safra": coordArr?.safra,
-													"variedade": variedade,
+								const canPressCheck = isActive && cultura.length > 3
+								const selected = parcelas.find((parc) => parc.parcela.split(" ").join("") === coordArr.talhao.split(" ").join(""))?.selected
+								const canPress = !selected && canPressCheck
+								const isPressedHere = isPressed && isPressed === canPress?.parcela ? 1 : 0.6
+								// console.log('can press data: ', canPress)
+								// console.log('parcela', coordArr)
+								return (
+									<View key={i}>
+										<Polygon
+											// fillColor={canPress ? `rgba(251,191,112,${isPressedHere})` : "rgba(245,245,245,0.6)"}
+											fillColor={getColor(cultura, variedade, isActive, 'rgb(0,128,0)', selected, coordArr.colheita, coordArr.plantioFinalizado, polygonOpacity)}
+											coordinates={coordArr.coords}
+											// strokeColor={getColor(cultura, variedade, isActive)}
+											strokeColor={handleLineColor(selected, coordArr.culturaColorLine)} // Set your desired border color here
+											strokeWidth={2} // Set the border width (thickness)
+											onPress={e => {
+												// se já foi colhida, mostra alerta e não deixa seguir
+												if (coordArr.colheita) {
+													Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+													Alert.alert(
+														'Colheita finalizada',
+														`Colheita já finalizada na parcela ${coordArr?.talhao}.`
+													);
+													return;
 												}
-												if (onSelectLocation) {
-													onSelectLocation(objToAdd); // chama o handleGOBack da tela B
+												// se plantio não foi finalizado, também bloqueia seleção
+												if (!coordArr.plantioFinalizado) {
+													Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+													Alert.alert(
+														'Plantio Ainda não finalizado',
+														`Plantio ainda não finalizado na parcela ${coordArr?.talhao}.`
+													);
+													return;
 												}
-												navigation.pop(2); // volta duas telas direto
-											};
-											// console.log('data to bottom', data)
-											// setPropsToBottom(objToAdd)
-										}
-										}
-										tappable={true}
-									/>
-									<Marker
-										key={i + 'i'}  // Force re-render by using zoom level as key
-										hideCallout={true}
-										showCallout={true}
-										tracksViewChanges={false}
-										coordinate={{
-											latitude: coordArr.talhaoCenterGeo.lat,
-											longitude: coordArr.talhaoCenterGeo.lng
-										}}
-									>
-										<Text>{coordArr.talhao}</Text>
-										<Text style={{ fontSize: 8 }}>{coordArr.variedade}</Text>
-									</Marker>
+												if (canPress) {
+													// console.log('Press Event',)
+													Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+													setIsPressed(coordArr.talhao)
+													const objToAdd =
+													{
+														"ciclo": coordArr?.ciclo,
+														"colheita": coordArr?.colheita,
+														"cultura": cultura,
+														"id_plantio": coordArr?.idDjango,
+														"parcela": coordArr?.talhao,
+														"safra": coordArr?.safra,
+														"variedade": variedade,
+													}
+													if (onSelectLocation) {
+														onSelectLocation(objToAdd); // chama o handleGOBack da tela B
+													}
+													navigation.pop(2); // volta duas telas direto
+												};
+												// console.log('data to bottom', data)
+												// setPropsToBottom(objToAdd)
+											}
+											}
+											tappable={true}
+										/>
+										<Marker
+											key={i + 'i'}  // Force re-render by using zoom level as key
+											hideCallout={true}
+											showCallout={true}
+											tracksViewChanges={false}
+											coordinate={{
+												latitude: coordArr.talhaoCenterGeo.lat,
+												longitude: coordArr.talhaoCenterGeo.lng
+											}}
+										>
+											<Text>{coordArr.talhao}</Text>
+											<Text style={{ fontSize: 8 }}>{coordArr.variedade}</Text>
+										</Marker>
 
-								</View>
-							)
-						})
+									</View>
+								)
+							})
 					}
 				</MapView>
 				{
@@ -384,6 +488,36 @@ const MapScreen = ({ navigation, route }) => {
 					</>
 				}
 
+				{/* Barra de filtro de ciclos no rodapé */}
+				{numericCycles.length > 0 && (
+					<View style={styles.cycleBar}>
+						{numericCycles.map((option) => {
+							const isSelected = option === currentCiclo;
+
+							return (
+								<Pressable
+									key={option}
+									onPress={() => dispatch(setCurrentCiclo(option))}
+									style={[
+										styles.cycleChip,
+										isSelected && styles.cycleChipSelected,
+									]}
+								>
+									<Text
+										style={[
+											styles.cycleChipText,
+											isSelected && styles.cycleChipTextSelected,
+										]}
+									>
+										{`Ciclo ${option}`}
+									</Text>
+								</Pressable>
+							);
+						})}
+					</View>
+				)}
+
+
 				<View
 					style={{
 						width: 50,
@@ -425,6 +559,47 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: "100%",
 		height: "100%"
-	}
+	},
+	cycleBar: {
+		position: "absolute",
+		bottom: 30,
+
+		// novo comportamento
+		right: "5%",      // encosta na direita
+		width: "50%",     // ocupa metade da tela
+		left: undefined,  // garante que não expanda para a esquerda
+
+		flexDirection: "row",
+		backgroundColor: "rgba(0,0,0,0.35)",
+		borderRadius: 30,
+		padding: 4,
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+
+	cycleChip: {
+		flex: 1,
+		marginHorizontal: 4,
+		paddingVertical: 6,
+		borderRadius: 26,
+		backgroundColor: "rgba(255,255,255,0.25)",
+		alignItems: "center",
+	},
+	cycleChipSelected: {
+		backgroundColor: "rgba(255,255,255,0.95)",
+	},
+	cycleChipText: {
+		fontSize: 12,
+		color: "#F9FAFB",
+		fontWeight: "500",
+	},
+	cycleChipTextSelected: {
+		color: "#111827",
+		fontWeight: "700",
+	},
+	mapWrapper: {
+		flex: 1,
+	},
+
 });
 export default MapScreen;

@@ -24,3 +24,5 @@ export const plantioDataFromServerSelector = (state) => {
 
 
 export const selectMapDataPlot = (state) => state.romaneios.mapDataPlot
+
+export const selectCurrentCiclo = (state) => state.romaneios.ciclo

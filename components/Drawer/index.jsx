@@ -1,100 +1,31 @@
-import React from 'react'
-
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+// DrawerHome.jsx
+import React, { useContext, useState } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Alert,
+    ActivityIndicator
+} from 'react-native';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { Colors } from '../../constants/styles';
-
 import { AuthContext } from '../../store/auth-context';
-import { useContext, useState } from 'react';
-import { EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN } from "@env";
-
 import { useDispatch } from 'react-redux';
-import { setPlantioDataFromServer, setMapPlotData } from '../../store/redux/romaneios';
 
-
+// 👇 importa a função nova
+import { syncColheitaAndMap } from '../../utils/features/syncColheita';
 
 const DrawerHome = (props) => {
     const context = useContext(AuthContext);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
 
-    // const handleTopButtonPress = async () => {
-    //     setLoading(true); // Show loading indicator
-    //     try {
-    //         // Simulate API request (replace with your actual API call)
-    //         const response = await fetch("https://diamante-quality.up.railway.app/diamante/plantio/get_plantio/", {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 Authorization: `Token ${EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
-    //             },
-    //         });
-    //         const result = await response.json();
-    //         if (response.ok) {
-    //             dispatch(setPlantioDataFromServer(result))
-    //             // Show success message
-    //             Alert.alert('Feito', 'Dados Atualizados com sucesso!');
-    //         } else {
-    //             // Handle API error response
-    //             Alert.alert('Erro', result.message || 'Alguma coisa deu errado!!');
-    //         }
-    //     } catch (error) {
-    //         // Handle network or other errors
-    //         Alert.alert('Erro', 'Erro ao pegar os dados, Por favor tente novamente');
-    //     } finally {
-    //         setLoading(false); // Hide loading indicator
-    //     }
-    // };
-    const getPlantioData = async () => {
-        console.log('pegando dados do plantio')
-        const response = await fetch("https://diamante-quality.up.railway.app/diamante/plantio/get_plantio/", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Token ${EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
-            },
-        });
-
-        const result = await response.json();
-        console.log('pegando dados do plantio', result)
-
-        if (response.ok) {
-            dispatch(setPlantioDataFromServer(result));
-            return true;
-        } else {
-            throw new Error(result.message || 'Erro na API de Plantio');
-        }
-    };
-    const getMapData = async () => {
-        console.log('pegando dados do mapa')
-        const response = await fetch("https://diamante-quality.up.railway.app/diamante/plantio/get_map_plot_app_fetch_app/", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Token ${EXPO_PUBLIC_REACT_APP_DJANGO_TOKEN}`,
-            },
-        });
-
-        console.log('pegando dados do mapa', response)
-        if (response.ok) {
-            const data = await response.json();
-            dispatch(setMapPlotData(data.dados));
-            return true;
-        } else {
-            throw new Error('Erro na API de Mapa');
-        }
-    };
-
     const handleTopButtonPress = async () => {
         setLoading(true);
-
         try {
-            await Promise.all([
-                getPlantioData(),
-                getMapData()
-            ]);
-
+            await syncColheitaAndMap(dispatch);
             Alert.alert('Feito', 'Dados Atualizados com sucesso!');
         } catch (error) {
             Alert.alert('Erro', error.message || 'Erro ao atualizar os dados');
@@ -103,10 +34,11 @@ const DrawerHome = (props) => {
         }
     };
 
-
     return (
-        <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1, backgroundColor: Colors.primary[100] }}>
-            {/* Top Button */}
+        <DrawerContentScrollView
+            {...props}
+            contentContainerStyle={{ flex: 1, backgroundColor: Colors.primary[100] }}
+        >
             <TouchableOpacity
                 style={[styles.topButton, loading && styles.disabledTopButton]}
                 onPress={handleTopButtonPress}
@@ -117,13 +49,8 @@ const DrawerHome = (props) => {
                 ) : (
                     <Text style={styles.buttonText}>Atualizar Colheita</Text>
                 )}
-
             </TouchableOpacity>
 
-            {/* Default Drawer Items */}
-            {/* <DrawerItemList {...props} /> */}
-
-            {/* Bottom Button */}
             <TouchableOpacity
                 style={[styles.bottomButton, loading && styles.disabledBottomButton]}
                 onPress={() => context.logout()}
@@ -132,10 +59,10 @@ const DrawerHome = (props) => {
                 <Text style={styles.buttonText}>Sair</Text>
             </TouchableOpacity>
         </DrawerContentScrollView>
-    )
-}
+    );
+};
 
-export default DrawerHome
+export default DrawerHome;
 
 const styles = StyleSheet.create({
     topButton: {

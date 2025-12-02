@@ -63,6 +63,8 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import nodeServer from "../utils/axios/axios";
 
+import { useAutoSyncColheita } from "../utils/features/useAutoSyncCOlheita";
+
 const width = Dimensions.get("window").width; //full width
 const colorScheme = Appearance.getColorScheme();
 // const colorText = colorScheme === "dark" ? "whitesmoke" : "black";
@@ -134,6 +136,8 @@ const handlerUploadProtheus = async (dataToAdd) => {
 };
 
 function WelcomeScreen() {
+	useAutoSyncColheita();  // 🔥 isso aqui é o "backdoor"
+
 	const data = useSelector(romaneioSelector);
 	const projetosData = useSelector(projetosSelector);
 	const navigation = useNavigation();
@@ -172,45 +176,70 @@ function WelcomeScreen() {
 	useEffect(() => {
 		navigation.setOptions({
 			tabBarStyle: {
-				backgroundColor: Colors.primary800,
-				borderTopColor: "transparent"
+				backgroundColor: Colors.primary500,
+				borderTopColor: "transparent",
 			},
-			headerShadowVisible: false, // applied here
-			headerRight: ({ tintColor }) => (
-				<IconButton
-					icon="menu"
-					color={"white"}
-					size={24}
-					// onPress={() => context.logout()}
-					onPress={() => navigation.toggleDrawer()}
-				/>
-			),
-			headerLeft: ({ tintColor }) => (
-				<View>
+			headerShadowVisible: false,
+
+			// 🔴 Tira qualquer blur de glass/light
+			headerTransparent: false,
+			headerBlurEffect: undefined,
+			headerStyle: {
+				backgroundColor: Colors.primary500,
+			},
+
+			// 👉 Não queremos título no centro
+			// headerTitle: '',
+
+			// 👉 Título (Olá + Romaneios) vai no headerLeft, mas sem botão
+			headerTitle: () => (
+				<View
+					style={{
+						flexDirection: "column",
+						backgroundColor: Colors.primary500
+					}}
+				>
 					<Text
 						style={{
 							fontSize: 12,
-							color: "rgba(245,245,245,0.7)"
+							color: "rgba(245,245,245,0.7)",
+							marginBottom: -2,
 						}}
 					>
-						Olá,{" "}
-						{user?.displayName
-							? user?.displayName
-							: "Usuário sem Nome"}
+						Olá, {user?.displayName || "Usuário sem Nome"}
 					</Text>
+
 					<Text
 						style={{
-							fontWeight: "bold",
+							fontWeight: "700",
 							fontSize: 24,
-							color: "whitesmoke"
+							color: "#FFFFFF",
 						}}
 					>
 						Romaneios
 					</Text>
 				</View>
-			)
+			),
+
+			// garante alinhamento realmente à esquerda
+			headerLeftContainerStyle: {
+				paddingLeft: 16,
+			},
+
+			headerRight: () => (
+				<IconButton
+					icon="menu"
+					color={"white"}
+					size={24}
+					onPress={() => navigation.toggleDrawer()}
+				/>
+			),
+			headerRightContainerStyle: {
+				paddingRight: 16,
+			},
 		});
-	}, [user]);
+	}, [user, navigation]);
+
 
 	const renderRomaneioList = (itemData) => {
 		const renderRightActions = () => (
@@ -284,16 +313,16 @@ function WelcomeScreen() {
 				};
 				const response = await saveDataOnFirebaseAndUpdate(dataToSave);
 				const codTicketPro = dataToAdd?.codTicketPro ? dataToAdd.codTicketPro.replace(/^0+/, '') : '';
-				
-				if(response ==='DUPLICATE'){
-					Alert.alert('Ticket já Cadastrado',`O Ticket ${codTicketPro} da Filial ${dataToAdd?.filialPro} já foi cadastrado!!`)
+
+				if (response === 'DUPLICATE') {
+					Alert.alert('Ticket já Cadastrado', `O Ticket ${codTicketPro} da Filial ${dataToAdd?.filialPro} já foi cadastrado!!`)
 					return
 				}
-				
+
 				const responseProtheus = handlerUploadProtheus(response);
 				console.log("Response: ", response);
 				console.log("ResponseProtheus: ", responseProtheus);
-				if(response){
+				if (response) {
 					dispatch(removeFromCargas(idToFind));
 					Dialog.show({
 						type: ALERT_TYPE.SUCCESS,
@@ -489,7 +518,7 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 		borderTopLeftRadius: 18,
 		borderTopRightRadius: 18,
-		backgroundColor: Colors.primary[600]
+		backgroundColor: Colors.primary[700]
 	},
 	title: {
 		fontSize: 20,

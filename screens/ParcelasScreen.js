@@ -1,4 +1,4 @@
-import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native'
 import React from 'react'
 
 import Button from '../components/ui/Button'
@@ -66,22 +66,59 @@ const ParcelasScreen = ({ navigation, route }) => {
     }
 
     const renderPacelasList = (itemData) => {
-        const { parcela, cultura, variedade, selected } = itemData.item;
+        const { parcela, cultura, variedade, selected, colheita } = itemData.item;
+        console.log('itemData', itemData.item);
+
+        const isColheitaFinalizada = !!colheita;
+        const isDisabled = selected || isColheitaFinalizada;
 
         return (
-            <View style={[styles.cardContainer, selected && { backgroundColor: Colors.success[200] }]}>
+            <View
+                style={[
+                    styles.cardContainer,
+                    selected && { backgroundColor: Colors.success[200] },
+                    isColheitaFinalizada && { backgroundColor: Colors.secondary[300], opacity: 0.9 },
+                ]}
+            >
                 <Pressable
-                    disabled={selected}
-                    onPress={handleGOBack.bind(this, itemData.item)}
+                    onPress={() => {
+                        if (isColheitaFinalizada) {
+                            Alert.alert(
+                                'Colheita já finalizada',
+                                `Colheita já finalizada na parcela ${parcela}`
+                            );
+                            return;
+                        }
+
+                        if (selected) {
+                            // já está selecionada, não faz nada
+                            return;
+                        }
+
+                        handleGOBack(itemData.item);
+                    }}
                     style={({ pressed }) => [
                         styles.cardContent,
-                        pressed && styles.pressed
+                        pressed && !isDisabled && styles.pressed,
                     ]}
                 >
                     <View style={styles.textContainer}>
                         <Text style={styles.parcelaName}>{parcela}</Text>
                         <Text style={styles.plantedArea}>{variedade}</Text>
+                        {isColheitaFinalizada && (
+                            <Text
+                                style={{
+                                    fontSize: 11,
+                                    fontWeight: '600',
+                                    color: Colors.danger[600],
+                                    marginTop: 2,
+                                }}
+                            >
+                                Colheita finalizada
+                            </Text>
+                        )}
                     </View>
+
                     <View>
                         <View style={styles.shadowContainer}>
                             <Image
@@ -93,7 +130,8 @@ const ParcelasScreen = ({ navigation, route }) => {
                 </Pressable>
             </View>
         );
-    }
+    };
+
 
     return (
         <SafeAreaView style={styles.container}>
