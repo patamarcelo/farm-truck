@@ -7,9 +7,9 @@ import { syncColheitaAndMap } from "./syncColheita";
 
 const STORAGE_KEY = "@colheita:lastSync";
 // 1x por dia:
-// const INTERVAL_MS = 24 * 60 * 60 * 1000;
+const INTERVAL_MS = 24 * 60 * 60 * 1000;
 // 10 Minutos:
-const INTERVAL_MS = 10 * 60 * 1000; // 10 minutos
+// const INTERVAL_MS = 10 * 60 * 1000; // 10 minutos
 // se quiser 1x por semana:
 // const INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
 
