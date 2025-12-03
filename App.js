@@ -217,7 +217,7 @@ function HomeScrennStack({ route, navigation }) {
 			});
 		} else {
 			navigation.setOptions({
-				headerShown: true,
+				headerShown: false,
 				tabBarStyle: { display: "flex" },
 				tabBarStyle: {
 					backgroundColor: Colors.primary800,
@@ -290,7 +290,7 @@ function AuthenticatedStack({ navigation }) {
 					tabBarItemStyle: {
 						justifyContent: 'center',
 						alignItems: 'center',
-						paddingVertical: 10,
+						paddingVertical: Platform.OS === 'ios' ? 10 : 0,           // 🔥 importante
 					},
 
 					// 3) Remova empurrões: não use marginTop; só ajuste tipografia
@@ -315,6 +315,7 @@ function AuthenticatedStack({ navigation }) {
 					component={HomeScrennStack}
 					options={({ route }) => ({
 						title: "",
+						headerShown: false,
 						tabBarLabel: "Home",
 						// tabBarShowLabel: false
 						headerShadowVisible: false, // applied here
@@ -436,7 +437,7 @@ const NewAuthStack = () => {
 					// presentation: "modal",
 					title: "",
 					headerShadowVisible: false, // applied here
-					headerShown: Platform.OS === "ios" ? false : true,
+					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
 				}}
 			/>

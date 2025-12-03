@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "space-between",
 		alignItems: "center",
-		height: "100%"
+		height: "100%",
 	},
 	text: {
 		color: "white"
@@ -537,10 +537,11 @@ const styles = StyleSheet.create({
 		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 	},
 	qrButtonContainer: {
-		flex: 1,
+		// flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 		width: "100%",
+		marginBottom: 80,
 	},
 
 	qrButton: {

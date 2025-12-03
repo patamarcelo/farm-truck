@@ -196,7 +196,9 @@ function WelcomeScreen() {
 				<View
 					style={{
 						flexDirection: "column",
-						backgroundColor: Colors.primary500
+						backgroundColor: Colors.primary500,
+						marginRight: Platform.OS === 'ios' ? 130 : 0,
+						paddingTop: Platform.OS === 'ios' ? 20 : 0
 					}}
 				>
 					<Text

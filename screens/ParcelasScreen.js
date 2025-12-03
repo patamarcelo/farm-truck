@@ -1,4 +1,4 @@
-import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native'
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, Alert, Platform } from 'react-native'
 import React from 'react'
 
 import Button from '../components/ui/Button'
@@ -10,10 +10,14 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Linking } from 'react-native';
 
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as Haptics from 'expo-haptics';
+
 
 const ParcelasScreen = ({ navigation, route }) => {
 
     const { parcelas, farmName, onGoBack } = route.params; // Access the passed parameter
+    const insets = useSafeAreaInsets();
 
     const [filterModules, setFilterModules] = useState([]);
     const [filteredModule, setFilteredModule] = useState(null);
@@ -40,6 +44,7 @@ const ParcelasScreen = ({ navigation, route }) => {
 
 
     const handlerFilterparcelas = (text) => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
         if (text === 'Geral') {
             setFilteredModule(parcelas)
             setFiltedLetterModule(text)
@@ -55,6 +60,7 @@ const ParcelasScreen = ({ navigation, route }) => {
         }
     }
     const handleGoMap = (data) => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
         navigation.navigate("MapScreen",
             {
                 onSelectLocation: onGoBack,
@@ -67,7 +73,6 @@ const ParcelasScreen = ({ navigation, route }) => {
 
     const renderPacelasList = (itemData) => {
         const { parcela, cultura, variedade, selected, colheita } = itemData.item;
-        console.log('itemData', itemData.item);
 
         const isColheitaFinalizada = !!colheita;
         const isDisabled = selected || isColheitaFinalizada;
@@ -134,51 +139,61 @@ const ParcelasScreen = ({ navigation, route }) => {
 
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: 'whitesmoke', fontWeight: 'bold' }}>Selecione uma Parcela</Text>
+                <Text style={{ color: 'whitesmoke', fontWeight: 'bold' }}>Selecione uma Parcela do {farmName}</Text>
 
             </View>
-            <ScrollView
-                contentContainerStyle={styles.containerModule}
-                showsHorizontalScrollIndicator={false}
-                horizontal={true}
-                scrollEventThrottle={16} // For smoother scrolling
+            <View style={styles.content}>
+
+
+                <ScrollView
+                    contentContainerStyle={styles.containerModule}
+                    showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    scrollEventThrottle={16} // For smoother scrolling
 
 
 
-            >
-                {
-                    filterModules && filterModules.map((data, i) => {
-                        return (
-                            <Pressable key={i}
-                                style={({ pressed }) => [
-                                    pressed && styles.pressed,
-                                    styles.filteCard,
-                                    data === filtedLetterModule && styles.selectedModule
-                                ]}
-                                onPress={handlerFilterparcelas.bind(this, data)}
-                                android_ripple={true}
-                            >
-                                <View>
-                                    <Text style={{ fontWeight: 'bold' }}>{data}</Text>
-                                </View>
-                            </Pressable>
-                        )
-                    })
-                }
-            </ScrollView>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: Colors.secondary[400], fontWeight: 'bold' }}>Filtre por módulos</Text>
+                >
+                    {
+                        filterModules && filterModules.map((data, i) => {
+                            return (
+                                <Pressable key={i}
+                                    style={({ pressed }) => [
+                                        pressed && styles.pressed,
+                                        styles.filteCard,
+                                        data === filtedLetterModule && styles.selectedModule
+                                    ]}
+                                    onPress={handlerFilterparcelas.bind(this, data)}
+                                    android_ripple={true}
+                                >
+                                    <View>
+                                        <Text style={{ fontWeight: 'bold' }}>{data}</Text>
+                                    </View>
+                                </Pressable>
+                            )
+                        })
+                    }
+                </ScrollView>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: Colors.secondary[400], fontWeight: 'bold' }}>Filtre por módulos</Text>
+                </View>
+                <FlatList
+                    // scrollEnabled={false}
+                    data={filteredModule || parcelas} // Use filtered data or original
+                    keyExtractor={(item, i) => item.parcela + i}
+                    renderItem={renderPacelasList}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    contentContainerStyle={[
+                        styles.flatListContent,
+                        {
+                            // altura do botão (50) + paddingBottom do container (30) + safe area
+                            paddingBottom: 50 + 30 + insets.bottom + 140,
+                        },
+                    ]}
+                />
             </View>
-            <FlatList
-                // scrollEnabled={false}
-                data={filteredModule || parcelas} // Use filtered data or original
-                keyExtractor={(item, i) => item.parcela + i}
-                renderItem={renderPacelasList}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-                contentContainerStyle={styles.flatListContent} // Add padding to the list
-            />
             <View style={styles.buttonContainer}>
                 {/* Botão Voltar */}
                 <View style={{ flex: 1, marginLeft: 10 }}>
@@ -225,12 +240,12 @@ const styles = StyleSheet.create({
     containerModule: {
         flexDirection: 'row',
         paddingVertical: 10,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'flex-start',
         gap: 15,
-        flexGrow: 1,
+        flexGrow: 0,
         paddingLeft: 5,
-        paddingRight: 5
+        paddingRight: 5,
         // backgroundColor: Colors.primary[800]
     },
     fabContainer: {
@@ -242,7 +257,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 0,
         bottom: 0,
-        backgroundColor: "rgba(26,67,192,0.9)", // Grey, almost transparent
+        backgroundColor: "rgba(22,48,110,0.8)",
         width: 65,
         height: 65,
         borderRadius: 50, // Makes it perfectly circular
@@ -263,7 +278,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary500,
     },
     flatListContent: {
-        paddingBottom: 70, // Make space for the button at the bottom (adjust as necessary)
+        paddingBottom: 120, // Make space for the button at the bottom (adjust as necessary)
     },
     pressed: {
         opacity: 0.5,
@@ -272,6 +287,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    // content: {
+    //     flex: 1,
+    //     // nada de justifyContent aqui → padrão já é 'flex-start'
+    // },
     cardContainer: {
         marginVertical: 5,
         marginHorizontal: 6,
