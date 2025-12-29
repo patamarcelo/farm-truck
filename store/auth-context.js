@@ -1,47 +1,80 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { resetState } from "./redux/romaneios";
 
 export const AuthContext = createContext({
-	token: "",
+	token: null,
 	isAuth: false,
-	authenticate: () => {},
-	logout: () => {},
-	routeName: ""
+	isBootstrapping: true,
+	authenticate: async () => { },
+	logout: async () => { },
+	defineRouteName: () => { },
+	routeName: "",
 });
 
 const AuthContextprovider = ({ children }) => {
-	const [authToken, setAuthToken] = useState();
-	const [routeName, setRouteName] = useState();
-	const dispatch = useDispatch()
+	const [authToken, setAuthToken] = useState(null);
+	const [routeName, setRouteName] = useState("");
+	const [isBootstrapping, setIsBootstrapping] = useState(true);
+	const dispatch = useDispatch();
 
-	const authenticate = (token) => {
-		AsyncStorage.setItem("token", token);
+	useEffect(() => {
+		let mounted = true;
+
+		const restoreToken = async () => {
+			try {
+				const storedToken = await AsyncStorage.getItem("token");
+				if (!mounted) return;
+				if (storedToken) setAuthToken(storedToken);
+			} catch (e) {
+				// opcional: console.warn("restoreToken error", e);
+			} finally {
+				if (mounted) setIsBootstrapping(false);
+			}
+		};
+
+		restoreToken();
+
+		return () => {
+			mounted = false;
+		};
+	}, []);
+
+	const authenticate = useCallback(async (token) => {
 		setAuthToken(token);
-	};
+		try {
+			await AsyncStorage.setItem("token", token);
+		} catch (e) {
+			// opcional: console.warn("setItem token error", e);
+		}
+	}, []);
 
-	const logout = () => {
+	const logout = useCallback(async () => {
 		setAuthToken(null);
-		AsyncStorage.removeItem("token");
-		dispatch(resetState())
-	};
+		dispatch(resetState());
+		try {
+			await AsyncStorage.removeItem("token");
+		} catch (e) {
+			// opcional: console.warn("removeItem token error", e);
+		}
+	}, [dispatch]);
 
-	const defineRouteName = (routeName) => {
-		setRouteName(routeName);
-	};
+	const defineRouteName = useCallback((name) => {
+		setRouteName(name);
+	}, []);
 
 	const value = {
 		token: authToken,
 		isAuth: !!authToken,
-		authenticate: authenticate,
-		logout: logout,
-		defineRouteName: defineRouteName,
-		routeName: routeName
+		isBootstrapping,
+		authenticate,
+		logout,
+		defineRouteName,
+		routeName,
 	};
 
-	return (
-		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-	);
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
 export default AuthContextprovider;

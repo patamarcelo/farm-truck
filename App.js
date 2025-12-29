@@ -457,13 +457,16 @@ const NewAuthStack = () => {
 };
 
 function Navigation() {
-	const context = useContext(AuthContext);
+	const { isAuth, isBootstrapping } = useContext(AuthContext);
+
+	if (isBootstrapping) return null; // Root exibe <Splash />
+
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
 			<PaperProvider>
 				<SafeAreaProvider>
 					<NavigationContainer>
-						{!context.isAuth ? <AuthStack /> : <NewAuthStack context={context} />}
+						{!isAuth ? <AuthStack /> : <NewAuthStack />}
 					</NavigationContainer>
 				</SafeAreaProvider>
 			</PaperProvider>
@@ -471,56 +474,53 @@ function Navigation() {
 	);
 }
 
+
+
 const Root = () => {
-	const context = useContext(AuthContext);
-	const [isLoginIn, setIsLoginIn] = useState(true);
-	const [showNavigation, setShowNavigation] = useState(false);
-	SplashScreen.preventAutoHideAsync();
+	const { isBootstrapping } = useContext(AuthContext);
+	const [prevented, setPrevented] = useState(false);
+
 	useEffect(() => {
-		const fetchToken = async () => {
-			const storedToken = await AsyncStorage.getItem("token");
+		let mounted = true;
 
-			if (storedToken) {
-				context.authenticate(storedToken);
-			}
-
-			setIsLoginIn(false);
+		const prevent = async () => {
+			try {
+				await SplashScreen.preventAutoHideAsync();
+			} catch (e) { }
+			if (mounted) setPrevented(true);
 		};
 
-		fetchToken();
+		prevent();
+
+		return () => {
+			mounted = false;
+		};
 	}, []);
 
-	useEffect(() => {
-		if (isLoginIn) {
-			setTimeout(() => {
-				SplashScreen.hideAsync();
-			}, 200);
-		}
-	}, [isLoginIn]);
+	// App pronto = já preveniu o autohide + auth terminou de restaurar
+	const appReady = prevented && !isBootstrapping;
 
 	useEffect(() => {
-		const Timer = context.isAuth ? 1000 : 1600;
-		setTimeout(() => {
-			setShowNavigation(true);
-		}, Timer);
-	}, [isLoginIn]);
+		if (!appReady) return;
+		requestAnimationFrame(() => {
+			SplashScreen.hideAsync().catch(() => { });
+		});
+	}, [appReady]);
 
-	if (isLoginIn) {
-		return null;
+	// Enquanto está bootstrapping, segura no seu Splash custom
+	if (!appReady) {
+		return <Splash logIng={false} />;
 	}
 
-	if (!showNavigation) {
-		return <Splash logIng={context.isAuth} />;
-	}
-
-	if (showNavigation) {
-		return (
-			<View style={{ flex: 1, backgroundColor: Colors.primary500 }}>
-				<Navigation />
-			</View>
-		);
-	}
+	return (
+		<View style={{ flex: 1 }}>
+			<Navigation />
+		</View>
+	);
 };
+
+
+
 
 export default function App() {
 	return (

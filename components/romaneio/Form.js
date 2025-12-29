@@ -293,7 +293,7 @@ const FormScreen = ({ navigation, route }) => {
 	}, []);
 
 	// Definir tamanhos do snap
-	const snapPoints = useMemo(() => ["30%", "40%"], []);
+	const snapPoints = useMemo(() => ["50%", "50%"], []);
 
 	// No FormScreen
 	useEffect(() => {
