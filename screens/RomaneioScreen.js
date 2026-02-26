@@ -169,7 +169,6 @@ const RomaneioScreen = () => {
 			const data = await getAllDocsFirebase(projetosData);
 			if (data === false) {
 				dispatch(addRomaneiosFarm([]));
-				context.logout();
 				return;
 			}
 			dispatch(addRomaneiosFarm(data.filter(d => Number(d.liquido) !== 1)));

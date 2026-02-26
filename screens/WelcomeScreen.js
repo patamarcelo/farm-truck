@@ -401,7 +401,10 @@ function WelcomeScreen() {
 						// }
 					});
 				} else {
-					context.logout();
+					Alert.alert(
+						"Não foi possível salvar agora",
+						"Pode ser instabilidade de conexão. Tente novamente em alguns instantes."
+					);
 				}
 			} else {
 				console.log("is not conected!!");
