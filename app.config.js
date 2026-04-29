@@ -7,7 +7,7 @@ export default ({ config }) => {
     ...config,
     name: "FarmTruck",
     slug: "farm-truck",
-    version: "1.0.41",
+    version: "1.0.42",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
@@ -40,7 +40,7 @@ export default ({ config }) => {
     ],
     ios: {
       ...config.ios,
-      buildNumber: "1.0.41",
+      buildNumber: "1.0.42",
       supportsTablet: true,
       bundleIdentifier: "com.patamarcelo.farmtruck",
       config: {
@@ -87,7 +87,7 @@ export default ({ config }) => {
     android: {
       ...config.android,
       package: "com.patamarcelo.farmtruck",
-      versionCode: 41,
+      versionCode: 42,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#ffffff"

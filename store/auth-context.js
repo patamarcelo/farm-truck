@@ -25,12 +25,18 @@ const AuthContextprovider = ({ children }) => {
 		const restoreToken = async () => {
 			try {
 				const storedToken = await AsyncStorage.getItem("token");
+
 				if (!mounted) return;
-				if (storedToken) setAuthToken(storedToken);
+
+				if (storedToken) {
+					setAuthToken(storedToken);
+				}
 			} catch (e) {
-				// opcional: console.warn("restoreToken error", e);
+				console.log("restoreToken error", e);
 			} finally {
-				if (mounted) setIsBootstrapping(false);
+				if (mounted) {
+					setIsBootstrapping(false);
+				}
 			}
 		};
 
@@ -41,22 +47,36 @@ const AuthContextprovider = ({ children }) => {
 		};
 	}, []);
 
-	const authenticate = useCallback(async (token) => {
-		setAuthToken(token);
+	const authenticate = useCallback(async (token, options = {}) => {
 		try {
 			await AsyncStorage.setItem("token", token);
+
+			if (options.refreshUserData) {
+				try {
+					await options.refreshUserData();
+				} catch (refreshError) {
+					console.log("refreshUserData falhou, mas login será mantido:", refreshError);
+				}
+			}
+
+			setAuthToken(token);
 		} catch (e) {
-			// opcional: console.warn("setItem token error", e);
+			console.log("authenticate error:", e);
+			throw e;
 		}
 	}, []);
 
 	const logout = useCallback(async () => {
 		setAuthToken(null);
 		dispatch(resetState());
+
 		try {
 			await AsyncStorage.removeItem("token");
+			await AsyncStorage.removeItem("user");
+			await AsyncStorage.removeItem("userCustomAttr");
+			await AsyncStorage.removeItem("projetosCadastrados");
 		} catch (e) {
-			// opcional: console.warn("removeItem token error", e);
+			console.log("logout storage error:", e);
 		}
 	}, [dispatch]);
 

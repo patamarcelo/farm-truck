@@ -158,38 +158,54 @@ const RomaneioScreen = () => {
 	}, [data]);
 
 	const fetchRomaneios = useCallback(async () => {
-		if (data.length === 0) {
+		const projetosReady = Array.isArray(projetosData) && projetosData.length > 0;
+
+		if (!projetosReady) {
+			dispatch(addRomaneiosFarm([]));
+			seTisLoading(false);
+			return;
+		}
+
+		if (!Array.isArray(data) || data.length === 0) {
 			seTisLoading(true);
 		}
+
 		try {
-			if (!projetosData) {
+			const response = await getAllDocsFirebase(projetosData);
+
+			if (!Array.isArray(response)) {
 				dispatch(addRomaneiosFarm([]));
 				return;
 			}
-			const data = await getAllDocsFirebase(projetosData);
-			if (data === false) {
-				dispatch(addRomaneiosFarm([]));
-				return;
-			}
-			dispatch(addRomaneiosFarm(data.filter(d => Number(d.liquido) !== 1)));
+
+			const normalizedData = response.filter((item) => Number(item.liquido) !== 1);
+
+			dispatch(addRomaneiosFarm(normalizedData));
 		} catch (error) {
+			console.log("Erro ao buscar romaneios:", error);
+
 			if (error?.code === "permission-denied") {
 				dispatch(addRomaneiosFarm([]));
-				context.logout();
+
+				// Não fazer logout automático aqui.
+				// Pode ser token atrasado, regra Firebase, internet ou usuário ainda incompleto.
+				// context.logout();
 			}
 		} finally {
 			seTisLoading(false);
 		}
-	}, [projetosData, dispatch, context]);
+	}, [projetosData, data, dispatch]);
 
-	const hasFetchedOnce = useRef(false);
+	const projetosReady = Array.isArray(projetosData) && projetosData.length > 0;
 
 	useEffect(() => {
-		if (hasFetchedOnce.current) return;        // evita rodar novamente
-		if (!projetosData) return;                 // espera ter projetosData válido
-		hasFetchedOnce.current = true;
+		if (!projetosReady) {
+			seTisLoading(false);
+			return;
+		}
+
 		fetchRomaneios();
-	}, [projetosData, fetchRomaneios]);
+	}, [projetosReady, fetchRomaneios]);
 
 
 	const handleRefresh = async () => {
@@ -361,7 +377,7 @@ const RomaneioScreen = () => {
 						</AnimatedOrigin.View>
 					}
 					<View
-						// contentInsetAdjustmentBehavior='automatic'
+					// contentInsetAdjustmentBehavior='automatic'
 					>
 						<RomaneioList search={search} data={sentData}
 							filteredData={filteredData}

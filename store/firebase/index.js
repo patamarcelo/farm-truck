@@ -120,73 +120,128 @@ export const getDocumentosFirebase = async (idForm) => {
 	}
 };
 
-export const getAllDocsFirebase = async (farm) => {
-	const userActivated = await checkUserActive();
-	if (!userActivated) {
-		return false;
+
+const chunkArray = (array, size) => {
+	const chunks = [];
+
+	for (let i = 0; i < array.length; i += size) {
+		chunks.push(array.slice(i, i + size));
 	}
-	if (farm.length > 0) {
-		const q = query(
-			collection(db, "truckmove"),
-			where("fazendaOrigem", "in", farm),
-			where("createdBy", "==", "App"),
-			where("liquido", '!=', 1),
-			orderBy("syncDate", "desc"),
-			limit(150)
-		);
-		const querySnapshot = await getDocs(q);
-		let allData = [];
-		querySnapshot.forEach((doc) => {
-			// doc.data() is never undefined for query doc snapshots
-			const newData = {
-				...doc.data(),
-				id: doc.id
-			};
-			allData.push(newData);
-		});
-		// console.log("allData", allData);
-		return allData;
-	}
-	return [];
+
+	return chunks;
 };
 
-export const checkUserActive = async (userId) => {
-	const currentUser = getAuth().currentUser;
-	if (currentUser) {
-		return true;
+export const getAllDocsFirebase = async (farm = []) => {
+	const userActivated = await checkUserActive();
+
+	if (!userActivated) {
+		console.log("getAllDocsFirebase abortado: usuário não autenticado");
+		return [];
 	}
-	return false;
+
+	const farms = Array.isArray(farm)
+		? [...new Set(farm.filter(Boolean))]
+		: [];
+
+	if (farms.length === 0) {
+		console.log("getAllDocsFirebase abortado: nenhuma fazenda/projeto informado");
+		return [];
+	}
+
+	try {
+		const chunks = chunkArray(farms, 10);
+
+		const snapshots = await Promise.all(
+			chunks.map((farmChunk) => {
+				const q = query(
+					collection(db, "truckmove"),
+					where("fazendaOrigem", "in", farmChunk),
+					where("createdBy", "==", "App"),
+					where("liquido", "!=", 1),
+					orderBy("syncDate", "desc"),
+					limit(150)
+				);
+
+				return getDocs(q);
+			})
+		);
+
+		const allData = [];
+
+		snapshots.forEach((querySnapshot) => {
+			querySnapshot.forEach((document) => {
+				allData.push({
+					...document.data(),
+					id: document.id,
+				});
+			});
+		});
+
+		const uniqueById = Array.from(
+			new Map(allData.map((item) => [item.id, item])).values()
+		);
+
+		uniqueById.sort((a, b) => {
+			const dateA = a?.syncDate?.toDate?.() || new Date(a?.syncDate || 0);
+			const dateB = b?.syncDate?.toDate?.() || new Date(b?.syncDate || 0);
+
+			return dateB - dateA;
+		});
+
+		return uniqueById.slice(0, 150);
+	} catch (error) {
+		console.log("Erro em getAllDocsFirebase:", error);
+		throw error;
+	}
+};
+
+export const checkUserActive = async () => {
+	try {
+		const currentUser = auth.currentUser || getAuth().currentUser;
+
+		if (!currentUser) {
+			console.log("checkUserActive: nenhum usuário autenticado no Firebase");
+			return false;
+		}
+
+		await currentUser.getIdToken(true);
+
+		return true;
+	} catch (error) {
+		console.log("Erro em checkUserActive:", error);
+		return false;
+	}
 };
 
 export const saveDataOnFirebaseAndUpdate = async (newData) => {
 	const userActivated = await checkUserActive();
 	if (!userActivated) return false;
-		try {
-			// Step 1: Check if data already exists
-			if(newData?.codTicketPro && newData?.filialPro){
-				const q = query(
-					collection(db, "truckmove"),
-					where("codTicketPro", "==", newData.codTicketPro),
-					where("filialPro", "==", newData.filialPro),
-					limit(1)
-				)
-				
-				const querySnapshot = await getDocs(q)
-				if (!querySnapshot.empty) {
-					return "DUPLICATE"; // Prevent duplicate save
-				}
+	try {
+		// Step 1: Check if data already exists
+		if (newData?.codTicketPro && newData?.filialPro) {
+			const q = query(
+				collection(db, "truckmove"),
+				where("codTicketPro", "==", newData.codTicketPro),
+				where("filialPro", "==", newData.filialPro),
+				limit(1)
+			)
+
+			const querySnapshot = await getDocs(q)
+			if (!querySnapshot.empty) {
+				return "DUPLICATE"; // Prevent duplicate save
 			}
-			const lastRomaneio = await getLastRomaneioNUmber();
-			const updatedData = {
-				...newData,
-				relatorioColheita: Number(lastRomaneio) + 1
-			};
-			const response = await addRomaneioFirebase(updatedData);
-			if (response) {
-				await getDocumentosFirebase(response);
-				return response
-			}
-		} catch (err) {
-			console.log("erro ao salvar os dados", err);
 		}
+		const lastRomaneio = await getLastRomaneioNUmber();
+		const updatedData = {
+			...newData,
+			relatorioColheita: Number(lastRomaneio) + 1
+		};
+		const response = await addRomaneioFirebase(updatedData);
+		if (response) {
+			await getDocumentosFirebase(response);
+			return response
+		}
+	} catch (err) {
+		console.log("erro ao salvar os dados", err);
+	}
 };

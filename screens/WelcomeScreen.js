@@ -155,8 +155,7 @@ function WelcomeScreen() {
 	const netInfo = useNetInfo();
 
 	const user = useSelector(userSelector);
-	console.log("user:::", user.uid);
-	console.log(checkUserActive(user.uid));
+	
 
 	const context = useContext(AuthContext);
 

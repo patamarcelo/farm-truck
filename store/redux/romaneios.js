@@ -2,15 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 // import data from "../../utils/dummy-data";
 
 const initialState = {
-	user: "",
+	user: null,
 	projetosCadastrados: [],
 	cargas: [],
 	romaneiosFarm: [],
-	userCustomAttr: {},
+	userCustomAttr: null,
 	plantioDataFromServer: {},
 	mapDataPlot: [],
-	ciclo: null
+	ciclo: null,
+	userHydrated: false,
 };
+
+
 const RomaneioSlice = createSlice({
 	name: "romaneios",
 	initialState,
@@ -38,9 +41,6 @@ const RomaneioSlice = createSlice({
 		setRomaneiosFarm: (state, action) => {
 			state.romaneiosFarm = action.payload;
 		},
-		setRomaneiosFarm: (state, action) => {
-			state.romaneiosFarm = action.payload;
-		},
 		removeFavorite: (state, action) => {
 			state.romaneios.splice(state.ids.indexOf(action.payload.id), 1);
 		},
@@ -60,6 +60,20 @@ const RomaneioSlice = createSlice({
 		setMapPlot: (state, action) => {
 			state.mapDataPlot = action.payload;
 		},
+		setUserHydrated: (state, action) => {
+			state.userHydrated = action.payload;
+		},
+
+		clearServerSessionData: (state) => {
+			state.user = null;
+			state.userCustomAttr = null;
+			state.projetosCadastrados = [];
+			state.romaneiosFarm = [];
+			state.plantioDataFromServer = {};
+			state.mapDataPlot = [];
+			state.ciclo = null;
+			state.userHydrated = false;
+		},
 	}
 });
 
@@ -74,6 +88,8 @@ export const setProjetos = RomaneioSlice.actions.setProjetos;
 export const setPlantioDataFromServer = RomaneioSlice.actions.setPlantioDataFromServer;
 export const setMapPlotData = RomaneioSlice.actions.setMapPlot;
 export const setCurrentCiclo = RomaneioSlice.actions.setCurrentCiclo;
+
+export const setUserHydrated = RomaneioSlice.actions.setUserHydrated;
 
 // RESET SLICE
 export const resetState = RomaneioSlice.actions.resetState;
