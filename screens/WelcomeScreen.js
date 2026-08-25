@@ -10,6 +10,7 @@ import {
 	ActivityIndicator,
 	Alert,
 	FlatList,
+	Modal,
 	Platform,
 	Pressable,
 	RefreshControl,
@@ -93,18 +94,7 @@ function SyncSuccessContent({
 }) {
 	return (
 		<View style={styles.successContainer}>
-			<View style={styles.successIconContainer}>
-				<Ionicons
-					name="checkmark"
-					size={30}
-					color="#FFFFFF"
-				/>
-			</View>
-
-			<Text style={styles.successTitle}>
-				Romaneio sincronizado
-			</Text>
-
+		
 			<View style={styles.successDetails}>
 				<Text style={styles.successPlate}>
 					{formatPlate(placa)}
@@ -185,6 +175,18 @@ function WelcomeScreen() {
 
 		return displayName.split(" ")[0];
 	}, [user?.displayName]);
+
+	const syncingRomaneio = useMemo(() => {
+		if (!syncingId) {
+			return null;
+		}
+
+		return (
+			romaneios.find(
+				(item) => item?.idApp === syncingId
+			) || null
+		);
+	}, [romaneios, syncingId]);
 
 	const listSubtitle = useMemo(() => {
 		const total = romaneios.length;
@@ -312,7 +314,7 @@ function WelcomeScreen() {
 			Alert.alert(
 				"Excluir romaneio?",
 				description ||
-					"Esta ação removerá o romaneio deste aparelho.",
+				"Esta ação removerá o romaneio deste aparelho.",
 				[
 					{
 						text: "Cancelar",
@@ -396,17 +398,15 @@ function WelcomeScreen() {
 				const ticket =
 					romaneio?.codTicketPro
 						? String(
-								romaneio.codTicketPro
-							).replace(/^0+/, "")
+							romaneio.codTicketPro
+						).replace(/^0+/, "")
 						: "";
 
 				if (firebaseResponse === "DUPLICATE") {
 					Alert.alert(
 						"Ticket já cadastrado",
-						`O ticket ${
-							ticket || "informado"
-						} da filial ${
-							romaneio?.filialPro || ""
+						`O ticket ${ticket || "informado"
+						} da filial ${romaneio?.filialPro || ""
 						} já foi cadastrado.`
 					);
 
@@ -442,7 +442,7 @@ function WelcomeScreen() {
 				Alert.alert(
 					"Erro na sincronização",
 					message ||
-						"Não foi possível enviar o romaneio. Tente novamente."
+					"Não foi possível enviar o romaneio. Tente novamente."
 				);
 			} finally {
 				setSyncingId(null);
@@ -491,7 +491,7 @@ function WelcomeScreen() {
 						styles.deleteAction,
 
 						pressed &&
-							styles.actionPressed
+						styles.actionPressed
 					]}
 					accessibilityRole="button"
 					accessibilityLabel="Excluir romaneio"
@@ -540,10 +540,10 @@ function WelcomeScreen() {
 
 							(!isOnline ||
 								hasAnotherSync) &&
-								styles.disabledAction,
+							styles.disabledAction,
 
 							pressed &&
-								styles.actionPressed
+							styles.actionPressed
 						]}
 						accessibilityRole="button"
 						accessibilityLabel="Sincronizar romaneio"
@@ -623,7 +623,7 @@ function WelcomeScreen() {
 								styles.cardPressable,
 
 								pressed &&
-									styles.cardPressed
+								styles.cardPressed
 							]}
 							accessibilityRole="button"
 							accessibilityLabel={`Abrir detalhes do romaneio ${formatPlate(
@@ -655,7 +655,7 @@ function WelcomeScreen() {
 		(item, index) =>
 			String(
 				item?.idApp ||
-					`romaneio-${index}`
+				`romaneio-${index}`
 			),
 		[]
 	);
@@ -723,7 +723,7 @@ function WelcomeScreen() {
 									styles.listContent,
 
 									romaneios.length === 0 &&
-										styles.emptyListContent
+									styles.emptyListContent
 								]}
 								ItemSeparatorComponent={() => (
 									<View
@@ -747,6 +747,49 @@ function WelcomeScreen() {
 						</View>
 					</View>
 				</SafeAreaView>
+
+				<Modal
+					visible={Boolean(syncingId)}
+					transparent
+					animationType="fade"
+					statusBarTranslucent
+					presentationStyle="overFullScreen"
+					onRequestClose={() => { }}
+				>
+					<View style={styles.syncOverlay}>
+						<View style={styles.syncOverlayCard}>
+							<ActivityIndicator
+								size="large"
+								color={Colors.primary500}
+							/>
+
+							<Text style={styles.syncOverlayTitle}>
+								Enviando romaneio
+							</Text>
+
+							<Text style={styles.syncOverlayDescription}>
+								Aguarde enquanto o arquivo é enviado
+								para o servidor.
+							</Text>
+
+							{syncingRomaneio ? (
+								<View style={styles.syncOverlayDetails}>
+									<Text style={styles.syncOverlayPlate}>
+										{formatPlate(syncingRomaneio?.placa)}
+									</Text>
+
+									<Text
+										style={styles.syncOverlayDriver}
+										numberOfLines={1}
+									>
+										{syncingRomaneio?.motorista ||
+											"Motorista não informado"}
+									</Text>
+								</View>
+							) : null}
+						</View>
+					</View>
+				</Modal>
 			</GestureHandlerRootView>
 		</AlertNotificationRoot>
 	);
@@ -1073,6 +1116,75 @@ const styles = StyleSheet.create({
 		marginTop: 3,
 		fontSize: 12,
 		lineHeight: 17,
+		color: "#636366"
+	},
+
+	syncOverlay: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+		paddingHorizontal: 28,
+		backgroundColor: "rgba(0, 0, 0, 0.42)"
+	},
+
+	syncOverlayCard: {
+		width: "100%",
+		maxWidth: 340,
+		paddingHorizontal: 24,
+		paddingTop: 26,
+		paddingBottom: 22,
+		borderRadius: 20,
+		alignItems: "center",
+		backgroundColor: "#FFFFFF",
+		shadowColor: "#000000",
+		shadowOpacity: 0.18,
+		shadowOffset: {
+			width: 0,
+			height: 8
+		},
+		shadowRadius: 18,
+		elevation: 12
+	},
+
+	syncOverlayTitle: {
+		marginTop: 17,
+		fontSize: 18,
+		lineHeight: 23,
+		fontWeight: "700",
+		textAlign: "center",
+		color: "#1C1C1E"
+	},
+
+	syncOverlayDescription: {
+		marginTop: 7,
+		fontSize: 13,
+		lineHeight: 18,
+		textAlign: "center",
+		color: "#636366"
+	},
+
+	syncOverlayDetails: {
+		width: "100%",
+		marginTop: 18,
+		paddingHorizontal: 14,
+		paddingVertical: 11,
+		borderRadius: 13,
+		alignItems: "center",
+		backgroundColor: "#F2F2F7"
+	},
+
+	syncOverlayPlate: {
+		fontSize: 15,
+		lineHeight: 20,
+		fontWeight: "700",
+		color: "#1C1C1E"
+	},
+
+	syncOverlayDriver: {
+		marginTop: 2,
+		fontSize: 12,
+		lineHeight: 17,
+		textAlign: "center",
 		color: "#636366"
 	}
 });

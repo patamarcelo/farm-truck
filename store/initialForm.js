@@ -40,5 +40,6 @@ export const DEST = [
 	"Diamante",
 	"JK",
 	"Fazendão",
-	"Badu"
+	"Badu",
+	"AGB"
 ];
