@@ -1,72 +1,97 @@
-import { View, Text, StyleSheet, Image, Easing } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import IconButton from "../ui/IconButton";
 import { useState, useEffect } from "react";
 import { Colors } from "../../constants/styles";
 import * as Haptics from "expo-haptics";
 
 import { ICON_URL, findImg } from "../../utils/imageUrl";
-import Animated, { BounceIn, BounceOut, FadeIn, FadeInUp, FadeOut, FadeOutUp, Layout} from 'react-native-reanimated';
+import Animated, {
+	FadeInUp,
+	FadeOutUp,
+	Layout
+} from "react-native-reanimated";
 
 const CaixasParcelas = (props) => {
 	const { parcela, removeparcela, handleCaixas } = props;
 	const [valueParcela, setValueParcela] = useState(0);
 
 	useEffect(() => {
-		console.log(valueParcela);
 		handleCaixas(parcela?.parcela, valueParcela);
 	}, [valueParcela]);
 
-	// const fadeAnim = new Animated.Value(1); // Initial opacity of 0 (invisible)
+	const handleDelete = (parcelaNome) => {
+		Haptics.notificationAsync(
+			Haptics.NotificationFeedbackType.Success
+		);
 
-	// Trigger the fade-in and fade-out animation on mount/unmount
-	const [isVisible, setIsVisible] = useState(true);
-
-	
-	const handleDelete = (parcela) =>{
-		setIsVisible(false)
 		setTimeout(() => {
-			removeparcela(parcela)
+			removeparcela(parcelaNome);
 		}, 200);
-	}
+	};
 
 	return (
 		<Animated.View
-		style={[{ ...styles.container }, valueParcela === 0 && styles.notSelectedCaixas]}
-		exiting={FadeOutUp.duration(100)}
-		entering={FadeInUp.duration(100)}
-		layout={Layout.springify().damping(20).stiffness(90)}
+			style={[
+				styles.container,
+				valueParcela === 0 && styles.notSelectedCaixas
+			]}
+			exiting={FadeOutUp.duration(100)}
+			entering={FadeInUp.duration(100)}
+			layout={Layout.springify().damping(20).stiffness(90)}
 		>
-			<View style={styles.parcelaContainer }>
+			<View style={styles.parcelaContainer}>
 				<IconButton
 					icon="trash"
 					color={Colors.danger[400]}
-					size={28}
-					onPress={handleDelete.bind(this, parcela?.parcela)}
+					size={24}
+					onPress={() => handleDelete(parcela?.parcela)}
 					btnStyles={styles.iconStylesRemove}
 				/>
-				<Text style={styles.parcelasText}>{parcela?.parcela}</Text>
+
+				<Text
+					style={styles.parcelasText}
+					numberOfLines={1}
+				>
+					{parcela?.parcela}
+				</Text>
+
 				<Image
 					source={findImg(ICON_URL, parcela?.cultura)}
-					style={{ width: 25, height: 25, marginLeft: 30 }}
+					style={styles.culturaImage}
 				/>
-				<Text style={styles.variedadeText}>{parcela?.variedade}</Text>
+
+				<Text
+					style={styles.variedadeText}
+					numberOfLines={1}
+					ellipsizeMode="tail"
+				>
+					{parcela?.variedade}
+				</Text>
 			</View>
+
 			<View style={styles.containerButtons}>
 				<IconButton
 					icon="remove-outline"
-					color={"white"}
-					size={28}
+					color="white"
+					size={24}
 					disabled={valueParcela === 0}
-					onPress={() => setValueParcela((prev) => (prev -= 1))}
-					btnStyles={[styles.iconStyles, valueParcela === 0 && styles.disabledButton] }
+					onPress={() =>
+						setValueParcela((prev) => Math.max(0, prev - 1))
+					}
+					btnStyles={[
+						styles.iconStyles,
+						valueParcela === 0 && styles.disabledButton
+					]}
 				/>
+
 				<Text style={styles.valueField}>{valueParcela}</Text>
+
 				<IconButton
 					icon="plus"
-					color={"white"}
-					size={28}
-					type={"paper"}
-					onPress={() => setValueParcela((prev) => (prev += 1))}
+					color="white"
+					size={24}
+					type="paper"
+					onPress={() => setValueParcela((prev) => prev + 1)}
 					btnStyles={styles.iconStyles}
 				/>
 			</View>
@@ -77,54 +102,77 @@ const CaixasParcelas = (props) => {
 export default CaixasParcelas;
 
 const styles = StyleSheet.create({
-	disabledButton:{
-		opacity: 0.5
-	},
-	notSelectedCaixas:{
-		borderWidth: 1,
-		borderColor: 'red'
-	},
-	iconStylesRemove: {},
 	container: {
-		flex: 1,
+		alignSelf: "stretch",
 		flexDirection: "row",
-		width: "100%",
-		justifyContent: "space-between",
-		marginVertical: 5,
-		paddingHorizontal: 10,
 		alignItems: "center",
+		minHeight: 54,
+		marginVertical: 5,
+		paddingHorizontal: 8,
 		backgroundColor: "rgba(248,248,248,0.1)",
 		borderRadius: 8
 	},
+	parcelaContainer: {
+		flex: 1,
+		minWidth: 0,
+		flexDirection: "row",
+		alignItems: "center",
+		marginRight: 6,
+		overflow: "hidden"
+	},
 	containerButtons: {
 		flexDirection: "row",
-		alignItems: "center"
+		alignItems: "center",
+		flexShrink: 0
 	},
-	valueField: {
-		color: "whitesmoke",
-		marginHorizontal: 10,
-		fontWeight: 'bold',
-		fontSize: 16
+	disabledButton: {
+		opacity: 0.5
 	},
-	variedadeText: {
-		color: 'white',
-		fontSize: 10,
-		bottom: 0,
-		marginTop: 'auto',
-		// marginLeft: -20,
-		marginBottom: 4
+	notSelectedCaixas: {
+		borderWidth: 1,
+		borderColor: "red"
+	},
+	iconStylesRemove: {
+		width: 36,
+		height: 36,
+		flexShrink: 0,
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	iconStyles: {
+		width: 36,
+		height: 36,
+		flexShrink: 0,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: Colors.primary[500],
+		borderRadius: 5
 	},
 	parcelasText: {
 		color: "whitesmoke",
-		fontWeight: "bold"
+		fontWeight: "bold",
+		flexShrink: 1
 	},
-	iconStyles: {
-		backgroundColor: Colors.primary[500],
-		borderRadius: 5
-		// padding: 1
+	culturaImage: {
+		width: 25,
+		height: 25,
+		marginLeft: 8,
+		marginRight: 6,
+		flexShrink: 0
 	},
-	parcelaContainer: {
-		flexDirection: "row",
-		alignItems: "center"
+	variedadeText: {
+		flex: 1,
+		minWidth: 0,
+		color: "white",
+		fontSize: 10,
+		marginTop: "auto",
+		marginBottom: 4
+	},
+	valueField: {
+		width: 24,
+		color: "whitesmoke",
+		textAlign: "center",
+		fontWeight: "bold",
+		fontSize: 16
 	}
 });

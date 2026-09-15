@@ -141,7 +141,7 @@ function FormInputs({
 			}
 			let finalArr = [];
 			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
-				if (selectedData[data]?.plantio_descontinuado === false) {
+				if (selectedData[data]?.plantio_descontinuado === false && selectedData[data]?.ativo === true ) {
 					const obj = {
 						parcela: data,
 						ciclo: selectedData[data].ciclo,
@@ -174,7 +174,7 @@ function FormInputs({
 			}
 			let finalArr = [];
 			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
-				if (selectedData[data]?.plantio_descontinuado === false) {
+				if (selectedData[data]?.plantio_descontinuado === false && selectedData[data]?.ativo === true) {
 					const obj = {
 						parcela: data,
 						ciclo: selectedData[data].ciclo,
@@ -182,7 +182,8 @@ function FormInputs({
 						variedade: selectedData[data].variedade,
 						colheita: selectedData[data].finalizado_colheita,
 						safra: selectedData[data].safra,
-						id_plantio: selectedData[data].id_plantio
+						id_plantio: selectedData[data].id_plantio,
+						ativo: selectedData[data].ativo
 					};
 					finalArr.push(obj);
 				}
