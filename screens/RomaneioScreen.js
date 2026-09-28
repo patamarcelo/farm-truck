@@ -120,9 +120,13 @@ export default function RomaneioScreen() {
   ]);
 
   useScrollToTop(scrollToTopRef);
+
   const refresh = useCallback(async () => {
+    /*
+     * Sem projetos carregados, preserva o cache local.
+     * Não há motivo para apagar romaneios já existentes.
+     */
     if (!hasFazendas) {
-      dispatch(addRomaneiosFarm([]));
       return;
     }
 
@@ -132,8 +136,20 @@ export default function RomaneioScreen() {
       const result =
         await getAllDocsFirebase(projetos);
 
-      dispatch(
-        addRomaneiosFarm(result || [])
+      /*
+       * Uma resposta vazia, falha de rede ou falha de
+       * permissão não pode apagar o último cache válido.
+       */
+      if (
+        Array.isArray(result) &&
+        result.length > 0
+      ) {
+        dispatch(addRomaneiosFarm(result));
+      }
+    } catch (error) {
+      console.log(
+        "[Romaneios] Falha ao atualizar; cache preservado:",
+        error?.message
       );
     } finally {
       setRefreshing(false);

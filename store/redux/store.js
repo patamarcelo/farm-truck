@@ -33,6 +33,9 @@ const romaneiosCacheTransform = createTransform(
     user: serializeUser(state.user),
 
     cargas: state.cargas || [],
+
+    romaneiosFarm: state.romaneiosFarm || [],
+
     projetosCadastrados:
       state.projetosCadastrados || [],
     plantioDataFromServer:
@@ -54,7 +57,8 @@ const romaneiosCacheTransform = createTransform(
     mapDataPlot: state?.mapDataPlot || [],
     ciclo: state?.ciclo || null,
 
-    romaneiosFarm: []
+    romaneiosFarm:
+      state?.romaneiosFarm || [],
   }),
 
   {

@@ -58,7 +58,12 @@ const slice = createSlice({
 			);
 		},
 		setRomaneiosFarm: (state, action) => {
-			state.romaneiosFarm = action.payload || [];
+			if (
+				Array.isArray(action.payload) &&
+				action.payload.length > 0
+			) {
+				state.romaneiosFarm = action.payload;
+			}
 		},
 		setPlantioDataFromServer: (state, action) => {
 			if (hasData(action.payload?.dados)) {
