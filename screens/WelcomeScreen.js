@@ -96,6 +96,17 @@ function SyncSuccessContent({
 }) {
 	return (
 		<View style={styles.successContainer}>
+			<View style={styles.successIconContainer}>
+				<Ionicons
+					name="checkmark"
+					size={30}
+					color="#FFFFFF"
+				/>
+			</View>
+
+			<Text style={styles.successTitle}>
+				Romaneio enviado com sucesso
+			</Text>
 
 			<View style={styles.successDetails}>
 				<Text style={styles.successPlate}>
@@ -179,7 +190,7 @@ function WelcomeScreen() {
 		return displayName.split(" ")[0];
 	}, [user?.displayName]);
 
-	
+
 
 	const listSubtitle = useMemo(() => {
 		const total = romaneios.length;
@@ -657,91 +668,91 @@ function WelcomeScreen() {
 
 	return (
 		<AlertNotificationRoot>
-			
-				<SafeAreaView style={styles.safeArea}>
-					<View style={styles.screen}>
-						<View style={styles.topSection}>
-							<View style={styles.welcomeSection}>
-								<Text style={styles.welcomeTitle}>
-									Olá, {firstName}
+
+			<SafeAreaView style={styles.safeArea}>
+				<View style={styles.screen}>
+					<View style={styles.topSection}>
+						<View style={styles.welcomeSection}>
+							<Text style={styles.welcomeTitle}>
+								Olá, {firstName}
+							</Text>
+
+							<Text
+								style={styles.welcomeSubtitle}
+								numberOfLines={1}
+							>
+								Acompanhe seus carregamentos pendentes
+							</Text>
+						</View>
+
+						<View style={styles.summaryContainer}>
+							<ResumoContainer />
+						</View>
+					</View>
+
+					<View style={styles.listSection}>
+						<View style={styles.listHeader}>
+							<View style={styles.listHeaderText}>
+								<Text style={styles.listTitle}>
+									Romaneios
 								</Text>
 
 								<Text
-									style={styles.welcomeSubtitle}
+									style={styles.listSubtitle}
 									numberOfLines={1}
 								>
-									Acompanhe seus carregamentos pendentes
+									{listSubtitle}
 								</Text>
 							</View>
 
-							<View style={styles.summaryContainer}>
-								<ResumoContainer />
+							<View style={styles.countBadge}>
+								<Text style={styles.countBadgeText}>
+									{romaneios.length}
+								</Text>
 							</View>
 						</View>
 
-						<View style={styles.listSection}>
-							<View style={styles.listHeader}>
-								<View style={styles.listHeaderText}>
-									<Text style={styles.listTitle}>
-										Romaneios
-									</Text>
+						<FlatList
+							data={romaneios}
+							keyExtractor={keyExtractor}
+							renderItem={renderRomaneio}
+							showsVerticalScrollIndicator={false}
+							keyboardShouldPersistTaps="handled"
+							removeClippedSubviews={
+								Platform.OS === "android"
+							}
+							initialNumToRender={8}
+							maxToRenderPerBatch={8}
+							windowSize={7}
+							updateCellsBatchingPeriod={50}
+							contentContainerStyle={[
+								styles.listContent,
 
-									<Text
-										style={styles.listSubtitle}
-										numberOfLines={1}
-									>
-										{listSubtitle}
-									</Text>
-								</View>
-
-								<View style={styles.countBadge}>
-									<Text style={styles.countBadgeText}>
-										{romaneios.length}
-									</Text>
-								</View>
-							</View>
-
-							<FlatList
-								data={romaneios}
-								keyExtractor={keyExtractor}
-								renderItem={renderRomaneio}
-								showsVerticalScrollIndicator={false}
-								keyboardShouldPersistTaps="handled"
-								removeClippedSubviews={
-									Platform.OS === "android"
-								}
-								initialNumToRender={8}
-								maxToRenderPerBatch={8}
-								windowSize={7}
-								updateCellsBatchingPeriod={50}
-								contentContainerStyle={[
-									styles.listContent,
-
-									romaneios.length === 0 &&
-									styles.emptyListContent
-								]}
-								ItemSeparatorComponent={() => (
-									<View
-										style={styles.itemSeparator}
-									/>
-								)}
-								ListEmptyComponent={EmptyRomaneios}
-								refreshControl={
-									<RefreshControl
-										refreshing={refreshing}
-										onRefresh={handleRefresh}
-										tintColor={
-											Colors.primary500
-										}
-										colors={[
-											Colors.primary500
-										]}
-									/>
-								}
-							/>
-						</View>
+								romaneios.length === 0 &&
+								styles.emptyListContent
+							]}
+							ItemSeparatorComponent={() => (
+								<View
+									style={styles.itemSeparator}
+								/>
+							)}
+							ListEmptyComponent={EmptyRomaneios}
+							refreshControl={
+								<RefreshControl
+									refreshing={refreshing}
+									onRefresh={handleRefresh}
+									tintColor={
+										Colors.primary500
+									}
+									colors={[
+										Colors.primary500
+									]}
+								/>
+							}
+						/>
 					</View>
-				</SafeAreaView>
+				</View>
+			</SafeAreaView>
 		</AlertNotificationRoot>
 	);
 }
@@ -1137,5 +1148,52 @@ const styles = StyleSheet.create({
 		lineHeight: 17,
 		textAlign: "center",
 		color: "#636366"
-	}
+	},
+
+	successContainer: {
+		width: "100%",
+		alignItems: "center",
+		paddingTop: 8,
+		paddingBottom: 4
+	},
+
+	successIconContainer: {
+		width: 56,
+		height: 56,
+		borderRadius: 28,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: "#34C759"
+	},
+
+	successTitle: {
+		marginTop: 13,
+		fontSize: 16,
+		lineHeight: 21,
+		fontWeight: "700",
+		color: "#1C1C1E"
+	},
+
+	successDetails: {
+		width: "100%",
+		marginTop: 15,
+		padding: 13,
+		borderRadius: 13,
+		alignItems: "center",
+		backgroundColor: "#F2F2F7"
+	},
+
+	successPlate: {
+		fontSize: 16,
+		lineHeight: 21,
+		fontWeight: "700",
+		color: "#1C1C1E"
+	},
+
+	successDriver: {
+		marginTop: 3,
+		fontSize: 12,
+		lineHeight: 17,
+		color: "#636366"
+	},
 });
