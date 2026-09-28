@@ -1,47 +1,141 @@
-// src/features/colheita/useAutoSyncColheita.js
-import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNetInfo } from "@react-native-community/netinfo";
-import { useDispatch } from "react-redux";
-import { syncColheitaAndMap } from "./syncColheita";
+import {
+    useCallback,
+    useEffect,
+    useRef
+} from "react";
+
+import {
+    AppState
+} from "react-native";
+
+import AsyncStorage from
+    "@react-native-async-storage/async-storage";
+
+import {
+    useNetInfo
+} from "@react-native-community/netinfo";
+
+import {
+    useDispatch,
+    useSelector
+} from "react-redux";
+
+import {
+    syncColheitaAndMap
+} from "./syncColheita";
 
 const STORAGE_KEY = "@colheita:lastSync";
-// 1x por dia:
 const INTERVAL_MS = 24 * 60 * 60 * 1000;
-// 10 Minutos:
-// const INTERVAL_MS = 10 * 60 * 1000; // 10 minutos
-// se quiser 1x por semana:
-// const INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
 
 export function useAutoSyncColheita() {
-    const netInfo = useNetInfo();
     const dispatch = useDispatch();
+    const netInfo = useNetInfo();
 
-    useEffect(() => {
-        const maybeSync = async () => {
-            if (!netInfo.isConnected) {
+    const syncingRef = useRef(false);
+
+    const plantioData = useSelector(
+        (state) =>
+            state.romaneios.plantioDataFromServer
+    );
+
+    const mapData = useSelector(
+        (state) =>
+            state.romaneios.mapDataPlot
+    );
+
+    const hasPlantioData = Boolean(
+        plantioData?.dados &&
+        Object.keys(plantioData.dados).length > 0
+    );
+
+    const hasMapData =
+        Array.isArray(mapData)
+            ? mapData.length > 0
+            : Boolean(
+                mapData &&
+                typeof mapData === "object" &&
+                Object.keys(mapData).length > 0
+            );
+
+    const maybeSync = useCallback(async () => {
+        const isOnline =
+            netInfo.isConnected === true &&
+            netInfo.isInternetReachable !== false;
+
+        if (syncingRef.current || !isOnline) {
+            return;
+        }
+
+        try {
+            const now = Date.now();
+
+            const lastStr =
+                await AsyncStorage.getItem(STORAGE_KEY);
+
+            const last = lastStr
+                ? Number(lastStr)
+                : 0;
+
+            const cacheIsComplete =
+                hasPlantioData &&
+                hasMapData;
+
+            if (
+                cacheIsComplete &&
+                last &&
+                now - last < INTERVAL_MS
+            ) {
                 return;
             }
 
-            try {
-                const now = Date.now();
-                const lastStr = await AsyncStorage.getItem(STORAGE_KEY);
-                const last = lastStr ? Number(lastStr) : 0;
+            syncingRef.current = true;
 
-                // se ainda não passou o intervalo, não faz nada
-                if (last && now - last < INTERVAL_MS) {
-                    return;
-                }
-
-                console.log("[colheita] iniciando sync automática...");
+            const succeeded =
                 await syncColheitaAndMap(dispatch);
-                await AsyncStorage.setItem(STORAGE_KEY, String(now));
-                console.log("[colheita] sync automática concluída");
-            } catch (e) {
-                console.log("[colheita] erro na sync automática:", e.message);
-            }
-        };
 
+            if (succeeded) {
+                await AsyncStorage.setItem(
+                    STORAGE_KEY,
+                    String(now)
+                );
+            }
+        } catch (error) {
+            console.log(
+                "[colheita] erro:",
+                error?.message
+            );
+        } finally {
+            syncingRef.current = false;
+        }
+    }, [
+        dispatch,
+        hasMapData,
+        hasPlantioData,
+        netInfo.isConnected,
+        netInfo.isInternetReachable
+    ]);
+
+    useEffect(() => {
         maybeSync();
-    }, [netInfo.isConnected, dispatch]);
+
+        const interval = setInterval(
+            maybeSync,
+            60 * 60 * 1000
+        );
+
+        const subscription =
+            AppState.addEventListener(
+                "change",
+                (nextState) => {
+                    if (nextState === "active") {
+                        maybeSync();
+                    }
+                }
+            );
+
+        return () => {
+            subscription.remove();
+            clearInterval(interval);
+        };
+    }, [maybeSync]);
 }

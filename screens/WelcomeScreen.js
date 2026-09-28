@@ -96,14 +96,6 @@ function SyncSuccessContent({
 }) {
 	return (
 		<View style={styles.successContainer}>
-			<View style={styles.successIconContainer}>
-				<Ionicons
-					name="checkmark"
-					size={30}
-					color="#FFFFFF"
-				/>
-			</View>
-
 			<Text style={styles.successTitle}>
 				Romaneio enviado com sucesso
 			</Text>

@@ -21,6 +21,18 @@ const normalizeCarga = (item) => ({
 	syncDate: asIso(item.syncDate)
 });
 
+
+const hasData = (value) => {
+	if (Array.isArray(value)) {
+		return value.length > 0;
+	}
+
+	return Boolean(
+		value &&
+		typeof value === "object" &&
+		Object.keys(value).length > 0
+	);
+};
 const slice = createSlice({
 	name: "romaneios",
 	initialState,
@@ -49,13 +61,18 @@ const slice = createSlice({
 			state.romaneiosFarm = action.payload || [];
 		},
 		setPlantioDataFromServer: (state, action) => {
-			state.plantioDataFromServer = action.payload || {};
+			if (hasData(action.payload?.dados)) {
+				state.plantioDataFromServer = action.payload;
+			}
+		},
+
+		setMapPlot: (state, action) => {
+			if (hasData(action.payload)) {
+				state.mapDataPlot = action.payload;
+			}
 		},
 		setCurrentCiclo: (state, action) => {
 			state.ciclo = action.payload;
-		},
-		setMapPlot: (state, action) => {
-			state.mapDataPlot = action.payload || [];
 		},
 		setUserHydrated: (state, action) => {
 			state.userHydrated = Boolean(action.payload);
