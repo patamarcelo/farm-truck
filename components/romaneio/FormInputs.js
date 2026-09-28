@@ -233,10 +233,33 @@ function FormInputs({
 		navigation.navigate("ParcelasScreenRoute", {
 			parcelas: checkParcelas,
 			farmName: selectedFarm,
-			onGoBack: (parcelasSelecionadas) => {
-				setParcelasSelectedObject(
-					parcelasSelecionadas
-				);
+			onGoBack: (selection) => {
+				/*
+				 * ParcelasScreen devolve um array completo.
+				 * MapScreen devolve uma única parcela.
+				 */
+				if (Array.isArray(selection)) {
+					setParcelasSelectedObject(selection);
+					return;
+				}
+
+				if (!selection?.parcela) {
+					return;
+				}
+
+				setParcelasSelectedObject((current) => {
+					const previous = Array.isArray(current)
+						? current
+						: [];
+
+					return [
+						...previous.filter(
+							(item) =>
+								item.parcela !== selection.parcela
+						),
+						selection
+					];
+				});
 			}
 		});
 	}

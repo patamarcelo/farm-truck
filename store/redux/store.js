@@ -15,8 +15,23 @@ import {
 import RomaneioReducer from "./romaneios";
 import uiReducer from "./ui";
 
+const serializeUser = (user) => {
+  if (!user) {
+    return null;
+  }
+
+  return {
+    uid: user.uid || null,
+    email: user.email || null,
+    displayName: user.displayName || null,
+    photoURL: user.photoURL || null
+  };
+};
+
 const romaneiosCacheTransform = createTransform(
   (state) => ({
+    user: serializeUser(state.user),
+
     cargas: state.cargas || [],
     projetosCadastrados:
       state.projetosCadastrados || [],
@@ -27,7 +42,7 @@ const romaneiosCacheTransform = createTransform(
   }),
 
   (state) => ({
-    user: null,
+    user: state?.user || null,
     userCustomAttr: null,
     userHydrated: false,
 

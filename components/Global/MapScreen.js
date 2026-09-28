@@ -62,7 +62,15 @@ const MapScreen = ({ navigation, route }) => {
 
 	const mapRef = createRef();
 
-	const { farmName, parcelas, onSelectLocation } = route?.params
+	const {
+		farmName,
+		parcelas = [],
+		onSelectLocation
+	} = route?.params || {};
+
+	const parcelasList = Array.isArray(parcelas)
+		? parcelas
+		: [];
 
 	// console.log('data here:::', data)
 
@@ -96,6 +104,13 @@ const MapScreen = ({ navigation, route }) => {
 	};
 
 	useEffect(() => {
+		if (
+			!Array.isArray(mapPlotData) ||
+			mapPlotData.length === 0 ||
+			!farmName
+		) {
+			return;
+		}
 		if (mapPlotData.length > 0 && farmName) {
 			const dataFromMap = newMapArr(mapPlotData)
 			const filteredFarm = dataFromMap.filter((data) => data.farmName == farmName.replace('Fazenda', 'Projeto').replace('Cacique', 'Cacíque')).filter((data) => data.ativo === true)
@@ -134,7 +149,7 @@ const MapScreen = ({ navigation, route }) => {
 			setmapCoordsInit(getMapCords)
 			setfilteredFarmArr(filteredFarm)
 		}
-	}, [farmName]);
+	}, [farmName, mapPlotData]);
 
 
 	useEffect(() => {
@@ -361,7 +376,7 @@ const MapScreen = ({ navigation, route }) => {
 								const isActive = coordArr?.ativo
 
 								const canPressCheck = isActive && cultura.length > 3
-								const selected = parcelas.find((parc) => parc.parcela.split(" ").join("") === coordArr.talhao.split(" ").join(""))?.selected
+								const selected = parcelasList.find((parc) => parc.parcela.split(" ").join("") === coordArr.talhao.split(" ").join(""))?.selected
 								const canPress = !selected && canPressCheck
 								const isPressedHere = isPressed && isPressed === canPress?.parcela ? 1 : 0.6
 								// console.log('can press data: ', canPress)
