@@ -214,7 +214,7 @@ function WelcomeScreen() {
 			headerTitleAlign: "center",
 
 			headerStyle: {
-				backgroundColor: Colors.primary500
+				backgroundColor: Colors.primary800
 			},
 
 			headerTitle: () => (

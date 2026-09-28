@@ -2,7 +2,6 @@ import {
 	View,
 	Text,
 	StyleSheet,
-	SafeAreaView,
 	ScrollView,
 	KeyboardAvoidingView,
 	Pressable,
@@ -12,6 +11,11 @@ import {
 
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
+
+import {
+	SafeAreaView,
+	useSafeAreaInsets
+} from "react-native-safe-area-context";
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -84,6 +88,7 @@ const FormScreen = ({ navigation, route }) => {
 	const [selectedDest, setSelectedDest] = useState("Selecione o Destino");
 	const [filteredFarms, setFilteredFarms] = useState([]);
 	const isFocused = useIsFocused();
+	const insets = useSafeAreaInsets();
 
 
 	const [parcelasSelectedObject, setParcelasSelectedObject] = useState([]);
@@ -318,58 +323,73 @@ const FormScreen = ({ navigation, route }) => {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
+		<SafeAreaView
+			style={styles.safeArea}
+			edges={["top", "left", "right"]}
+		>
 			<View style={styles.mainContainer}>
 				<ScrollView
-					style={styles.formContainer}
-					contentContainerStyle={styles.formContainerContent}
-					showsVerticalScrollIndicator={false}
+					style={styles.formScroll}
+					contentContainerStyle={styles.formScrollContent}
+					showsVerticalScrollIndicator
+					scrollIndicatorInsets={{ right: 0 }}
+					indicatorStyle="white"
 				>
-					<View style={styles.headerFormTitle}>
-						<Text style={styles.headerFormTitleText}>
-							Nova Carga
-						</Text>
-					</View>
+					<View style={styles.formContent}>
+						<View style={styles.headerFormTitle}>
+							<Text style={styles.headerFormTitleText}>
+								Nova Carga
+							</Text>
+						</View>
 
-					<FormInputs
-						errors={errors}
-						control={control}
-						isLogin={isLogin}
-						onSubmit={submitHandler}
-						getValues={getValues}
-						handlerChange={handlerChange}
-						selectedFarm={selectedFarm}
-						setValue={setValue}
-						setSelectedFarm={setSelectedFarm}
-						selectedDest={selectedDest}
-						setSelectedDest={setSelectedDest}
-						handleModal={handleModal}
-						setFilteredFarms={setFilteredFarms}
-						filteredFarms={filteredFarms}
-						setParcelasSelectedObject={setParcelasSelectedObject}
-						parcelasSelectedObject={parcelasSelectedObject}
-						obsCheckIcon={obsCheckIcon}
-						setObsCheckIcon={setObsCheckIcon}
-						navigation={navigation}
-						route={route}
-						openCamera={openCamera}
-					/>
+						<FormInputs
+							errors={errors}
+							control={control}
+							isLogin={isLogin}
+							onSubmit={submitHandler}
+							getValues={getValues}
+							handlerChange={handlerChange}
+							selectedFarm={selectedFarm}
+							setValue={setValue}
+							setSelectedFarm={setSelectedFarm}
+							selectedDest={selectedDest}
+							setSelectedDest={setSelectedDest}
+							handleModal={handleModal}
+							setFilteredFarms={setFilteredFarms}
+							filteredFarms={filteredFarms}
+							setParcelasSelectedObject={
+								setParcelasSelectedObject
+							}
+							parcelasSelectedObject={
+								parcelasSelectedObject
+							}
+							obsCheckIcon={obsCheckIcon}
+							setObsCheckIcon={setObsCheckIcon}
+							navigation={navigation}
+							route={route}
+							openCamera={openCamera}
+						/>
+					</View>
 				</ScrollView>
+
 				{!selectedFarm && (
 					<View style={styles.qrButtonContainer}>
-						<Pressable
-							onPress={handleOpenCamera}
-							style={({ pressed }) => [
-								styles.qrButton,
-								pressed && styles.qrButtonPressed,
-							]}
-						>
-							<AntDesign name="qrcode" size={40} color="white" />
-							<Text style={styles.qrButtonText}>QR Code</Text>
-						</Pressable>
+						{/* mantém aqui seu botão de QR Code atual */}
 					</View>
 				)}
-				<View style={styles.buttonContainer}>
+
+				<View
+					style={[
+						styles.buttonContainer,
+						{
+							paddingBottom: Math.max(
+								insets.bottom,
+								12
+							)
+						}
+					]}
+				>
+
 					<Button
 						disabled={
 							Object.keys(errors).length > 0 ||
@@ -461,7 +481,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		width: "90%",
 		gap: 10,
-		marginBottom: 30,
+		marginBottom: 20,
 	},
 	pressed: {
 		backgroundColor: Colors.primary[500]
@@ -568,5 +588,37 @@ const styles = StyleSheet.create({
 		color: "white",
 		fontSize: 18,
 		fontWeight: "600",
+	},
+	safeArea: {
+		flex: 1,
+		backgroundColor: Colors.primary500
+	},
+
+	mainContainer: {
+		flex: 1,
+		alignItems: "center",
+		paddingTop: 10
+	},
+
+	formScroll: {
+		flex: 1,
+		width: "100%"
+	},
+
+	formScrollContent: {
+		flexGrow: 1
+	},
+
+	formContent: {
+		width: "90%",
+		alignSelf: "center",
+		paddingBottom: 16
+	},
+
+	buttonContainer: {
+		width: "90%",
+		alignSelf: "center",
+		gap: 10,
+		marginTop: 10
 	},
 });

@@ -75,7 +75,7 @@ function FormInputs({
 	const handlerModal = () => {
 		setOpenModal(!openModal);
 	};
-	
+
 	useEffect(() => {
 		LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
 	}, []);
@@ -130,71 +130,60 @@ function FormInputs({
 	};
 
 	useEffect(() => {
-		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
-			const selectedData = customData?.dados[selectedFarm];
-			const filteredArrParcelas = Object.keys(selectedData);
-			if (filteredArrParcelas) {
-				const parcelasObj = filteredArrParcelas.map((data, i) => {
-					return { id: data, name: data };
-				});
-				setParcelasSelected(parcelasObj);
-			}
-			let finalArr = [];
-			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
-				if (selectedData[data]?.plantio_descontinuado === false && selectedData[data]?.ativo === true ) {
-					const obj = {
-						parcela: data,
-						ciclo: selectedData[data].ciclo,
-						cultura: selectedData[data].cultura,
-						variedade: selectedData[data].variedade,
-						colheita: selectedData[data].finalizado_colheita,
-						safra: selectedData[data].safra,
-						id_plantio: selectedData[data].id_plantio
-					};
-					finalArr.push(obj);
-				}
-			});
-			setfilteredParcelasFarmObj(finalArr);
-		}
-		setValue("parcelasNovas", []);
-		if (selectedFarm !== "Selecione a Fazenda") {
-			setValue("fazendaOrigem", selectedFarm);
-		}
-	}, [selectedFarm]);
+		const isFarmSelected =
+			selectedFarm &&
+			selectedFarm !== "Selecione a Fazenda";
 
-	useEffect(() => {
-		if (selectedFarm && selectedFarm !== "Selecione a Fazenda") {
-			const selectedData = customData?.dados[selectedFarm];
-			const filteredArrParcelas = Object.keys(selectedData);
-			if (filteredArrParcelas) {
-				const parcelasObj = filteredArrParcelas.map((data, i) => {
-					return { id: data, name: data };
-				});
-				setParcelasSelected(parcelasObj);
-			}
-			let finalArr = [];
-			const newFullParcelasObj = Object.keys(selectedData).map((data) => {
-				if (selectedData[data]?.plantio_descontinuado === false && selectedData[data]?.ativo === true) {
-					const obj = {
-						parcela: data,
-						ciclo: selectedData[data].ciclo,
-						cultura: selectedData[data].cultura,
-						variedade: selectedData[data].variedade,
-						colheita: selectedData[data].finalizado_colheita,
-						safra: selectedData[data].safra,
-						id_plantio: selectedData[data].id_plantio,
-						ativo: selectedData[data].ativo
-					};
-					finalArr.push(obj);
-				}
+		if (!isFarmSelected) {
+			setParcelasSelected([]);
+			setfilteredParcelasFarmObj([]);
+			setValue("parcelasNovas", []);
+			return;
+		}
+
+		const selectedData =
+			customData?.dados?.[selectedFarm] || {};
+
+		const parcelasKeys = Object.keys(selectedData);
+
+		setParcelasSelected(
+			parcelasKeys.map((parcela) => ({
+				id: parcela,
+				name: parcela
+			}))
+		);
+
+		const parcelasDisponiveis = parcelasKeys
+			.filter((parcela) => {
+				const dadosParcela = selectedData[parcela];
+
+				return (
+					dadosParcela?.plantio_descontinuado === false &&
+					dadosParcela?.ativo === true
+				);
+			})
+			.map((parcela) => {
+				const dadosParcela = selectedData[parcela];
+				console.log('dados parcela ', dadosParcela, '\n')
+
+				return {
+					parcela,
+					ciclo: dadosParcela.ciclo,
+					cultura: dadosParcela.cultura,
+					variedade: dadosParcela.variedade,
+					colheita: dadosParcela.finalizado_colheita,
+					safra: dadosParcela.safra,
+					id_plantio: dadosParcela.id_plantio,
+					ativo: dadosParcela.ativo,
+					area: dadosParcela.area ?? null,
+					area_parcial: dadosParcela.area_parcial ?? 0
+				};
 			});
-			setfilteredParcelasFarmObj(finalArr);
-		}
+
+		setfilteredParcelasFarmObj(parcelasDisponiveis);
 		setValue("parcelasNovas", []);
-		if (selectedFarm !== "Selecione a Fazenda") {
-			setValue("fazendaOrigem", selectedFarm);
-		}
-	}, []);
+		setValue("fazendaOrigem", selectedFarm);
+	}, [selectedFarm, customData, setValue]);
 
 	const onSelectedItemsChange = (items) => {
 		// console.log("farm", items);
@@ -244,13 +233,11 @@ function FormInputs({
 		navigation.navigate("ParcelasScreenRoute", {
 			parcelas: checkParcelas,
 			farmName: selectedFarm,
-			onGoBack: (data) => {
-				// console.log('data recebida de volta', data)
-				setParcelasSelectedObject((prev) => {
-					return [...prev, data]
-				});
-				// Handle the returned data here
-			},
+			onGoBack: (parcelasSelecionadas) => {
+				setParcelasSelectedObject(
+					parcelasSelecionadas
+				);
+			}
 		});
 	}
 

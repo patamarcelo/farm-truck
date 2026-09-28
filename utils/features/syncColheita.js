@@ -20,6 +20,7 @@ async function getPlantioData(dispatch) {
 
     if (response.ok) {
         dispatch(setPlantioDataFromServer(result));
+        console.log('\n resultllllll::::', result)
         return true;
     } else {
         throw new Error(result.message || "Erro na API de Plantio");

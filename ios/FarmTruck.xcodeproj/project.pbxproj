@@ -8,25 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		37EF6FF42C149C4FE2FBB873 /* libPods-FarmTruck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DF907E55937822CC266297B /* libPods-FarmTruck.a */; };
+		1EBC62943133FACF6B629888 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3398D4BD7A1DE0C15FF98B71 /* PrivacyInfo.xcprivacy */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		5EA6E3402A88FB5FC9E8FED3 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4729BE9CA675FC0FAE7571 /* ExpoModulesProvider.swift */; };
+		403C6F64201528F91791D9AF /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAA57D6D467E0B159A8FB78 /* ExpoModulesProvider.swift */; };
+		AFA9663464D82DE8AE399407 /* libPods-FarmTruck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3E2088DF478BD1AA2DB7B6 /* libPods-FarmTruck.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		CDB0024E6221A360DD6DC444 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1201BE7D44C08567530E04AF /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0DF907E55937822CC266297B /* libPods-FarmTruck.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FarmTruck.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1201BE7D44C08567530E04AF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = FarmTruck/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* FarmTruck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FarmTruck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = FarmTruck/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FarmTruck/Info.plist; sourceTree = "<group>"; };
-		362C038CD2B24B3D0B52AF05 /* Pods-FarmTruck.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FarmTruck.debug.xcconfig"; path = "Target Support Files/Pods-FarmTruck/Pods-FarmTruck.debug.xcconfig"; sourceTree = "<group>"; };
-		9B4729BE9CA675FC0FAE7571 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-FarmTruck/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		3398D4BD7A1DE0C15FF98B71 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = FarmTruck/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		5BA034FEEE7E817D7F4BC8B5 /* Pods-FarmTruck.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FarmTruck.release.xcconfig"; path = "Target Support Files/Pods-FarmTruck/Pods-FarmTruck.release.xcconfig"; sourceTree = "<group>"; };
+		6CAA57D6D467E0B159A8FB78 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-FarmTruck/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		8C646696CFB4A44D4700EAC5 /* Pods-FarmTruck.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FarmTruck.debug.xcconfig"; path = "Target Support Files/Pods-FarmTruck/Pods-FarmTruck.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = FarmTruck/SplashScreen.storyboard; sourceTree = "<group>"; };
+		AB3E2088DF478BD1AA2DB7B6 /* libPods-FarmTruck.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FarmTruck.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		D41B8D22E3BDCB2E832223E2 /* Pods-FarmTruck.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FarmTruck.release.xcconfig"; path = "Target Support Files/Pods-FarmTruck/Pods-FarmTruck.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = FarmTruck/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* FarmTruck-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "FarmTruck-Bridging-Header.h"; path = "FarmTruck/FarmTruck-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -37,13 +37,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37EF6FF42C149C4FE2FBB873 /* libPods-FarmTruck.a in Frameworks */,
+				AFA9663464D82DE8AE399407 /* libPods-FarmTruck.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03B43F2A2D222998467CA274 /* FarmTruck */ = {
+			isa = PBXGroup;
+			children = (
+				6CAA57D6D467E0B159A8FB78 /* ExpoModulesProvider.swift */,
+			);
+			name = FarmTruck;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* FarmTruck */ = {
 			isa = PBXGroup;
 			children = (
@@ -53,7 +61,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				1201BE7D44C08567530E04AF /* PrivacyInfo.xcprivacy */,
+				3398D4BD7A1DE0C15FF98B71 /* PrivacyInfo.xcprivacy */,
 			);
 			name = FarmTruck;
 			sourceTree = "<group>";
@@ -62,17 +70,19 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				0DF907E55937822CC266297B /* libPods-FarmTruck.a */,
+				AB3E2088DF478BD1AA2DB7B6 /* libPods-FarmTruck.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		49848A31F1A5DDF51570AAB5 /* FarmTruck */ = {
+		6F5A74332B3BD870EB0B4DA4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9B4729BE9CA675FC0FAE7571 /* ExpoModulesProvider.swift */,
+				8C646696CFB4A44D4700EAC5 /* Pods-FarmTruck.debug.xcconfig */,
+				5BA034FEEE7E817D7F4BC8B5 /* Pods-FarmTruck.release.xcconfig */,
 			);
-			name = FarmTruck;
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -89,8 +99,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				F922CF357823FE02D2252CDC /* Pods */,
-				EC50953192378FC8B323E35F /* ExpoModulesProviders */,
+				6F5A74332B3BD870EB0B4DA4 /* Pods */,
+				AB1B6BCD9F96788FDEECD8BB /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,6 +115,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AB1B6BCD9F96788FDEECD8BB /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				03B43F2A2D222998467CA274 /* FarmTruck */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,24 +130,6 @@
 			);
 			name = Supporting;
 			path = FarmTruck/Supporting;
-			sourceTree = "<group>";
-		};
-		EC50953192378FC8B323E35F /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				49848A31F1A5DDF51570AAB5 /* FarmTruck */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
-		F922CF357823FE02D2252CDC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				362C038CD2B24B3D0B52AF05 /* Pods-FarmTruck.debug.xcconfig */,
-				D41B8D22E3BDCB2E832223E2 /* Pods-FarmTruck.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FarmTruck" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				6F686095D065A245710615CF /* [Expo] Configure project */,
+				C7E7AF784A5056397E546CF0 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				8A887D19D7F1B1C02D352983 /* [CP] Embed Pods Frameworks */,
+				C4E968F7B42A0911E443315E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				CDB0024E6221A360DD6DC444 /* PrivacyInfo.xcprivacy in Resources */,
+				1EBC62943133FACF6B629888 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,30 +241,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		6F686095D065A245710615CF /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/.xcode.env",
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/FarmTruck/FarmTruck.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-FarmTruck/expo-configure-project.sh",
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-FarmTruck/ExpoModulesProvider.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-FarmTruck/expo-configure-project.sh\"\n";
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -312,7 +288,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FarmTruck/Pods-FarmTruck-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8A887D19D7F1B1C02D352983 /* [CP] Embed Pods Frameworks */ = {
+		C4E968F7B42A0911E443315E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -334,6 +310,30 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FarmTruck/Pods-FarmTruck-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C7E7AF784A5056397E546CF0 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/FarmTruck/FarmTruck.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-FarmTruck/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-FarmTruck/ExpoModulesProvider.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-FarmTruck/expo-configure-project.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -342,7 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				5EA6E3402A88FB5FC9E8FED3 /* ExpoModulesProvider.swift in Sources */,
+				403C6F64201528F91791D9AF /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,7 +351,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 362C038CD2B24B3D0B52AF05 /* Pods-FarmTruck.debug.xcconfig */;
+			baseConfigurationReference = 8C646696CFB4A44D4700EAC5 /* Pods-FarmTruck.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -387,7 +387,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D41B8D22E3BDCB2E832223E2 /* Pods-FarmTruck.release.xcconfig */;
+			baseConfigurationReference = 5BA034FEEE7E817D7F4BC8B5 /* Pods-FarmTruck.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
