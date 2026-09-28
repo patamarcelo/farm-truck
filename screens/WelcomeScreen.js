@@ -10,7 +10,6 @@ import {
 	ActivityIndicator,
 	Alert,
 	FlatList,
-	Modal,
 	Platform,
 	Pressable,
 	RefreshControl,
@@ -45,8 +44,11 @@ import { Colors } from "../constants/styles";
 
 import {
 	romaneioSelector,
-	userSelector
+	userSelector,
+	selectSyncingRomaneioId
 } from "../store/redux/selector";
+
+import { startRomaneioSync, finishRomaneioSync } from "../store/redux/ui";
 
 import { removeFromCargas } from "../store/redux/romaneios";
 
@@ -94,7 +96,7 @@ function SyncSuccessContent({
 }) {
 	return (
 		<View style={styles.successContainer}>
-		
+
 			<View style={styles.successDetails}>
 				<Text style={styles.successPlate}>
 					{formatPlate(placa)}
@@ -156,10 +158,11 @@ function WelcomeScreen() {
 
 	const romaneios = useSelector(romaneioSelector) || [];
 	const user = useSelector(userSelector);
+	const syncingId = useSelector(selectSyncingRomaneioId);
 
 	const openedSwipeableRef = useRef(null);
 
-	const [syncingId, setSyncingId] = useState(null);
+
 	const [refreshing, setRefreshing] = useState(false);
 
 	const isOnline =
@@ -176,17 +179,7 @@ function WelcomeScreen() {
 		return displayName.split(" ")[0];
 	}, [user?.displayName]);
 
-	const syncingRomaneio = useMemo(() => {
-		if (!syncingId) {
-			return null;
-		}
-
-		return (
-			romaneios.find(
-				(item) => item?.idApp === syncingId
-			) || null
-		);
-	}, [romaneios, syncingId]);
+	
 
 	const listSubtitle = useMemo(() => {
 		const total = romaneios.length;
@@ -364,7 +357,9 @@ function WelcomeScreen() {
 				return;
 			}
 
-			setSyncingId(romaneio.idApp);
+			dispatch(startRomaneioSync(romaneio.idApp));
+			await new Promise((resolve) => requestAnimationFrame(resolve));
+
 
 			try {
 				const dataToSave = {
@@ -445,7 +440,7 @@ function WelcomeScreen() {
 					"Não foi possível enviar o romaneio. Tente novamente."
 				);
 			} finally {
-				setSyncingId(null);
+				dispatch(finishRomaneioSync())
 			}
 		},
 		[
@@ -662,7 +657,7 @@ function WelcomeScreen() {
 
 	return (
 		<AlertNotificationRoot>
-			<GestureHandlerRootView style={styles.flex}>
+			
 				<SafeAreaView style={styles.safeArea}>
 					<View style={styles.screen}>
 						<View style={styles.topSection}>
@@ -747,50 +742,6 @@ function WelcomeScreen() {
 						</View>
 					</View>
 				</SafeAreaView>
-
-				<Modal
-					visible={Boolean(syncingId)}
-					transparent
-					animationType="fade"
-					statusBarTranslucent
-					presentationStyle="overFullScreen"
-					onRequestClose={() => { }}
-				>
-					<View style={styles.syncOverlay}>
-						<View style={styles.syncOverlayCard}>
-							<ActivityIndicator
-								size="large"
-								color={Colors.primary500}
-							/>
-
-							<Text style={styles.syncOverlayTitle}>
-								Enviando romaneio
-							</Text>
-
-							<Text style={styles.syncOverlayDescription}>
-								Aguarde enquanto o arquivo é enviado
-								para o servidor.
-							</Text>
-
-							{syncingRomaneio ? (
-								<View style={styles.syncOverlayDetails}>
-									<Text style={styles.syncOverlayPlate}>
-										{formatPlate(syncingRomaneio?.placa)}
-									</Text>
-
-									<Text
-										style={styles.syncOverlayDriver}
-										numberOfLines={1}
-									>
-										{syncingRomaneio?.motorista ||
-											"Motorista não informado"}
-									</Text>
-								</View>
-							) : null}
-						</View>
-					</View>
-				</Modal>
-			</GestureHandlerRootView>
 		</AlertNotificationRoot>
 	);
 }

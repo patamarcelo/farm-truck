@@ -1,493 +1,293 @@
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
+
 import {
-	StyleSheet,
-	Text,
-	View,
-	Button,
-	SafeAreaView,
-	ScrollView,
-	ActivityIndicator,
-	StatusBar,
-	Platform,
-	Animated as AnimatedOrigin,
-	Pressable
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  StatusBar
 } from "react-native";
-// import { ScrollView } from "react-native-virtualized-view";
-import Animated, { FadeInRight, FadeOut, Layout, BounceIn, BounceOut, FadeOutRight } from 'react-native-reanimated';
 
-import CardButton from "../components/ui/CardButton";
-import { Colors } from "../constants/styles";
-import { useState, useContext, useRef, useCallback } from "react";
+import {
+  useIsFocused,
+  useScrollToTop
+} from "@react-navigation/native";
 
-import { AuthContext } from "../store/auth-context";
+import {
+  SafeAreaView
+} from "react-native-safe-area-context";
 
-import RomaneioList from "../components/Romaneio-list/RomaneioList";
-import SearchBar from "../components/Romaneio-list/RomaneioSearchBar";
-
-import { getAllDocsFirebase } from "../store/firebase/index";
-import { useEffect } from "react";
-import { useIsFocused } from "@react-navigation/native";
-
+import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
+import RomaneioList from "../components/Romaneio-list/RomaneioList";
+import RomaneioFiltersSheet, {
+  emptyFilters
+} from "../components/romaneio/RomaneioFiltersSheet";
+
+import {
+  romaneiosFarmSelector,
+  createFilteredRomaneiosSelector,
+  plantioDataFromServerSelector
+} from "../store/redux/selector";
+
 import { addRomaneiosFarm } from "../store/redux/romaneios";
-import { romaneiosFarmSelector, userSelectorAttr } from "../store/redux/selector";
-
-import { Dimensions, RefreshControl } from "react-native";
-
-// import { useScrollToTop } from "@react-navigation/native";
-
+import { getAllDocsFirebase } from "../store/firebase";
 import { projetosSelector } from "../store/redux/selector";
+import { Colors } from "../constants/styles";
 
-import { FontAwesome5 } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+export default function RomaneioScreen() {
+  const dispatch = useDispatch();
+  const data = useSelector(romaneiosFarmSelector);
+  const projetos = useSelector(projetosSelector);
+  const [filters, setFilters] = useState(emptyFilters);
+  const [openFilters, setOpenFilters] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const selector = useMemo(
+    () => createFilteredRomaneiosSelector(filters),
+    [filters]
+  );
+  const visibleData = useSelector(selector);
 
-import { FAB } from "react-native-paper"; // Floating Action Button
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import * as Haptics from 'expo-haptics';
+  const isFocused = useIsFocused();
 
-const width = Dimensions.get("window").width; //full width
-import { InteractionManager } from "react-native";
-import { Portal } from "react-native-paper";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+  const plantioData = useSelector(
+    plantioDataFromServerSelector
+  );
 
+  const hasPlantioData =
+    plantioData &&
+    Object.keys(plantioData).length > 0;
 
+  const hasFazendas =
+    Array.isArray(projetos) &&
+    projetos.length > 0;
 
-const RomaneioScreen = () => {
-	const isFocused = useIsFocused();
-	const dispatch = useDispatch();
-	const data = useSelector(romaneiosFarmSelector);
-	const [sentData, setSentData] = useState(() => data ?? []);
+  const needsPlantioUpdate =
+    !hasPlantioData || !hasFazendas;
 
-	const user = useSelector(userSelectorAttr);
+  const hasShownUpdateAlertRef =
+    useRef(false);
 
-	const tabBarHeight = useBottomTabBarHeight();
+  const activeCount =
+    filters.statuses.length +
+    filters.fazendas.length +
+    filters.parcelas.length +
+    filters.classificacoes.length +
+    Number(Boolean(filters.from)) +
+    Number(Boolean(filters.to));
+  const listRef = useRef(null);
 
-	const [isLoading, seTisLoading] = useState(true);
-	const [refreshing, setRefreshing] = useState(false);
+  const scrollToTopRef = useRef({
+    scrollToTop: () => {
+      listRef.current?.scrollToOffset({
+        offset: 0,
+        animated: true
+      });
+    }
+  });
 
-	const [filteredData, setFilteredData] = useState([]);
-	const [onlyLoadTruck, setOnlyLoadTruck] = useState(0);
-	const [onlyWeiTruck, setOnlyWeiTruck] = useState(0);
-	const [onlyPendingProtheusTruck, setOnlyPendingProtheusTruck] = useState(0);
+  useEffect(() => {
+    if (!isFocused) {
+      hasShownUpdateAlertRef.current =
+        false;
 
-	const [showSearch, setShowSearch] = useState(false);
-	const [isFiltered, setIsFiltered] = useState(false);
-	const [oldArray, setOldArray] = useState([]);
+      return;
+    }
 
-	const projetosData = useSelector(projetosSelector);
+    if (
+      needsPlantioUpdate &&
+      !hasShownUpdateAlertRef.current
+    ) {
+      hasShownUpdateAlertRef.current =
+        true;
 
-	const context = useContext(AuthContext);
+      Alert.alert(
+        "Atenção",
+        "Por favor atualizar os dados da colheita"
+      );
+    }
+  }, [
+    isFocused,
+    needsPlantioUpdate
+  ]);
 
-	const insets = useSafeAreaInsets();
-	const FAB_OFFSET = 16; // distância do fundo
+  useScrollToTop(scrollToTopRef);
+  const refresh = useCallback(async () => {
+    if (!hasFazendas) {
+      dispatch(addRomaneiosFarm([]));
+      return;
+    }
 
-	// const ref = useRef(null);
+    setRefreshing(true);
 
-	const slideAnim = useRef(new AnimatedOrigin.Value(-100)).current; // start off-screen (above)
+    try {
+      const result =
+        await getAllDocsFirebase(projetos);
 
-	// State to control visibility
-	const [visible, setVisible] = useState(false);
-	useEffect(() => {
-		setSentData(data ?? []);
-	}, [data]);
+      dispatch(
+        addRomaneiosFarm(result || [])
+      );
+    } finally {
+      setRefreshing(false);
+    }
+  }, [
+    dispatch,
+    hasFazendas,
+    projetos
+  ]);
 
-	const slideDown = () => {
-		AnimatedOrigin.timing(slideAnim, {
-			toValue: 0,
-			duration: 10,
-			useNativeDriver: true,
-		}).start(() => {
-			// depois da animação concluída podemos marcar como visível
-			requestAnimationFrame(() => setShowSearch(true));
-		});
-	};
+  useEffect(() => {
+    if (!isFocused || !hasFazendas) {
+      return;
+    }
 
-	const slideUp = (onFinish) => {
-		AnimatedOrigin.timing(slideAnim, {
-			toValue: 100,
-			duration: 200,
-			useNativeDriver: true,
-		}).start(() => {
-			// só após terminar a animação
-			requestAnimationFrame(() => {
-				onFinish?.();
-			});
-		});
-	};
+    refresh();
+  }, [
+    isFocused,
+    hasFazendas,
+    refresh
+  ]);
 
+  return (
+    <SafeAreaView
+      style={styles.safeArea}
+      edges={["left", "right", "top"]}
+    >
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={Colors.primary800}
+        translucent={false}
+      />
 
-	// const handleFilterProps = () => {
-	// 	Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-	// 	setShowSearch((prev) => {
-	// 		if (!prev) {
-	// 			slideDown()
-	// 			return !prev
-	// 		} else {
-	// 			slideUp()
-	// 			setSearch("");
-	// 			return !prev
-	// 		}
-	// 	})
-	// }
-	const handleFilterProps = () => {
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      <View style={styles.header}>
+        <Text style={styles.title}>
+          Romaneios
+        </Text>
 
-		// se está oculto (fora da tela), abrimos
-		if (!showSearch) {
-			slideDown();
-		} else {
-			// fechamos e só DEPOIS limpamos estado
-			slideUp(() => {
-				setShowSearch(false);   // muda pointerEvents/opacity fora do tick de inserção
-				setSearch("");          // limpa busca fora do tick também
-			});
-		}
-	};
+        <Text style={styles.subtitle}>
+          {visibleData.length} de {data.length} romaneios
+        </Text>
 
-	useEffect(() => {
-		if (!showSearch) {
-			const task = InteractionManager.runAfterInteractions(() => setSearch(""));
-			return () => task?.cancel?.();
-		}
-	}, [showSearch]);
+        <View style={styles.controls}>
+          <View style={styles.search}>
+            <Ionicons
+              name="search"
+              size={19}
+              color="#6C6C70"
+            />
 
+            <TextInput
+              value={filters.query}
+              onChangeText={(query) =>
+                setFilters((current) => ({
+                  ...current,
+                  query
+                }))
+              }
+              placeholder="Placa, motorista, parcela ou ticket"
+              placeholderTextColor="#8E8E93"
+              style={styles.input}
+            />
 
-	useEffect(() => {
-		if (data) {
-			setSentData(data);
-		}
-	}, [data]);
+            {filters.query ? (
+              <Pressable
+                onPress={() =>
+                  setFilters((current) => ({
+                    ...current,
+                    query: ""
+                  }))
+                }
+              >
+                <Ionicons
+                  name="close-circle"
+                  size={18}
+                  color="#8E8E93"
+                />
+              </Pressable>
+            ) : null}
+          </View>
 
-	const fetchRomaneios = useCallback(async () => {
-		const projetosReady = Array.isArray(projetosData) && projetosData.length > 0;
+          <Pressable
+            onPress={() => setOpenFilters(true)}
+            style={styles.filter}
+          >
+            <Ionicons
+              name="options-outline"
+              size={21}
+              color="#FFFFFF"
+            />
 
-		if (!projetosReady) {
-			dispatch(addRomaneiosFarm([]));
-			seTisLoading(false);
-			return;
-		}
+            <Text style={styles.filterText}>
+              Filtros{activeCount ? ` (${activeCount})` : ""}
+            </Text>
+          </Pressable>
+        </View>
+      </View>
 
-		if (!Array.isArray(data) || data.length === 0) {
-			seTisLoading(true);
-		}
+      <View style={styles.listArea}>
+        <RomaneioList
+          data={visibleData}
+          refreshing={refreshing}
+          onRefresh={refresh}
+          ref={listRef}
+        />
+      </View>
 
-		try {
-			const response = await getAllDocsFirebase(projetosData);
-
-			if (!Array.isArray(response)) {
-				dispatch(addRomaneiosFarm([]));
-				return;
-			}
-
-			const normalizedData = response.filter((item) => Number(item.liquido) !== 1);
-
-			dispatch(addRomaneiosFarm(normalizedData));
-		} catch (error) {
-			console.log("Erro ao buscar romaneios:", error);
-
-			if (error?.code === "permission-denied") {
-				dispatch(addRomaneiosFarm([]));
-
-				// Não fazer logout automático aqui.
-				// Pode ser token atrasado, regra Firebase, internet ou usuário ainda incompleto.
-				// context.logout();
-			}
-		} finally {
-			seTisLoading(false);
-		}
-	}, [projetosData, data, dispatch]);
-
-	const projetosReady = Array.isArray(projetosData) && projetosData.length > 0;
-
-	useEffect(() => {
-		if (!projetosReady) {
-			seTisLoading(false);
-			return;
-		}
-
-		fetchRomaneios();
-	}, [projetosReady, fetchRomaneios]);
-
-
-	const handleRefresh = async () => {
-		setRefreshing(true);
-		try {
-			await fetchRomaneios();
-		} finally {
-			setRefreshing(false);
-		}
-	};
-
-	// useEffect(() => {
-	// 	if (isFocused) {
-	// 		setSearch("");
-	// 	}
-	// }, [isFocused]);
-
-
-	const [search, setSearch] = useState("");
-
-	const updateSearchHandler = (e) => {
-		console.log('handler e', e)
-		setSearch(e);
-	};
-
-
-
-	useEffect(() => {
-		if (filteredData.length > 0) {
-			const onlyLoad = filteredData.filter((data) => data.pesoBruto.length === 0)
-			setOnlyLoadTruck(onlyLoad?.length)
-			const onlyWei = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido.length === 0)
-			setOnlyWeiTruck(onlyWei?.length)
-
-			const onlyPendingProtheus = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido > 0 && data.uploadedToProtheus === false)
-			setOnlyPendingProtheusTruck(onlyPendingProtheus?.length)
-			setOldArray(data)
-		}
-	}, [filteredData]);
-
-	const handleFilterTruck = (trucks) => {
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-		if (trucks === 'clear') {
-			setFilteredData(oldArray)
-			setIsFiltered(false)
-		}
-		if (trucks === 'onlyLoadTruck') {
-			const onlyLoad = oldArray.filter((data) => data.pesoBruto.length === 0)
-			setFilteredData(onlyLoad)
-			setIsFiltered(true)
-		}
-		if (trucks === 'onlyWeiTruck') {
-			const onlyWei = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido.length === 0)
-			setFilteredData(onlyWei)
-			setIsFiltered(true)
-		}
-		if (trucks === 'onlyPendingProtheusTruck') {
-			const onlyPendingProtheus = filteredData.filter((data) => data.pesoBruto > 0 && data.liquido > 0 && data.uploadedToProtheus === false)
-			setFilteredData(onlyPendingProtheus)
-			setIsFiltered(true)
-		}
-	}
-
-	if (isLoading) {
-		return (
-			<View
-				style={{
-					flex: 1,
-					justifyContent: "center",
-					backgroundColor: Colors.primary800
-				}}
-			>
-				<ActivityIndicator size="large" color="#f5f5f5" />
-			</View>
-		);
-	}
-
-
-	const HeaderComp = () => {
-		return (
-			<View style={styles.infoHeaderContainer}>
-				{
-					filteredData && filteredData.length > 0 &&
-					<View style={styles.containerInfo}>
-						<View style={styles.containerInfoTruck}>
-							{
-								onlyLoadTruck > 0 &&
-								<View
-									entering={FadeInRight.duration(500)} // Root-level animation for appearance
-									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-									layout={Layout.springify()}    // 
-								>
-
-									<Pressable
-										onPress={handleFilterTruck.bind(this, 'onlyLoadTruck')}
-									>
-										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.secondary[400]} /> {onlyLoadTruck}</Text>
-									</Pressable>
-								</View>
-							}
-							{
-								onlyWeiTruck > 0 &&
-								<View
-									entering={FadeInRight.duration(500)} // Root-level animation for appearance
-									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-									layout={Layout.springify()}    // 
-								>
-
-									<Pressable
-										onPress={handleFilterTruck.bind(this, 'onlyWeiTruck')}
-									>
-										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.yellow[700]} /> {onlyWeiTruck}</Text>
-									</Pressable>
-								</View>
-							}
-							{
-								onlyPendingProtheusTruck > 0 &&
-								<View
-									entering={FadeInRight.duration(500)} // Root-level animation for appearance
-									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-									layout={Layout.springify()}    // 
-								>
-									<Pressable
-										onPress={handleFilterTruck.bind(this, 'onlyPendingProtheusTruck')}
-									>
-										<Text style={styles.infoHeader}><MaterialCommunityIcons name="truck-fast" size={24} color={Colors.success[100]} /> {onlyPendingProtheusTruck}</Text>
-									</Pressable>
-								</View>
-							}
-							{
-								isFiltered &&
-								<View
-									entering={FadeInRight.duration(500)} // Root-level animation for appearance
-									exiting={FadeOutRight.duration(500)} // Root-level animation for disappearance
-									layout={Layout.springify()}    // 
-								>
-									<Pressable
-										onPress={handleFilterTruck.bind(this, 'clear')}
-									>
-
-										<MaterialCommunityIcons name="progress-close" size={24} color={Colors.gold[500]} />
-									</Pressable>
-								</View>
-							}
-						</View>
-						<View style={styles.containerInfoTotal}>
-							<Text style={styles.infoHeader}>Lista: {filteredData.length}</Text>
-						</View>
-					</View>
-				}
-			</View>
-		)
-	}
-
-	if (!isLoading) {
-		return (
-			<Portal.Host>
-				<SafeAreaView style={styles.mainContainer}>
-					{
-						showSearch &&
-						<AnimatedOrigin.View
-							style={[
-								styles.searchWrap,
-								{ transform: [{ translateY: slideAnim }], opacity: showSearch ? 1 : 0.001, height: showSearch ? 70 : 0 }
-							]}
-							pointerEvents={showSearch ? 'auto' : 'none'}
-						>
-							<SearchBar search={search} updateSearchHandler={setSearch} />
-						</AnimatedOrigin.View>
-					}
-					<View
-					// contentInsetAdjustmentBehavior='automatic'
-					>
-						<RomaneioList search={search} data={sentData}
-							filteredData={filteredData}
-							setFilteredData={setFilteredData}
-							refreshing={refreshing}
-							handleRefresh={handleRefresh}
-							HeaderComp={HeaderComp}
-						/>
-					</View>
-					{/* {
-					isFocused && */}
-					<Portal>
-						<FAB
-							icon={showSearch ? "close" : "magnify"}
-							color="black"
-							onPress={handleFilterProps}
-							style={{
-								position: "absolute",
-								right: 16,
-								bottom: (insets.bottom || 0) + FAB_OFFSET,
-								backgroundColor: "rgba(200,200,200,0.3)",
-								borderColor: Colors.success[300],
-								borderWidth: 1,
-							}}
-						/>
-					</Portal>
-					{/* } */}
-				</SafeAreaView>
-			</Portal.Host>
-		);
-	}
-};
-
-export default RomaneioScreen;
-
+      <RomaneioFiltersSheet
+        visible={openFilters}
+        filters={filters}
+        data={data}
+        onClose={() => setOpenFilters(false)}
+        onApply={(next) => {
+          setFilters(next);
+          setOpenFilters(false);
+        }}
+      />
+    </SafeAreaView>
+  );
+}
 const styles = StyleSheet.create({
-	containerInfo: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: "flex-end",
-		width: '100%',
-	},
-	containerInfoTruck: {
-		flexDirection: 'row',
-		gap: 20,
-	},
-	containerInfoTotal: {},
-	infoHeaderContainer: {
-		width: '100%',
-		paddingRight: 10,
-		paddingLeft: 10,
-		marginBottom: 5
-	},
-	infoHeader: {
-		color: 'whitesmoke',
-	},
-	listContainer: {
-		with: "50%"
-	},
-	text: {
-		fontSize: 24,
-		fontWeight: "bold",
-		color: "whitesmoke"
-	},
-	mainContainer: {
-		// width: width,
-		width: "100%",
-		// padding: 2,
-		backgroundColor: "red",
-		flex: 1,
-		// flexGrow: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: Colors.primary500,
-		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-	},
-	fabContainer: {
-		position: "absolute",
-		right: 20,
-		bottom: 20
-	},
-	fab: {
-		position: "absolute",
-		right: 0,
-		bottom: 0,
-		backgroundColor: "rgba(200, 200, 200, 0.3)", // Grey, almost transparent
-		width: 50,
-		height: 50,
-		borderRadius: 25, // Makes it perfectly circular
-		justifyContent: "center",
-		alignItems: "center",
-		elevation: 4,
-		borderColor: Colors.success[300],
-		borderWidth: 1
-	},
-	fab2: {
-		position: "absolute",
-		right: 0,
-		bottom: 65,
-		backgroundColor: "rgba(200, 200, 200, 0.3)", // Grey, almost transparent
-		width: 50,
-		height: 50,
-		borderRadius: 25, // Makes it perfectly circular
-		justifyContent: "center",
-		alignItems: "center",
-		elevation: 4
-	},
-	mainContainer: {
-		width: "100%",
-		paddingVertical: 10,
-		paddingHorizontal: 5
-	},
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.primary800
+  },
+
+  listArea: {
+    flex: 1,
+    backgroundColor: Colors.primary100
+  },
+  screen: { flex: 1, backgroundColor: "#F2F2F7" },
+  header: { backgroundColor: Colors.primary800, padding: 16, paddingBottom: 12 },
+  title: { fontSize: 25, fontWeight: "800", color: "whitesmoke" },
+  subtitle: { fontSize: 12, color: "whitesmoke", marginTop: 2 },
+  controls: { flexDirection: "row", gap: 9, marginTop: 14 },
+  search: {
+    height: 44,
+    flex: 1,
+    borderRadius: 12,
+    backgroundColor: "#F2F2F7",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 11,
+    gap: 7
+  },
+  input: { flex: 1, color: "#1C1C1E", fontSize: 13 },
+  filter: {
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 5,
+    backgroundColor: Colors.primary500
+  },
+  filterText: { color: "#fff", fontSize: 12, fontWeight: "700" }
 });

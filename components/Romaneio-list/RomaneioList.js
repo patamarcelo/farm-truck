@@ -1,162 +1,52 @@
-import { useMemo } from "react";
-import { FlatList, View, StyleSheet, Text, RefreshControl, ScrollView, ActivityIndicator } from "react-native";
-import { useSelector } from "react-redux";
-import { romaneioSelector } from "../../store/redux/selector";
-
-import CardRomaneio from "../romaneio/CardTruck";
-import { useLayoutEffect, useState, useEffect, useRef } from "react";
-import { useScrollToTop } from "@react-navigation/native";
-
-import { Dimensions } from "react-native";
-const width = Dimensions.get("window").width; //full width
-const height = Dimensions.get("screen").height; //full heihgt
-
-import { formatDate } from "../../utils/formatDate";
-
-import moment from "moment";
-import { useCallback } from "react";
-
-const renderRomaneioList = (itemData) => {
-	return (
-		<CardRomaneio
-			data={itemData.item}
-			styleContainer={styles.bannerContainer}
-		/>
-	);
-};
-
-const RomaneioList = ({ search, data, filteredData, setFilteredData, handleRefresh, refreshing, HeaderComp }) => {
-	const listRef = useRef(null);
-	const [isLoading, setIsLoading] = useState(true);
-
-	useLayoutEffect(() => {
-		setFilteredData(data);
-		setIsLoading(false);
-	}, [data, setFilteredData]);
-
-	useEffect(() => {
-		if (!search) {
-			setFilteredData(data);
-			return;
-		}
-		const normalized = search.toLowerCase();
-		const newArr = data.filter((row) => {
-			const appDateStr = moment(
-				new Date(row.appDate.seconds * 1000 + row.appDate.nanoseconds / 1e6)
-			).format("DD/MM/YYYY - HH:mm");
-
-			return (
-				row.placa.toLowerCase().includes(normalized) ||
-				row.fazendaOrigem?.toLowerCase().includes(normalized) ||
-				row.motorista?.toLowerCase().includes(normalized) ||
-				row.parcelasNovas?.join("").toLowerCase().includes(normalized) ||
-				row.relatorioColheita?.toString().includes(search) ||
-				row.ticket?.toString().includes(search) ||
-				appDateStr.includes(search)
-			);
-		});
-		setFilteredData(newArr);
-	}, [search, data, setFilteredData]);
-
-	useScrollToTop(
-		useRef({ scrollToOffset: (params) => listRef.current?.scrollToOffset(params) })
-	);
-
-	const renderItem = useCallback(
-		({ item }) => <CardRomaneio data={item} styleContainer={styles.bannerContainer} />,
-		[]
-	);
-
-	const memoRefreshControl = useMemo(
-		() => (
-			<RefreshControl
-				refreshing={refreshing}
-				onRefresh={handleRefresh}
-				colors={["#f5f5f5"]}            // Android
-				tintColor="#f5f5f5"             // iOS
-				progressBackgroundColor="#333"  // Android
-			/>
-		),
-		[refreshing, handleRefresh]
-	);
-
-	const isFetching = isLoading || refreshing;
-
-
-	if (!isFetching && !data.length) {
-		return (
-			<View style={[styles.adviseContainer, styles.bannerContainer]}>
-				<Text style={styles.adviseContainerTitle}>Sem Romaneio Cadastrado</Text>
-			</View>
-		);
-	}
-
-	if (!isFetching && !filteredData.length) {
-		return (
-			<View style={styles.adviseContainer}>
-				<Text style={styles.adviseContainerTitle}>Sem resultados para essa busca</Text>
-			</View>
-		);
-	}
-
-	return (
-		<FlatList
-			ref={listRef}
-			data={filteredData}
-			keyExtractor={(item) => String(item.idApp)}
-			renderItem={renderItem}
-			ItemSeparatorComponent={() => <View style={{ height: 13 }} />}
-			contentContainerStyle={{ flexGrow: 1 }}
-			ListHeaderComponent={HeaderComp ? <HeaderComp /> : null}
-
-			// refreshing={refreshing}
-			// onRefresh={handleRefresh}
-
-			// refreshControl={
-			// 	<RefreshControl
-			// 		refreshing={refreshing}
-			// 		onRefresh={handleRefresh}
-			// 		colors={["#f5f5f5"]}       // Android → array de cores
-			// 		tintColor="#f5f5f5"        // iOS → cor do spinner
-			// 		progressBackgroundColor="#333" // Android → fundo do círculo
-			// 	/>
-			// }
-
-			refreshControl={memoRefreshControl}
-
-			removeClippedSubviews
-			initialNumToRender={10}
-			windowSize={7}
-		/>
-	);
-};
-
-export default RomaneioList;
-
+import React from "react";
+import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
+import CardTruck from "../romaneio/CardTruck";
+export default function RomaneioList({
+  data,
+  refreshing,
+  onRefresh,
+  ListHeaderComponent,
+    ref
+}) {
+  return (
+    <FlatList
+      data={data}
+      ref={ref}
+      keyExtractor={(item) => String(item.id || item.idApp)}
+      renderItem={({ item }) => <CardTruck data={item} />}
+      ListHeaderComponent={ListHeaderComponent}
+      ListEmptyComponent={
+        <View style={styles.empty}>
+          <Text style={styles.emptyTitle}>Nenhum romaneio encontrado</Text>
+          <Text style={styles.emptyText}>
+            Ajuste os filtros ou atualize a lista.
+          </Text>
+        </View>
+      }
+      ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      contentContainerStyle={[
+        styles.content,
+        !data.length && styles.emptyContent
+      ]}
+      showsVerticalScrollIndicator={true}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#176B3A"
+          colors={["#176B3A"]}
+        />
+      }
+      initialNumToRender={12}
+      windowSize={7}
+      removeClippedSubviews
+    />
+  );
+}
 const styles = StyleSheet.create({
-	adviseContainerTitle: {
-		color: "whitesmoke",
-		fontSize: 16,
-		textAlign: "center",
-		marginTop: 200
-	},
-	adviseContainer: {
-		// backgroundColor: "red",
-		flex: 1,
-		width: width,
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center"
-	},
-	bannerContainer: {
-		// borderRadius: 12,
-		width: "100%",
-		alignSelf: "center"
-	},
-	loadingContainer: {
-		flex: 1,
-		backgroundColor: 'red',
-		justifyContent: 'center',
-		alignItems: 'center'
-	}
+  content: { paddingVertical: 12, paddingBottom: 24 },
+  emptyContent: { flexGrow: 1 },
+  empty: { alignItems: "center", justifyContent: "center", padding: 36 },
+  emptyTitle: { fontSize: 17, fontWeight: "700", color: "#1C1C1E" },
+  emptyText: { marginTop: 5, color: "#6C6C70", textAlign: "center" }
 });

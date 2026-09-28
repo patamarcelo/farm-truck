@@ -55,6 +55,9 @@ import { View, Text, Platform, Alert } from "react-native";
 import { Provider as PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import GlobalSyncOverlay from "./components/romaneio/GlobalSyncOverlay";
+
+
 
 const width = Dimensions.get("window").width; //full width
 
@@ -146,6 +149,7 @@ function RomaneioStack({ route, navigation }) {
 				options={{
 					title: 'Romaneios',
 					headerShadowVisible: false, // applied here
+					headerShown: false,
 					contentStyle: { backgroundColor: Colors.primary500 }
 					// headerLeft: ({ tintColor }) => (
 					// 	<IconButton
@@ -218,11 +222,11 @@ function HomeScrennStack({ route, navigation }) {
 		} else {
 			navigation.setOptions({
 				headerShown: false,
-				tabBarStyle: { display: "flex" },
-				tabBarStyle: {
-					backgroundColor: Colors.primary800,
-					borderTopColor: "transparent"
-				}
+				// tabBarStyle: { display: "flex" },
+				// tabBarStyle: {
+				// 	backgroundColor: Colors.primary800,
+				// 	borderTopColor: "transparent"
+				// }
 			});
 		}
 
@@ -282,7 +286,7 @@ function AuthenticatedStack({ navigation }) {
 					tabBarStyle: {
 						backgroundColor: Colors.primary800,
 						borderTopColor: 'transparent',
-						height: 60 + insets.bottom,
+						// height: 60 + insets.bottom,
 						paddingBottom: insets.bottom,  // impede “pulos” entre telas
 					},
 
@@ -515,6 +519,7 @@ const Root = () => {
 	return (
 		<View style={{ flex: 1 }}>
 			<Navigation />
+			<GlobalSyncOverlay />
 		</View>
 	);
 };
