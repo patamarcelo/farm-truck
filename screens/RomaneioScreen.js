@@ -184,13 +184,15 @@ export default function RomaneioScreen() {
       />
 
       <View style={styles.header}>
-        <Text style={styles.title}>
-          Romaneios
-        </Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>
+            Romaneios
+          </Text>
 
-        <Text style={styles.subtitle}>
-          {visibleData.length} de {data.length} romaneios
-        </Text>
+          <Text style={styles.subtitle}>
+            {visibleData.length} de {data.length}
+          </Text>
+        </View>
 
         <View style={styles.controls}>
           <View style={styles.search}>
@@ -305,5 +307,78 @@ const styles = StyleSheet.create({
     gap: 5,
     backgroundColor: Colors.primary500
   },
-  filterText: { color: "#fff", fontSize: 12, fontWeight: "700" }
+  filterText: { color: "#fff", fontSize: 12, fontWeight: "700" },
+  header: {
+    backgroundColor: Colors.primary800,
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 8
+  },
+
+  title: {
+    fontSize: 21,
+    lineHeight: 25,
+    fontWeight: "800",
+    color: "whitesmoke"
+  },
+
+  subtitle: {
+    fontSize: 11,
+    lineHeight: 14,
+    color: "whitesmoke",
+    marginTop: 0
+  },
+
+  controls: {
+    flexDirection: "row",
+    gap: 9,
+    marginTop: 8
+  },
+
+  search: {
+    height: 40,
+    flex: 1,
+    borderRadius: 11,
+    backgroundColor: "#F2F2F7",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 11,
+    gap: 7
+  },
+
+  input: {
+    flex: 1,
+    color: "#1C1C1E",
+    fontSize: 12
+  },
+
+  filter: {
+    minHeight: 40,
+    borderRadius: 11,
+    paddingHorizontal: 11,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 5,
+    backgroundColor: Colors.primary500
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: 'space-between',
+    gap: 7
+  },
+
+  title: {
+    fontSize: 21,
+    lineHeight: 25,
+    fontWeight: "800",
+    color: "whitesmoke"
+  },
+
+  subtitle: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "rgba(255,255,255,0.68)"
+  },
 });

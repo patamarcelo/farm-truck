@@ -53,19 +53,50 @@ const toggle = (list, value) =>
         ? list.filter((item) => item !== value)
         : [...list, value];
 
-function getParcelas(data) {
-    return [
-        ...new Set(
-            data
-                .flatMap(
-                    (item) =>
-                        item?.parcelasObjFiltered?.map(
-                            (parcela) => parcela?.parcela
-                        ) || []
-                )
-                .filter(Boolean)
+const collator = new Intl.Collator("pt-BR", {
+    numeric: true,
+    sensitivity: "base"
+});
+
+const sortNatural = (items) =>
+    [...items].sort(collator.compare);
+
+const parcelaKey = (fazenda, parcela) =>
+    `${fazenda}::${parcela}`;
+
+function getParcelasPorFazenda(data) {
+    const grouped = new Map();
+
+    data.forEach((item) => {
+        const fazenda = item?.fazendaOrigem;
+
+        if (!fazenda) {
+            return;
+        }
+
+        const parcelas =
+            item?.parcelasObjFiltered || [];
+
+        const current =
+            grouped.get(fazenda) || new Set();
+
+        parcelas.forEach((itemParcela) => {
+            if (itemParcela?.parcela) {
+                current.add(itemParcela.parcela);
+            }
+        });
+
+        grouped.set(fazenda, current);
+    });
+
+    return [...grouped.entries()]
+        .sort(([a], [b]) =>
+            collator.compare(a, b)
         )
-    ];
+        .map(([fazenda, parcelas]) => ({
+            fazenda,
+            parcelas: sortNatural([...parcelas])
+        }));
 }
 
 function FilterChip({
@@ -94,6 +125,20 @@ function FilterChip({
     );
 }
 
+function FilterSection({
+    children,
+    style
+}) {
+    return (
+        <View style={[styles.sectionBlock, style]}>
+            <View style={styles.sectionInner}>
+                {children}
+            </View>
+        </View>
+    );
+}
+
+
 export default function RomaneioFiltersSheet({
     visible,
     filters,
@@ -117,13 +162,19 @@ export default function RomaneioFiltersSheet({
     }, [visible, filters]);
 
     const fazendas = useMemo(
-        () => [
-            ...new Set(
-                data
-                    .map((item) => item?.fazendaOrigem)
-                    .filter(Boolean)
-            )
-        ],
+        () =>
+            sortNatural(
+                [
+                    ...new Set(
+                        data
+                            .map(
+                                (item) =>
+                                    item?.fazendaOrigem
+                            )
+                            .filter(Boolean)
+                    )
+                ]
+            ),
         [data]
     );
 
@@ -145,8 +196,11 @@ export default function RomaneioFiltersSheet({
             );
         }, [data, draft.fazendas]);
 
-    const parcelasDisponiveis = useMemo(
-        () => getParcelas(dataDasFazendasSelecionadas),
+    const parcelasPorFazenda = useMemo(
+        () =>
+            getParcelasPorFazenda(
+                dataDasFazendasSelecionadas
+            ),
         [dataDasFazendasSelecionadas]
     );
 
@@ -189,8 +243,14 @@ export default function RomaneioFiltersSheet({
                         )
                     );
 
-            const parcelasPermitidas =
-                getParcelas(dataPermitida);
+            const parcelasPermitidas = new Set(
+                getParcelasPorFazenda(dataPermitida)
+                    .flatMap(({ fazenda, parcelas }) =>
+                        parcelas.map((parcela) =>
+                            parcelaKey(fazenda, parcela)
+                        )
+                    )
+            );
 
             /*
              * Se a fazenda foi removida, remove também as
@@ -201,7 +261,7 @@ export default function RomaneioFiltersSheet({
                 fazendas: nextFazendas,
                 parcelas: current.parcelas.filter(
                     (parcela) =>
-                        parcelasPermitidas.includes(parcela)
+                        parcelasPermitidas.has(parcela)
                 )
             };
         });
@@ -300,75 +360,112 @@ export default function RomaneioFiltersSheet({
                     <ScrollView
                         ref={scrollRef}
                         contentContainerStyle={styles.content}
-                        showsVerticalScrollIndicator={false}
+                        showsVerticalScrollIndicator
+                        indicatorStyle="black"
+                        scrollIndicatorInsets={{ right: 2 }}
                     >
-                        <Text style={styles.section}>
-                            Status
-                        </Text>
+                        <FilterSection style={{ marginTop: 0 }}>
 
-                        <View style={styles.wrap}>
-                            {Object.entries(STATUS).map(
-                                ([key, item]) => (
-                                    <FilterChip
-                                        key={key}
-                                        label={item.label}
-                                        selected={draft.statuses.includes(
-                                            key
-                                        )}
-                                        onPress={() =>
-                                            toggleFilter("statuses", key)
-                                        }
-                                    />
-                                )
-                            )}
-                        </View>
-
-                        <Text style={styles.section}>
-                            Fazenda
-                        </Text>
-
-                        <View style={styles.wrap}>
-                            {fazendas.map((name) => (
-                                <FilterChip
-                                    key={name}
-                                    label={name.replace("Projeto ", "")}
-                                    selected={draft.fazendas.includes(
-                                        name
-                                    )}
-                                    onPress={() =>
-                                        toggleFazenda(name)
-                                    }
-                                />
-                            ))}
-                        </View>
-
-                        <View style={styles.sectionHeader}>
                             <Text style={styles.section}>
-                                Parcelas
+                                Status
                             </Text>
 
-                            {draft.fazendas.length > 0 && (
-                                <Text style={styles.assistiveText}>
-                                    Das fazendas selecionadas
+                            <View style={styles.wrap}>
+                                {Object.entries(STATUS).map(
+                                    ([key, item]) => (
+                                        <FilterChip
+                                            key={key}
+                                            label={item.label}
+                                            selected={draft.statuses.includes(
+                                                key
+                                            )}
+                                            onPress={() =>
+                                                toggleFilter("statuses", key)
+                                            }
+                                        />
+                                    )
+                                )}
+                            </View>
+                        </FilterSection>
+
+                        <FilterSection>
+
+
+                            <Text style={styles.section}>
+                                Fazenda
+                            </Text>
+
+                            <View style={styles.wrap}>
+                                {fazendas.map((name) => (
+                                    <FilterChip
+                                        key={name}
+                                        label={name.replace("Projeto ", "")}
+                                        selected={draft.fazendas.includes(
+                                            name
+                                        )}
+                                        onPress={() =>
+                                            toggleFazenda(name)
+                                        }
+                                    />
+                                ))}
+                            </View>
+                        </FilterSection>
+                        <FilterSection>
+
+                            <View style={styles.sectionHeader}>
+                                <Text style={styles.section}>
+                                    Parcelas
                                 </Text>
+
+                                {draft.fazendas.length > 0 && (
+                                    <Text style={styles.assistiveText}>
+                                        Das fazendas selecionadas
+                                    </Text>
+                                )}
+                            </View>
+
+                            {parcelasPorFazenda.map(
+                                ({ fazenda, parcelas }, index) => (
+                                    <View
+                                        key={fazenda}
+                                        style={[
+                                            styles.parcelasFarmGroup,
+                                            index === 0 &&
+                                            styles.parcelasFarmGroupFirst
+                                        ]}
+                                    >
+                                        <Text style={styles.parcelasFarmTitle}>
+                                            {fazenda.replace("Projeto ", "")}
+                                        </Text>
+
+                                        <View style={styles.wrap}>
+                                            {parcelas.map((parcela) => {
+                                                const key = parcelaKey(
+                                                    fazenda,
+                                                    parcela
+                                                );
+
+                                                return (
+                                                    <FilterChip
+                                                        key={key}
+                                                        label={parcela}
+                                                        selected={draft.parcelas.includes(
+                                                            key
+                                                        )}
+                                                        onPress={() =>
+                                                            toggleFilter(
+                                                                "parcelas",
+                                                                key
+                                                            )
+                                                        }
+                                                    />
+                                                );
+                                            })}
+                                        </View>
+                                    </View>
+                                )
                             )}
-                        </View>
-
-                        <View style={styles.wrap}>
-                            {parcelasDisponiveis.map((name) => (
-                                <FilterChip
-                                    key={name}
-                                    label={name}
-                                    selected={draft.parcelas.includes(
-                                        name
-                                    )}
-                                    onPress={() =>
-                                        toggleFilter("parcelas", name)
-                                    }
-                                />
-                            ))}
-                        </View>
-
+                        </FilterSection>
                         {classificacoesDisponiveis.length > 0 && (
                             <>
                                 <Text style={styles.section}>
@@ -396,96 +493,99 @@ export default function RomaneioFiltersSheet({
                                 </View>
                             </>
                         )}
+                        <FilterSection>
 
-                        <Text style={styles.section}>
-                            Período
-                        </Text>
 
-                        <View
-                            style={[
-                                styles.dateCard,
-                                picking && styles.dateCardFocused
-                            ]}
-                        >
-                            <View style={styles.dates}>
-                                <Pressable
-                                    onPress={() =>
-                                        openDatePicker("from")
-                                    }
-                                    style={({ pressed }) => [
-                                        styles.dateButton,
-                                        picking === "from" &&
-                                        styles.dateButtonFocused,
-                                        pressed && styles.buttonPressed
-                                    ]}
-                                >
-                                    <Text style={styles.dateKey}>
-                                        De
-                                    </Text>
+                            <Text style={styles.section}>
+                                Período
+                            </Text>
 
-                                    <Text style={styles.dateValue}>
-                                        {dateLabel(draft.from)}
-                                    </Text>
-                                </Pressable>
-
-                                <Pressable
-                                    onPress={() =>
-                                        openDatePicker("to")
-                                    }
-                                    style={({ pressed }) => [
-                                        styles.dateButton,
-                                        picking === "to" &&
-                                        styles.dateButtonFocused,
-                                        pressed && styles.buttonPressed
-                                    ]}
-                                >
-                                    <Text style={styles.dateKey}>
-                                        Até
-                                    </Text>
-
-                                    <Text style={styles.dateValue}>
-                                        {dateLabel(draft.to)}
-                                    </Text>
-                                </Pressable>
-                            </View>
-
-                            {picking && (
-                                <View style={styles.picker}>
-                                    <DateTimePicker
-                                        value={fromISO(
-                                            draft[picking]
-                                        )}
-                                        mode="date"
-                                        display={
-                                            Platform.OS === "ios"
-                                                ? "inline"
-                                                : "default"
+                            <View
+                                style={[
+                                    styles.dateCard,
+                                    picking && styles.dateCardFocused
+                                ]}
+                            >
+                                <View style={styles.dates}>
+                                    <Pressable
+                                        onPress={() =>
+                                            openDatePicker("from")
                                         }
-                                        onChange={changeDate}
-                                        themeVariant="light"
-                                        textColor="#1C1C1E"
-                                        accentColor={Colors.primary500}
-                                    />
+                                        style={({ pressed }) => [
+                                            styles.dateButton,
+                                            picking === "from" &&
+                                            styles.dateButtonFocused,
+                                            pressed && styles.buttonPressed
+                                        ]}
+                                    >
+                                        <Text style={styles.dateKey}>
+                                            De
+                                        </Text>
 
-                                    {Platform.OS === "ios" && (
-                                        <Pressable
-                                            onPress={() => {
-                                                Haptics.selectionAsync();
-                                                setPicking(null);
-                                            }}
-                                            style={({ pressed }) => [
-                                                styles.done,
-                                                pressed && styles.buttonPressed
-                                            ]}
-                                        >
-                                            <Text style={styles.doneText}>
-                                                Concluir
-                                            </Text>
-                                        </Pressable>
-                                    )}
+                                        <Text style={styles.dateValue}>
+                                            {dateLabel(draft.from)}
+                                        </Text>
+                                    </Pressable>
+
+                                    <Pressable
+                                        onPress={() =>
+                                            openDatePicker("to")
+                                        }
+                                        style={({ pressed }) => [
+                                            styles.dateButton,
+                                            picking === "to" &&
+                                            styles.dateButtonFocused,
+                                            pressed && styles.buttonPressed
+                                        ]}
+                                    >
+                                        <Text style={styles.dateKey}>
+                                            Até
+                                        </Text>
+
+                                        <Text style={styles.dateValue}>
+                                            {dateLabel(draft.to)}
+                                        </Text>
+                                    </Pressable>
                                 </View>
-                            )}
-                        </View>
+
+                                {picking && (
+                                    <View style={styles.picker}>
+                                        <DateTimePicker
+                                            value={fromISO(
+                                                draft[picking]
+                                            )}
+                                            mode="date"
+                                            display={
+                                                Platform.OS === "ios"
+                                                    ? "inline"
+                                                    : "default"
+                                            }
+                                            onChange={changeDate}
+                                            themeVariant="light"
+                                            textColor="#1C1C1E"
+                                            accentColor={Colors.primary500}
+                                        />
+
+                                        {Platform.OS === "ios" && (
+                                            <Pressable
+                                                onPress={() => {
+                                                    Haptics.selectionAsync();
+                                                    setPicking(null);
+                                                }}
+                                                style={({ pressed }) => [
+                                                    styles.done,
+                                                    pressed && styles.buttonPressed
+                                                ]}
+                                            >
+                                                <Text style={styles.doneText}>
+                                                    Concluir
+                                                </Text>
+                                            </Pressable>
+                                        )}
+                                    </View>
+                                )}
+                            </View>
+                        </FilterSection>
                     </ScrollView>
 
                     <Pressable
@@ -712,5 +812,48 @@ const styles = StyleSheet.create({
 
     buttonPressed: {
         opacity: 0.7
-    }
+    },
+    parcelasFarmGroup: {
+        marginTop: 14,
+        paddingTop: 11,
+        borderTopWidth: 1,
+        borderTopColor: "#ECECF0"
+    },
+
+    parcelasFarmGroupFirst: {
+        marginTop: 0,
+        paddingTop: 0,
+        borderTopWidth: 0
+    },
+
+    parcelasFarmTitle: {
+        marginBottom: 8,
+        fontSize: 12,
+        fontWeight: "800",
+        color: Colors.primary500
+    },
+    content: {
+        paddingBottom: 18
+    },
+
+    sectionBlock: {
+        width: "100%",
+        marginTop: 8,
+        paddingVertical: 14,
+        backgroundColor: "#F4F5F7",
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: "#E5E7EB"
+    },
+
+    sectionInner: {
+        paddingHorizontal: 16
+    },
+
+    section: {
+        marginTop: 0,
+        marginBottom: 9,
+        fontWeight: "800",
+        color: "#3A3A3C"
+    },
 });
