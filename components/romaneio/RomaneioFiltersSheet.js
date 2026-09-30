@@ -15,6 +15,9 @@ import {
     View
 } from "react-native";
 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 
@@ -121,6 +124,54 @@ function FilterChip({
             >
                 {label}
             </Text>
+        </Pressable>
+    );
+}
+
+
+function StatusFilterButton({
+    statusKey,
+    status,
+    selected,
+    onPress
+}) {
+    return (
+        <Pressable
+            onPress={onPress}
+            style={({ pressed }) => [
+                styles.statusButton,
+                selected && {
+                    backgroundColor: status.bg,
+                    borderColor: status.color
+                },
+                pressed && styles.chipPressed
+            ]}
+        >
+            <MaterialCommunityIcons
+                name={status.icon}
+                size={22}
+                color={selected ? status.color : "#6C6C70"}
+            />
+
+            <Text
+                style={[
+                    styles.statusButtonText,
+                    selected && {
+                        color: status.color
+                    }
+                ]}
+            >
+                {status.label}
+            </Text>
+
+            {statusKey === "concluido" && (
+                <MaterialCommunityIcons
+                    name="check-circle"
+                    size={15}
+                    color={selected ? status.color : "#1E7B49"}
+                    style={styles.statusCheck}
+                />
+            )}
         </Pressable>
     );
 }
@@ -370,15 +421,14 @@ export default function RomaneioFiltersSheet({
                                 Status
                             </Text>
 
-                            <View style={styles.wrap}>
+                            <View style={styles.statusGrid}>
                                 {Object.entries(STATUS).map(
                                     ([key, item]) => (
-                                        <FilterChip
+                                        <StatusFilterButton
                                             key={key}
-                                            label={item.label}
-                                            selected={draft.statuses.includes(
-                                                key
-                                            )}
+                                            statusKey={key}
+                                            status={item}
+                                            selected={draft.statuses.includes(key)}
                                             onPress={() =>
                                                 toggleFilter("statuses", key)
                                             }
@@ -855,5 +905,46 @@ const styles = StyleSheet.create({
         marginBottom: 9,
         fontWeight: "800",
         color: "#3A3A3C"
+    },
+    statusGrid: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 8
+    },
+
+    statusButton: {
+        width: "48.8%",
+        minHeight: 78,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderColor: "#D9DCE1",
+        borderRadius: 10,
+        backgroundColor: "#FFFFFF",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
+    statusButtonText: {
+        marginTop: 5,
+        color: "#3A3A3C",
+        fontSize: 11,
+        fontWeight: "800",
+        textAlign: "center"
+    },
+
+    statusCheck: {
+        position: "absolute",
+        top: 7,
+        right: 7
+    },
+
+    chip: {
+        borderWidth: 1,
+        borderColor: "#D1D1D6",
+        backgroundColor: "#FFFFFF",
+        paddingHorizontal: 11,
+        paddingVertical: 8,
+        borderRadius: 8
     },
 });

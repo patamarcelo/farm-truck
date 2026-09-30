@@ -69,24 +69,30 @@ export function getRomaneioStatus(item) {
 }
 
 export const STATUS = {
+  
   aguardando_pesagem: {
-    label: "Aguardando pesagem",
-    color: "#C78300",
-    bg: "#FFF3D6"
+    label: "Sem pesagem",
+    icon: "truck",
+    color: "#7A828A",
+    bg: "#EEF0F2"
   },
   aguardando_liquido: {
     label: "Aguardando líquido",
-    color: "#A45A00",
-    bg: "#FFE8C2"
+    icon: "truck-outline",
+    color: "#C78300",
+    bg: "#FFF3D6"
   },
   pendente_protheus: {
-    label: "Pendente de envio",
-    color: "#1565C0",
-    bg: "#DCEEFF"
-  },
-  concluido: {
-    label: "Concluído",
+    label: "Pendente Protheus",
+    icon: "truck-check-outline",
     color: "#1E7B49",
+    bg: "#DDF5E6"
+  },
+
+  concluido: {
+    label: "Enviado ao Protheus",
+    icon: "truck-check-outline",
+    color: "rgba(102, 204, 153,1)",
     bg: "#DDF5E6"
   }
 };
