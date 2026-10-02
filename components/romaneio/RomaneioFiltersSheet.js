@@ -529,7 +529,7 @@ export default function RomaneioFiltersSheet({
                             )}
                         </FilterSection>
                         {classificacoesDisponiveis.length > 0 && (
-                            <>
+                            <FilterSection>
                                 <Text style={styles.section}>
                                     Classificação
                                 </Text>
@@ -552,7 +552,7 @@ export default function RomaneioFiltersSheet({
                                         )
                                     )}
                                 </View>
-                            </>
+                            </FilterSection>
                         )}
                         <FilterSection>
 
