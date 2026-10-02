@@ -68,8 +68,20 @@ export function getRomaneioStatus(item) {
   return "concluido";
 }
 
+/*
+ * Cargas antigas, sem o novo objeto, permanecem pendentes.
+ * A classificação nova usa exclusivamente classificacao.status.
+ */
+export function getStatusClassificacao(item) {
+  const status = item?.classificacao?.status;
+
+  return typeof status === "string" &&
+    status.trim()
+    ? status.trim()
+    : "pendente";
+}
+
 export const STATUS = {
-  
   aguardando_pesagem: {
     label: "Sem pesagem",
     icon: "truck",
@@ -88,7 +100,6 @@ export const STATUS = {
     color: "#1E7B49",
     bg: "#DDF5E6"
   },
-
   concluido: {
     label: "Enviado ao Protheus",
     icon: "truck-check-outline",
@@ -119,6 +130,8 @@ export const parcelaFilterKey = (fazenda, parcela) =>
 export function matchesRomaneio(item, filters) {
   const query = normalizeText(filters?.query);
   const status = getRomaneioStatus(item);
+  const statusClassificacao =
+    getStatusClassificacao(item);
   const parcelas = getParcelas(item);
 
   const statuses = filters?.statuses || [];
@@ -133,7 +146,12 @@ export function matchesRomaneio(item, filters) {
     item?.relatorioColheita,
     item?.ticket,
     item?.codTicketPro,
-    item?.classificacao,
+
+    // Nova estrutura de classificação
+    statusClassificacao,
+    item?.classificacao?.cultura,
+    item?.classificacao?.dados?.classificacaoFinal,
+
     ...parcelas.map((parcela) => parcela?.parcela)
   ]
     .map(normalizeText)
@@ -157,12 +175,6 @@ export function matchesRomaneio(item, filters) {
     return false;
   }
 
-  /*
-   * O filtro novo usa "Fazenda::Parcela", para evitar
-   * conflito quando duas fazendas possuem uma A01.
-   * A segunda condição mantém filtros antigos, que usavam
-   * apenas o nome da parcela.
-   */
   if (
     parcelasSelecionadas.length &&
     !parcelas.some((parcela) => {
@@ -173,7 +185,9 @@ export function matchesRomaneio(item, filters) {
 
       return (
         parcelasSelecionadas.includes(key) ||
-        parcelasSelecionadas.includes(parcela?.parcela)
+        parcelasSelecionadas.includes(
+          parcela?.parcela
+        )
       );
     })
   ) {
@@ -182,7 +196,9 @@ export function matchesRomaneio(item, filters) {
 
   if (
     classificacoes.length &&
-    !classificacoes.includes(item?.classificacao)
+    !classificacoes.includes(
+      statusClassificacao
+    )
   ) {
     return false;
   }
@@ -191,16 +207,20 @@ export function matchesRomaneio(item, filters) {
 
   if (
     filters?.from &&
-    (!date ||
-      date < new Date(`${filters.from}T00:00:00`))
+    (
+      !date ||
+      date < new Date(`${filters.from}T00:00:00`)
+    )
   ) {
     return false;
   }
 
   if (
     filters?.to &&
-    (!date ||
-      date > new Date(`${filters.to}T23:59:59`))
+    (
+      !date ||
+      date > new Date(`${filters.to}T23:59:59`)
+    )
   ) {
     return false;
   }

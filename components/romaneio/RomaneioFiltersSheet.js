@@ -255,17 +255,29 @@ export default function RomaneioFiltersSheet({
         [dataDasFazendasSelecionadas]
     );
 
-    const classificacoesDisponiveis =
-        useMemo(
-            () => [
-                ...new Set(
-                    dataDasFazendasSelecionadas
-                        .map((item) => item?.classificacao)
-                        .filter(Boolean)
-                )
-            ],
-            [dataDasFazendasSelecionadas]
-        );
+    const getStatusClassificacao = (carga) => {
+        const status =
+            carga?.classificacao?.status;
+
+        return typeof status === "string" &&
+            status.trim()
+            ? status.trim()
+            : "pendente";
+    };
+
+    const classificacoesDisponiveis = useMemo(
+        () =>
+            sortNatural(
+                [
+                    ...new Set(
+                        dataDasFazendasSelecionadas.map(
+                            getStatusClassificacao
+                        )
+                    )
+                ]
+            ),
+        [dataDasFazendasSelecionadas]
+    );
 
     const toggleFilter = (key, value) => {
         Haptics.selectionAsync();
@@ -527,15 +539,14 @@ export default function RomaneioFiltersSheet({
                                         (name) => (
                                             <FilterChip
                                                 key={name}
-                                                label={name}
-                                                selected={draft.classificacoes.includes(
-                                                    name
-                                                )}
+                                                label={
+                                                    name === "pendente"
+                                                        ? "Pendentes"
+                                                        : "Classificadas"
+                                                }
+                                                selected={draft.classificacoes.includes(name)}
                                                 onPress={() =>
-                                                    toggleFilter(
-                                                        "classificacoes",
-                                                        name
-                                                    )
+                                                    toggleFilter("classificacoes", name)
                                                 }
                                             />
                                         )
