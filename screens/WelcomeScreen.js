@@ -673,7 +673,7 @@ function WelcomeScreen() {
 								style={styles.welcomeSubtitle}
 								numberOfLines={1}
 							>
-								Acompanhe os seus carregamentos pendentes
+								Acompanhe seus carregamentos pendentes
 							</Text>
 						</View>
 
